@@ -8,13 +8,32 @@
 async function loadTreesSequentially( majordistrict ) {
   try {
 
-    await loadTrees( majordistrict, 1 );
+	let i = 0;
 
-    await loadTrees( majordistrict, 100 );
+	while ( true ) {
 
-    await loadTrees( majordistrict, 200 );
+		if ( i > 10000 ) {
 
-    await loadTrees( majordistrict, 400 );
+			await loadTrees( majordistrict, i, 1200000 );
+			break; // Exit the loop when i is over 10000
+
+	  	} else {
+			
+			if ( i > 1000 ) {
+
+				await loadTrees( majordistrict, i, i + 100 );
+				i = i + 100;
+
+		} else {
+
+			await loadTrees( majordistrict, i, i + 1000 );
+			i = i + 1000;
+
+
+		}
+
+	}
+}
 
     // Code to execute after all function calls complete
     console.log('All function calls have completed');
@@ -35,10 +54,13 @@ async function loadTreesSequentially( majordistrict ) {
  * @param { String } majordistrict - The major district code.
  * @param { Number } size minimun tree area size
  */
-async function loadTrees( majordistrict, size ) {
+async function loadTrees( majordistrict, lower, upper ) {
+
+	//"https://geo.fvh.fi/spotted/collections/tree/items?f=json&limit=32000&filter=area_m2%20BETWEEN%20" + lower + "%20AND%20"+ upper;
+	//"https://geo.fvh.fi/spotted/collections/tree/items?f=json&limit=32000&tunnus=" + majordistrict + "&size=" + size;
 
       // Construct the API endpoint URL
-	let url = "https://geo.fvh.fi/spotted/collections/tree/items?f=json&limit=32000&tunnus=" + majordistrict + "&size=" + size;
+	let url = "https://geo.fvh.fi/spotted/collections/tree/items?f=json&limit=32000&tunnus=" + majordistrict + "&filter=area_m2%20BETWEEN%20" + lower + "%20AND%20"+ upper;
 
 	try {
 
@@ -50,12 +72,12 @@ async function loadTrees( majordistrict, size ) {
 
 			console.log("found from cache");
 			let datasource = JSON.parse( value )
-			addTreesDataSource( datasource, size );
+			addTreesDataSource( datasource, lower );
 
 		} else {
 
             // Otherwise, fetch the tree data from the API endpoint and add it to the local storage
-			loadTreesWithoutCache( url );
+			loadTreesWithoutCache( url, lower );
 
 		}
 	  	
@@ -105,7 +127,7 @@ function addTreesDataSource( data, size ) {
  * 
  * @param { String } url API endpoint's url
  */
-function loadTreesWithoutCache( url ) {
+function loadTreesWithoutCache( url , lower ) {
 	
 	console.log("Not in cache! Loading: " + url );
 
@@ -115,7 +137,7 @@ function loadTreesWithoutCache( url ) {
 	})
 	.then( function( data ) {
 		localforage.setItem( url, JSON.stringify( data ) );
-		addTreesDataSource( data );
+		addTreesDataSource( data, lower );
 	})
 	
 }
