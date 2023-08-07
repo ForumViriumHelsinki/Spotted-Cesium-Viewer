@@ -93,6 +93,8 @@ function handlePostalCodeFeature( postcode, id ) {
 
 function loadMajorDistrict( majordistrict ) {
 
+    majorDistrict = majordistrict;
+
 
     if ( document.getElementById( "printToggle" ).checked ) {
 

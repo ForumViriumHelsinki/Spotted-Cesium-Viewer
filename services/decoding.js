@@ -453,5 +453,37 @@ function getColorValue( key ) {
 			return [ 0.531066144775314, wholeCity ];			
 
 	}
+}
 
-  }
+function getVegetationRateForMajorDistrict( majordistrict ) {
+
+	let wholeCity = 0.197748000824418;
+
+	switch ( majordistrict ) {
+		case '1': 
+			return [ 0.136310758913735, wholeCity ];
+		case '2': 
+			return [ 0.210707839554935, wholeCity ];
+		case '3': 
+			return [ 0.134483049663128, wholeCity ];
+        case '4': 
+			return [ 0.213280606265504, wholeCity ];
+		case '5': 
+			return [ 0.235880570887264, wholeCity ];		
+		case '6': 
+			return [ 0.196945132000506, wholeCity ];
+		case '7': 
+			return [ 0.215161244751333, wholeCity ];
+		case '8': 
+			return [ 0.199602230190655, wholeCity ];			
+
+	}
+}
+
+function getTreeAndVegetationRateForMajorDistrict( majordistrict ) {
+
+	const trees = getTreeRateForMajorDistrict( majordistrict );
+	const vegegation = getVegetationRateForMajorDistrict( majordistrict );
+
+	return [ [ trees[ 0 ], vegegation[ 0 ] ], [ trees[ 1 ], vegegation[ 1 ] ] ];
+}

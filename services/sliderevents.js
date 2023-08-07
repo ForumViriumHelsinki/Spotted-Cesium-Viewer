@@ -151,9 +151,9 @@ function showVegetationEvent( ) {
         //document.getElementById("showVegetationHeatToggle").disabled = false;
 
         // If there is a postal code available, load the nature areas for that area.
-        if ( postalcode && !getDataSourceByName("Vegetation") ) {
+        if ( majorDistrict && !getDataSourceByName("Vegetation") ) {
 
-            loadVegetation( postalcode );
+            loadVegeationSequentially( majorDistrict );
 
         } else {
 
@@ -222,7 +222,7 @@ function getDataSourceByName( name ) {
 function hideDataSourceByName( name ) {
 
     viewer.dataSources._dataSources.forEach( function( dataSource ) {
-        if ( dataSource.name == name ) {
+        if ( dataSource.name.startsWith( name ) ) {
             dataSource.show = false;	
         }
     });

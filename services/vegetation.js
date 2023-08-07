@@ -1,129 +1,141 @@
 /**
- * Loads vegetation data for a given postcode asynchronously
+ * Load vegetation sequentially with different parameters.
  * 
- * @param {string} postcode - The postcode for which to load vegetation data
- * @returns {Promise} - A promise that resolves once the data has been loaded
+ * @param { String } majordistrict - The major district code.
+ * @returns { Promise<void> } Promise that resolves when all function calls complete.
  */
-async function loadVegetation( postcode ) {
-
-	let url = "https://geo.fvh.fi/r4c/collections/vegetation/items?f=json&limit=10000&postinumero=" + postcode ;
-
+async function loadVegeationSequentially( majordistrict ) {
 	try {
-		const value = await localforage.getItem( url );
-		// This code runs once the value has been loaded
-		// from the offline store.
-
-		if ( value ) {
-			console.log("found from cache");
-
-			let datasource = JSON.parse( value )
-			addVegetationDataSource( datasource );
-
-		} else {
-
-			loadVegetationWithoutCache( url );
-
-		}
-	  	
-	} catch ( err ) {
-		// This code runs if there were any errors.
-		console.log( err );
-	}
-}
-
-/**
- * Adds a vegetation data source to the viewer
- * 
- * @param {Object} data - The vegetation data to be added as a data source
- */
-function addVegetationDataSource( data ) {
-	
-	viewer.dataSources.add( Cesium.GeoJsonDataSource.load( data, {
-		stroke: Cesium.Color.BLACK,
-		fill: Cesium.Color.LIGHTGREEN,
-		strokeWidth: 3,
-		clampToGround: true
-	}) )
-	.then(function ( dataSource ) {
-		
-		dataSource.name = "Vegetation";
-		let entities = dataSource.entities.values;
-		
-		for ( let i = 0; i < entities.length; i++ ) {
-			
-			let entity = entities[ i ];
-			const category = entity.properties._koodi._value;
-
-			showVegetationHeat = false;
-
-			if ( showVegetationHeat ) {
-				
-				if ( entity.properties._avgheatexposuretoarea._value ) {
-
-					entity.polygon.material = new Cesium.Color( 1, 1 - entity.properties._avgheatexposuretoarea._value, 0, entity.properties._avgheatexposuretoarea._value );
-	
-				}		
+  
+	  let i = 0;
+  
+	  while ( true ) {
+  
+		  if ( i > 10000 ) {
+  
+			  await loadVegetation( majordistrict, i, 1200000 );
+			  break; // Exit the loop when i is over 10000
+  
 			} else {
-		
-				if ( category ) {
-					//colors of nature area enity are set based on it's category
-					setVegetationPolygonMaterialColor( entity, category )
-				}
-		
-			}
-		
-		}
-	})	
-	.otherwise(function ( error ) {
-		//Display any errrors encountered while loading.
-		console.log( error );
-	});
+			  
+			  if ( i > 1000 ) {
+  
+				  await loadVegetation( majordistrict, i, i + 100 );
+				  i = i + 100;
+  
+		  } else {
+  
+			  await loadVegetation( majordistrict, i, i + 1000 );
+			  i = i + 1000;
+  
+  
+		  }
+  
+	  }
+  }
+  
+	  // Code to execute after all function calls complete
+	  console.log('All function calls have completed');
+  
+	  createVegetation2Histogram( majordistrict._value );
+  
+  
+	} catch ( error ) {
+	  // Handle any errors that occurred during the function calls
+	  console.error( 'An error occurred:', error );
+	}
+  
+  }
+  
+  /**
+   * Asynchronously load vegetation data from an API endpoint based on major district id
+   * 
+   * @param { String } majordistrict - The major district code.
+   * @param { Number } lower minimun vegegation area
+   * @param { Number } upper maximun vegegation area
+   */
+  async function loadVegetation( majordistrict, lower, upper ) {
 
-}
-
-/**
- * Loads vegetation data from the provided URL without using cache
- * 
- * @param {string} url - The URL from which to load vegetation data
- */
-function loadVegetationWithoutCache( url ) {
-	
-	console.log("Not in cache! Loading: " + url );
-
-	const response = fetch( url )
-	.then( function( response ) {
-	  return response.json();
-	})
-	.then( function( data ) {
-		localforage.setItem( url, JSON.stringify( data ) );
-		addVegetationDataSource( data );
-	})
-	
-}
-
-/**
- * Sets the polygon material color for a vegetation entity based on its category
- * 
- * @param {Object} entity - The vegetation entity
- * @param {string} category - The category of the vegetation entity
- */
-function setVegetationPolygonMaterialColor( entity, category ) {
-	 						
-	switch ( category ){
-		case "212":
-			entity.polygon.extrudedHeight = 0.1;
-			entity.polygon.material = Cesium.Color.LIGHTGREEN.withAlpha( 0.5 );
-			break;
-		case "211":
-			entity.polygon.extrudedHeight = 0.5;
-			entity.polygon.material = Cesium.Color.GREENYELLOW.withAlpha( 0.5 );
-			break;
-		case "510":
-			entity.polygon.material = Cesium.Color.DEEPSKYBLUE.withAlpha( 0.5 );
-			break;
-		case "520":
-			entity.polygon.material = Cesium.Color.DODGERBLUE.withAlpha( 0.5 );
-			break;
-		}	
-
-}
+  
+		// Construct the API endpoint URL
+	  let url = "https://geo.fvh.fi/spotted/collections/vegetation/items?f=json&limit=32000&tunnus=" + majordistrict + "&filter=area_m2%20BETWEEN%20" + lower + "%20AND%20"+ upper;
+  
+	  try {
+  
+		  // Attempt to retrieve the vegetation data from the local storage using the API endpoint URL as the key
+		  const value = await localforage.getItem( url );
+  
+		   // If the vegetation data is already available in the local storage, add it to the Cesium map
+		  if ( value ) {
+  
+			  console.log("found from cache");
+			  let datasource = JSON.parse( value )
+			  addVegetationDataSource( datasource, lower );
+  
+		  } else {
+  
+			  // Otherwise, fetch the vegetation data from the API endpoint and add it to the local storage
+			  loadVegetationWithoutCache( url, lower );
+  
+		  }
+			
+	  } catch ( err ) {
+		  // This code runs if there were any errors.
+		  console.log( err );
+	  }
+  }
+  
+  /**
+   * Add the vegetation data as a new data source to the Cesium
+   * 
+   * @param { object } data vegetation data
+   * @param { Number } size minimun vegetation area size
+   */
+  function addVegetationDataSource( data, size ) {
+	  
+	  viewer.dataSources.add( Cesium.GeoJsonDataSource.load( data, {
+		  stroke: Cesium.Color.BLACK,
+		  fill: Cesium.Color.DARKGREEN,
+		  strokeWidth: 3,
+		  clampToGround: true
+	  }) )
+	  .then(function ( dataSource ) {
+		  
+		  // Set a name for the data source
+		  dataSource.name = "Vegetation" + size;
+		  let entities = dataSource.entities.values;
+		  
+		  for ( let i = 0; i < entities.length; i++ ) {
+			  
+			  let entity = entities[ i ];
+			  entity.polygon.extrudedHeight = 0.1;
+			  entity.polygon.material = Cesium.Color.LIGHTGREEN.withAlpha( 0.5 );	
+		  }
+	  })	
+	  .otherwise(function ( error ) {
+		  // Log any errors encountered while loading the data source
+		  console.log( error );
+	  });
+  
+  }
+  
+  /**
+   * Fetch tree data from the API endpoint and add it to the local storage
+   * 
+   * @param { String } url API endpoint's url
+   */
+  function loadVegetationWithoutCache( url , lower ) {
+	  
+	  console.log("Not in cache! Loading: " + url );
+  
+	  const response = fetch( url )
+	  .then( function( response ) {
+		return response.json();
+	  })
+	  .then( function( data ) {
+		  localforage.setItem( url, JSON.stringify( data ) );
+		  addVegetationDataSource( data, lower );
+	  })
+	  
+  }
+  
