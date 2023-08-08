@@ -22,16 +22,22 @@ function resetSwitches( ) {
 
 	document.getElementById( "showPlotToggle" ).checked = true;
 	document.getElementById( "showVegetationToggle" ).checked = false;
-    document.getElementById( "showOtherNatureToggle" ).checked = false;
+    document.getElementById( "showWaterToggle" ).checked = false;
+    document.getElementById( "showFieldsToggle" ).checked = false;
+
 	document.getElementById( "printToggle" ).checked = true;
-    document.getElementById( "showTreesToggle" ).checked = false;
+
+    document.getElementById("showWaterToggle").disabled = true;
+    document.getElementById("showVegetationToggle").disabled = true;
+    document.getElementById("showFieldsToggle").disabled = true;
+
 
     setPrintVisible( );
     hideAllPlots( );    
 
   	showPlot = true;
     showVegetation = false;
-    showOtherNature = false;
+    showWater= false;
 	print = true;
 
 }
@@ -198,3 +204,14 @@ function hideAllPlots( ) {
     document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
 
 }
+
+/**
+ * Creates URL for given parameters
+ */
+function createURL( majordistrict, collection ) {
+
+    let url = "https://geo.fvh.fi/spotted/collections/" + collection + "/items?f=json&limit=32000&tunnus=" + majordistrict + "&filter=area_m2%20BETWEEN%20" + lower + "%20AND%20"+ upper;
+
+}
+
+

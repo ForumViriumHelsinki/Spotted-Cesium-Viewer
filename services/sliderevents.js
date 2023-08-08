@@ -26,47 +26,48 @@ function sliderEvents( event ) {
 
     }
 
-    // If the slider value is "showOtherNature", call the showOtherNatureEvent function.
-    if ( event.target.value == 'showOtherNature' ) {
+    // If the slider value is "showWater", call the showWaterEvent function.
+    if ( event.target.value == 'showWater' ) {
 
-        showOtherNatureEvent();
+        showWaterEvent();
     
     }	
 
-    // If the slider value is "showTrees", call the showTrees function.
-    if ( event.target.value == 'showTrees' ) {
+    // If the slider value is "showFields", call the showTrees function.
+    if ( event.target.value == 'showFields' ) {
         
-        showTrees();
+        showFieldsEvent();
 
     }   
             
 }
 
 /**
- * This function to show or hide tree entities on the map based on the toggle button state
+ * This function to show or hide field entities on the map based on the toggle button state
  *
  */
-function showTrees( ) {
+function showFieldsEvent( ) {
 
-    // Get the state of the showTrees toggle button
-    const showTrees = document.getElementById( "showTreesToggle" ).checked;
+    // Get the state of the showFields toggle button
+    const showFields = document.getElementById( "showFieldsToggle" ).checked;
 
     // If showTrees toggle is on
-    if ( showTrees ) {
+    if ( showFields ) {
 
         // If a postal code is available, load trees for that postal code
-        if ( postalcode && !getDataSourceByName("Trees") ) {
+        if ( majorDistrict && !dataSourceWithNameExists( "Fields" ) ) {
 
-            // loadTrees( postalcode );
+            loadFields( majorDistrict );
 
         } else {
 
-            showAllDataSources( );
+            showDataSourceByName( "Fields" );
+
         }
         
     } else { // If showTrees toggle is off
         
-        hideDataSourceByName( "Trees" );
+        hideDataSourceByName( "Fields" );
 
     }
 
@@ -151,13 +152,13 @@ function showVegetationEvent( ) {
         //document.getElementById("showVegetationHeatToggle").disabled = false;
 
         // If there is a postal code available, load the nature areas for that area.
-        if ( majorDistrict && !getDataSourceByName("Vegetation") ) {
+        if ( majorDistrict && !dataSourceWithNameExists( "Vegetation" ) ) {
 
-            loadVegeationSequentially( majorDistrict );
+            loadVegetationSequentially( majorDistrict );
 
         } else {
 
-            showAllDataSources( );
+            showDataSourceByName( "Vegetation" );
         }
 
     } else {
@@ -169,33 +170,34 @@ function showVegetationEvent( ) {
 }
 
 /**
- * This function handles the toggle event for showing or hiding the nature areas layer on the map.
+ * This function handles the toggle event for showing or hiding the water areas layer on the map.
  *
  */
-function showOtherNatureEvent( ) {
+function showWaterEvent( ) {
 
     // Get the current state of the toggle button for showing nature areas.
-    const showloadOtherNature = document.getElementById( "showOtherNatureToggle" ).checked;
+    const showWater = document.getElementById( "showWaterToggle" ).checked;
 
-    if ( showloadOtherNature ) {
+    if ( showWater ) {
 
         // If the toggle button is checked, enable the toggle button for showing the nature area heat map.
-        //document.getElementById("showloadOtherNature").disabled = false;
+        //document.getElementById("showloadWater").disabled = false;
 
         // If there is a postal code available, load the nature areas for that area.
-        if ( postalcode && !getDataSourceByName( "OtherNature" ) ) {
-
-            loadOtherNature( postalcode );
+        if ( majorDistrict && !dataSourceWithNameExists( "Water" ) ) {
+            
+            loadWater( majorDistrict );
 
         } else {
 
-            showAllDataSources( );
+            showDataSourceByName( "Water" );
+
         }
 
 
     } else {
 
-        hideDataSourceByName( "OtherNature" );
+        hideDataSourceByName( "Water" );
 
     }
 
@@ -215,6 +217,17 @@ function getDataSourceByName( name ) {
 }
 
 /**
+ * Check if a data source starting with the provided name exists in the Cesium viewer
+ * 
+ * @param { String } name name of the datasource
+ * @returns { Boolean } true if a matching data source is found, false otherwise
+ */
+function dataSourceWithNameExists( name ) {
+    const dataSource = viewer.dataSources._dataSources.find( ds => ds.name.startsWith( name ) );
+    return dataSource !== undefined;
+}
+
+/**
  * Get a data source from the Cesium viewer
  * 
  * @param { String } name name of the datasource
@@ -224,6 +237,19 @@ function hideDataSourceByName( name ) {
     viewer.dataSources._dataSources.forEach( function( dataSource ) {
         if ( dataSource.name.startsWith( name ) ) {
             dataSource.show = false;	
+        }
+    });
+}
+
+/**
+ * Hide a data source in the Cesium viewer by name
+ * 
+ * @param { String } name name of the datasource
+ */
+function showDataSourceByName( name ) {
+    viewer.dataSources._dataSources.forEach( function( dataSource ) {
+        if ( dataSource.name.startsWith( name ) ) {
+            dataSource.show = true;	
         }
     });
 }

@@ -13,8 +13,8 @@ async function loadTreesSequentially( majordistrict ) {
 	while ( true ) {
 
 		if ( i > 10000 ) {
-
-			await loadTrees( majordistrict, i, 1200000 );
+		
+			await loadTrees( majordistrict, i, 300000 );
 			break; // Exit the loop when i is over 10000
 
 	  	} else {
@@ -109,10 +109,11 @@ function addTreesDataSource( data, size ) {
 		
         // Iterate over each entity in the data source and set its polygon material color based on the tree description
 		for ( let i = 0; i < entities.length; i++ ) {
-			
-			let entity = entities[ i ];
-			entity.polygon.material = Cesium.Color.FORESTGREEN.withAlpha( 0.5 );
-            entity.polygon.extrudedHeight = 6;		
+
+			const entity = entities[ i ];
+			const code = entity.properties._koodi._value;
+			setTreePolygonMaterialColor( entity, code );		
+
 		}
 	})	
 	.otherwise(function ( error ) {
@@ -140,4 +141,30 @@ function loadTreesWithoutCache( url , lower ) {
 		addTreesDataSource( data, lower );
 	})
 	
+}
+
+/**
+ * Set the polygon material color and extruded height for a given tree entity based on its description
+ * 
+ * @param { object } entity tree entity
+ * @param { String } code code of tree entity
+ */
+function setTreePolygonMaterialColor( entity, code ) {
+
+	switch ( code ){
+		case "224":
+			entity.polygon.material = Cesium.Color.FORESTGREEN.withAlpha( 0.7 );
+            entity.polygon.extrudedHeight = 22.5;
+			break;
+		case "223":
+			entity.polygon.material = Cesium.Color.FORESTGREEN.withAlpha( 0.6 );
+            entity.polygon.extrudedHeight = 17.5;
+		case "222":
+			entity.polygon.material = Cesium.Color.FORESTGREEN.withAlpha( 0.55 );
+            entity.polygon.extrudedHeight = 12.5;
+		case "221":
+			entity.polygon.material = Cesium.Color.FORESTGREEN.withAlpha( 0.5 );
+            entity.polygon.extrudedHeight = 6;
+		}	
+
 }

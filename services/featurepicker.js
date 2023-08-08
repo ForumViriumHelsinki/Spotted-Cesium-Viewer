@@ -95,6 +95,9 @@ function loadMajorDistrict( majordistrict ) {
 
     majorDistrict = majordistrict;
 
+    document.getElementById("showWaterToggle").disabled = false;
+    document.getElementById("showVegetationToggle").disabled = false;
+    document.getElementById("showFieldsToggle").disabled = false;
 
     if ( document.getElementById( "printToggle" ).checked ) {
 

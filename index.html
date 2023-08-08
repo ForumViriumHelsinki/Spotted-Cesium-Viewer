@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>R4C demo</title>
+<title>Helsinki Green Areas</title>
   <meta charset="utf-8">
   <!-- Include the CesiumJS JavaScript and CSS files -->
   <script src="lib/Cesium/Cesium.js"></script>
   <script type="text/javascript" src="services/geoapitools.js"></script>
-  <script type="text/javascript" src="services/buildings.js"></script>
   <script type="text/javascript" src="services/vegetation.js"></script>
   <script type="text/javascript" src="services/othernature.js"></script>
   <script type="text/javascript" src="services/sliderevents.js"></script>
-  <script type="text/javascript" src="services/urbanheat.js"></script>
   <script type="text/javascript" src="services/featurepicker.js"></script>
   <script type="text/javascript" src="services/trees.js"></script>
+  <script type="text/javascript" src="services/water.js"></script>
+  <script type="text/javascript" src="services/fields.js"></script>
   <script type="text/javascript" src="services/plots.js"></script>
   <script type="text/javascript" src="services/decoding.js"></script>
   <script src="lib/localforage/dist/localforage.js"></script>
@@ -47,19 +47,19 @@
 </label>
 <label for="showVegetationToggle" class="label">Vegetation</label>
 
-  <!-- showOtherNatureSwitch-->
+  <!-- showWaterSwitch-->
 <label class="switch">
-  <input type="checkbox" id="showOtherNatureToggle" value="showOtherNature" >
+  <input type="checkbox" id="showWaterToggle" value="showWater" >
   <span class="slider round"></span>
 </label>
-<label for="showOtherNatureToggle" class="label">Fresh water</label>
+<label for="showWaterToggle" class="label">Fresh water</label>
   
-  <!--  showTrees-->
-  <label class="switch" id = "showTreesSwitch" >
-    <input type="checkbox" id="showTreesToggle" value="showTrees" >
+  <!--  showFields-->
+  <label class="switch" id = "showFieldsSwitch" >
+    <input type="checkbox" id="showFieldsToggle" value="showFields" >
     <span class="slider round"></span>
   </label>
-  <label for="showTrees" class="label">Fields</label>
+  <label for="showFields" class="label">Fields</label>
 
 </div>
 
@@ -82,7 +82,7 @@
   	// UI related global variables...
   	var showPlot = true;
 	  var showVegetation = false;
-    var showOtherNature = false;
+    var showWater = false;
   	var print = true; //show object details..
 	  var postalcode = null;
     var nameOfZone = null;
@@ -90,8 +90,9 @@
     var majorDistrict = null;
 	// OS version, operating without Cesium Ion services...
     Cesium.Ion.defaultAccessToken = null;
-    document.getElementById("showTreesToggle").disabled = true;
-    document.getElementById("showOtherNatureToggle").disabled = true;
+    document.getElementById("showVegetationToggle").disabled = true;
+    document.getElementById("showWaterToggle").disabled = true;
+    document.getElementById("showFieldsToggle").disabled = true;
 
     // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
     const viewer = new Cesium.Viewer('cesiumContainer', {

@@ -4,7 +4,7 @@
  * @param { String } majordistrict - The major district code.
  * @returns { Promise<void> } Promise that resolves when all function calls complete.
  */
-async function loadVegeationSequentially( majordistrict ) {
+async function loadVegetationSequentially( majordistrict ) {
 	try {
   
 	  let i = 0;
@@ -13,7 +13,7 @@ async function loadVegeationSequentially( majordistrict ) {
   
 		  if ( i > 10000 ) {
   
-			  await loadVegetation( majordistrict, i, 1200000 );
+			  await loadVegetation( majordistrict, i, 200000 );
 			  break; // Exit the loop when i is over 10000
   
 			} else {
