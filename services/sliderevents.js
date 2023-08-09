@@ -61,12 +61,14 @@ function showFieldsEvent( ) {
 
         } else {
 
+            createVegetationBarPlot( majorDistrict._value );
             showDataSourceByName( "Fields" );
 
         }
         
     } else { // If showTrees toggle is off
         
+        createVegetationBarPlot( majorDistrict._value );
         hideDataSourceByName( "Fields" );
 
     }
@@ -158,11 +160,13 @@ function showVegetationEvent( ) {
 
         } else {
 
+            createVegetationBarPlot( majorDistrict._value );
             showDataSourceByName( "Vegetation" );
         }
 
     } else {
 
+        createVegetationBarPlot( majorDistrict._value );
         hideDataSourceByName( "Vegetation" );
 
     }
@@ -191,12 +195,14 @@ function showWaterEvent( ) {
         } else {
 
             showDataSourceByName( "Water" );
+            createVegetationBarPlot( majorDistrict._value );
 
         }
 
 
     } else {
 
+        createVegetationBarPlot( majorDistrict._value );
         hideDataSourceByName( "Water" );
 
     }

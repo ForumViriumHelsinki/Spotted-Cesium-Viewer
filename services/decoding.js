@@ -430,60 +430,196 @@ function getColorValue( key ) {
     return colorMap[key.toLowerCase()] || null;
   }
 
-  function getTreeRateForMajorDistrict( majordistrict ) {
-
-	let wholeCity = 0.26229790964449;
+function getTreeRateForMajorDistrict( majordistrict ) {
 
 	switch ( majordistrict ) {
 		case '1': 
-			return [ 0.180362772530447, wholeCity ];
+			return 0.180362772530447;
 		case '2': 
-			return [ 0.3192200634, wholeCity ];
+			return 0.3192200634;
 		case '3': 
-			return [ 0.1879065695, wholeCity ];
+			return 0.1879065695;
         case '4': 
-			return [ 0.347176476824404, wholeCity ];
+			return 0.347176476824404;
 		case '5': 
-			return [ 0.23710680147664, wholeCity ];		
+			return 0.23710680147664;		
 		case '6': 
-			return [ 0.429511343304354, wholeCity ];
+			return 0.429511343304354;
 		case '7': 
-			return [ 0.307034338528661, wholeCity ];
+			return 0.307034338528661;
 		case '8': 
-			return [ 0.531066144775314, wholeCity ];			
+			return 0.531066144775314;			
 
 	}
 }
 
 function getVegetationRateForMajorDistrict( majordistrict ) {
 
-	let wholeCity = 0.197748000824418;
-
 	switch ( majordistrict ) {
 		case '1': 
-			return [ 0.136310758913735, wholeCity ];
+			return 0.136310758913735;
 		case '2': 
-			return [ 0.210707839554935, wholeCity ];
+			return 0.210707839554935;
 		case '3': 
-			return [ 0.134483049663128, wholeCity ];
+			return 0.134483049663128;
         case '4': 
-			return [ 0.213280606265504, wholeCity ];
+			return 0.213280606265504;
 		case '5': 
-			return [ 0.235880570887264, wholeCity ];		
+			return 0.235880570887264;		
 		case '6': 
-			return [ 0.196945132000506, wholeCity ];
+			return 0.196945132000506;
 		case '7': 
-			return [ 0.215161244751333, wholeCity ];
+			return 0.215161244751333;
 		case '8': 
-			return [ 0.199602230190655, wholeCity ];			
+			return 0.199602230190655;			
 
 	}
 }
 
-function getTreeAndVegetationRateForMajorDistrict( majordistrict ) {
+function getWaterRateForMajorDistrict( majordistrict ) {
 
-	const trees = getTreeRateForMajorDistrict( majordistrict );
-	const vegegation = getVegetationRateForMajorDistrict( majordistrict );
+	switch ( majordistrict ) {
+		case '1': 
+			return 0.0044131956071969;
+		case '2': 
+			return 0.0115195831615184;
+		case '3': 
+			return 0.00572305553464529;
+        case '4': 
+			return 0.0269253552077743;
+		case '5': 
+			return 0.0211478064347008;		
+		case '6': 
+			return 0.00966826824459433;
+		case '7': 
+			return 0.00598259487446442;
+		case '8': 
+			return 0.0105059180635932;			
 
-	return [ [ trees[ 0 ], vegegation[ 0 ] ], [ trees[ 1 ], vegegation[ 1 ] ] ];
+	}
+}
+
+function getFieldsRateForMajorDistrict( majordistrict ) {
+
+	switch ( majordistrict ) {
+		case '1': 
+			return 0.000876648183371481;
+		case '2': 
+			return 0.0102769855345775;
+		case '3': 
+			return 0.0000669505729193174;
+        case '4': 
+			return 0.117216388319723;
+		case '5': 
+			return 0.0864012466909172;		
+		case '6': 
+			return 0.0125898154358978;
+		case '7': 
+			return 0.00916775999908508;
+		case '8': 
+			return 0.137241046334979;		
+
+	}
+}
+
+function getDataForMajorDistrict( majordistrict ) {
+
+	let data = [ getTreeRateForMajorDistrict( majordistrict ) ];
+
+	if ( document.getElementById( "showVegetationToggle" ).checked ) {
+
+		data.push( getVegetationRateForMajorDistrict( majordistrict ) );
+
+	}
+
+	if ( document.getElementById( "showWaterToggle" ).checked ) {
+		
+		data.push( getWaterRateForMajorDistrict( majordistrict ) );
+
+	}
+
+	if ( document.getElementById( "showFieldsToggle" ).checked ) {
+
+		data.push( getFieldsRateForMajorDistrict( majordistrict ) );
+
+	}
+
+	return data;
+}
+
+function getDataForCity( ) {
+
+	let data = [ 0.26229790964449 ];
+
+	if ( document.getElementById( "showVegetationToggle" ).checked ) {
+
+		data.push( 0.197748000824418 );
+
+	}
+
+	if ( document.getElementById( "showWaterToggle" ).checked ) {
+		
+		data.push( 0.048248528642427256 );
+
+	}
+
+	if ( document.getElementById( "showFieldsToggle" ).checked ) {
+
+		data.push( 0.012282989542894572 );
+
+	}
+
+	return data;
+}
+
+function getAreaLabels( ) {
+
+	let labels = ['trees in area' ]
+
+	if ( document.getElementById( "showVegetationToggle" ).checked ) {
+
+		labels.push( 'vegetation in area' );
+
+	}
+
+	if ( document.getElementById( "showWaterToggle" ).checked ) {
+
+		labels.push( 'water in area' );
+
+	}
+
+	if ( document.getElementById( "showFieldsToggle" ).checked ) {
+
+		labels.push( 'fields in area' );
+		
+	}
+
+	return labels;
+
+}
+
+function getHelsinkiLabels( ) {
+
+	let labels = ['trees whole city' ]
+
+	if ( document.getElementById( "showVegetationToggle" ).checked ) {
+
+		labels.push( 'vegetation whole city' );
+
+	}
+
+	if ( document.getElementById( "showWaterToggle" ).checked ) {
+
+		labels.push( 'water whole city' );
+
+	}
+
+	if ( document.getElementById( "showFieldsToggle" ).checked ) {
+
+		labels.push( 'fields whole city' );
+		
+	}
+
+	return labels;
+
 }

@@ -37,7 +37,7 @@ async function loadVegetationSequentially( majordistrict ) {
 	  // Code to execute after all function calls complete
 	  console.log('All function calls have completed');
   
-	  createVegetation2Histogram( majordistrict._value );
+	  createVegetationBarPlot( majordistrict._value );
   
   
 	} catch ( error ) {
