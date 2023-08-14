@@ -1,5 +1,16 @@
 
 /**
+ * Function to create an imagery provider based on the selected layer
+ */
+function createImageryProvider( layer ) {
+    return new Cesium.WebMapServiceImageryProvider({
+        url: 'https://kartta.hel.fi/ws/geoserver/avoindata/ows?SERVICE=WMS&',
+        layers: layer,
+        proxy: new Cesium.DefaultProxy('/proxy/')
+    });
+}
+
+/**
  * Resets the objects displayed, camera orientation, and switches to their default state
  */
 function reset( ) {

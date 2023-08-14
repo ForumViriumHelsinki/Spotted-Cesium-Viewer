@@ -15,6 +15,7 @@
   <script type="text/javascript" src="services/fields.js"></script>
   <script type="text/javascript" src="services/plots.js"></script>
   <script type="text/javascript" src="services/decoding.js"></script>
+  <script type="text/javascript" src="services/selectevents.js"></script>
   <script src="lib/localforage/dist/localforage.js"></script>
   <script src="lib/plotly-2.12.1.min.js"></script>
   <link href="lib/Cesium/Widgets/widgets.css" rel="stylesheet">
@@ -26,6 +27,21 @@
   <div id="UIContainer">
   <p class="header">Spotted Viewer</p>
   <p class="uiButton" onClick="reset()" style="color: red; float:right;">Reset</p>
+
+  <!-- Selects WMS layer -->
+<select id="layerSelector">
+  <option value="avoindata:Opaskartta_Helsinki">Opaskartta</option>
+  <option value="avoindata:Ortoilmakuva">Ortoilmakuva</option>
+  <option value="avoindata:Kantakartta">Kantakartta</option>
+  <option value="avoindata:Kiinteistokartta">Kiinteistokartta</option>
+  <option value="avoindata:Karttasarja_PKS">Karttasarja PKS</option>
+  <option value="avoindata:Vaaravariortoilmakuva_2022_5cm">Vääräväriortoilmakuva</option>
+  <option value="avoindata:Ajantasa_asemakaava">Asemakaava</option>
+  <option value="avoindata:Kaavahakemisto">Kaavahakemisto</option>
+  <option value="avoindata:Rakennukset_alue_rekisteritiedot">Rakennukset alue rekisteritiedot</option>
+  <option value="avoindata:Tavoitteellinen_viher_ja_virkistysverkosto_VISTRA">Tavoitteellinen viher- ja virkistysverkosto</option>
+</select>
+
   <!-- showPlotSwitch-->
 <label class="switch">
   <input type="checkbox" id="showPlotToggle" value="showPlot" checked>
@@ -94,14 +110,12 @@
     document.getElementById("showWaterToggle").disabled = true;
     document.getElementById("showFieldsToggle").disabled = true;
 
+    addLayerSelectorEventListener( );
+
     // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
     const viewer = new Cesium.Viewer('cesiumContainer', {
     	terrainProvider : new Cesium.EllipsoidTerrainProvider(),
-    	imageryProvider: new Cesium.WebMapServiceImageryProvider({
-        	url : 'https://kartta.hel.fi/ws/geoserver/avoindata/ows?SERVICE=WMS&',
-        	layers : 'avoindata:Opaskartta_Helsinki_harmaa',
-        	proxy: new Cesium.DefaultProxy('/proxy/')
-    	}),
+    	imageryProvider: createImageryProvider( document.getElementById( 'layerSelector' ).value ),
     	animation: false,
       fullscreenButton: false,
       geocoder: false,
@@ -112,8 +126,8 @@
       baseLayerPicker: false,
       infoBox: false,
 	  homeButton: false
-    });    
-  
+    });  
+    
     // Fly the camera to Helsinki at the given longitude, latitude, and height.
     viewer.camera.flyTo({
       destination : Cesium.Cartesian3.fromDegrees(24.941745, 60.165464, 35000), 
