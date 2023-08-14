@@ -133,7 +133,9 @@ function handleFeatureWithProperties( id ) {
 
     //If we find postal code, we assume this is an area & zoom in AND load the buildings for it.
     if ( postalcode ) {
-        
+
+
+        districtName = String( id.properties.nimi_fi ).toLowerCase()
         handlePostalCodeFeature( postalcode, id );
     }
 

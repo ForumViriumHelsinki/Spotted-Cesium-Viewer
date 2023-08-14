@@ -7,15 +7,17 @@
  */
 function createVegetationBarPlot( majordistrict ) {
 
+    const labels = getVegetationPlotLabels();
+
     let trace1 = {
-        x: getAreaLabels( ),
+        x: labels,
         y: getDataForMajorDistrict( majordistrict ),
-        name: majordistrict,
+        name: districtName,
         type: 'bar'
     };
       
     let trace2 = {
-        x: getHelsinkiLabels( ),
+        x: labels,
         y: getDataForCity( ),
         name: "Helsinki",
         type: 'bar',
@@ -267,74 +269,37 @@ function getDataForCity( ) {
 }
 
 /**
- * Get labels array for the different rates in the area, considering toggles
+ * Get labels array for the different vegetation, considering toggles
  * 
  * @returns { Array } Labels array for the different rates in the area
  */
-function getAreaLabels( ) {
+function getVegetationPlotLabels( ) {
 
-    let labels = [ 'trees in area' ]; // Initialize the labels array with the default label
+    let labels = [ 'trees' ]; // Initialize the labels array with the default label
 
     // Check if the "showVegetationToggle" checkbox is checked
     if ( document.getElementById( "showVegetationToggle" ).checked ) {
         // If checked, add vegetation label to the labels array
-        labels.push( 'vegetation in area' );
+        labels.push( 'vegetation' );
     }
 
     // Check if the "showWaterToggle" checkbox is checked
     if ( document.getElementById( "showWaterToggle" ).checked ) {
         // If checked, add water label to the labels array
-        labels.push( 'water in area' );
+        labels.push( 'water' );
     }
 
     // Check if the "showFieldsToggle" checkbox is checked
     if ( document.getElementById( "showFieldsToggle" ).checked ) {
         // If checked, add fields label to the labels array
-        labels.push( 'fields in area' );
+        labels.push( 'fields' );
     }
 
     // Check if the "showOtherNatureToggle" checkbox is checked
     if ( document.getElementById( "showOtherNatureToggle" ).checked ) {
         // If checked, add fields label to the labels array
-        labels.push( 'rocks, dirt unused  in area' );
+        labels.push( 'rocks, dirt unused land' );
     }
-
-    return labels; // Return the final labels array
-
-}
-
-/**
- * Get labels array for the different rates in the whole city, considering toggles
- * 
- * @returns { Array } Labels array for the different rates in the whole city
- */
-function getHelsinkiLabels( ) {
-
-    let labels = [ 'trees whole city' ]; // Initialize the labels array with the default label
-
-    // Check if the "showVegetationToggle" checkbox is checked
-    if ( document.getElementById( "showVegetationToggle" ).checked ) {
-        // If checked, add vegetation label to the labels array
-        labels.push( 'vegetation whole city' );
-    }
-
-    // Check if the "showWaterToggle" checkbox is checked
-    if ( document.getElementById( "showWaterToggle" ).checked ) {
-        // If checked, add water label to the labels array
-        labels.push( 'water whole city' );
-    }
-
-    // Check if the "showFieldsToggle" checkbox is checked
-    if ( document.getElementById( "showFieldsToggle" ).checked ) {
-        // If checked, add fields label to the labels array
-        labels.push( 'fields whole city' );
-    }
-
-    // Check if the "showOtherNatureToggle" checkbox is checked
-    if ( document.getElementById( "showOtherNatureToggle" ).checked ) {
-        // If checked, add fields label to the labels array
-        labels.push( 'rocks, dirt unused whole city' );
-     }
 
     return labels; // Return the final labels array
 
