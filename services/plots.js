@@ -159,6 +159,37 @@ function getFieldsRateForMajorDistrict( majordistrict ) {
 
 }
 
+/**
+ * Get other nature rate for a specific major district
+ * 
+ * @param { string } majordistrict - Major district code
+ * @returns { number } other nature rate for the specified major district
+ */
+function getOtherNatureRateForMajorDistrict( majordistrict ) {
+
+    switch ( majordistrict ) {
+        case '1':
+            return 0.343487405413022; // Fields rate for major district 1
+        case '2':
+            return 0.223162836799504; // Fields rate for major district 2
+        case '3':
+            return 0.349620631126367; // Fields rate for major district 3
+        case '4':
+            return 0.137304459314582; // Fields rate for major district 4
+        case '5':
+            return 0.221055671545325; // Fields rate for major district 5
+        case '6':
+            return 0.268463466990779; // Fields rate for major district 6
+        case '7':
+            return 0.282302052397503; // Fields rate for major district 7
+        case '8':
+            return 0.104217291059008; // Fields rate for major district 8
+        default:
+            return 0; // Default value if major district code is not recognized
+    }
+
+}
+
 
 /**
  * Get data array for a specific major district, considering toggles for different rates
@@ -188,6 +219,12 @@ function getDataForMajorDistrict( majordistrict ) {
         data.push( getFieldsRateForMajorDistrict( majordistrict ) );
     }
 
+    // Check if the "showOtherNatureToggle" checkbox is checked
+    if ( document.getElementById( "showOtherNatureToggle").checked ) {
+        // If checked, add fields rate to the data array
+        data.push( getOtherNatureRateForMajorDistrict( majordistrict ) );
+    }
+
     return data; // Return the final data array
 
 }
@@ -199,12 +236,12 @@ function getDataForMajorDistrict( majordistrict ) {
  */
 function getDataForCity( ) {
 
-    let data = [ 0.26229790964449 ]; // Initialize the data array with default city value
+    let data = [ 0.31823489079358713 ]; // Initialize the data array with default city value
 
     // Check if the "showVegetationToggle" checkbox is checked
     if ( document.getElementById( "showVegetationToggle" ).checked ) {
         // If checked, add vegetation rate to the data array
-        data.push( 0.197748000824418) ;
+        data.push( 0.197748000824418 ) ;
     }
 
     // Check if the "showWaterToggle" checkbox is checked
@@ -217,6 +254,12 @@ function getDataForCity( ) {
     if ( document.getElementById( "showFieldsToggle" ).checked ) {
         // If checked, add fields rate to the data array
         data.push( 0.012282989542894572 );
+    }
+
+    // Check if the "showOtherNatureToggle" checkbox is checked
+    if ( document.getElementById( "showOtherNatureToggle").checked ) {
+        // If checked, add fields rate to the data array
+        data.push( 0.230313862272067 );
     }
 
     return data; // Return the final data array
@@ -250,6 +293,12 @@ function getAreaLabels( ) {
         labels.push( 'fields in area' );
     }
 
+    // Check if the "showOtherNatureToggle" checkbox is checked
+    if ( document.getElementById( "showOtherNatureToggle" ).checked ) {
+        // If checked, add fields label to the labels array
+        labels.push( 'rocks, dirt unused  in area' );
+    }
+
     return labels; // Return the final labels array
 
 }
@@ -280,6 +329,12 @@ function getHelsinkiLabels( ) {
         // If checked, add fields label to the labels array
         labels.push( 'fields whole city' );
     }
+
+    // Check if the "showOtherNatureToggle" checkbox is checked
+    if ( document.getElementById( "showOtherNatureToggle" ).checked ) {
+        // If checked, add fields label to the labels array
+        labels.push( 'rocks, dirt unused whole city' );
+     }
 
     return labels; // Return the final labels array
 

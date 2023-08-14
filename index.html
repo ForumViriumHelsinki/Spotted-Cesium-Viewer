@@ -77,6 +77,13 @@
   </label>
   <label for="showFields" class="label">Fields</label>
 
+    <!--  showOtherNature-->
+    <label class="switch" id = "showOtherNatureSwitch" >
+      <input type="checkbox" id="showOtherNatureToggle" value="showOtherNature" >
+      <span class="slider round"></span>
+    </label>
+    <label for="showOtherNature" class="label">Rocks, Dirt, Unused Land</label>
+
 </div>
 
 	<div id="printContainer">
@@ -109,6 +116,7 @@
     document.getElementById("showVegetationToggle").disabled = true;
     document.getElementById("showWaterToggle").disabled = true;
     document.getElementById("showFieldsToggle").disabled = true;
+    document.getElementById("showOtherNatureToggle").disabled = true;
 
     addLayerSelectorEventListener( );
 

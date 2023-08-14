@@ -35,12 +35,14 @@ function resetSwitches( ) {
 	document.getElementById( "showVegetationToggle" ).checked = false;
     document.getElementById( "showWaterToggle" ).checked = false;
     document.getElementById( "showFieldsToggle" ).checked = false;
+    document.getElementById( "showOtherNatureToggle" ).checked = false;
 
 	document.getElementById( "printToggle" ).checked = true;
 
-    document.getElementById("showWaterToggle").disabled = true;
-    document.getElementById("showVegetationToggle").disabled = true;
-    document.getElementById("showFieldsToggle").disabled = true;
+    document.getElementById( "showWaterToggle" ).disabled = true;
+    document.getElementById( "showVegetationToggle" ).disabled = true;
+    document.getElementById( "showFieldsToggle" ).disabled = true;
+    document.getElementById( "showOtherNatureToggle" ).disabled = true;
 
 
     setPrintVisible( );

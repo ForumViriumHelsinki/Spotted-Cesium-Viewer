@@ -33,13 +33,20 @@ function sliderEvents( event ) {
     
     }	
 
-    // If the slider value is "showFields", call the showTrees function.
+    // If the slider value is "showFields", call the showFields function.
     if ( event.target.value == 'showFields' ) {
         
         showFieldsEvent();
 
-    }   
-            
+    }  
+
+    // If the slider value is "showOtherNature", call the showOtherNature function.
+    if ( event.target.value == 'showOtherNature' ) {
+        
+        showOtherNatureEvent();
+    
+    } 
+                
 }
 
 /**
@@ -204,6 +211,37 @@ function showWaterEvent( ) {
 
         createVegetationBarPlot( majorDistrict._value );
         hideDataSourceByName( "Water" );
+
+    }
+
+}
+
+/**
+ * This function handles the toggle event for showing or hiding the other nature datasource on the map.
+ *
+ */
+function showOtherNatureEvent( ) {
+
+    // Get the current state of the toggle button for showing nature areas.
+    const showOtherNature = document.getElementById( "showOtherNatureToggle" ).checked;
+
+    if ( showOtherNature) {
+
+        // If there is a postal code available, load the nature areas for that area.
+        if ( majorDistrict && !dataSourceWithNameExists( "OtherNature" ) ) {
+
+            loadOtherNatureSequentially( majorDistrict );
+
+        } else {
+
+            createVegetationBarPlot( majorDistrict._value );
+            showDataSourceByName( "OtherNature" );
+        }
+
+    } else {
+
+        createVegetationBarPlot( majorDistrict._value );
+        hideDataSourceByName( "OtherNature" );
 
     }
 

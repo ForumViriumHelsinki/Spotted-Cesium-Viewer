@@ -1,92 +1,144 @@
 /**
- * Loads othernature data for a given postcode asynchronously
+ * Load otherNature sequentially with different parameters.
  * 
- * @param {string} postcode - The postcode for which to load othernature data
- * @returns {Promise} - A promise that resolves once the data has been loaded
+ * @param { String } majordistrict - The major district code.
+ * @returns { Promise<void> } Promise that resolves when all function calls complete.
  */
-async function loadOtherNature( postcode ) {
-
-	let url = "https://geo.fvh.fi/r4c/collections/othernature/items?f=json&limit=10000&postinumero=" + postcode ;
-
+async function loadOtherNatureSequentially( majordistrict ) {
 	try {
-		const value = await localforage.getItem( url );
-		// This code runs once the value has been loaded
-		// from the offline store.
-
-		if ( value ) {
-			console.log("found from cache");
-
-			let datasource = JSON.parse( value )
-			addOtherNatureDataSource( datasource );
-
-		} else {
-
-			loadOtherNatureWithoutCache( url );
-
-		}
-	  	
-	} catch ( err ) {
-		// This code runs if there were any errors.
-		console.log( err );
+  
+	  let i = 0;
+  
+	  while ( true ) {
+  
+		  if ( i > 10000 ) {
+  
+			  await loadOtherNature( majordistrict, i, 800000 );
+			  break; // Exit the loop when i is over 10000
+  
+			} else {
+			  
+			  if ( i > 1000 ) {
+  
+				  await loadOtherNature( majordistrict, i, i + 100 );
+				  i = i + 100;
+  
+		  } else {
+  
+			  await loadOtherNature( majordistrict, i, i + 1000 );
+			  i = i + 1000;
+  
+  
+		  }
+  
+	  }
+  }
+  
+	  // Code to execute after all function calls complete
+	  console.log('All function calls have completed');
+  
+	  createVegetationBarPlot( majordistrict._value );
+  
+  
+	} catch ( error ) {
+	  // Handle any errors that occurred during the function calls
+	  console.error( 'An error occurred:', error );
 	}
-}
+  
+  }
+  
+  /**
+   * Asynchronously load otherNature data from an API endpoint based on major district id
+   * 
+   * @param { String } majordistrict - The major district code.
+   * @param { Number } lower minimun vegegation area
+   * @param { Number } upper maximun vegegation area
+   */
+  async function loadOtherNature( majordistrict, lower, upper ) {
 
-/**
- * Adds a othernature data source to the viewer
- * 
- * @param {Object} data - The othernature data to be added as a data source
- */
-function addOtherNatureDataSource( data ) {
-	
-	viewer.dataSources.add( Cesium.GeoJsonDataSource.load( data, {
-		stroke: Cesium.Color.BLACK,
-		fill: Cesium.Color.LIGHTGREEN,
-		strokeWidth: 3,
-		clampToGround: true
-	}) )
-	.then(function ( dataSource ) {
-		
-		dataSource.name = "OtherNature";
-		let entities = dataSource.entities.values;
-		
-		for ( let i = 0; i < entities.length; i++ ) {
+  
+		// Construct the API endpoint URL
+	  let url = "https://geo.fvh.fi/spotted/collections/othernature/items?f=json&limit=32000&tunnus=" + majordistrict + "&filter=area_m2%20BETWEEN%20" + lower + "%20AND%20"+ upper;
+  
+	  try {
+  
+		  // Attempt to retrieve the otherNature data from the local storage using the API endpoint URL as the key
+		  const value = await localforage.getItem( url );
+  
+		   // If the otherNature data is already available in the local storage, add it to the Cesium map
+		  if ( value ) {
+  
+			  console.log("found from cache");
+			  let datasource = JSON.parse( value )
+			  addOtherNatureDataSource( datasource, lower );
+  
+		  } else {
+  
+			  // Otherwise, fetch the otherNature data from the API endpoint and add it to the local storage
+			  loadOtherNatureWithoutCache( url, lower );
+  
+		  }
 			
-			let entity = entities[ i ];
-			const category = entity.properties._koodi._value;
-            
-            if ( category ) {
-				//colors of nature area enity are set based on it's category
-				setOtherNaturePolygonMaterialColor( entity, category )
-			}
+	  } catch ( err ) {
+		  // This code runs if there were any errors.
+		  console.log( err );
+	  }
+  }
+  
+  /**
+   * Add the otherNature data as a new data source to the Cesium
+   * 
+   * @param { object } data otherNature data
+   * @param { Number } size minimun otherNature area size
+   */
+  function addOtherNatureDataSource( data, size ) {
+	  
+	  viewer.dataSources.add( Cesium.GeoJsonDataSource.load( data, {
+		  stroke: Cesium.Color.BLACK,
+		  fill: Cesium.Color.DARKGREEN,
+		  strokeWidth: 3,
+		  clampToGround: true
+	  }) )
+	  .then(function ( dataSource ) {
+		  
+		  // Set a name for the data source
+		  dataSource.name = "OtherNature" + size;
+		  let entities = dataSource.entities.values;
+		  
+		  for ( let i = 0; i < entities.length; i++ ) {
+			  
+			  let entity = entities[ i ];
+			  const code = entity.properties._koodi._value;
+			  setOtherNaturePolygonMaterialColor( entity, code );	
 
-		}
-	})	
-	.otherwise(function ( error ) {
-		//Display any errrors encountered while loading.
-		console.log( error );
-	});
-
-}
-
-/**
- * Loads othernature data from the provided URL without using cache
- * 
- * @param {string} url - The URL from which to load othernature data
- */
-function loadOtherNatureWithoutCache( url ) {
-	
-	console.log("Not in cache! Loading: " + url );
-
-	const response = fetch( url )
-	.then( function( response ) {
-	  return response.json();
-	})
-	.then( function( data ) {
-		localforage.setItem( url, JSON.stringify( data ) );
-		addOtherNatureDataSource( data );
-	})
-	
-}
+		  }
+	  })	
+	  .otherwise(function ( error ) {
+		  // Log any errors encountered while loading the data source
+		  console.log( error );
+	  });
+  
+  }
+  
+  /**
+   * Fetch tree data from the API endpoint and add it to the local storage
+   * 
+   * @param { String } url API endpoint's url
+   */
+  function loadOtherNatureWithoutCache( url , lower ) {
+	  
+	  console.log("Not in cache! Loading: " + url );
+  
+	  const response = fetch( url )
+	  .then( function( response ) {
+		return response.json();
+	  })
+	  .then( function( data ) {
+		  localforage.setItem( url, JSON.stringify( data ) );
+		  addOtherNatureDataSource( data, lower );
+	  })
+	  
+  }
 
 /**
  * Sets the polygon material color for a othernature entity based on its category

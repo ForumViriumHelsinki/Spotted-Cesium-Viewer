@@ -95,9 +95,10 @@ function loadMajorDistrict( majordistrict ) {
 
     majorDistrict = majordistrict;
 
-    document.getElementById("showWaterToggle").disabled = false;
-    document.getElementById("showVegetationToggle").disabled = false;
-    document.getElementById("showFieldsToggle").disabled = false;
+    document.getElementById( "showWaterToggle" ).disabled = false;
+    document.getElementById( "showVegetationToggle" ).disabled = false;
+    document.getElementById( "showFieldsToggle" ).disabled = false;
+    document.getElementById( "showOtherNatureToggle" ).disabled = false;
 
     if ( document.getElementById( "printToggle" ).checked ) {
 
@@ -118,45 +119,6 @@ function loadMajorDistrict( majordistrict ) {
     loadTreesSequentially( majordistrict );		
 
     loadPostCodeZones( 0.0 );
-
-}
-
-function handleBuildingFeature( buildingHeatExposure, address, postinumero ) {
-
-    document.getElementById( "plotSoSContainer" ).style.visibility = 'hidden';
-    document.getElementById( 'categoricalSelect' ).style.visibility = 'hidden';
-    document.getElementById( 'numericalSelect' ).style.visibility = 'hidden';
-    document.getElementById( 'plotMaterialContainer' ).style.visibility = 'hidden';
-
-    console.log("Building found!");
-
-    let trace1 = {
-        x: [ 'to building' ],
-        y: [ buildingHeatExposure ],
-        name: address,
-        type: 'bar'
-    };
-      
-    let trace2 = {
-        x: [ 'average in postal code area' ],
-        y: [ averageHeatExposure ],
-        name: postinumero,
-        type: 'bar',
-    };
-      
-    let data = [ trace1, trace2 ];
-      
-    let layout = { title: { text: 'Urban Heat Exposure Comparison' }, barmode: 'group' };
-
-    //Test plotting
-    if ( showPlot ) {
-
-        document.getElementById( "plotContainer" ).style.visibility = 'visible';
-    }
-
-    Plotly.newPlot( 'plotContainer', data, layout );
-
-    postalcode = postinumero;
 
 }
 
