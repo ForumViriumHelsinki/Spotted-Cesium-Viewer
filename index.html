@@ -16,6 +16,7 @@
   <script type="text/javascript" src="services/plots.js"></script>
   <script type="text/javascript" src="services/decoding.js"></script>
   <script type="text/javascript" src="services/selectevents.js"></script>
+  <script type="text/javascript" src="services/built.js"></script>
   <script src="lib/localforage/dist/localforage.js"></script>
   <script src="lib/plotly-2.12.1.min.js"></script>
   <link href="lib/Cesium/Widgets/widgets.css" rel="stylesheet">
@@ -71,18 +72,25 @@
 <label for="showWaterToggle" class="label">Fresh water</label>
   
   <!--  showFields-->
-  <label class="switch" id = "showFieldsSwitch" >
-    <input type="checkbox" id="showFieldsToggle" value="showFields" >
-    <span class="slider round"></span>
-  </label>
-  <label for="showFields" class="label">Fields</label>
+<label class="switch" id = "showFieldsSwitch" >
+  <input type="checkbox" id="showFieldsToggle" value="showFields" >
+  <span class="slider round"></span>
+</label>
+<label for="showFields" class="label">Fields</label>
 
-    <!--  showOtherNature-->
-    <label class="switch" id = "showOtherNatureSwitch" >
-      <input type="checkbox" id="showOtherNatureToggle" value="showOtherNature" >
-      <span class="slider round"></span>
-    </label>
-    <label for="showOtherNature" class="label">Rocks, Dirt, Unused Land</label>
+  <!--  showOtherNature-->
+<label class="switch" id = "showOtherNatureSwitch" >
+  <input type="checkbox" id="showOtherNatureToggle" value="showOtherNature" >
+  <span class="slider round"></span>
+  </label>
+<label for="showOtherNature" class="label">Rocks, Dirt, Unused Land</label>
+
+  <!--  showBuilt-->
+<label class="switch" id = "showBuiltSwitch" >
+  <input type="checkbox" id="showBuiltToggle" value="showBuilt" >
+  <span class="slider round"></span>
+  </label>
+<label for="showBuilt" class="label">Buildings and roads</label>
 
 </div>
 
@@ -91,6 +99,8 @@
   	</div>
 
   <div id="plotContainer">
+  </div>
+  <div id="plotBuiltContainer">
   </div>
   		<!-- Add Logo -->
 		

@@ -1,6 +1,8 @@
 
 /**
  * Function to create an imagery provider based on the selected layer
+ * 
+ * @param { String } layer - layer of WMS service
  */
 function createImageryProvider( layer ) {
     return new Cesium.WebMapServiceImageryProvider({
@@ -32,18 +34,19 @@ function reset( ) {
 function resetSwitches( ) {
 
 	document.getElementById( "showPlotToggle" ).checked = true;
+
 	document.getElementById( "showVegetationToggle" ).checked = false;
     document.getElementById( "showWaterToggle" ).checked = false;
     document.getElementById( "showFieldsToggle" ).checked = false;
     document.getElementById( "showOtherNatureToggle" ).checked = false;
+    document.getElementById( "showBuiltToggle" ).checked = false;
 
 	document.getElementById( "printToggle" ).checked = true;
-
     document.getElementById( "showWaterToggle" ).disabled = true;
     document.getElementById( "showVegetationToggle" ).disabled = true;
     document.getElementById( "showFieldsToggle" ).disabled = true;
     document.getElementById( "showOtherNatureToggle" ).disabled = true;
-
+    document.getElementById( "showBuiltToggle" ).disabled = true;
 
     setPrintVisible( );
     hideAllPlots( );    

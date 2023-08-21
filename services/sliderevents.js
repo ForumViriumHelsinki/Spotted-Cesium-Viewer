@@ -46,6 +46,13 @@ function sliderEvents( event ) {
         showOtherNatureEvent();
     
     } 
+
+    // If the slider value is "showBuilt", call the showBuilt function.
+    if ( event.target.value == 'showBuilt' ) {
+        
+        showBuiltEvent();
+        
+    } 
                 
 }
 
@@ -234,14 +241,45 @@ function showOtherNatureEvent( ) {
 
         } else {
 
-            createVegetationBarPlot( majorDistrict._value );
+          //  createBuiltBarPlot( majorDistrict._value );
             showDataSourceByName( "OtherNature" );
         }
 
     } else {
 
-        createVegetationBarPlot( majorDistrict._value );
+       // createBuiltBarPlot( majorDistrict._value );
         hideDataSourceByName( "OtherNature" );
+
+    }
+
+}
+
+/**
+ * This function handles the toggle event for showing or hiding the built datasource on the map.
+ *
+ */
+function showBuiltEvent( ) {
+
+    // Get the current state of the toggle button for showing nature areas.
+    const showBuilt = document.getElementById( "showBuiltToggle" ).checked;
+
+    if ( showBuilt) {
+
+        // If there is a postal code available, load the nature areas for that area.
+        if ( majorDistrict && !dataSourceWithNameExists( "Built" ) ) {
+
+            loadBuiltSequentially( majorDistrict );
+
+        } else {
+
+            createBuiltBarPlot( majorDistrict._value );
+            showDataSourceByName( "Built" );
+        }
+
+    } else {
+
+        createBuiltPlot( majorDistrict._value );
+        hideDataSourceByName( "Built" );
 
     }
 

@@ -99,6 +99,7 @@ function loadMajorDistrict( majordistrict ) {
     document.getElementById( "showVegetationToggle" ).disabled = false;
     document.getElementById( "showFieldsToggle" ).disabled = false;
     document.getElementById( "showOtherNatureToggle" ).disabled = false;
+    document.getElementById( "showBuiltToggle" ).disabled = false;
 
     if ( document.getElementById( "printToggle" ).checked ) {
 

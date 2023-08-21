@@ -1,7 +1,47 @@
 
+/**
+ * Creates built bar for a major district area area
+ *
+ * @param { object } majordistrict major district code
+ */
+function createBuiltBarPlot( majordistrict ) {
+
+    let trace1 = {
+        x: [ 'buildings and roads' ],
+        y: getBuiltDataForMajorDistrict( majordistrict ),
+        name: districtName,
+        type: 'bar',
+        marker: {
+            color: 'green'
+        }
+    };
+      
+    let trace2 = {
+        x: [ 'buildings and roads' ],
+        y: [ 0.19238164697212906 ],
+        name: "Helsinki",
+        type: 'bar',
+        marker: {
+            color: 'orange'
+        }
+    };
+      
+    let data = [ trace1, trace2 ];
+      
+    let layout = { title: { text: 'Buildings and Roads' }, barmode: 'group' };
+
+    //Test plotting
+    if ( showPlot ) {
+
+        document.getElementById( "plotBuiltContainer" ).style.visibility = 'visible';
+    }
+
+    Plotly.newPlot( 'plotBuiltContainer', data, layout );
+
+}
 
 /**
- * Creates vegetation histogram for a major district area area
+ * Creates vegetation bar for a major district area area
  *
  * @param { object } majordistrict major district code
  */
@@ -11,16 +51,19 @@ function createVegetationBarPlot( majordistrict ) {
 
     let trace1 = {
         x: labels,
-        y: getDataForMajorDistrict( majordistrict ),
+        y: getNatureDataForMajorDistrict( majordistrict ),
         name: districtName,
-        type: 'bar'
+        type: 'bar',
     };
       
     let trace2 = {
         x: labels,
-        y: getDataForCity( ),
+        y: getNatureDataForCity( ),
         name: "Helsinki",
         type: 'bar',
+        marker: {
+            color: 'green'
+        }
     };
       
     let data = [ trace1, trace2 ];
@@ -199,7 +242,7 @@ function getOtherNatureRateForMajorDistrict( majordistrict ) {
  * @param { string } majordistrict - Major district code
  * @returns { Array } Data array for the specified major district
  */
-function getDataForMajorDistrict( majordistrict ) {
+function getNatureDataForMajorDistrict( majordistrict ) {
 
     let data = [ getTreeRateForMajorDistrict( majordistrict ) ]; // Initialize the data array with tree rate
 
@@ -236,7 +279,7 @@ function getDataForMajorDistrict( majordistrict ) {
  * 
  * @returns { Array } Data array for the entire city
  */
-function getDataForCity( ) {
+function getNatureDataForCity( ) {
 
     let data = [ 0.31823489079358713 ]; // Initialize the data array with default city value
 
@@ -303,4 +346,35 @@ function getVegetationPlotLabels( ) {
 
     return labels; // Return the final labels array
 
+}
+
+
+/**
+ * Get data array for a specific major district, considering toggles for different rates
+ * 
+ * @param { string } majordistrict - Major district code
+ * @returns { Array } Data array for the specified major district
+ */
+function getBuiltDataForMajorDistrict( majordistrict ) {
+
+	switch ( majordistrict ) {
+		case '1': 
+			return [ 0.349867715135235 ];
+		case '2': 
+			return [ 0.228948474124779 ];
+		case '3': 
+			return [ 0.33682376642031 ];
+		case '4': 
+			return [ 0.164042665355905 ];
+		case '5': 
+			return [ 0.211445765144768 ];
+		case '6': 
+			return [ 0.147517445470486 ];
+		case '7': 
+			return [ 0.186212076835651 ];
+        case '8': 
+			return [ 0.0308350766173726 ];            
+		default:
+			return majordistrict;  				
+	}
 }
