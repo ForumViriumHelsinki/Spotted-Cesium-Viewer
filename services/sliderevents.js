@@ -278,8 +278,8 @@ function showBuiltEvent( ) {
 
     } else {
 
-        createBuiltPlot( majorDistrict._value );
         hideDataSourceByName( "Built" );
+        document.getElementById( 'plotBuiltContainer' ).style.visibility = 'hidden';
 
     }
 

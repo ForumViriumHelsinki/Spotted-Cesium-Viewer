@@ -111,7 +111,7 @@ function addTreesDataSource( data, size ) {
 		for ( let i = 0; i < entities.length; i++ ) {
 
 			const entity = entities[ i ];
-			const code = entity.properties._koodi._value;
+			const code = entity._properties._koodi._value;
 			setTreePolygonMaterialColor( entity, code );		
 
 		}

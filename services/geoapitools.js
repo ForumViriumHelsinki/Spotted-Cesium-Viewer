@@ -218,6 +218,7 @@ function hideAllPlots( ) {
 function hideAllPlots( ) {
 
     document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
+    document.getElementById( 'plotBuiltContainer' ).style.visibility = 'hidden';
 
 }
 
