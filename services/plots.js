@@ -1,3 +1,72 @@
+/**
+ * Creates landcover comparasion pie chart for major district area
+ *
+ * @param { object } majordistrict major district code
+ */
+function createPieChartForMajorDistrict( majordistrict ) {
+
+    const data = [{
+        values: getLandDataForMajorDistrict( majordistrict ),
+        labels: [ 'trees', 'vegetation', 'water', 'fields', 'rocks, dirt unused land', 'buildings and roads' ],
+        domain: { column: 0 },
+        name: districtName,
+        hoverinfo: 'label+percent',
+        hole: .4,
+        type: 'pie',
+        marker: {
+            colors: [ 'forestgreen', 'green', 'mediumblue', 'yellow', 'sandybrown', ' red ']
+        },
+      },{
+        values: [ 31.82, 19.78, 4.82, 1.23, 23.03, 19.24 ],
+        labels: [ 'trees', 'vegetation', 'water', 'fields', 'rocks, dirt unused land', 'buildings and roads' ],
+        text: 'Helsinki',
+        textposition: 'inside',
+        domain: { column: 1 },
+        name: 'Helsinki',
+        hoverinfo: 'label+percent',
+        hole: .4,
+        type: 'pie',
+        marker: {
+            colors: [ 'forestgreen', 'green', 'mediumblue', 'yellow', 'sandybrown', ' red ']
+        },
+      }];
+      
+    const layout = {
+        title: 'Landcover comparison',
+        annotations: [
+          {
+            font: {
+              size: 12
+            },
+            showarrow: false,
+            text: districtName,
+            x: 0.17,
+            y: 0.5
+          },
+          {
+            font: {
+              size: 12
+            },
+            showarrow: false,
+            text: 'Helsinki',
+            x: 0.82,
+            y: 0.5
+          }
+        ],
+        height: 400,
+        width: 600,
+        showlegend: false,
+        grid: { rows: 1, columns: 2 }
+    };
+
+    if ( showPlot ) {
+
+        document.getElementById( "plotBuiltContainer" ).style.visibility = 'visible';
+    }
+      
+    Plotly.newPlot('plotBuiltContainer', data, layout );
+
+}
 
 /**
  * Creates built bar for a major district area area
@@ -90,7 +159,7 @@ function getTreeRateForMajorDistrict( majordistrict ) {
 
     switch ( majordistrict ) {
         case '1':
-            return 0.180362772530447; // Tree rate for major district 1
+            return 0.180562288871742; // Tree rate for major district 1
         case '2':
             return 0.3192200634; // Tree rate for major district 2
         case '3':
@@ -121,7 +190,7 @@ function getVegetationRateForMajorDistrict( majordistrict ) {
 
     switch ( majordistrict ) {
         case '1':
-            return 0.136310758913735; // Vegetation rate for major district 1
+            return 0.136461545151472; // Vegetation rate for major district 1
         case '2':
             return 0.210707839554935; // Vegetation rate for major district 2
         case '3':
@@ -152,7 +221,7 @@ function getWaterRateForMajorDistrict( majordistrict ) {
 
     switch ( majordistrict ) {
         case '1':
-            return 0.0044131956071969; // Water rate for major district 1
+            return 0.004418077460744687; // Water rate for major district 1
         case '2':
             return 0.0115195831615184; // Water rate for major district 2
         case '3':
@@ -183,7 +252,7 @@ function getFieldsRateForMajorDistrict( majordistrict ) {
 
     switch ( majordistrict ) {
         case '1':
-            return 0.000876648183371481; // Fields rate for major district 1
+            return 0.0008776179269371576; // Fields rate for major district 1
         case '2':
             return 0.0102769855345775; // Fields rate for major district 2
         case '3':
@@ -214,7 +283,7 @@ function getOtherNatureRateForMajorDistrict( majordistrict ) {
 
     switch ( majordistrict ) {
         case '1':
-            return 0.343487405413022; // Fields rate for major district 1
+            return 0.3438673693570627; // Fields rate for major district 1
         case '2':
             return 0.223162836799504; // Fields rate for major district 2
         case '3':
@@ -244,30 +313,30 @@ function getOtherNatureRateForMajorDistrict( majordistrict ) {
  */
 function getNatureDataForMajorDistrict( majordistrict ) {
 
-    let data = [ getTreeRateForMajorDistrict( majordistrict ) ]; // Initialize the data array with tree rate
+    let data = [ getTreeRateForMajorDistrict( majordistrict ).toFixed( 3 ) ]; // Initialize the data array with tree rate
 
     // Check if the "showVegetationToggle" checkbox is checked
     if ( document.getElementById( "showVegetationToggle" ).checked ) {
         // If checked, add vegetation rate to the data array
-        data.push( getVegetationRateForMajorDistrict( majordistrict ) );
+        data.push( getVegetationRateForMajorDistrict( majordistrict ).toFixed( 3 ) );
     }
 
     // Check if the "showWaterToggle" checkbox is checked
     if ( document.getElementById( "showWaterToggle" ).checked ) {
         // If checked, add water rate to the data array
-        data.push( getWaterRateForMajorDistrict( majordistrict ) );
+        data.push( getWaterRateForMajorDistrict( majordistrict ).toFixed( 3 ) );
     }
 
     // Check if the "showFieldsToggle" checkbox is checked
     if ( document.getElementById( "showFieldsToggle").checked ) {
         // If checked, add fields rate to the data array
-        data.push( getFieldsRateForMajorDistrict( majordistrict ) );
+        data.push( getFieldsRateForMajorDistrict( majordistrict ).toFixed( 3 ) );
     }
 
     // Check if the "showOtherNatureToggle" checkbox is checked
     if ( document.getElementById( "showOtherNatureToggle").checked ) {
         // If checked, add fields rate to the data array
-        data.push( getOtherNatureRateForMajorDistrict( majordistrict ) );
+        data.push( getOtherNatureRateForMajorDistrict( majordistrict ).toFixed( 3 ) );
     }
 
     return data; // Return the final data array
@@ -281,7 +350,7 @@ function getNatureDataForMajorDistrict( majordistrict ) {
  */
 function getNatureDataForCity( ) {
 
-    let data = [ 0.31823489079358713 ]; // Initialize the data array with default city value
+    let data = [ 0.318 ]; // Initialize the data array with default city value
 
     // Check if the "showVegetationToggle" checkbox is checked
     if ( document.getElementById( "showVegetationToggle" ).checked ) {
@@ -359,7 +428,7 @@ function getBuiltDataForMajorDistrict( majordistrict ) {
 
 	switch ( majordistrict ) {
 		case '1': 
-			return [ 0.349867715135235 ];
+			return [ 0.350254736944013 ];
 		case '2': 
 			return [ 0.228948474124779 ];
 		case '3': 
@@ -378,3 +447,34 @@ function getBuiltDataForMajorDistrict( majordistrict ) {
 			return majordistrict;  				
 	}
 }
+
+
+/**
+ * Get landcover data array for a specific major district
+ * 
+ * @param { string } majordistrict - Major district code
+ * @returns { Array } Data array for the specified major district
+ */
+function getLandDataForMajorDistrict( majordistrict ) {
+
+	switch ( majordistrict ) {
+        case '1':
+            return [ 18.06, 13.65, 0.44, 0.09, 34.39, 35.03 ]; 
+        case '2':
+            return [ 31.92, 21.07, 1.15, 1.03, 22.32, 22.89 ]; 
+        case '3':
+            return [ 18.79, 13.45, 0.57, 0.01, 34.96, 33.68 ]; 
+        case '4':
+            return [ 34.72, 21.33, 2.69, 11.72, 13.73, 16.40 ]; 
+        case '5':
+            return [ 23.71, 23.59, 2.11, 8.64, 22.11, 21.14 ]; 
+        case '6':
+            return [ 42.95, 19.69, 0.97, 1.26, 26.85, 14.75 ];
+        case '7':
+            return [ 30.70, 21.52, 0.60, 0.92, 28.23, 18.62 ];
+        case '8':
+            return [ 53.11, 19.96, 1.05, 13.72, 10.42, 3.08 ];      
+		default:
+			return majordistrict;  				
+	}
+} 

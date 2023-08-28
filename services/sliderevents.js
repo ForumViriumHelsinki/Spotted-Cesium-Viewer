@@ -272,7 +272,6 @@ function showBuiltEvent( ) {
 
         } else {
 
-            createBuiltBarPlot( majorDistrict._value );
             showDataSourceByName( "Built" );
         }
 

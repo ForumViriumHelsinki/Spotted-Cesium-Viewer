@@ -568,8 +568,6 @@
 				]
 			},
 			"properties" : {
-				"gml_parent_property" : "featureMembers",
-				"gml_id" : "Piirijako_suurpiiri.112865",
 				"id" : 112865,
 				"aluejako" : "SUURPIIRI",
 				"kunta" : "091",
@@ -578,9 +576,10 @@
 				"nimi_se" : "ÖSTRA",
 				"yhtmuokkauspvm" : "2015-11-06",
 				"yhtdatanomistaja" : "kmo",
-				"kokotunnus" : "0917000000",
 				"paivitetty_tietopalveluun" : "2023-07-10",
-				"datanomistaja" : "Helsinki/Kami"
+				"datanomistaja" : "Helsinki/Kami",
+				"asukasluku": 112853,
+				"maa_pinta_ala": 37.48
 			}
 		},
 		{
@@ -768,17 +767,16 @@
 				]
 			},
 			"properties" : {
-				"gml_parent_property" : "featureMembers",
-				"gml_id" : "Piirijako_suurpiiri.112859",
 				"id" : 112859,
 				"aluejako" : "SUURPIIRI",
 				"kunta" : "091",
 				"tunnus" : "1",
 				"nimi_fi" : "ETELÄINEN",
 				"nimi_se" : "SÖDRA",
-				"kokotunnus" : "0911000000",
 				"paivitetty_tietopalveluun" : "2023-07-10",
-				"datanomistaja" : "Helsinki/Kami"
+				"datanomistaja" : "Helsinki/Kami",
+				"asukasluku": 121157,
+				"maa_pinta_ala": 18.08
 			}
 		},
 		{
@@ -1431,17 +1429,16 @@
 				]
 			},
 			"properties" : {
-				"gml_parent_property" : "featureMembers",
-				"gml_id" : "Piirijako_suurpiiri.112860",
 				"id" : 112860,
 				"aluejako" : "SUURPIIRI",
 				"kunta" : "091",
 				"tunnus" : "2",
 				"nimi_fi" : "LÄNTINEN",
 				"nimi_se" : "VÄSTRA",
-				"kokotunnus" : "0912000000",
 				"paivitetty_tietopalveluun" : "2023-07-10",
-				"datanomistaja" : "Helsinki/Kami"
+				"datanomistaja" : "Helsinki/Kami",
+				"asukasluku": 112045,
+				"maa_pinta_ala": 30.54
 			}
 		},
 		{
@@ -1599,17 +1596,16 @@
 				]
 			},
 			"properties" : {
-				"gml_parent_property" : "featureMembers",
-				"gml_id" : "Piirijako_suurpiiri.112864",
 				"id" : 112864,
 				"aluejako" : "SUURPIIRI",
 				"kunta" : "091",
 				"tunnus" : "6",
 				"nimi_fi" : "KAAKKOINEN",
 				"nimi_se" : "SYDÖSTRA",
-				"kokotunnus" : "0916000000",
 				"paivitetty_tietopalveluun" : "2023-07-10",
-				"datanomistaja" : "Helsinki/Kami"
+				"datanomistaja" : "Helsinki/Kami",
+				"asukasluku" : 56728,
+				"maa_pinta_ala": 25.23
 			}
 		},
 		{
@@ -1943,8 +1939,6 @@
 				]
 			},
 			"properties" : {
-				"gml_parent_property" : "featureMembers",
-				"gml_id" : "Piirijako_suurpiiri.112861",
 				"id" : 112861,
 				"aluejako" : "SUURPIIRI",
 				"kunta" : "091",
@@ -1952,9 +1946,10 @@
 				"nimi_fi" : "KESKINEN",
 				"nimi_se" : "MELLERSTA",
 				"yhtmuokkauspvm" : "2021-11-11",
-				"kokotunnus" : "0913000000",
 				"paivitetty_tietopalveluun" : "2023-07-10",
-				"datanomistaja" : "Helsinki/Kami"
+				"datanomistaja" : "Helsinki/Kami",
+				"asukasluku" : 98640,
+				"maa_pinta_ala": 15.79
 			}
 		},
 		{
@@ -2565,8 +2560,6 @@
 				]
 			},
 			"properties" : {
-				"gml_parent_property" : "featureMembers",
-				"gml_id" : "Piirijako_suurpiiri.112862",
 				"id" : 112862,
 				"aluejako" : "SUURPIIRI",
 				"kunta" : "091",
@@ -2574,9 +2567,10 @@
 				"nimi_fi" : "POHJOINEN",
 				"nimi_se" : "NORRA",
 				"yhtmuokkauspvm" : "2021-01-14",
-				"kokotunnus" : "0914000000",
 				"paivitetty_tietopalveluun" : "2023-07-10",
-				"datanomistaja" : "Helsinki/Kami"
+				"datanomistaja" : "Helsinki/Kami",
+				"asukasluku" : 42973,
+				"maa_pinta_ala": 23.19
 			}
 		},
 		{
@@ -3679,17 +3673,16 @@
 				]
 			},
 			"properties" : {
-				"gml_parent_property" : "featureMembers",
-				"gml_id" : "Piirijako_suurpiiri.112863",
 				"id" : 112863,
 				"aluejako" : "SUURPIIRI",
 				"kunta" : "091",
 				"tunnus" : "5",
 				"nimi_fi" : "KOILLINEN",
 				"nimi_se" : "NORDÖSTRA",
-				"kokotunnus" : "0915000000",
 				"paivitetty_tietopalveluun" : "2023-07-10",
-				"datanomistaja" : "Helsinki/Kami"
+				"datanomistaja" : "Helsinki/Kami",
+				"asukasluku" : 99351,
+				"maa_pinta_ala": 36.41
 			}
 		},
 		{
@@ -4174,8 +4167,6 @@
 				]
 			},
 			"properties" : {
-				"gml_parent_property" : "featureMembers",
-				"gml_id" : "Piirijako_suurpiiri.112866",
 				"id" : 112866,
 				"aluejako" : "SUURPIIRI",
 				"kunta" : "091",
@@ -4184,9 +4175,10 @@
 				"nimi_se" : "ÖSTERSUNDOM",
 				"yhtmuokkauspvm" : "2015-11-06",
 				"yhtdatanomistaja" : "kmo",
-				"kokotunnus" : "0918000000",
 				"paivitetty_tietopalveluun" : "2023-07-10",
-				"datanomistaja" : "Helsinki/Kami"
+				"datanomistaja" : "Helsinki/Kami",
+				"asukasluku" : 1809,
+				"maa_pinta_ala" : 26.16
 			}
 		}
 	]

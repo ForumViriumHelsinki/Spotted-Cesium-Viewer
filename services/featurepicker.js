@@ -56,11 +56,7 @@ function addToPrint( toPrint, postno ) {
 
         toPrint = toPrint + "<br/><br/><i>Click on objects to retrieve information.</i>"
 
-    } else {
-
-        toPrint = toPrint + "<br/><br/><i>If average urban heat exposure of building is over 0.5 the nearest location with under 0.4 heat exposure is shown on map.</i>"
-
-    }
+    } 
 
     document.getElementById('printContainer').innerHTML = toPrint;
     document.getElementById('printContainer').scroll({
@@ -137,6 +133,7 @@ function handleFeatureWithProperties( id ) {
 
 
         districtName = String( id.properties.nimi_fi ).toLowerCase()
+        districtPopulation = id.properties.asukasluku;
         handlePostalCodeFeature( postalcode, id );
     }
 

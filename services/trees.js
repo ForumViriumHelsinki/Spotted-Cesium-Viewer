@@ -39,6 +39,7 @@ async function loadTreesSequentially( majordistrict ) {
     console.log('All function calls have completed');
 
 	createVegetationBarPlot( majordistrict._value );
+	createPieChartForMajorDistrict( majordistrict._value );
 
 
   } catch ( error ) {
