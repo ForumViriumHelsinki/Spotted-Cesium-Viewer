@@ -35,10 +35,7 @@ async function loadBuiltSequentially( majordistrict ) {
   }
   
 	  // Code to execute after all function calls complete
-	  console.log('All function calls have completed');
-  
-	  createBuiltBarPlot( majordistrict._value );
-  
+	  console.log('All function calls have completed');  
   
 	} catch ( error ) {
 	  // Handle any errors that occurred during the function calls

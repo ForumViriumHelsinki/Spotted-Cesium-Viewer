@@ -278,7 +278,6 @@ function showBuiltEvent( ) {
     } else {
 
         hideDataSourceByName( "Built" );
-        document.getElementById( 'plotBuiltContainer' ).style.visibility = 'hidden';
 
     }
 
