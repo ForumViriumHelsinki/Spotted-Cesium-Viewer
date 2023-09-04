@@ -38,7 +38,7 @@
 	position: fixed;
 	top: 90px;
 	left: 10px;
-	width: 400px;
+	width: 500px;
 	height: 300px; 
 	visibility: hidden;
 	
@@ -63,12 +63,12 @@
 	box-shadow: 3px 5px 5px black; 
 }
 
-#plotMaterialContainer
+#plotInhabitantContainer
 {
 	position: fixed;
 	bottom: 40px;
 	left: 10px;
-	width: 600px;
+	width: 500px;
 	height: 290px; 
 	visibility: hidden;
 	

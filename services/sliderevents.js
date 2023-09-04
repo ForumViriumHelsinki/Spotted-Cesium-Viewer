@@ -175,12 +175,14 @@ function showVegetationEvent( ) {
         } else {
 
             createVegetationBarPlot( majorDistrict._value );
+            createVegetationBarPlotPerInhabitant( majorDistrict._value );
             showDataSourceByName( "Vegetation" );
         }
 
     } else {
 
         createVegetationBarPlot( majorDistrict._value );
+        createVegetationBarPlotPerInhabitant( majorDistrict._value );
         hideDataSourceByName( "Vegetation" );
 
     }
@@ -210,6 +212,7 @@ function showWaterEvent( ) {
 
             showDataSourceByName( "Water" );
             createVegetationBarPlot( majorDistrict._value );
+            createVegetationBarPlotPerInhabitant( majorDistrict._value );
 
         }
 
@@ -217,6 +220,7 @@ function showWaterEvent( ) {
     } else {
 
         createVegetationBarPlot( majorDistrict._value );
+        createVegetationBarPlotPerInhabitant( majorDistrict._value );
         hideDataSourceByName( "Water" );
 
     }
@@ -242,12 +246,15 @@ function showOtherNatureEvent( ) {
         } else {
 
           //  createBuiltBarPlot( majorDistrict._value );
+            createVegetationBarPlot( majorDistrict._value );
+            createVegetationBarPlotPerInhabitant( majorDistrict._value );
             showDataSourceByName( "OtherNature" );
         }
 
     } else {
 
-       // createBuiltBarPlot( majorDistrict._value );
+        createVegetationBarPlot( majorDistrict._value );
+        createVegetationBarPlotPerInhabitant( majorDistrict._value );
         hideDataSourceByName( "OtherNature" );
 
     }
@@ -292,7 +299,7 @@ function showBuiltEvent( ) {
 */
 function getDataSourceByName( name ) {
     
-    return viewer.dataSources._dataSources.find( ds => ds.name === name );
+    return viewer.dataSources._dataSources.find( ds => ds.name === ds.name.startsWith( name ) );
 
 }
 

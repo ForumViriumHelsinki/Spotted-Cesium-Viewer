@@ -65,7 +65,7 @@ function addToPrint( toPrint, postno ) {
     });
 }
 
-function handlePostalCodeFeature( postcode, id ) {
+function handleMajorDistrictCodeFeature( majorDistrictCode, id ) {
 
     let bbox = findEntityBounds( id );
 			
@@ -83,7 +83,7 @@ function handlePostalCodeFeature( postcode, id ) {
         duration: 5
     });
             
-    loadMajorDistrict( postcode );
+    loadMajorDistrict( majorDistrictCode );
         
 }
 
@@ -115,7 +115,7 @@ function loadMajorDistrict( majordistrict ) {
 
     loadTreesSequentially( majordistrict );		
 
-    loadPostCodeZones( 0.0 );
+    loadMajorDistrictZones( 0.0 );
 
 }
 
@@ -126,15 +126,15 @@ function loadMajorDistrict( majordistrict ) {
  */
 function handleFeatureWithProperties( id ) {                
     
-    postalcode = id.properties.tunnus;
+    majorDistrictCode = id.properties.tunnus;
 
     //If we find postal code, we assume this is an area & zoom in AND load the buildings for it.
-    if ( postalcode ) {
-
+    if ( majorDistrictCode ) {
 
         districtName = String( id.properties.nimi_fi ).toLowerCase()
         districtPopulation = id.properties.asukasluku;
-        handlePostalCodeFeature( postalcode, id );
+        handleMajorDistrictCodeFeature( majorDistrictCode, id );
+
     }
 
 }
@@ -182,12 +182,17 @@ function hidePlotlyIfNatureFeatureIsClicked( category ) {
     if ( category ) {
 
         document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
+        document.getElementById( 'plotBuiltContainer' ).style.visibility = 'hidden';
+        document.getElementById( 'plotInhabitantContainer' ).style.visibility = 'hidden';
+
 
     } else {
 
         if ( document.getElementById( "showPlotToggle" ).checked ) {
 
             document.getElementById( 'plotContainer' ).style.visibility = 'visible';
+            document.getElementById( 'plotBuiltContainer' ).style.visibility = 'visible';
+            document.getElementById( 'plotInhabitantContainer' ).style.visibility = 'visible';
 
         }
 

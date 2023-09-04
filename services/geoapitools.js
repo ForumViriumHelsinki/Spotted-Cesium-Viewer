@@ -20,9 +20,9 @@ function reset( ) {
     removeDataSourcesAndEntities();
     resetViewer( );
     resetSwitches( );
-    postalcode = null;
-    // Load post code zones & energy availability tags
-	loadPostCodeZones( 0.2 );
+    majorDistrictCode = null;
+    // Load major district zones
+	loadMajorDistrictZones( 0.2 );
 	
 	document.getElementById( 'printContainer' ).innerHTML =  "<i>Please click on a majordistrict area to load building and nature areas from the PyGeo server...</i>";
 
@@ -84,23 +84,23 @@ function resetViewer( ) {
 }
 
 /**
- * Loads postal code zone polygons with the given opacity
+ * Loads major district zone polygons with the given opacity
  * 
  * @param {number} opacity - The opacity of the polygons (range from 0 to 1)
  */
-function loadPostCodeZones( opacity ) {
-    // Load postal code zones
-    const HKIPostCodesURL = 'assets/data/spotted_major_district.geojson';
-	console.log( "Loading: " + HKIPostCodesURL );
+function loadMajorDistrictZones( opacity ) {
+    // Load major district code zones
+    const HKIMajorDistrictURL = 'assets/data/spotted_major_district.geojson';
+	console.log( "Loading: " + HKIMajorDistrictURL );
 	
-	let promisePostCodes = Cesium.GeoJsonDataSource.load( HKIPostCodesURL, {
+	let promisePostCodes = Cesium.GeoJsonDataSource.load( HKIMajorDistrictURL, {
   		stroke: Cesium.Color.BLACK,
   		fill: new Cesium.Color( 0.3, 0.3, 0.3, opacity ),
   		strokeWidth: 8,
 		clampToGround: false
 	})
 	.then( function ( dataSource ) {
-        dataSource.name = "PostCodes";
+        dataSource.name = "MajorDistricts";
 		viewer.dataSources.add( dataSource );
 		let entities = dataSource.entities.values;
 	})	
@@ -198,18 +198,11 @@ function getSelectedText( elementId ) {
 function showAllPlots( ) {
 
     document.getElementById( 'plotContainer' ).style.visibility = 'visible';
+    document.getElementById( 'plotBuiltContainer' ).style.visibility = 'visible';
+    document.getElementById( 'plotInhabitantContainer' ).style.visibility = 'visible';
 
 }
 
-/**
- * Hides all plots and select elements
- * 
- * */
-function hideAllPlots( ) {
-
-    document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
-
-}
 
 /**
  * Hides all plots and select elements
@@ -219,6 +212,7 @@ function hideAllPlots( ) {
 
     document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
     document.getElementById( 'plotBuiltContainer' ).style.visibility = 'hidden';
+    document.getElementById( 'plotInhabitantContainer' ).style.visibility = 'hidden';
 
 }
 

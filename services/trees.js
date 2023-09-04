@@ -6,40 +6,40 @@
  * @returns { Promise<void> } Promise that resolves when all function calls complete.
  */
 async function loadTreesSequentially( majordistrict ) {
-  try {
+	
+	try {
 
-	let i = 0;
+		let i = 0;
 
-	while ( true ) {
+		while ( true ) {
 
-		if ( i > 10000 ) {
+			if ( i > 10000 ) {
 		
-			await loadTrees( majordistrict, i, 300000 );
-			break; // Exit the loop when i is over 10000
+				await loadTrees( majordistrict, i, 300000 );
+				break; // Exit the loop when i is over 10000
 
-	  	} else {
+	  		} else {
 			
-			if ( i > 1000 ) {
+				if ( i > 1000 ) {
 
-				await loadTrees( majordistrict, i, i + 100 );
-				i = i + 100;
+					await loadTrees( majordistrict, i, i + 100 );
+					i = i + 100;
 
-		} else {
+				} else {
 
-			await loadTrees( majordistrict, i, i + 1000 );
-			i = i + 1000;
-
-
+					await loadTrees( majordistrict, i, i + 1000 );
+					i = i + 1000;
+			
+				}
+			}
 		}
-
-	}
-}
 
     // Code to execute after all function calls complete
     console.log('All function calls have completed');
 
 	createVegetationBarPlot( majordistrict._value );
 	createPieChartForMajorDistrict( majordistrict._value );
+	createVegetationBarPlotPerInhabitant( majordistrict._value );
 
 
   } catch ( error ) {
@@ -167,5 +167,32 @@ function setTreePolygonMaterialColor( entity, code ) {
 			entity.polygon.material = Cesium.Color.FORESTGREEN.withAlpha( 0.5 );
             entity.polygon.extrudedHeight = 6;
 		}	
+
+}
+
+/**
+ * Counts the total area of all tree datasources
+ * 
+ * @returns { Number } Tree area in square meters
+ */
+function countTreeArea( ) {
+
+	let totalTreeArea = 0;
+	
+    viewer.dataSources._dataSources.forEach( function( dataSource ) {
+        if ( dataSource.name.startsWith( "Trees" ) ) {
+
+			for ( let i = 0; i < dataSource._entityCollection._entities._array.length; i++ ) {
+
+                const entityArea = dataSource._entityCollection._entities._array[ i ]._properties._area_m2._value;
+				totalTreeArea = totalTreeArea + entityArea;
+                                                     
+            }
+        }
+    });
+
+	console.log( "totalTreeArea", totalTreeArea ); 
+
+	return totalTreeArea;
 
 }
