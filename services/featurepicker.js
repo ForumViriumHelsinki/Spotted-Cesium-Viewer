@@ -115,7 +115,7 @@ function loadMajorDistrict( majordistrict ) {
 
     loadTreesSequentially( majordistrict );		
 
-    loadMajorDistrictZones( 0.0 );
+    loadMajorDistrictZones( 0.0, 'assets/data/HelsinkiDistrict.json', 'Districts' );
 
 }
 

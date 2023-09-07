@@ -22,7 +22,7 @@ function reset( ) {
     resetSwitches( );
     majorDistrictCode = null;
     // Load major district zones
-	loadMajorDistrictZones( 0.2 );
+	loadMajorDistrictZones( 0.2, 'assets/data/spotted_major_district.geojson', 'MajorDistricts' );
 	
 	document.getElementById( 'printContainer' ).innerHTML =  "<i>Please click on a majordistrict area to load building and nature areas from the PyGeo server...</i>";
 
@@ -88,9 +88,9 @@ function resetViewer( ) {
  * 
  * @param {number} opacity - The opacity of the polygons (range from 0 to 1)
  */
-function loadMajorDistrictZones( opacity ) {
+function loadMajorDistrictZones( opacity, url, name  ) {
     // Load major district code zones
-    const HKIMajorDistrictURL = 'assets/data/spotted_major_district.geojson';
+    const HKIMajorDistrictURL = url;
 	console.log( "Loading: " + HKIMajorDistrictURL );
 	
 	let promisePostCodes = Cesium.GeoJsonDataSource.load( HKIMajorDistrictURL, {
@@ -100,7 +100,7 @@ function loadMajorDistrictZones( opacity ) {
 		clampToGround: false
 	})
 	.then( function ( dataSource ) {
-        dataSource.name = "MajorDistricts";
+        dataSource.name = name;
 		viewer.dataSources.add( dataSource );
 		let entities = dataSource.entities.values;
 	})	

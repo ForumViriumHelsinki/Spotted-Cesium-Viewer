@@ -161,7 +161,7 @@
     });
     
     // Load post code zones & energy data availability tags
-	loadMajorDistrictZones(0.2);
+	loadMajorDistrictZones( 0.2, 'assets/data/spotted_major_district.geojson', 'MajorDistricts' );
     
 	//Experimental scripts for playing around with the objects, and retrieving their information...
 	document.getElementById("cesiumContainer").addEventListener("click", function() { processClick( viewer, event ) });
