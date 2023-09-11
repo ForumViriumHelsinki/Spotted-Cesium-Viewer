@@ -22,7 +22,7 @@ function reset( ) {
     resetSwitches( );
     majorDistrictCode = null;
     // Load major district zones
-	loadMajorDistrictZones( 0.2, 'assets/data/spotted_major_district.geojson', 'MajorDistricts' );
+	loadMajorDistrictZones( 0.2, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
 	
 	document.getElementById( 'printContainer' ).innerHTML =  "<i>Please click on a majordistrict area to load building and nature areas from the PyGeo server...</i>";
 
@@ -66,6 +66,36 @@ function removeDataSourcesAndEntities( ) {
     viewer.dataSources.removeAll( );
     viewer.entities.removeAll( );
 
+}
+
+/**
+ * Removes all data sources and entities from the viewer except 'MajorDistricts'
+ */
+function removeDataSourcesAndEntitiesExceptMajorDistricts( ) {
+    const dataSourceNameToKeep = 'MajorDistricts';
+
+    // Get a list of data sources
+    const dataSources = viewer.dataSources.get( 0, viewer.dataSources.length );
+
+    // Iterate through the data sources and remove those with a different name
+    for ( let i = 0; i < dataSources.length; i++ ) {
+
+        const dataSource = dataSources.get( i );
+
+        if ( dataSource.name !== dataSourceNameToKeep ) {
+
+            viewer.dataSources.remove( dataSource, true );
+        }
+    }
+
+    // Remove all entities except when the data source name is 'MajorDistricts'
+    viewer.entities.values.forEach( function ( entity ) {
+        if ( entity.dataSource && entity.dataSource.name !== dataSourceNameToKeep ) {
+
+            viewer.entities.remove( entity );
+
+        }
+    });
 }
 
 /**

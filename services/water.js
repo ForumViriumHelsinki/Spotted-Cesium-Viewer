@@ -60,6 +60,7 @@
 		  for ( let i = 0; i < entities.length; i++ ) {
 			  
 			  let entity = entities[ i ];
+			  entity.polygon.pickable = false;
               entity.polygon.material = Cesium.Color.DEEPSKYBLUE.withAlpha( 0.5 );
 
 		  }

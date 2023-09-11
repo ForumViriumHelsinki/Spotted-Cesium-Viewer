@@ -65,29 +65,7 @@ function addToPrint( toPrint, postno ) {
     });
 }
 
-function handleMajorDistrictCodeFeature( majorDistrictCode, id ) {
-
-    let bbox = findEntityBounds( id );
-			
-    let buffer = 0.000005 //Buffer for bounding box, somewhat complex as in radians...
-
-    let rectangle = new Cesium.Rectangle( bbox[2] - buffer, bbox[ 0 ] - buffer, bbox[ 3 ] + buffer, bbox[ 1 ] + buffer );
-
-    viewer.camera.flyTo({
-        destination: rectangle,
-        orientation:  {
-            heading : Cesium.Math.toRadians(0.0),
-            pitch : Cesium.Math.toRadians(-90.0),
-            roll : 0.0
-        },
-        duration: 5
-    });
-            
-    loadMajorDistrict( majorDistrictCode );
-        
-}
-
-function loadMajorDistrict( majordistrict ) {
+async function loadMajorDistrict( majordistrict ) {
 
     majorDistrict = majordistrict;
 
@@ -105,7 +83,7 @@ function loadMajorDistrict( majordistrict ) {
 
     console.log("Postal code area found!");
 
-    removeDataSourcesAndEntities();
+    removeDataSourcesAndEntitiesExceptMajorDistricts();
     
     if ( showVegetation ) {
         
@@ -113,7 +91,7 @@ function loadMajorDistrict( majordistrict ) {
     
     }
 
-    loadTreesSequentially( majordistrict );		
+    await loadTreesSequentially( majordistrict );		
 
     loadMajorDistrictZones( 0.0, 'assets/data/HelsinkiDistrict.json', 'Districts' );
 
@@ -131,9 +109,10 @@ function handleFeatureWithProperties( id ) {
     //If we find postal code, we assume this is an area & zoom in AND load the buildings for it.
     if ( majorDistrictCode ) {
 
-        districtName = String( id.properties.nimi_fi ).toLowerCase()
+        districtName = String( id.properties.nimi_fi )
         districtPopulation = id.properties.asukasluku;
-        handleMajorDistrictCodeFeature( majorDistrictCode, id );
+        districtArea = id.properties.pa_m2;
+        loadMajorDistrict( majorDistrictCode );
 
     }
 

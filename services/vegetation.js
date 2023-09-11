@@ -109,6 +109,7 @@ async function loadVegetationSequentially( majordistrict ) {
 		  for ( let i = 0; i < entities.length; i++ ) {
 			  
 			  let entity = entities[ i ];
+			  entity.polygon.pickable = false;
 			  entity.polygon.extrudedHeight = 0.1;
 			  entity.polygon.material = Cesium.Color.LIGHTGREEN.withAlpha( 0.5 );	
 		  }

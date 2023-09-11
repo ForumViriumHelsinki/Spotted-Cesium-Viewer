@@ -59,6 +59,7 @@ function addFieldsDataSource( data ) {
       for ( let i = 0; i < entities.length; i++ ) {
           
           let entity = entities[ i ];
+          entity.polygon.pickable = false;
           entity.polygon.extrudedHeight = 0.5;
           entity.polygon.material = Cesium.Color.GREENYELLOW.withAlpha( 0.5 );
       }

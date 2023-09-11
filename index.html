@@ -16,6 +16,8 @@
   <script type="text/javascript" src="services/plots.js"></script>
   <script type="text/javascript" src="services/selectevents.js"></script>
   <script type="text/javascript" src="services/built.js"></script>
+  <script type="text/javascript" src="services/district.js"></script>
+  <script type="text/javascript" src="services/datasource.js"></script>
   <script src="lib/localforage/dist/localforage.js"></script>
   <script src="lib/plotly-2.12.1.min.js"></script>
   <link href="lib/Cesium/Widgets/widgets.css" rel="stylesheet">
@@ -124,6 +126,7 @@
     var majorDistrict = null;
     var districtName = null;
     var districtPopulation = null;
+    var districtArea = null;
 
 	// OS version, operating without Cesium Ion services...
     Cesium.Ion.defaultAccessToken = null;
@@ -161,7 +164,7 @@
     });
     
     // Load post code zones & energy data availability tags
-	loadMajorDistrictZones( 0.2, 'assets/data/spotted_major_district.geojson', 'MajorDistricts' );
+	loadMajorDistrictZones( 0.2, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
     
 	//Experimental scripts for playing around with the objects, and retrieving their information...
 	document.getElementById("cesiumContainer").addEventListener("click", function() { processClick( viewer, event ) });
