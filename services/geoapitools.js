@@ -22,7 +22,7 @@ function reset( ) {
     resetSwitches( );
     majorDistrictCode = null;
     // Load major district zones
-	loadMajorDistrictZones( 0.2, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
+	loadDistrictZones( 0.2, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
 	
 	document.getElementById( 'printContainer' ).innerHTML =  "<i>Please click on a majordistrict area to load building and nature areas from the PyGeo server...</i>";
 
@@ -114,11 +114,11 @@ function resetViewer( ) {
 }
 
 /**
- * Loads major district zone polygons with the given opacity
+ * Loads district zone polygons with the given opacity
  * 
  * @param {number} opacity - The opacity of the polygons (range from 0 to 1)
  */
-function loadMajorDistrictZones( opacity, url, name  ) {
+function loadDistrictZones( opacity, url, name  ) {
     // Load major district code zones
     const HKIMajorDistrictURL = url;
 	console.log( "Loading: " + HKIMajorDistrictURL );

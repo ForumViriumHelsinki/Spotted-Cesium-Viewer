@@ -198,30 +198,30 @@ function createVegetationBarPlotPerInhabitant( majordistrict ) {
  */
 function getNatureDataForMajorDistrict( majordistrict ) {
 
-    let data = [ ( getTotalAreaByNameAndIdAndPropertyKeys( "MajorDistricts", majordistrict, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / districtArea ).toFixed( 3 ) ]; // Initialize the data array with tree rate
+    let data = [ ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / districtArea ).toFixed( 3 ) ]; // Initialize the data array with tree rate
 
     // Check if the "showVegetationToggle" checkbox is checked
     if ( document.getElementById( "showVegetationToggle" ).checked ) {
         // If checked, add vegetation rate to the data array
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( 'MajorDistricts', majordistrict, [ 'vegetation_m2' ] ) / districtArea ).toFixed( 3 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'vegetation_m2' ] ) / districtArea ).toFixed( 3 ) );
     }
 
     // Check if the "showWaterToggle" checkbox is checked
     if ( document.getElementById( "showWaterToggle" ).checked ) {
         // If checked, add water rate to the data array
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( 'MajorDistricts', majordistrict, [ 'water_m2' ] ) / districtArea ).toFixed( 3 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'water_m2' ] ) / districtArea ).toFixed( 3 ) );
     }
 
     // Check if the "showFieldsToggle" checkbox is checked
     if ( document.getElementById( "showFieldsToggle").checked ) {
         // If checked, add fields rate to the data array
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( 'MajorDistricts', majordistrict, [ 'field_m2' ] ) / districtArea ).toFixed( 3 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'field_m2' ] ) / districtArea ).toFixed( 3 ) );
     }
 
     // Check if the "showOtherNatureToggle" checkbox is checked
     if ( document.getElementById( "showOtherNatureToggle").checked ) {
         // If checked, add fields rate to the data array
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( 'MajorDistricts', majordistrict, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / districtArea ).toFixed( 3 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / districtArea ).toFixed( 3 ) );
     }
 
     return data; // Return the final data array
@@ -235,32 +235,32 @@ function getNatureDataForMajorDistrict( majordistrict ) {
  */
 function getNatureDataForCity( ) {
 
-    const helsinkiTotalLandArea = getCityTotalByNameAndProperty( 'MajorDistricts', 'pa_m2' );
+    const helsinkiTotalLandArea = getCityTotalByNameAndProperty( level, 'pa_m2' );
 
-    let data = [ ( getTotalAreaByNameAndPropertyKeys( 'MajorDistricts', [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) /  helsinkiTotalLandArea ).toFixed( 1 ) ]; // Initialize the data array with default city value
+    let data = [ ( getTotalAreaByNameAndPropertyKeys( level, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) /  helsinkiTotalLandArea ).toFixed( 1 ) ]; // Initialize the data array with default city value
 
     // Check if the "showVegetationToggle" checkbox is checked
     if ( document.getElementById( "showVegetationToggle" ).checked ) {
         // If checked, add vegetation rate to the data array
-        data.push( ( getTotalAreaByNameAndPropertyKeys( 'MajorDistricts', [ 'vegetation_m2' ] ) /  helsinkiTotalLandArea ).toFixed( 1 )) ;
+        data.push( ( getTotalAreaByNameAndPropertyKeys( level, [ 'vegetation_m2' ] ) /  helsinkiTotalLandArea ).toFixed( 1 )) ;
     }
 
     // Check if the "showWaterToggle" checkbox is checked
     if ( document.getElementById( "showWaterToggle").checked ) {
         // If checked, add water rate to the data array
-        data.push( ( getTotalAreaByNameAndPropertyKeys( 'MajorDistricts', [ 'water_m2' ] ) /  helsinkiTotalLandArea ).toFixed( 1 )) ;
+        data.push( ( getTotalAreaByNameAndPropertyKeys( level, [ 'water_m2' ] ) /  helsinkiTotalLandArea ).toFixed( 1 )) ;
     }
 
     // Check if the "showFieldsToggle" checkbox is checked
     if ( document.getElementById( "showFieldsToggle" ).checked ) {
         // If checked, add fields rate to the data array
-        data.push( ( getTotalAreaByNameAndPropertyKeys( 'MajorDistricts', [ 'field_m2' ] ) /  helsinkiTotalLandArea ).toFixed( 1 )) ;
+        data.push( ( getTotalAreaByNameAndPropertyKeys( level, [ 'field_m2' ] ) /  helsinkiTotalLandArea ).toFixed( 1 )) ;
     }
 
     // Check if the "showOtherNatureToggle" checkbox is checked
     if ( document.getElementById( "showOtherNatureToggle").checked ) {
         // If checked, add fields rate to the data array
-        data.push( ( getTotalAreaByNameAndPropertyKeys( 'MajorDistricts', [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) /  helsinkiTotalLandArea ).toFixed( 1 )) ;
+        data.push( ( getTotalAreaByNameAndPropertyKeys( level, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) /  helsinkiTotalLandArea ).toFixed( 1 )) ;
     }
 
     return data; // Return the final data array
@@ -276,35 +276,35 @@ function getNatureDataForCity( ) {
  */
 function getNatureDataPerInhabitantForMajorDistrict( majordistrict ) {
 
-    const treeAreaPerInhabitant = ( getTotalAreaByNameAndIdAndPropertyKeys( 'MajorDistricts', majordistrict, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / districtPopulation ).toFixed( 1 );
+    const treeAreaPerInhabitant = ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / districtPopulation ).toFixed( 1 );
 
     let data = [ treeAreaPerInhabitant ]; // Initialize the data array with treeAreaPerInhabitant
 
      // Check if the "showVegetationToggle" checkbox is checked
     if ( document.getElementById( "showVegetationToggle" ).checked ) {
 
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( 'MajorDistricts', majordistrict, [ 'vegetation_m2' ] ) / districtPopulation ).toFixed( 1 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'vegetation_m2' ] ) / districtPopulation ).toFixed( 1 ) );
 
     }
 
     // Check if the "showWaterToggle" checkbox is checked
     if ( document.getElementById( "showWaterToggle" ).checked ) {
 
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( 'MajorDistricts', majordistrict, [ 'water_m2' ] ) / districtPopulation ).toFixed( 1 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'water_m2' ] ) / districtPopulation ).toFixed( 1 ) );
     
     }
 
     // Check if the "showFieldsToggle" checkbox is checked
     if ( document.getElementById( "showFieldsToggle" ).checked ) {
 
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( 'MajorDistricts', majordistrict, [ 'field_m2' ] ) / districtPopulation ).toFixed( 1 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'field_m2' ] ) / districtPopulation ).toFixed( 1 ) );
 
     }
     
     // Check if the "showOtherNatureToggle" checkbox is checked
     if ( document.getElementById( "showOtherNatureToggle").checked ) {
 
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( 'MajorDistricts', majordistrict, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / districtPopulation ).toFixed( 1 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / districtPopulation ).toFixed( 1 ) );
 
     }
 
@@ -319,36 +319,36 @@ function getNatureDataPerInhabitantForMajorDistrict( majordistrict ) {
  */
 function getNatureDataPerInhabitantForCity( ) {
 
-    const helsinkiPopulation = getCityTotalByNameAndProperty( 'MajorDistricts', 'asukasluku' );
+    const helsinkiPopulation = getCityTotalByNameAndProperty( level, 'asukasluku' );
 
-    const treeAreaPerInhabitant = ( getTotalAreaByNameAndPropertyKeys( 'MajorDistricts', [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / helsinkiPopulation ).toFixed( 3 );
+    const treeAreaPerInhabitant = ( getTotalAreaByNameAndPropertyKeys( level, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / helsinkiPopulation ).toFixed( 3 );
     let data = [ treeAreaPerInhabitant ]; // Initialize the data array with treeAreaPerInhabitant
 
     // Check if the "showVegetationToggle" checkbox is checked
     if ( document.getElementById( "showVegetationToggle" ).checked ) {
     
-        data.push( ( getTotalAreaByNameAndPropertyKeys( 'MajorDistricts', [ 'vegetation_m2' ] ) / helsinkiPopulation ).toFixed( 3 ) ) ;
+        data.push( ( getTotalAreaByNameAndPropertyKeys( level, [ 'vegetation_m2' ] ) / helsinkiPopulation ).toFixed( 3 ) ) ;
 
     }
 
     // Check if the "showWaterToggle" checkbox is checked
     if ( document.getElementById( "showWaterToggle" ).checked ) {
 
-        data.push( ( getTotalAreaByNameAndPropertyKeys( 'MajorDistricts', [ 'water_m2' ] ) / helsinkiPopulation ).toFixed( 3 ) ) ;
+        data.push( ( getTotalAreaByNameAndPropertyKeys( level, [ 'water_m2' ] ) / helsinkiPopulation ).toFixed( 3 ) ) ;
     
     }   
     
     // Check if the "showFieldsToggle" checkbox is checked
     if ( document.getElementById( "showFieldsToggle" ).checked ) {
 
-        data.push( ( getTotalAreaByNameAndPropertyKeys( 'MajorDistricts', [ 'field_m2' ] ) / helsinkiPopulation ).toFixed( 3 ) ) ;
+        data.push( ( getTotalAreaByNameAndPropertyKeys( level, [ 'field_m2' ] ) / helsinkiPopulation ).toFixed( 3 ) ) ;
 
     }
     
     // Check if the "showOtherNatureToggle" checkbox is checked
     if ( document.getElementById( "showOtherNatureToggle").checked ) {
 
-        data.push( ( getTotalAreaByNameAndPropertyKeys( 'MajorDistricts', [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / helsinkiPopulation ).toFixed( 3 ) ) ;
+        data.push( ( getTotalAreaByNameAndPropertyKeys( level, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / helsinkiPopulation ).toFixed( 3 ) ) ;
 
     }    
 
@@ -433,12 +433,12 @@ function getBuiltDataForMajorDistrict( majordistrict ) {
  */
 function getLandDataForMajorDistrict( majordistrict ) {
 
-    const trees = ( getTotalAreaByNameAndIdAndPropertyKeys( 'MajorDistricts', majordistrict, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
-    const vegetation = ( getTotalAreaByNameAndIdAndPropertyKeys( 'MajorDistricts', majordistrict, [ 'vegetation_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
-    const water = ( getTotalAreaByNameAndIdAndPropertyKeys( 'MajorDistricts', majordistrict, [ 'water_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
-    const fields = ( getTotalAreaByNameAndIdAndPropertyKeys( 'MajorDistricts', majordistrict, [ 'field_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
-    const other = ( getTotalAreaByNameAndIdAndPropertyKeys( 'MajorDistricts', majordistrict, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
-    const built = ( getTotalAreaByNameAndIdAndPropertyKeys( 'MajorDistricts', majordistrict, [  'dirtroad_m2', 'pavedroad_m2', 'building_m2'  ] ) / districtArea ).toFixed( 3 ) * 100;
+    const trees = ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
+    const vegetation = ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'vegetation_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
+    const water = ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'water_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
+    const fields = ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'field_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
+    const other = ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
+    const built = ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [  'dirtroad_m2', 'pavedroad_m2', 'building_m2'  ] ) / districtArea ).toFixed( 3 ) * 100;
 
     return [ trees, vegetation, water, fields, other, built ];
 
@@ -451,14 +451,14 @@ function getLandDataForMajorDistrict( majordistrict ) {
  */
 function getLandDataForCity( ) {
 
-    const helsinkiTotalLandArea = getCityTotalByNameAndProperty( 'MajorDistricts', 'pa_m2' );
+    const helsinkiTotalLandArea = getCityTotalByNameAndProperty( level, 'pa_m2' );
 
-    const trees = ( getTotalAreaByNameAndPropertyKeys( 'MajorDistricts', [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
-    const vegetation = ( getTotalAreaByNameAndPropertyKeys( 'MajorDistricts', [ 'vegetation_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
-    const water = ( getTotalAreaByNameAndPropertyKeys( 'MajorDistricts', [ 'water_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
-    const fields = ( getTotalAreaByNameAndPropertyKeys( 'MajorDistricts', [ 'field_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
-    const other = ( getTotalAreaByNameAndPropertyKeys( 'MajorDistricts', [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
-    const built = ( getTotalAreaByNameAndPropertyKeys( 'MajorDistricts', [ 'dirtroad_m2', 'pavedroad_m2', 'building_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
+    const trees = ( getTotalAreaByNameAndPropertyKeys( level, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
+    const vegetation = ( getTotalAreaByNameAndPropertyKeys( level, [ 'vegetation_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
+    const water = ( getTotalAreaByNameAndPropertyKeys( level, [ 'water_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
+    const fields = ( getTotalAreaByNameAndPropertyKeys( level, [ 'field_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
+    const other = ( getTotalAreaByNameAndPropertyKeys( level, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
+    const built = ( getTotalAreaByNameAndPropertyKeys( level, [ 'dirtroad_m2', 'pavedroad_m2', 'building_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
 
     return [ trees, vegetation, water, fields, other, built ];
 

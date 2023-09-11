@@ -48,3 +48,19 @@ function showDataSourceByName( name ) {
         }
     });
 }
+
+/**
+ * Removes the data source named 'MajorDistricts' from the Cesium viewer
+ * 
+ */
+function removeMajorDistrictDataSource( ) {
+    // Find the data source named 'MajorDistricts' in the viewer
+    const majorDistrictsDataSource = viewer.dataSources.getByName( 'MajorDistricts' );
+
+    // If the data source is found, remove it
+    if ( majorDistrictsDataSource ) {
+
+        viewer.dataSources.remove( majorDistrictsDataSource, true );    
+
+    }
+}

@@ -65,7 +65,7 @@ function addToPrint( toPrint, postno ) {
     });
 }
 
-async function loadMajorDistrict( majordistrict ) {
+function loadMajorDistrict( majordistrict ) {
 
     majorDistrict = majordistrict;
 
@@ -84,25 +84,45 @@ async function loadMajorDistrict( majordistrict ) {
     console.log("Postal code area found!");
 
     removeDataSourcesAndEntitiesExceptMajorDistricts();
-    
+    loadDistrictZones( 0.2, 'assets/data/HelsinkiDistrict.json', 'Districts' );
+
     if ( showVegetation ) {
         
         loadNatureAreas( majordistrict );
     
     }
 
-    await loadTreesSequentially( majordistrict );		
+    loadTreesSequentially( majordistrict );		
 
-    loadMajorDistrictZones( 0.0, 'assets/data/HelsinkiDistrict.json', 'Districts' );
 
 }
 
 /**
- * Handles the feature with properties
+ * Handles major district feature
  * 
  * @param {Object} id - The ID of the picked entity
  */
-function handleFeatureWithProperties( id ) {                
+function handleMajorDistrict( id ) {                
+    
+    majorDistrictCode = id.properties.tunnus;
+
+    if ( majorDistrictCode ) {
+
+        districtName = String( id.properties.nimi_fi )
+        districtPopulation = id.properties.asukasluku;
+        districtArea = id.properties.pa_m2;
+        loadMajorDistrict( majorDistrictCode );
+
+    }
+
+}
+
+/**
+ * Handles district feature
+ * 
+ * @param {Object} id - The ID of the picked entity
+ */
+function loadDistrict( id ) {                
     
     majorDistrictCode = id.properties.tunnus;
 
@@ -112,7 +132,23 @@ function handleFeatureWithProperties( id ) {
         districtName = String( id.properties.nimi_fi )
         districtPopulation = id.properties.asukasluku;
         districtArea = id.properties.pa_m2;
-        loadMajorDistrict( majorDistrictCode );
+
+        majorDistrict = majorDistrictCode;
+
+        document.getElementById( "showWaterToggle" ).disabled = false;
+        document.getElementById( "showVegetationToggle" ).disabled = false;
+        document.getElementById( "showFieldsToggle" ).disabled = false;
+        document.getElementById( "showOtherNatureToggle" ).disabled = false;
+        document.getElementById( "showBuiltToggle" ).disabled = false;
+    
+        if ( document.getElementById( "printToggle" ).checked ) {
+    
+            setPrintVisible( );
+    
+        }
+        
+        loadDistrictZones( 0.0, 'assets/data/HelsinkiDistrict.json', 'Districts' );
+
 
     }
 
@@ -131,22 +167,25 @@ function pickEntity( viewer, windowPosition ) {
     console.log("picked", picked)
     
     if ( picked ) {
-        
-        let id = Cesium.defaultValue( picked.id, picked.primitive.id );
-        
+                
         if ( picked.id._polygon ) {
             
-            if ( id instanceof Cesium.Entity ) {
-                
-                printCesiumEntity( picked , id );
-            }
-            
-            if ( picked.id.properties ) {
+            if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Eteläinen' ) {
 
-                hidePlotlyIfNatureFeatureIsClicked( picked.id.properties.category );
-                handleFeatureWithProperties( picked.id );
+                level = 'MajorDistricts';
                 
             }
+
+            if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vironniemi' ) {
+
+                level = 'Districts';
+                
+            }
+
+            hidePlotlyIfNatureFeatureIsClicked( picked.id.properties.category );
+            handleMajorDistrict( picked.id );
+            console.log("level", level)
+
         }
     }
 }
