@@ -1,4 +1,17 @@
 /**
+ * Calls all other diagram functions
+ *
+ * @param { object } district  district code
+ */
+function createDiagrams( district ) {
+
+    createPieChartForMajorDistrict( district );
+    createVegetationBarPlot( district );
+    createVegetationBarPlotPerInhabitant( district );
+    console.log( "district", district );
+}
+
+/**
  * Creates landcover comparasion pie chart for major district area
  *
  * @param { object } majordistrict major district code

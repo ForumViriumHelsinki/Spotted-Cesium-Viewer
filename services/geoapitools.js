@@ -69,10 +69,11 @@ function removeDataSourcesAndEntities( ) {
 }
 
 /**
- * Removes all data sources and entities from the viewer except 'MajorDistricts'
+ * Removes all data sources from the viewer except dataSourceNameToKeep
+ * 
+ * @param { String } opacity - Name of the datasource to keep
  */
-function removeDataSourcesAndEntitiesExceptMajorDistricts( ) {
-    const dataSourceNameToKeep = 'MajorDistricts';
+function removeDataSourcesExcept( dataSourceNameToKeep  ) {
 
     // Get a list of data sources
     const dataSources = viewer.dataSources.get( 0, viewer.dataSources.length );
@@ -87,15 +88,6 @@ function removeDataSourcesAndEntitiesExceptMajorDistricts( ) {
             viewer.dataSources.remove( dataSource, true );
         }
     }
-
-    // Remove all entities except when the data source name is 'MajorDistricts'
-    viewer.entities.values.forEach( function ( entity ) {
-        if ( entity.dataSource && entity.dataSource.name !== dataSourceNameToKeep ) {
-
-            viewer.entities.remove( entity );
-
-        }
-    });
 }
 
 /**

@@ -63,97 +63,7 @@ function addToPrint( toPrint, postno ) {
           top: 1000,
           behavior: 'smooth'
     });
-}
-
-function loadMajorDistrict( majordistrict ) {
-
-    majorDistrict = majordistrict;
-
-    document.getElementById( "showWaterToggle" ).disabled = false;
-    document.getElementById( "showVegetationToggle" ).disabled = false;
-    document.getElementById( "showFieldsToggle" ).disabled = false;
-    document.getElementById( "showOtherNatureToggle" ).disabled = false;
-    document.getElementById( "showBuiltToggle" ).disabled = false;
-
-    if ( document.getElementById( "printToggle" ).checked ) {
-
-        setPrintVisible( );
-
-    }
-
-    console.log("Postal code area found!");
-
-    removeDataSourcesAndEntitiesExceptMajorDistricts();
-    loadDistrictZones( 0.2, 'assets/data/HelsinkiDistrict.json', 'Districts' );
-
-    if ( showVegetation ) {
-        
-        loadNatureAreas( majordistrict );
-    
-    }
-
-    loadTreesSequentially( majordistrict );		
-
-
-}
-
-/**
- * Handles major district feature
- * 
- * @param {Object} id - The ID of the picked entity
- */
-function handleMajorDistrict( id ) {                
-    
-    majorDistrictCode = id.properties.tunnus;
-
-    if ( majorDistrictCode ) {
-
-        districtName = String( id.properties.nimi_fi )
-        districtPopulation = id.properties.asukasluku;
-        districtArea = id.properties.pa_m2;
-        loadMajorDistrict( majorDistrictCode );
-
-    }
-
-}
-
-/**
- * Handles district feature
- * 
- * @param {Object} id - The ID of the picked entity
- */
-function loadDistrict( id ) {                
-    
-    majorDistrictCode = id.properties.tunnus;
-
-    //If we find postal code, we assume this is an area & zoom in AND load the buildings for it.
-    if ( majorDistrictCode ) {
-
-        districtName = String( id.properties.nimi_fi )
-        districtPopulation = id.properties.asukasluku;
-        districtArea = id.properties.pa_m2;
-
-        majorDistrict = majorDistrictCode;
-
-        document.getElementById( "showWaterToggle" ).disabled = false;
-        document.getElementById( "showVegetationToggle" ).disabled = false;
-        document.getElementById( "showFieldsToggle" ).disabled = false;
-        document.getElementById( "showOtherNatureToggle" ).disabled = false;
-        document.getElementById( "showBuiltToggle" ).disabled = false;
-    
-        if ( document.getElementById( "printToggle" ).checked ) {
-    
-            setPrintVisible( );
-    
-        }
-        
-        loadDistrictZones( 0.0, 'assets/data/HelsinkiDistrict.json', 'Districts' );
-
-
-    }
-
-}
-    
+}    
 
 /**
  * Picks the entity at the given window position in the viewer
@@ -167,27 +77,64 @@ function pickEntity( viewer, windowPosition ) {
     console.log("picked", picked)
     
     if ( picked ) {
+         
+        if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Eteläinen' ) {
+
+            level = 'MajorDistricts';
+
+            document.getElementById( "showWaterToggle" ).disabled = false;
+            document.getElementById( "showVegetationToggle" ).disabled = false;
+            document.getElementById( "showFieldsToggle" ).disabled = false;
+            document.getElementById( "showOtherNatureToggle" ).disabled = false;
+            document.getElementById( "showBuiltToggle" ).disabled = false;
                 
-        if ( picked.id._polygon ) {
-            
-            if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Eteläinen' ) {
-
-                level = 'MajorDistricts';
+            removeDataSourcesExcept( 'MajorDistricts' );
+            loadDistrictZones( 0.1, 'assets/data/HelsinkiDistrict.json', 'Districts' );
+            loadTreesSequentially( picked.id.properties.tunnus );	
                 
-            }
-
-            if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vironniemi' ) {
-
-                level = 'Districts';
-                
-            }
-
-            hidePlotlyIfNatureFeatureIsClicked( picked.id.properties.category );
-            handleMajorDistrict( picked.id );
-            console.log("level", level)
-
         }
+
+        if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vironniemi' ) {
+
+            level = 'Districts';
+            removeDataSourcesExcept( 'Districts' );
+            loadDistrictZones( 0.1, 'assets/data/HelsinkiSubDistrict.json', 'SubDistricts' );
+                
+        }
+
+        if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vilhonvuori' ) {
+
+            level = 'SubDistricts';
+            loadDistrictZones( 0.1, 'assets/data/HelsinkiSubDistrict.json', 'SubDistricts' );
+                
+        }
+
+        hidePlotlyIfNatureFeatureIsClicked( picked.id.properties.category );
+        setDistrictVariables( picked.id.properties );
+        createDiagrams( picked.id.properties.tunnus  );
+
+        if ( document.getElementById( "printToggle" ).checked ) {
+
+            setPrintVisible( );
+    
+        }
+        
     }
+}
+
+/**
+ * Sets static district specific variables for plotting
+ * 
+ * @param { Object} properties - The properties of the picked entity
+ * 
+ */
+function setDistrictVariables( properties ) {
+
+    districtName = String( properties.nimi_fi )
+    districtPopulation = properties.asukasluku;
+    districtArea = properties.pa_m2;
+    majorDistrict = properties.tunnus;
+
 }
 
 /**
