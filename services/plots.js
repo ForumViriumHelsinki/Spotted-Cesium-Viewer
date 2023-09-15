@@ -8,7 +8,7 @@ function createDiagrams( district ) {
     createPieChartForMajorDistrict( district );
     createVegetationBarPlot( district );
     createVegetationBarPlotPerInhabitant( district );
-    console.log( "district", district );
+    console.log( "district", district._value );
 }
 
 /**

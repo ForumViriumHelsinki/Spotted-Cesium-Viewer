@@ -77,6 +77,10 @@ function pickEntity( viewer, windowPosition ) {
     console.log("picked", picked)
     
     if ( picked ) {
+
+        setDistrictVariables( picked.id.properties );
+
+        console.log("picked.id.entityCollection._entities", picked.id.entityCollection._entities)
          
         if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Eteläinen' ) {
 
@@ -91,13 +95,16 @@ function pickEntity( viewer, windowPosition ) {
             removeDataSourcesExcept( 'MajorDistricts' );
             loadDistrictZones( 0.1, 'assets/data/HelsinkiDistrict.json', 'Districts' );
             loadTreesSequentially( picked.id.properties.tunnus );	
+            createDiagrams( picked.id.properties.tunnus );
+            removeDataSourcesExcept( 'Districts' );
                 
         }
 
         if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vironniemi' ) {
 
             level = 'Districts';
-            removeDataSourcesExcept( 'Districts' );
+            createDiagrams( picked.id.properties.tunnus );
+            removeDataSourcesAndEntities( );
             loadDistrictZones( 0.1, 'assets/data/HelsinkiSubDistrict.json', 'SubDistricts' );
                 
         }
@@ -105,13 +112,11 @@ function pickEntity( viewer, windowPosition ) {
         if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vilhonvuori' ) {
 
             level = 'SubDistricts';
-            loadDistrictZones( 0.1, 'assets/data/HelsinkiSubDistrict.json', 'SubDistricts' );
+            createDiagrams( picked.id.properties.tunnus );
                 
         }
 
-        hidePlotlyIfNatureFeatureIsClicked( picked.id.properties.category );
-        setDistrictVariables( picked.id.properties );
-        createDiagrams( picked.id.properties.tunnus  );
+        console.log( "level", level );
 
         if ( document.getElementById( "printToggle" ).checked ) {
 
