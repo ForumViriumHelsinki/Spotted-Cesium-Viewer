@@ -14,12 +14,12 @@ function createDiagrams( district ) {
 /**
  * Creates landcover comparasion pie chart for major district area
  *
- * @param { object } majordistrict major district code
+ * @param { object } district major district code
  */
-function createPieChartForMajorDistrict( majordistrict ) {
+function createPieChartForMajorDistrict( district ) {
 
     const data = [{
-        values: getLandDataForMajorDistrict( majordistrict ),
+        values: getLandDataForMajorDistrict( district ),
         labels: [ 'trees', 'vegetation', 'water', 'fields', 'rocks, dirt unused land', 'buildings and roads' ],
         domain: { column: 0 },
         name: districtName,
@@ -126,15 +126,15 @@ function createBuiltBarPlot( majordistrict ) {
 /**
  * Creates vegetation bar for a major district area area
  *
- * @param { String } majordistrict major district code
+ * @param { String } district  district code
  */
-function createVegetationBarPlot( majordistrict ) {
+function createVegetationBarPlot( district ) {
 
     const labels = getVegetationPlotLabels();
 
     let trace1 = {
         x: labels,
-        y: getNatureDataForMajorDistrict( majordistrict ),
+        y: getNatureDataForDistrict( district ),
         name: districtName,
         type: 'bar',
     };
@@ -166,16 +166,16 @@ function createVegetationBarPlot( majordistrict ) {
 /**
  * Creates vegetation bar for a major district area area
  * 
- * @param { String } majordistrict major district code
+ * @param { String } district major district code
  *
  */
-function createVegetationBarPlotPerInhabitant( majordistrict ) {
+function createVegetationBarPlotPerInhabitant( district ) {
 
     const labels = getVegetationPlotLabels();
 
     let trace1 = {
         x: labels,
-        y: getNatureDataPerInhabitantForMajorDistrict( majordistrict ),
+        y: getNatureDataPerInhabitantForDistrict( district ),
         name: districtName,
         type: 'bar',
     };
@@ -207,35 +207,35 @@ function createVegetationBarPlotPerInhabitant( majordistrict ) {
 /**
  * Get data array for a specific major district, considering toggles for different rates
  * 
- * @param { string } majordistrict - Major district code
- * @returns { Array } Data array for the specified major district
+ * @param { string } district - district code
+ * @returns { Array } Data array for the specified district
  */
-function getNatureDataForMajorDistrict( majordistrict ) {
+function getNatureDataForDistrict( district ) {
 
-    let data = [ ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / districtArea ).toFixed( 3 ) ]; // Initialize the data array with tree rate
+    let data = [ ( getTotalAreaByNameAndIdAndPropertyKeys( level, district, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / districtArea ).toFixed( 3 ) ]; // Initialize the data array with tree rate
 
     // Check if the "showVegetationToggle" checkbox is checked
     if ( document.getElementById( "showVegetationToggle" ).checked ) {
         // If checked, add vegetation rate to the data array
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'vegetation_m2' ] ) / districtArea ).toFixed( 3 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, district, [ 'vegetation_m2' ] ) / districtArea ).toFixed( 3 ) );
     }
 
     // Check if the "showWaterToggle" checkbox is checked
     if ( document.getElementById( "showWaterToggle" ).checked ) {
         // If checked, add water rate to the data array
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'water_m2' ] ) / districtArea ).toFixed( 3 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, district, [ 'water_m2' ] ) / districtArea ).toFixed( 3 ) );
     }
 
     // Check if the "showFieldsToggle" checkbox is checked
     if ( document.getElementById( "showFieldsToggle").checked ) {
         // If checked, add fields rate to the data array
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'field_m2' ] ) / districtArea ).toFixed( 3 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, district, [ 'field_m2' ] ) / districtArea ).toFixed( 3 ) );
     }
 
     // Check if the "showOtherNatureToggle" checkbox is checked
     if ( document.getElementById( "showOtherNatureToggle").checked ) {
         // If checked, add fields rate to the data array
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / districtArea ).toFixed( 3 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, district, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / districtArea ).toFixed( 3 ) );
     }
 
     return data; // Return the final data array
@@ -282,43 +282,43 @@ function getNatureDataForCity( ) {
 }
 
 /**
- * Get data array for a specific major district, considering toggles for different rates
+ * Get data array for a specific district, considering toggles for different rates
  *  
- * @param { string } majordistrict - Major district code
+ * @param { string } district - district code
  * 
- * @returns { Array } Data array for the specified major district
+ * @returns { Array } Data array for the specified district
  */
-function getNatureDataPerInhabitantForMajorDistrict( majordistrict ) {
+function getNatureDataPerInhabitantForDistrict( district ) {
 
-    const treeAreaPerInhabitant = ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / districtPopulation ).toFixed( 1 );
+    const treeAreaPerInhabitant = ( getTotalAreaByNameAndIdAndPropertyKeys( level, district, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / districtPopulation ).toFixed( 1 );
 
     let data = [ treeAreaPerInhabitant ]; // Initialize the data array with treeAreaPerInhabitant
 
      // Check if the "showVegetationToggle" checkbox is checked
     if ( document.getElementById( "showVegetationToggle" ).checked ) {
 
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'vegetation_m2' ] ) / districtPopulation ).toFixed( 1 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, district, [ 'vegetation_m2' ] ) / districtPopulation ).toFixed( 1 ) );
 
     }
 
     // Check if the "showWaterToggle" checkbox is checked
     if ( document.getElementById( "showWaterToggle" ).checked ) {
 
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'water_m2' ] ) / districtPopulation ).toFixed( 1 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, district, [ 'water_m2' ] ) / districtPopulation ).toFixed( 1 ) );
     
     }
 
     // Check if the "showFieldsToggle" checkbox is checked
     if ( document.getElementById( "showFieldsToggle" ).checked ) {
 
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'field_m2' ] ) / districtPopulation ).toFixed( 1 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, district, [ 'field_m2' ] ) / districtPopulation ).toFixed( 1 ) );
 
     }
     
     // Check if the "showOtherNatureToggle" checkbox is checked
     if ( document.getElementById( "showOtherNatureToggle").checked ) {
 
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, majordistrict, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / districtPopulation ).toFixed( 1 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, district, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / districtPopulation ).toFixed( 1 ) );
 
     }
 

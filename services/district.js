@@ -62,7 +62,7 @@ function getTotalAreaByNameAndIdAndPropertyKeys( name, id, propertyKeys ) {
 
     for ( let i = 0; i < districtDataSource._entityCollection._entities._array.length; i++ ) {
 
-		if ( districtDataSource._entityCollection._entities._array[ i ]._properties._tunnus._value == id ) {
+		if ( Number( districtDataSource._entityCollection._entities._array[ i ]._properties._tunnus._value ) === Number( id ) ) {
 
 			const entity = districtDataSource._entityCollection._entities._array[ i ];
 	
@@ -150,7 +150,7 @@ function getDistrictPropsByNameAndId( name, id ) {
     
             for ( let j = 0; j < datasource._entityCollection._entities._array.length; j++ ) {
     
-                if ( datasource._entityCollection._entities._array[ j ]._properties._tunnus._value === id._value ) {
+                if ( Number( datasource._entityCollection._entities._array[ j ]._properties._tunnus._value ) === Number( id ) ) {
   
                     return datasource._entityCollection._entities._array[ j ]._properties;
 

@@ -234,8 +234,6 @@ function toggleReturnButtonVisibility() {
 
     }
 
-    console.log( "districtsVisited", districtsVisited );
-
     if ( districtsVisited.length > 1 ) {
 
         districtsVisited.pop();
@@ -243,15 +241,12 @@ function toggleReturnButtonVisibility() {
     }
 
     const props = getDistrictPropsByNameAndId( level, districtsVisited[ districtsVisited.length - 1 ] );
-    console.log("props", props)
 
     if ( districtsVisited.length > 1 ) {
 
         districtsVisited.pop();
 
     }
-
-    console.log( "districtsVisited", districtsVisited );
 
     setDistrictVariables( props );
     toggleReturnButtonVisibility( );

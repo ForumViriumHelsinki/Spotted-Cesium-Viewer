@@ -28,9 +28,6 @@
 			  loadWaterWithoutCache( url );
   
 		  }
-
-          createVegetationBarPlot( majordistrict._value );
-		  createVegetationBarPlotPerInhabitant( majordistrict._value );
 			
 	  } catch ( err ) {
 		  // This code runs if there were any errors.

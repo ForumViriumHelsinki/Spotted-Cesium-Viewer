@@ -75,14 +75,16 @@ function showFieldsEvent( ) {
 
         } else {
 
-            createVegetationBarPlot( majorDistrict._value );
+            createVegetationBarPlot( districtsVisited[ districtsVisited.length - 1 ] );
+            createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
             showDataSourceByName( "Fields" );
 
         }
         
     } else { // If showTrees toggle is off
         
-        createVegetationBarPlot( majorDistrict._value );
+        createVegetationBarPlot( districtsVisited[ districtsVisited.length - 1 ] );
+        createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
         hideDataSourceByName( "Fields" );
 
     }
@@ -162,27 +164,27 @@ function showVegetationEvent( ) {
     // Get the current state of the toggle button for showing nature areas.
     const showVegetation = document.getElementById( "showVegetationToggle" ).checked;
 
+    createVegetationBarPlot( districtsVisited[ districtsVisited.length - 1 ] );
+    createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
+
     if ( showVegetation ) {
 
         // If the toggle button is checked, enable the toggle button for showing the nature area heat map.
         //document.getElementById("showVegetationHeatToggle").disabled = false;
 
         // If there is a postal code available, load the nature areas for that area.
+
         if ( majorDistrict && !dataSourceWithNameExists( "Vegetation" ) ) {
 
             loadVegetationSequentially( majorDistrict );
 
         } else {
 
-            createVegetationBarPlot( majorDistrict._value );
-            createVegetationBarPlotPerInhabitant( majorDistrict._value );
             showDataSourceByName( "Vegetation" );
         }
 
     } else {
 
-        createVegetationBarPlot( majorDistrict._value );
-        createVegetationBarPlotPerInhabitant( majorDistrict._value );
         hideDataSourceByName( "Vegetation" );
 
     }
@@ -197,6 +199,8 @@ function showWaterEvent( ) {
 
     // Get the current state of the toggle button for showing nature areas.
     const showWater = document.getElementById( "showWaterToggle" ).checked;
+    createVegetationBarPlot( districtsVisited[ districtsVisited.length - 1 ] );
+    createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
 
     if ( showWater ) {
 
@@ -211,16 +215,11 @@ function showWaterEvent( ) {
         } else {
 
             showDataSourceByName( "Water" );
-            createVegetationBarPlot( majorDistrict._value );
-            createVegetationBarPlotPerInhabitant( majorDistrict._value );
 
         }
 
-
     } else {
 
-        createVegetationBarPlot( majorDistrict._value );
-        createVegetationBarPlotPerInhabitant( majorDistrict._value );
         hideDataSourceByName( "Water" );
 
     }
@@ -235,6 +234,8 @@ function showOtherNatureEvent( ) {
 
     // Get the current state of the toggle button for showing nature areas.
     const showOtherNature = document.getElementById( "showOtherNatureToggle" ).checked;
+    createVegetationBarPlot( districtsVisited[ districtsVisited.length - 1 ] );
+    createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
 
     if ( showOtherNature) {
 
@@ -245,16 +246,12 @@ function showOtherNatureEvent( ) {
 
         } else {
 
-          //  createBuiltBarPlot( majorDistrict._value );
-            createVegetationBarPlot( majorDistrict._value );
-            createVegetationBarPlotPerInhabitant( majorDistrict._value );
             showDataSourceByName( "OtherNature" );
+
         }
 
     } else {
 
-        createVegetationBarPlot( majorDistrict._value );
-        createVegetationBarPlotPerInhabitant( majorDistrict._value );
         hideDataSourceByName( "OtherNature" );
 
     }
