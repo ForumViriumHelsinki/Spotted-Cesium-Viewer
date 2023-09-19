@@ -79,67 +79,37 @@ function pickEntity( viewer, windowPosition ) {
     if ( picked ) {
 
         setDistrictVariables( picked.id.properties );
-
-        console.log("picked.id.entityCollection._entities", picked.id.entityCollection._entities)
          
         if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Eteläinen' ) {
 
-            level = 'MajorDistricts';
-
-            document.getElementById( "showWaterToggle" ).disabled = false;
-            document.getElementById( "showVegetationToggle" ).disabled = false;
-            document.getElementById( "showFieldsToggle" ).disabled = false;
-            document.getElementById( "showOtherNatureToggle" ).disabled = false;
-            document.getElementById( "showBuiltToggle" ).disabled = false;
-                
-            removeDataSourcesExcept( 'MajorDistricts' );
-            loadDistrictZones( 0.1, 'assets/data/HelsinkiDistrict.json', 'Districts' );
-            loadTreesSequentially( picked.id.properties.tunnus );	
-            createDiagrams( picked.id.properties.tunnus );
-            removeDataSourcesExcept( 'Districts' );
+            majorDistrict = picked.id.properties.tunnus;
+            newMajorDistrict( );
+            loadTreesSequentially( picked.id.properties.tunnus );
                 
         }
 
         if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vironniemi' ) {
 
-            level = 'Districts';
-            createDiagrams( picked.id.properties.tunnus );
-            removeDataSourcesAndEntities( );
-            loadDistrictZones( 0.1, 'assets/data/HelsinkiSubDistrict.json', 'SubDistricts' );
+            newDistrict(  );
                 
         }
 
         if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vilhonvuori' ) {
 
             level = 'SubDistricts';
-            createDiagrams( picked.id.properties.tunnus );
                 
-        }
-
-        console.log( "level", level );
+        }        
 
         if ( document.getElementById( "printToggle" ).checked ) {
 
             setPrintVisible( );
     
         }
-        
+
+        createDiagrams( picked.id.properties.tunnus );
+        toggleReturnButtonVisibility( );
+
     }
-}
-
-/**
- * Sets static district specific variables for plotting
- * 
- * @param { Object} properties - The properties of the picked entity
- * 
- */
-function setDistrictVariables( properties ) {
-
-    districtName = String( properties.nimi_fi )
-    districtPopulation = properties.asukasluku;
-    districtArea = properties.pa_m2;
-    majorDistrict = properties.tunnus;
-
 }
 
 /**

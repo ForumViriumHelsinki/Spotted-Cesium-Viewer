@@ -28,8 +28,15 @@
   <div id="cesiumContainer"></div>
   <div id="UIContainer">
   <p class="header">Spotted Viewer</p>
-  <p class="uiButton" onClick="reset()" style="color: red; float:right;">Reset</p>
-
+  
+  <div id="UIContainer">
+    <p class="header">Spotted Viewer</p>
+    <div id="UIButtonContainer">
+      <p class="uiReturnButton" id="returnButton" onClick="prevLevel()" style="color: black;">Previous level</p>
+      <p class="uiButton" onClick="reset()" style="color: red;">Reset</p>
+    </div>
+    <!-- Rest of your UI elements -->
+ 
   <!-- Selects WMS layer -->
 <select id="layerSelector">
   <option value="avoindata:Opaskartta_Helsinki">Opaskartta</option>
@@ -128,6 +135,7 @@
     var districtPopulation = null;
     var districtArea = null;
     var level = null;
+    var districtsVisited = [ ];
 
 	// OS version, operating without Cesium Ion services...
     Cesium.Ion.defaultAccessToken = null;
@@ -179,6 +187,8 @@
 
   viewer.scene.frameState.creditDisplay.addDefaultCredit( hriCredit );
   viewer.scene.frameState.creditDisplay.addDefaultCredit( hsyCredit );
+
+  toggleReturnButtonVisibility();
 
   </script>
 </body>

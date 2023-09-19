@@ -145,24 +145,37 @@ body, html
 	height: 100%;
 }
 
-.uiButton {
-	background-color: white;
-	border: 0px solid black; 
+#UIButtonContainer {
+	display: flex; /* Use flexbox to arrange items horizontally */
+	align-items: center; /* Center vertically */
+	float: right;
 
+  }
+  
+  .uiButton {
+	background-color: white;
+	border: 0px solid black;
 	font-family: sans-serif;
 	font-size: small;
 	text-align: middle;
 	padding: 5px;
 	margin: 5px;
-	
-	float: left;
-	
 	text-decoration: underline;
-}
-
-.uiButton:hover {
-	color: rgb(150,150,150);
-}
+  }
+  
+  .uiReturnButton {
+	background-color: white;
+	border: 0px solid black;
+	font-family: sans-serif;
+	font-size: small;
+	text-align: middle;
+	padding: 5px;
+	margin: 5px;
+  }
+  
+  .uiButton:hover {
+	color: rgb(150, 150, 150);
+  }
 
 .label {
 	background-color: white;

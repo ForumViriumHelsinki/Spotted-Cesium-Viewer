@@ -47,6 +47,7 @@ function resetSwitches( ) {
     document.getElementById( "showFieldsToggle" ).disabled = true;
     document.getElementById( "showOtherNatureToggle" ).disabled = true;
     document.getElementById( "showBuiltToggle" ).disabled = true;
+    document.getElementById( 'returnButton' ).style.visibility = 'hidden';
 
     setPrintVisible( );
     hideAllPlots( );    
@@ -68,27 +69,7 @@ function removeDataSourcesAndEntities( ) {
 
 }
 
-/**
- * Removes all data sources from the viewer except dataSourceNameToKeep
- * 
- * @param { String } opacity - Name of the datasource to keep
- */
-function removeDataSourcesExcept( dataSourceNameToKeep  ) {
 
-    // Get a list of data sources
-    const dataSources = viewer.dataSources.get( 0, viewer.dataSources.length );
-
-    // Iterate through the data sources and remove those with a different name
-    for ( let i = 0; i < dataSources.length; i++ ) {
-
-        const dataSource = dataSources.get( i );
-
-        if ( dataSource.name !== dataSourceNameToKeep ) {
-
-            viewer.dataSources.remove( dataSource, true );
-        }
-    }
-}
 
 /**
  * Resets the viewer's camera to Helsinki with a specific orientation
@@ -103,33 +84,6 @@ function resetViewer( ) {
         }
     });
 
-}
-
-/**
- * Loads district zone polygons with the given opacity
- * 
- * @param {number} opacity - The opacity of the polygons (range from 0 to 1)
- */
-function loadDistrictZones( opacity, url, name  ) {
-    // Load major district code zones
-    const HKIMajorDistrictURL = url;
-	console.log( "Loading: " + HKIMajorDistrictURL );
-	
-	let promisePostCodes = Cesium.GeoJsonDataSource.load( HKIMajorDistrictURL, {
-  		stroke: Cesium.Color.BLACK,
-  		fill: new Cesium.Color( 0.3, 0.3, 0.3, opacity ),
-  		strokeWidth: 8,
-		clampToGround: false
-	})
-	.then( function ( dataSource ) {
-        dataSource.name = name;
-		viewer.dataSources.add( dataSource );
-		let entities = dataSource.entities.values;
-	})	
-	.otherwise( function ( error ) {
-      //Display any errrors encountered while loading.
-      console.log( error );
-    });
 }
 
 /**
@@ -245,6 +199,65 @@ function createURL( majordistrict, collection ) {
 
     let url = "https://geo.fvh.fi/spotted/collections/" + collection + "/items?f=json&limit=32000&tunnus=" + majordistrict + "&filter=area_m2%20BETWEEN%20" + lower + "%20AND%20"+ upper;
 
+}
+
+/**
+ * Function to toggle the visibility of the "Return" button
+ */
+function toggleReturnButtonVisibility() {
+    if ( level !== null && level !== "MajorDistricts" ) {
+  
+        document.getElementById( 'returnButton' ).style.visibility = 'visible';
+  
+    } else {
+  
+        document.getElementById( 'returnButton' ).style.visibility = 'hidden';
+  
+    }
+}
+
+  /**
+ * Resets the objects displayed, camera orientation, and switches to their default state
+ */
+  async function prevLevel() {
+
+    viewer.dataSources.removeAll( );
+
+    if ( level === "Districts" ) {
+
+        await newMajorDistrict( districtsVisited[ districtsVisited.length - 2 ] );
+    }
+
+    if ( level === "SubDistricts" ) {
+
+        await newDistrict( districtsVisited[ districtsVisited.length - 2 ]);
+
+    }
+
+    console.log( "districtsVisited", districtsVisited );
+
+    if ( districtsVisited.length > 1 ) {
+
+        districtsVisited.pop();
+
+    }
+
+    const props = getDistrictPropsByNameAndId( level, districtsVisited[ districtsVisited.length - 1 ] );
+    console.log("props", props)
+
+    if ( districtsVisited.length > 1 ) {
+
+        districtsVisited.pop();
+
+    }
+
+    console.log( "districtsVisited", districtsVisited );
+
+    setDistrictVariables( props );
+    toggleReturnButtonVisibility( );
+    createDiagrams( districtsVisited[ districtsVisited.length - 1 ] );
+    removeDuplicateDataSources( );
+    
 }
 
 

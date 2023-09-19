@@ -22,13 +22,13 @@ async function loadTreesSequentially( majordistrict ) {
 			
 				if ( i > 1000 ) {
 
-					await loadTrees( majordistrict, i, i + 100 );
-					i = i + 100;
+					await loadTrees( majordistrict, i, i + 50 );
+					i = i + 50;
 
 				} else {
 
-					await loadTrees( majordistrict, i, i + 1000 );
-					i = i + 1000;
+					await loadTrees( majordistrict, i, i + 500 );
+					i = i + 500;
 			
 				}
 			}

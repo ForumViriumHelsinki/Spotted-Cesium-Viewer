@@ -8,7 +8,7 @@ function createDiagrams( district ) {
     createPieChartForMajorDistrict( district );
     createVegetationBarPlot( district );
     createVegetationBarPlotPerInhabitant( district );
-    console.log( "district", district._value );
+
 }
 
 /**
@@ -76,6 +76,7 @@ function createPieChartForMajorDistrict( majordistrict ) {
 
         document.getElementById( "plotBuiltContainer" ).style.visibility = 'visible';
     }
+
       
     Plotly.newPlot('plotBuiltContainer', data, layout );
 
