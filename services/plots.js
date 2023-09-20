@@ -212,8 +212,14 @@ function createVegetationBarPlotPerInhabitant( district ) {
  */
 function getNatureDataForDistrict( district ) {
 
-    let data = [ ( getTotalAreaByNameAndIdAndPropertyKeys( level, district, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / districtArea ).toFixed( 3 ) ]; // Initialize the data array with tree rate
+    let data = [ ]; 
 
+    // Check if the "showTreeToggle" checkbox is checked
+    if ( document.getElementById( "showTreeToggle" ).checked ) {
+        // If checked, add vegetation rate to the data array
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, district, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / districtArea ).toFixed( 3 ) );
+    }
+    
     // Check if the "showVegetationToggle" checkbox is checked
     if ( document.getElementById( "showVegetationToggle" ).checked ) {
         // If checked, add vegetation rate to the data array
@@ -251,7 +257,13 @@ function getNatureDataForCity( ) {
 
     const helsinkiTotalLandArea = getCityTotalByNameAndProperty( level, 'pa_m2' );
 
-    let data = [ ( getTotalAreaByNameAndPropertyKeys( level, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) /  helsinkiTotalLandArea ).toFixed( 1 ) ]; // Initialize the data array with default city value
+    let data = [ ]; 
+
+    // Check if the "showTreeToggle" checkbox is checked
+    if ( document.getElementById( "showTreeToggle" ).checked ) {
+        // If checked, add tree rate to the data array
+        data.push( ( getTotalAreaByNameAndPropertyKeys( level, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) /  helsinkiTotalLandArea ).toFixed( 1 )) ;
+    }
 
     // Check if the "showVegetationToggle" checkbox is checked
     if ( document.getElementById( "showVegetationToggle" ).checked ) {
@@ -290,9 +302,14 @@ function getNatureDataForCity( ) {
  */
 function getNatureDataPerInhabitantForDistrict( district ) {
 
-    const treeAreaPerInhabitant = ( getTotalAreaByNameAndIdAndPropertyKeys( level, district, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / districtPopulation ).toFixed( 1 );
+    let data = [ ]; 
 
-    let data = [ treeAreaPerInhabitant ]; // Initialize the data array with treeAreaPerInhabitant
+     // Check if the "showTreeToggle" checkbox is checked
+     if ( document.getElementById( "showTreeToggle" ).checked ) {
+
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( level, district, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / districtPopulation ).toFixed( 1 ) );
+
+    }    
 
      // Check if the "showVegetationToggle" checkbox is checked
     if ( document.getElementById( "showVegetationToggle" ).checked ) {
@@ -335,8 +352,14 @@ function getNatureDataPerInhabitantForCity( ) {
 
     const helsinkiPopulation = getCityTotalByNameAndProperty( level, 'asukasluku' );
 
-    const treeAreaPerInhabitant = ( getTotalAreaByNameAndPropertyKeys( level, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / helsinkiPopulation ).toFixed( 3 );
-    let data = [ treeAreaPerInhabitant ]; // Initialize the data array with treeAreaPerInhabitant
+    let data = [ ]; 
+
+    // Check if the "showTreeToggle" checkbox is checked
+    if ( document.getElementById( "showTreeToggle" ).checked ) {
+    
+        data.push( ( getTotalAreaByNameAndPropertyKeys( level, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / helsinkiPopulation ).toFixed( 3 ) ) ;
+
+    }
 
     // Check if the "showVegetationToggle" checkbox is checked
     if ( document.getElementById( "showVegetationToggle" ).checked ) {
@@ -377,7 +400,13 @@ function getNatureDataPerInhabitantForCity( ) {
  */
 function getVegetationPlotLabels( ) {
 
-    let labels = [ 'tree' ]; // Initialize the labels array with the default label
+    let labels = [ ];
+
+    // Check if the "showTreeToggle" checkbox is checked
+    if ( document.getElementById( "showTreeToggle" ).checked ) {
+        // If checked, add vegetation label to the labels array
+        labels.push( 'tree' );
+    }
 
     // Check if the "showVegetationToggle" checkbox is checked
     if ( document.getElementById( "showVegetationToggle" ).checked ) {

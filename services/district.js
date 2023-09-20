@@ -188,6 +188,7 @@ async function newMajorDistrict( ) {
 
         document.getElementById( "showWaterToggle" ).disabled = false;
         document.getElementById( "showVegetationToggle" ).disabled = false;
+        document.getElementById( "showTreeToggle" ).disabled = false;
         document.getElementById( "showFieldsToggle" ).disabled = false;
         document.getElementById( "showOtherNatureToggle" ).disabled = false;
         document.getElementById( "showBuiltToggle" ).disabled = false;

@@ -19,6 +19,13 @@ function sliderEvents( event ) {
 
     }	
 
+    // If the slider value is "showTree", call the showTreeEvent function.
+    if ( event.target.value == 'showTree' ) {
+
+        showTreeEvent();
+
+    }    
+
     // If the slider value is "showVegetation", call the showVegetationEvent function.
     if ( event.target.value == 'showVegetation' ) {
 
@@ -150,6 +157,38 @@ function showPlotEvent( ) {
 
         showAllPlots( );
         showPlot = true;
+
+    }
+
+}
+
+/**
+ * This function handles the toggle event for showing or hiding the tree layer on the map.
+ *
+ */
+function showTreeEvent( ) {
+
+    // Get the current state of the toggle button for showing nature areas.
+    const showTree = document.getElementById( "showTreeToggle" ).checked;
+
+    createVegetationBarPlot( districtsVisited[ districtsVisited.length - 1 ] );
+    createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
+
+    if ( showTree ) {
+
+
+        if ( majorDistrict && !dataSourceWithNameExists( "Trees" ) ) {
+
+            loadTreesSequentially( majorDistrict );
+
+        } else {
+
+            showDataSourceByName( "Trees" );
+        }
+
+    } else {
+
+        hideDataSourceByName( "Trees" );
 
     }
 

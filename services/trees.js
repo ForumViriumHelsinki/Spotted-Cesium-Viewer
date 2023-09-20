@@ -187,8 +187,6 @@ function countTreeArea( ) {
         }
     });
 
-	console.log( "totalTreeArea", totalTreeArea ); 
-
 	return totalTreeArea;
 
 }

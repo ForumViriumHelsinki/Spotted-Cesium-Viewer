@@ -35,6 +35,7 @@ function resetSwitches( ) {
 
 	document.getElementById( "showPlotToggle" ).checked = true;
 
+    document.getElementById( "showTreeToggle" ).checked = false;
 	document.getElementById( "showVegetationToggle" ).checked = false;
     document.getElementById( "showWaterToggle" ).checked = false;
     document.getElementById( "showFieldsToggle" ).checked = false;
@@ -43,6 +44,7 @@ function resetSwitches( ) {
 
 	document.getElementById( "printToggle" ).checked = true;
     document.getElementById( "showWaterToggle" ).disabled = true;
+    document.getElementById( "showTreeToggle" ).disabled = true;
     document.getElementById( "showVegetationToggle" ).disabled = true;
     document.getElementById( "showFieldsToggle" ).disabled = true;
     document.getElementById( "showOtherNatureToggle" ).disabled = true;
@@ -53,8 +55,6 @@ function resetSwitches( ) {
     hideAllPlots( );    
 
   	showPlot = true;
-    showVegetation = false;
-    showWater= false;
 	print = true;
 
 }
@@ -250,7 +250,7 @@ function toggleReturnButtonVisibility() {
 
     setDistrictVariables( props );
     toggleReturnButtonVisibility( );
-    createDiagrams( districtsVisited[ districtsVisited.length - 1 ] );
+    createPieChartForMajorDistrict( districtsVisited[ districtsVisited.length - 1 ] );
     removeDuplicateDataSources( );
     
 }

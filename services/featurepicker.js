@@ -84,7 +84,6 @@ function pickEntity( viewer, windowPosition ) {
 
             majorDistrict = picked.id.properties.tunnus;
             newMajorDistrict( );
-            loadTreesSequentially( picked.id.properties.tunnus );
                 
         }
 
@@ -106,7 +105,7 @@ function pickEntity( viewer, windowPosition ) {
     
         }
 
-        createDiagrams( picked.id.properties.tunnus );
+        createPieChartForMajorDistrict( picked.id.properties.tunnus );
         toggleReturnButtonVisibility( );
 
     }
