@@ -65,34 +65,84 @@ function removeDataSourceByName( name ) {
     }
 }
 
-function removeDuplicateDataSources( ) {
+/**
+ * Removes all data sources whose names start with the provided name prefix from the Cesium viewer.
+ * 
+ * @param {string} namePrefix The prefix of the data source names to remove.
+ * @returns {Promise<void>} A promise that resolves when all matching data sources are removed.
+ */
+async function removeDataSourcesByNamePrefix( namePrefix ) {
+    return new Promise((resolve, reject) => {
+        const dataSources = viewer.dataSources._dataSources;
+        const removalPromises = [];
 
-    const dataSources = viewer.dataSources._dataSources;
-    const uniqueDataSources = {};
-    
-    for ( let i = 0; i < dataSources.length; i++ ) {
+        for (const dataSource of dataSources) {
+            if (dataSource.name.startsWith(namePrefix)) {
+                const removalPromise = new Promise((resolveRemove, rejectRemove) => {
+                    viewer.dataSources.remove(dataSource, true);
+                    viewer.dataSources.dataSourceRemoved.addEventListener(function onDataSourceRemoved() {
+                        viewer.dataSources.dataSourceRemoved.removeEventListener(onDataSourceRemoved);
+                        resolveRemove();
+                    });
+                });
 
-        const dataSource = dataSources[ i ];
-
-        if ( !uniqueDataSources[ dataSource.name ] || uniqueDataSources[ dataSource.name ].index > i ) {
-            // Store or replace the data source if it's the first occurrence or has a smaller index
-            uniqueDataSources[ dataSource.name ] = {
-                dataSource: dataSource,
-                index: i
-            };
+                removalPromises.push(removalPromise);
+            }
         }
-    }
 
-    // Clear all existing data sources
-    viewer.dataSources.removeAll();
+        // Wait for all removal promises to resolve
+        Promise.all(removalPromises)
+            .then(() => {
+                resolve();
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+}
 
-    // Add the unique data sources back to the viewer
-    for ( const name in uniqueDataSources ) {
+/**
+ * Removes duplicate data sources from the Cesium viewer.
+ * 
+ * @returns {Promise<void>} A promise that resolves when the operation is complete.
+ */
+async function removeDuplicateDataSources( ) {
+    return new Promise((resolve, reject) => {
+        const dataSources = viewer.dataSources._dataSources;
+        const uniqueDataSources = {};
 
-        viewer.dataSources.add( uniqueDataSources[ name ].dataSource );
+        for (let i = 0; i < dataSources.length; i++) {
+            const dataSource = dataSources[i];
 
-    }
+            if (!uniqueDataSources[dataSource.name] || uniqueDataSources[dataSource.name].index > i) {
+                // Store or replace the data source if it's the first occurrence or has a smaller index
+                uniqueDataSources[dataSource.name] = {
+                    dataSource: dataSource,
+                    index: i
+                };
+            }
+        }
 
+        // Clear all existing data sources
+        viewer.dataSources.removeAll();
+
+        // Add the unique data sources back to the viewer
+        const addPromises = [];
+        for (const name in uniqueDataSources) {
+            const dataSource = uniqueDataSources[name].dataSource;
+            const addPromise = viewer.dataSources.add(dataSource);
+            addPromises.push(addPromise);
+        }
+
+        // Wait for all data sources to be added
+        Promise.all(addPromises)
+            .then(() => {
+                resolve();
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
 }
 
 /**

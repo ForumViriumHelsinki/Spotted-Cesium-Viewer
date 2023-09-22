@@ -221,38 +221,36 @@ function toggleReturnButtonVisibility() {
  */
   async function prevLevel() {
 
-    viewer.dataSources.removeAll( );
-
     if ( level === "Districts" ) {
 
-        await newMajorDistrict( districtsVisited[ districtsVisited.length - 2 ] );
+        await removeDataSourcesByNamePrefix( "SubDistricts" );
+        await newDistrict( 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
+        level = 'MajorDistricts';
+
     }
 
     if ( level === "SubDistricts" ) {
 
-        await newDistrict( districtsVisited[ districtsVisited.length - 2 ]);
+        await newDistrict( 'assets/data/HelsinkiDistrict.json', 'Districts' );
+        level = 'Districts';
 
     }
 
-    if ( districtsVisited.length > 1 ) {
-
-        districtsVisited.pop();
-
-    }
+    districtsVisited.pop();
 
     const props = getDistrictPropsByNameAndId( level, districtsVisited[ districtsVisited.length - 1 ] );
 
-    if ( districtsVisited.length > 1 ) {
-
-        districtsVisited.pop();
-
-    }
-
     setDistrictVariables( props );
+    
     toggleReturnButtonVisibility( );
     createPieChartForMajorDistrict( districtsVisited[ districtsVisited.length - 1 ] );
     removeDuplicateDataSources( );
-    
+
+    if ( level === "MajorDistricts" ) {
+
+        await newDistrict( 'assets/data/HelsinkiDistrict.json', 'Districts' );
+
+    }
 }
 
 

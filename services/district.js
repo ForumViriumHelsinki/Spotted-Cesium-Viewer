@@ -163,14 +163,11 @@ function getDistrictPropsByNameAndId( name, id ) {
 /**
  * Calls functions needed for district level
  */
-async function newDistrict(  ) {
+async function newDistrict( url, load ) {
 
     return new Promise((resolve, reject) => {
 
-        level = 'Districts';
-        loadDistrictZones( 0.01, 'assets/data/HelsinkiDistrict.json', 'Districts' );
-        loadDistrictZones( 0.01, 'assets/data/HelsinkiSubDistrict.json', 'SubDistricts' );
-        loadDistrictZones( 0.01, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );   
+        loadDistrictZones( 0.01, url, load );
 
         setTimeout(() => {
             resolve(); // Resolve the promise when done
@@ -192,8 +189,6 @@ async function newMajorDistrict( ) {
         document.getElementById( "showFieldsToggle" ).disabled = false;
         document.getElementById( "showOtherNatureToggle" ).disabled = false;
         document.getElementById( "showBuiltToggle" ).disabled = false;
-        level = 'MajorDistricts';
-        loadDistrictZones( 0.01, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );       
         loadDistrictZones( 0.01, 'assets/data/HelsinkiDistrict.json', 'Districts' );
 
         setTimeout(() => {
@@ -215,8 +210,21 @@ function setDistrictVariables( properties ) {
     districtName = String( properties.nimi_fi )
     districtPopulation = properties.asukasluku;
     districtArea = properties.pa_m2;
-    districtsVisited.push( properties.tunnus );
 
+    if ( districtsVisited.length > 1 && properties.tunnus._value ) {
+
+        if ( properties.tunnus._value != districtsVisited[ districtsVisited.length - 1 ]._value ) {
+
+            districtsVisited.push( properties.tunnus );
+
+        }
+    
+
+    } else {
+
+        districtsVisited.push( properties.tunnus );
+
+    }
 }
 
 

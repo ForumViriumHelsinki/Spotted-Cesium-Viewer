@@ -71,10 +71,8 @@ function addToPrint( toPrint, postno ) {
  * @param {Cesium.Viewer} viewer - The Cesium viewer object
  * @param {Cesium.Cartesian2} windowPosition - The window position to pick the entity
  */
-function pickEntity( viewer, windowPosition ) {
+async function pickEntity( viewer, windowPosition ) {
     let picked = viewer.scene.pick( windowPosition );
-
-    console.log("picked", picked)
     
     if ( picked ) {
 
@@ -83,30 +81,43 @@ function pickEntity( viewer, windowPosition ) {
         if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Eteläinen' ) {
 
             majorDistrict = picked.id.properties.tunnus;
-            newMajorDistrict( );
+            await removeDataSourcesByNamePrefix( "SubDistricts" );
+            await newDistrict( 'assets/data/HelsinkiDistrict.json', 'Districts' );
+            level = 'MajorDistricts';
+            toggleReturnButtonVisibility( );
+            createPieChartForMajorDistrict( picked.id.properties.tunnus );
                 
         }
 
         if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vironniemi' ) {
 
-            newDistrict(  );
+            await newDistrict( 'assets/data/HelsinkiSubDistrict.json', 'SubDistricts' );
+            level = 'Districts';
+            console.log("level", level)
+            toggleReturnButtonVisibility( );
+            createPieChartForMajorDistrict( picked.id.properties.tunnus );
+            await removeDataSourcesByNamePrefix( "MajorDistricts" );
+            await removeDataSourcesByNamePrefix( "Districts" );
                 
         }
 
         if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vilhonvuori' ) {
 
             level = 'SubDistricts';
+            toggleReturnButtonVisibility( );
+            await removeDataSourcesByNamePrefix( "Districts" );
+            createPieChartForMajorDistrict( picked.id.properties.tunnus );
                 
-        }        
+        }   
+        
+        await removeDuplicateDataSources( );
+
 
         if ( document.getElementById( "printToggle" ).checked ) {
 
             setPrintVisible( );
     
         }
-
-        createPieChartForMajorDistrict( picked.id.properties.tunnus );
-        toggleReturnButtonVisibility( );
 
     }
 }
