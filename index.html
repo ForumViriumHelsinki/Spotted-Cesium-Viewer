@@ -38,7 +38,7 @@
     <!-- Rest of your UI elements -->
  
   <!-- Selects WMS layer -->
-<select id="layerSelector">
+<select id="layerSelect">
   <option value="avoindata:Opaskartta_Helsinki">Opaskartta</option>
   <option value="avoindata:Ortoilmakuva">Ortoilmakuva</option>
   <option value="avoindata:Kantakartta">Kantakartta</option>
@@ -120,9 +120,7 @@
   <div id="plotBuiltContainer">
     <div id="selectContainer">
         <select id="plotSelect">
-            <!-- Add your select options here -->
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
+            <option value="Helsinki">Helsinki</option>
         </select>
     </div>
     <!-- Other content of the plot container -->
@@ -155,12 +153,12 @@
 	// OS version, operating without Cesium Ion services...
     Cesium.Ion.defaultAccessToken = null;
     setElementDisabledState( true );
-    addLayerSelectorEventListener( );
+    addSelectorEventListeners( );
 
     // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
     const viewer = new Cesium.Viewer('cesiumContainer', {
     	terrainProvider : new Cesium.EllipsoidTerrainProvider(),
-    	imageryProvider: createImageryProvider( document.getElementById( 'layerSelector' ).value ),
+    	imageryProvider: createImageryProvider( document.getElementById( 'layerSelect' ).value ),
     	animation: false,
       fullscreenButton: false,
       geocoder: false,

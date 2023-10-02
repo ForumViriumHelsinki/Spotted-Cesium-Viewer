@@ -47,7 +47,7 @@ function resetSwitches( ) {
     document.getElementById( 'returnButton' ).style.visibility = 'hidden';
 
     setPrintVisible( );
-    hideAllPlots( );    
+    togglePlots( 'hidden' );    
 
   	showPlot = true;
 	print = true;
@@ -221,7 +221,7 @@ function createURL( majordistrict, collection ) {
  * Function to toggle the visibility of the "Return" button
  */
 function toggleReturnButtonVisibility() {
-    if ( levelsVisited[ levelsVisited.length - 1 ] !== null && levelsVisited[ levelsVisited.length - 1 ] !== "MajorDistricts" ) {
+    if ( levelsVisited.length && levelsVisited[ levelsVisited.length - 1 ] !== "MajorDistricts" ) {
   
         document.getElementById( 'returnButton' ).style.visibility = 'visible';
   
@@ -287,9 +287,91 @@ function setElementDisabledState( isDisabled ) {
  * @param {boolean} isVisible - Whether to make the pie chart and select element visible (true) or hidden (false).
  */
 function setPieChartVisibility( isVisible ) {
+
     const plotContainer = document.getElementById("plotBuiltContainer");
     const selectContainer = document.getElementById("selectContainer");
     
     plotContainer.style.visibility = isVisible ? "visible" : "hidden";
     selectContainer.style.visibility = isVisible ? "visible" : "hidden";
+
+}
+
+/**
+ * Populate a <select> element with options based on the 'nimi_fi' attribute of a GeoJSON data source.
+ * 
+ * @param {string} dataSourceName - The name of the GeoJSON data source.
+ * @param {string} selectElementId - The ID of the <select> element to populate.
+ */
+function populateSelectFromGeoJSON(dataSourceName, selectElementId) {
+    // Get the GeoJSON data source by name
+    const geoJsonDataSource = viewer.dataSources.getByName(dataSourceName)[0];
+
+    if (!geoJsonDataSource) {
+        console.error(`Data source with name '${dataSourceName}' not found.`);
+        return;
+    }
+
+    // Get the 'nimi_fi' values from the features
+    const nimiFiValues = [];
+    const entities = geoJsonDataSource.entities.values;
+
+    for (const entity of entities) {
+        const nimiFi = entity.properties.nimi_fi._value;
+        if (nimiFi && !nimiFiValues.includes(nimiFi)) {
+            nimiFiValues.push(nimiFi);
+        }
+    }
+
+    // Get the <select> element
+    const selectElement = document.getElementById(selectElementId);
+
+    if (!selectElement) {
+        console.error(`Select element with ID '${selectElementId}' not found.`);
+        return;
+    }
+
+    // Remove all options except the first one
+    removeOptionsExceptFirst(selectElement);
+
+    // Populate the <select> element with options
+    for (const nimiFi of nimiFiValues) {
+        const optionElement = document.createElement("option");
+        optionElement.value = nimiFi;
+        optionElement.textContent = nimiFi;
+        selectElement.appendChild(optionElement);
+    }
+}
+
+/**
+ * Remove all options except the first one from a <select> element.
+ * 
+ * @param {HTMLSelectElement} selectElement - The <select> element to remove options from.
+ */
+function removeOptionsExceptFirst(selectElement) {
+    const options = selectElement.querySelectorAll("option");
+    for (let i = 1; i < options.length; i++) {
+        options[i].remove();
+    }
+}
+
+/**
+ * Check if the selected option in the 'plotSelect' <select> element is not equal to 'Helsinki'.
+ * 
+ * @returns {boolean} true if the selected option is not 'Helsinki', false otherwise.
+ */
+function isNotHelsinkiSelected() {
+    // Get the <select> element by its ID
+    const selectElement = document.getElementById("plotSelect");
+
+    if (selectElement) {
+        // Get the selected option's value
+        const selectedValue = selectElement.value;
+
+        // Check if the selected value is not 'Helsinki'
+        return selectedValue !== "Helsinki";
+    }
+
+    // Handle the case where the <select> element is not found
+    console.error("Select element with ID 'plotSelect' not found.");
+    return false;
 }

@@ -1,16 +1,26 @@
 
 /**
  * 
- * A function for adding layer selector event listner.
+ * A function for adding layer and plot select event listner.
  * 
  */
-function addLayerSelectorEventListener(  ) {
+function addSelectorEventListeners(  ) {
 		
     // Listen for changes in the layer selection
-    layerSelector.addEventListener('change', function () {
-        const selectedLayer = document.getElementById('layerSelector').value;
+    layerSelect.addEventListener('change', function () {
+        const selectedLayer = document.getElementById('layerSelect').value;
         viewer.imageryLayers.removeAll(); // Remove existing imagery layers
         viewer.imageryLayers.addImageryProvider( createImageryProvider( selectedLayer ) ); // Add the selected layer
+    });	
+
+    plotSelect.addEventListener('change', function () {
+
+        if ( districtsVisited.length ) {
+
+            createPieChartForMajorDistrict( districtsVisited[ districtsVisited.length - 1 ] );
+
+        }
+
     });	
             
 }

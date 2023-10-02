@@ -250,3 +250,30 @@ function loadDistrictZones( opacity, url, name ) {
       console.log( error );
     });
 }
+
+/**
+ * Finds  if of district based on district name and level
+ * 
+ * @param { String } name Name of the district
+ * 
+ * @returns { Number } id of a district
+*/
+function findDistrictIdByName( name ) {
+
+    for ( let i = 0; i < viewer.dataSources._dataSources.length; i++ ) {
+
+        if ( viewer.dataSources._dataSources[ i ]._name === levelsVisited[ levelsVisited.length - 1 ] ) {
+
+            const datasource = viewer.dataSources._dataSources[ i ];
+    
+            for ( let j = 0; j < datasource._entityCollection._entities._array.length; j++ ) {
+    
+                if ( datasource._entityCollection._entities._array[ j ]._properties._nimi_fi._value  === name ) {
+  
+                    return datasource._entityCollection._entities._array[ j ]._properties._tunnus._value;
+
+                }
+            }
+        }
+    }
+}

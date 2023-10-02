@@ -18,8 +18,22 @@ function createDiagrams( district ) {
  */
 function createPieChartForMajorDistrict( district ) {
 
+    let firstData = getLandDataForMajorDistrict( district );
+    let secondData = getLandDataForCity( );
+    let secondDataName = 'Helsinki';
+
+    if ( isNotHelsinkiSelected( ) ) {
+
+        const selectedDistrict = document.getElementById('plotSelect').value;
+
+        let otherDistrict = findDistrictIdByName( selectedDistrict )
+        secondData = getLandDataForMajorDistrict( otherDistrict );
+        secondDataName = selectedDistrict;
+
+    }
+
     const data = [{
-        values: getLandDataForMajorDistrict( district ),
+        values: firstData,
         labels: [ 'trees', 'vegetation', 'water', 'fields', 'rocks, dirt unused land', 'buildings and roads' ],
         domain: { column: 0 },
         name: districtName,
@@ -30,12 +44,12 @@ function createPieChartForMajorDistrict( district ) {
             colors: [ 'forestgreen', 'green', 'mediumblue', 'yellow', 'sandybrown', ' red ']
         },
       },{
-        values: getLandDataForCity( ),
+        values: secondData,
         labels: [ 'trees', 'vegetation', 'water', 'fields', 'rocks, dirt unused land', 'buildings and roads' ],
-        text: 'Helsinki',
+        text: secondDataName,
         textposition: 'inside',
         domain: { column: 1 },
-        name: 'Helsinki',
+        name: secondDataName,
         hoverinfo: 'label+percent',
         hole: .4,
         type: 'pie',
@@ -61,7 +75,7 @@ function createPieChartForMajorDistrict( district ) {
               size: 12
             },
             showarrow: false,
-            text: 'Helsinki',
+            text: secondDataName,
             x: 0.82,
             y: 0.5
           }
@@ -74,7 +88,9 @@ function createPieChartForMajorDistrict( district ) {
 
     if ( showPlot ) {
 
-        document.getElementById( "plotBuiltContainer" ).style.visibility = 'visible';
+        setPieChartVisibility( 'visible' );
+        populateSelectFromGeoJSON( levelsVisited[ levelsVisited.length - 1 ], 'plotSelect');
+
     }
 
       
@@ -490,7 +506,7 @@ function getLandDataForMajorDistrict( majordistrict ) {
 /**
  * Get landcover data array for a city
  * 
- * @returns { Array } Data array for the specified major district
+ * @returns { Array } Data array for the specified district
  */
 function getLandDataForCity( ) {
 
