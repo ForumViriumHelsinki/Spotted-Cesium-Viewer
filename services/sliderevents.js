@@ -13,7 +13,7 @@ function sliderEvents( event ) {
     }
       
     // If the slider value is "showPlot", call the showPlotEvent function.
-    if ( event.target.value == 'showPlot' ) {
+    if ( event.target.value == 'showPlot' && districtsVisited.length ) {
 
         showPlotEvent();
 
@@ -151,11 +151,11 @@ function showPlotEvent( ) {
     if ( !showPlots ) {
 
         showPlot = false;
-        hideAllPlots( );
+        togglePlots( 'hidden' );
 
     } else { // Otherwise, show the plot and its controls if the toggle button is checked and the plot is already loaded
 
-        showAllPlots( );
+        togglePlots( 'visible' );
         showPlot = true;
 
     }

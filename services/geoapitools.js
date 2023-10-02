@@ -32,7 +32,7 @@ function reset( ) {
  */
 function resetSwitches( ) {
 
-	document.getElementById( "showPlotToggle" ).checked = true;
+	document.getElementById( "showPlotToggle" ).checked = false;
 
     document.getElementById( "showTreeToggle" ).checked = false;
 	document.getElementById( "showVegetationToggle" ).checked = false;
@@ -163,28 +163,49 @@ function getSelectedText( elementId ) {
 
 
 /**
- * Shows all plots and select elements
+ * Change visibility of plots
  * 
  * */
-function showAllPlots( ) {
+function togglePlots( status ) {
 
-    document.getElementById( 'plotContainer' ).style.visibility = 'visible';
-    document.getElementById( 'plotBuiltContainer' ).style.visibility = 'visible';
-    document.getElementById( 'plotInhabitantContainer' ).style.visibility = 'visible';
+    document.getElementById( 'plotBuiltContainer' ).style.visibility = status;
+
+    if ( areAnySwitchesOn() ) {
+
+        document.getElementById( 'plotInhabitantContainer' ).style.visibility = status;
+        document.getElementById( 'plotContainer' ).style.visibility = status;
+
+    }
 
 }
 
 
 /**
- * Hides all plots and select elements
+ * Check if any of the specified switches are turned on.
  * 
- * */
-function hideAllPlots( ) {
+ * @returns {boolean} true if any switch is on, false if all are off.
+ */
+function areAnySwitchesOn() {
+    // List of switch IDs to check
+    const switchIds = [
+        'showTreeToggle',
+        'showVegetationToggle',
+        'showWaterToggle',
+        'showFieldsToggle',
+        'showOtherNatureToggle'
+    ];
 
-    document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
-    document.getElementById( 'plotBuiltContainer' ).style.visibility = 'hidden';
-    document.getElementById( 'plotInhabitantContainer' ).style.visibility = 'hidden';
+    // Loop through the switch IDs and check if any are on
+    for (const switchId of switchIds) {
+        const switchElement = document.getElementById(switchId);
+        if ( switchElement && switchElement.checked ) {
 
+            return true; // At least one switch is on, so return true
+        }
+
+    }
+
+    return false; // No switches are on, so return false
 }
 
 /**
@@ -252,9 +273,23 @@ function toggleReturnButtonVisibility() {
  */
 function setElementDisabledState( isDisabled ) {
     document.getElementById("showTreeToggle").disabled = isDisabled;
+    document.getElementById("showTreeToggle").disabled = isDisabled;
     document.getElementById("showVegetationToggle").disabled = isDisabled;
     document.getElementById("showWaterToggle").disabled = isDisabled;
     document.getElementById("showFieldsToggle").disabled = isDisabled;
     document.getElementById("showOtherNatureToggle").disabled = isDisabled;
     document.getElementById("showBuiltToggle").disabled = isDisabled;
+}
+
+/**
+ * Set the visibility status of the pie chart and select element.
+ * 
+ * @param {boolean} isVisible - Whether to make the pie chart and select element visible (true) or hidden (false).
+ */
+function setPieChartVisibility( isVisible ) {
+    const plotContainer = document.getElementById("plotBuiltContainer");
+    const selectContainer = document.getElementById("selectContainer");
+    
+    plotContainer.style.visibility = isVisible ? "visible" : "hidden";
+    selectContainer.style.visibility = isVisible ? "visible" : "hidden";
 }

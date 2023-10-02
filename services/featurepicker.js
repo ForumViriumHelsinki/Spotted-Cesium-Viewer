@@ -77,6 +77,7 @@ async function pickEntity( viewer, windowPosition ) {
     if ( picked ) {
 
         setElementDisabledState( false );
+        document.getElementById( "showPlotToggle" ).checked = true;
 
         setDistrictVariables( picked.id.properties );
          
@@ -123,31 +124,4 @@ async function pickEntity( viewer, windowPosition ) {
 
     }
 
-}
-
-/**
- * Hides the plot container if the nature feature is clicked; otherwise, shows the plot container if the show plot toggle is checked
- * 
- * @param {string} category - The category of the picked entity
- */
-function hidePlotlyIfNatureFeatureIsClicked( category ) {
-
-    if ( category ) {
-
-        document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
-        document.getElementById( 'plotBuiltContainer' ).style.visibility = 'hidden';
-        document.getElementById( 'plotInhabitantContainer' ).style.visibility = 'hidden';
-
-
-    } else {
-
-        if ( document.getElementById( "showPlotToggle" ).checked ) {
-
-            document.getElementById( 'plotContainer' ).style.visibility = 'visible';
-            document.getElementById( 'plotBuiltContainer' ).style.visibility = 'visible';
-            document.getElementById( 'plotInhabitantContainer' ).style.visibility = 'visible';
-
-        }
-
-    }
 }
