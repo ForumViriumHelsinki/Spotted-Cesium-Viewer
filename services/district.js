@@ -165,7 +165,6 @@ async function newDistrict( url, load ) {
     return new Promise((resolve, reject) => {
 
         loadDistrictZones( 0.01, url, load );
-
         setTimeout(() => {
             resolve(); // Resolve the promise when done
         }, 1000);
@@ -222,6 +221,9 @@ function setDistrictVariables( properties ) {
         districtsVisited.push( properties.tunnus );
 
     }
+
+    setDistrictOutlineColor( );
+
 }
 
 
@@ -271,6 +273,36 @@ function findDistrictIdByName( name ) {
                 if ( datasource._entityCollection._entities._array[ j ]._properties._nimi_fi._value  === name ) {
   
                     return datasource._entityCollection._entities._array[ j ]._properties._tunnus._value;
+
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Set up entity outline
+ * 
+ */
+function setDistrictOutlineColor( ) {
+	
+    for ( let i = 0; i < viewer.dataSources._dataSources.length; i++ ) {
+
+        if ( viewer.dataSources._dataSources[ i ]._name === levelsVisited[ levelsVisited.length - 1 ] ) {
+
+            const datasource = viewer.dataSources._dataSources[ i ];
+    
+            for ( let j = 0; j < datasource._entityCollection._entities._array.length; j++ ) {
+    
+                const entity = datasource._entityCollection._entities._array[ j ];
+
+                if ( Number( entity._properties._tunnus && entity._properties._tunnus._value ) === Number( districtsVisited[ districtsVisited.length - 1 ]._value ) ) {
+
+                    entity.polygon.outlineColor = Cesium.Color.RED; // Set outline color to red
+                    
+                } else {
+
+                    entity.polygon.outlineColor = Cesium.Color.BLACK; 
 
                 }
             }

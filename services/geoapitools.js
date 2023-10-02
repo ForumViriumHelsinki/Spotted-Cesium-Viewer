@@ -254,7 +254,8 @@ function toggleReturnButtonVisibility() {
 
     }
 
-    districtsVisited.pop();
+    setDistrictOutlineColor( );
+    districtsVisited.pop( );
 
     const props = getDistrictPropsByNameAndId(  districtsVisited[ districtsVisited.length - 1 ] );
 

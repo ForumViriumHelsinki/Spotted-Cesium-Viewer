@@ -87,6 +87,7 @@ async function pickEntity( viewer, windowPosition ) {
             await removeDataSourcesByNamePrefix( "SubDistricts" );
             await newDistrict( 'assets/data/HelsinkiDistrict.json', 'Districts' );
             levelsVisited.push( 'MajorDistricts' );
+            setDistrictOutlineColor( );
             toggleReturnButtonVisibility( );
             createPieChartForMajorDistrict( picked.id.properties.tunnus );
                 
@@ -96,6 +97,7 @@ async function pickEntity( viewer, windowPosition ) {
 
             await newDistrict( 'assets/data/HelsinkiSubDistrict.json', 'SubDistricts' );
             levelsVisited.push( 'Districts' );
+            setDistrictOutlineColor( );
             toggleReturnButtonVisibility( );
             createPieChartForMajorDistrict( picked.id.properties.tunnus );
             await removeDataSourcesByNamePrefix( "MajorDistricts" );
@@ -106,12 +108,13 @@ async function pickEntity( viewer, windowPosition ) {
         if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vilhonvuori' ) {
 
             levelsVisited.push( 'SubDistricts' );
+            setDistrictOutlineColor( );
             toggleReturnButtonVisibility( );
             await removeDataSourcesByNamePrefix( "Districts" );
             createPieChartForMajorDistrict( picked.id.properties.tunnus );
                 
-        }   
-        
+        }  
+                
         await removeDuplicateDataSources( );
 
 
