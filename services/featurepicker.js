@@ -83,7 +83,7 @@ async function pickEntity( viewer, windowPosition ) {
             majorDistrict = picked.id.properties.tunnus;
             await removeDataSourcesByNamePrefix( "SubDistricts" );
             await newDistrict( 'assets/data/HelsinkiDistrict.json', 'Districts' );
-            level = 'MajorDistricts';
+            levelsVisited.push( 'MajorDistricts' );
             toggleReturnButtonVisibility( );
             createPieChartForMajorDistrict( picked.id.properties.tunnus );
                 
@@ -92,8 +92,7 @@ async function pickEntity( viewer, windowPosition ) {
         if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vironniemi' ) {
 
             await newDistrict( 'assets/data/HelsinkiSubDistrict.json', 'SubDistricts' );
-            level = 'Districts';
-            console.log("level", level)
+            levelsVisited.push( 'Districts' );
             toggleReturnButtonVisibility( );
             createPieChartForMajorDistrict( picked.id.properties.tunnus );
             await removeDataSourcesByNamePrefix( "MajorDistricts" );
@@ -103,7 +102,7 @@ async function pickEntity( viewer, windowPosition ) {
 
         if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vilhonvuori' ) {
 
-            level = 'SubDistricts';
+            levelsVisited.push( 'SubDistricts' );
             toggleReturnButtonVisibility( );
             await removeDataSourcesByNamePrefix( "Districts" );
             createPieChartForMajorDistrict( picked.id.properties.tunnus );
@@ -119,7 +118,9 @@ async function pickEntity( viewer, windowPosition ) {
     
         }
 
+
     }
+
 }
 
 /**

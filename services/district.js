@@ -1,14 +1,14 @@
 /**
  * Get total of property by district data source name
  * 
- * @param { String } name name of the district datasource
+ * @param { String } property name of the property
  * 
  * @returns { Number } The population 
 */
-function getCityTotalByNameAndProperty( name, property ) {
+function getCityTotalByNameAndProperty( property ) {
     
     // Find the data source for name
-	const districtDataSource = getDataSourceByName( name );
+	const districtDataSource = getDataSourceByName( levelsVisited[ levelsVisited.length - 1 ] );
 	let total = 0;
 
 	// If the data source isn't found, exit the function
@@ -40,16 +40,15 @@ function getCityTotalByNameAndProperty( name, property ) {
 /**
  * Get total area of district properties by district data source name and district id and list of property keys
  * 
- * @param { String } name name of the district datasource
  * @param { Number } id Id of the district
  * @param { Array } propertyKeys - List of property keys to calculate the total area
  * 
  * @returns { Number } The total area 
 */
-function getTotalAreaByNameAndIdAndPropertyKeys( name, id, propertyKeys ) {
+function getTotalAreaByNameAndIdAndPropertyKeys( id, propertyKeys ) {
     
     // Find the data source for name
-	const districtDataSource = getDataSourceByName( name );
+	const districtDataSource = getDataSourceByName( levelsVisited[ levelsVisited.length - 1 ] );
 
 	let totalArea = 0;
 
@@ -89,14 +88,13 @@ function getTotalAreaByNameAndIdAndPropertyKeys( name, id, propertyKeys ) {
 /**
  * Get total area of district properties by district data source name and list of property keys
  * 
- * @param { String } name - Name of the district data source
  * @param { Array } propertyKeys - List of property keys to calculate the total area
  * 
  * @returns { Number } The total area
  */
-function getTotalAreaByNameAndPropertyKeys( name, propertyKeys ) {
+function getTotalAreaByNameAndPropertyKeys( propertyKeys ) {
     // Find the data source for name
-    const districtDataSource = getDataSourceByName( name );
+    const districtDataSource = getDataSourceByName( levelsVisited[ levelsVisited.length - 1 ] );
 
     let totalArea = 0;
 
@@ -135,16 +133,15 @@ function getTotalAreaByNameAndPropertyKeys( name, propertyKeys ) {
 /**
  * Finds properties of district based on district tunnus and level
  * 
- * @param { String } name name of the district datasource
  * @param { Number } id Id of the district
  * 
  * @returns { Object } properties of a district
 */
-function getDistrictPropsByNameAndId( name, id ) {
+function getDistrictPropsByNameAndId( id ) {
 
     for ( let i = 0; i < viewer.dataSources._dataSources.length; i++ ) {
 
-        if ( viewer.dataSources._dataSources[ i ]._name === name ) {
+        if ( viewer.dataSources._dataSources[ i ]._name === levelsVisited[ levelsVisited.length - 1 ] ) {
 
             const datasource = viewer.dataSources._dataSources[ i ];
     

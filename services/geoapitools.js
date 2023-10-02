@@ -20,7 +20,6 @@ function reset( ) {
     removeDataSourcesAndEntities();
     resetViewer( );
     resetSwitches( );
-    majorDistrictCode = null;
     // Load major district zones
 	loadDistrictZones( 0.2, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
 	
@@ -205,7 +204,7 @@ function createURL( majordistrict, collection ) {
  * Function to toggle the visibility of the "Return" button
  */
 function toggleReturnButtonVisibility() {
-    if ( level !== null && level !== "MajorDistricts" ) {
+    if ( levelsVisited[ levelsVisited.length - 1 ] !== null && levelsVisited[ levelsVisited.length - 1 ] !== "MajorDistricts" ) {
   
         document.getElementById( 'returnButton' ).style.visibility = 'visible';
   
@@ -221,24 +220,26 @@ function toggleReturnButtonVisibility() {
  */
   async function prevLevel() {
 
-    if ( level === "Districts" ) {
+    if ( levelsVisited[ levelsVisited.length - 1 ] === "Districts" ) {
 
         await removeDataSourcesByNamePrefix( "SubDistricts" );
         await newDistrict( 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
-        level = 'MajorDistricts';
+        levelsVisited.pop();
+        levelsVisited.push( 'MajorDistricts' );
 
     }
 
-    if ( level === "SubDistricts" ) {
+    if ( levelsVisited[ levelsVisited.length - 1 ] === "SubDistricts" ) {
 
         await newDistrict( 'assets/data/HelsinkiDistrict.json', 'Districts' );
-        level = 'Districts';
+        levelsVisited.pop();
+        levelsVisited.push( 'Districts' );
 
     }
 
     districtsVisited.pop();
 
-    const props = getDistrictPropsByNameAndId( level, districtsVisited[ districtsVisited.length - 1 ] );
+    const props = getDistrictPropsByNameAndId(  districtsVisited[ districtsVisited.length - 1 ] );
 
     setDistrictVariables( props );
     
@@ -246,11 +247,7 @@ function toggleReturnButtonVisibility() {
     createPieChartForMajorDistrict( districtsVisited[ districtsVisited.length - 1 ] );
     removeDuplicateDataSources( );
 
-    if ( level === "MajorDistricts" ) {
 
-        await newDistrict( 'assets/data/HelsinkiDistrict.json', 'Districts' );
-
-    }
 }
 
 
