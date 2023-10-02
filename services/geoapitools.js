@@ -41,13 +41,9 @@ function resetSwitches( ) {
     document.getElementById( "showOtherNatureToggle" ).checked = false;
     document.getElementById( "showBuiltToggle" ).checked = false;
 
+    setElementDisabledState( true );
+
 	document.getElementById( "printToggle" ).checked = true;
-    document.getElementById( "showWaterToggle" ).disabled = true;
-    document.getElementById( "showTreeToggle" ).disabled = true;
-    document.getElementById( "showVegetationToggle" ).disabled = true;
-    document.getElementById( "showFieldsToggle" ).disabled = true;
-    document.getElementById( "showOtherNatureToggle" ).disabled = true;
-    document.getElementById( "showBuiltToggle" ).disabled = true;
     document.getElementById( 'returnButton' ).style.visibility = 'hidden';
 
     setPrintVisible( );
@@ -247,7 +243,18 @@ function toggleReturnButtonVisibility() {
     createPieChartForMajorDistrict( districtsVisited[ districtsVisited.length - 1 ] );
     removeDuplicateDataSources( );
 
-
 }
 
-
+/**
+ * Set the disabled state of specified elements.
+ * 
+ * @param {boolean} isDisabled - Whether to set the elements as disabled (true) or enabled (false).
+ */
+function setElementDisabledState( isDisabled ) {
+    document.getElementById("showTreeToggle").disabled = isDisabled;
+    document.getElementById("showVegetationToggle").disabled = isDisabled;
+    document.getElementById("showWaterToggle").disabled = isDisabled;
+    document.getElementById("showFieldsToggle").disabled = isDisabled;
+    document.getElementById("showOtherNatureToggle").disabled = isDisabled;
+    document.getElementById("showBuiltToggle").disabled = isDisabled;
+}

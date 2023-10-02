@@ -76,6 +76,8 @@ async function pickEntity( viewer, windowPosition ) {
     
     if ( picked ) {
 
+        setElementDisabledState( false );
+
         setDistrictVariables( picked.id.properties );
          
         if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Eteläinen' ) {
