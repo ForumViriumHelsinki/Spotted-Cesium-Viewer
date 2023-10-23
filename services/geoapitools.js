@@ -47,6 +47,7 @@ function resetSwitches( ) {
 
 	document.getElementById( "printToggle" ).checked = true;
     document.getElementById( 'returnButton' ).style.visibility = 'hidden';
+    document.getElementById( "plotContainer" ).style.visibility = 'hidden';
 
     setPrintVisible( );
     togglePlots( 'hidden' );    
