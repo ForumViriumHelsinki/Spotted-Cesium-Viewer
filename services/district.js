@@ -172,27 +172,6 @@ async function newDistrict( url, load ) {
     
 
 }
-/**
- * Calls functions needed for major district level
- */
-async function newMajorDistrict( ) {
-
-    return new Promise((resolve, reject) => {
-
-        document.getElementById( "showWaterToggle" ).disabled = false;
-        document.getElementById( "showVegetationToggle" ).disabled = false;
-        document.getElementById( "showTreeToggle" ).disabled = false;
-        document.getElementById( "showFieldsToggle" ).disabled = false;
-        document.getElementById( "showOtherNatureToggle" ).disabled = false;
-        document.getElementById( "showBuiltToggle" ).disabled = false;
-        loadDistrictZones( 0.01, 'assets/data/HelsinkiDistrict.json', 'Districts' );
-
-        setTimeout(() => {
-            resolve(); // Resolve the promise when done
-        }, 1000);
-    });
-
-}
 
 
 /**

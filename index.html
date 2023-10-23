@@ -18,6 +18,7 @@
   <script type="text/javascript" src="services/built.js"></script>
   <script type="text/javascript" src="services/district.js"></script>
   <script type="text/javascript" src="services/datasource.js"></script>
+  <script type="text/javascript" src="services/ndvi.js"></script>
   <script src="lib/localforage/dist/localforage.js"></script>
   <script src="lib/plotly-2.12.1.min.js"></script>
   <link href="lib/Cesium/Widgets/widgets.css" rel="stylesheet">
@@ -64,6 +65,13 @@
   <span class="slider round"></span>
 </label>
 <label for="printToggle" class="label">Object details</label>
+
+<!-- showNDVISwitch-->
+<label class="switch">
+  <input type="checkbox" id="showNDVIToggle" value="showNDVI" >
+  <span class="slider round"></span>
+</label>
+<label for="showNDVIToggle" class="label">NDVI</label>
 
 <!-- showTreeSwitch-->
 <label class="switch">
@@ -154,6 +162,7 @@
     Cesium.Ion.defaultAccessToken = null;
     setElementDisabledState( true );
     addSelectorEventListeners( );
+    document.getElementById("showNDVIToggle").disabled = true;
 
     // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
     const viewer = new Cesium.Viewer('cesiumContainer', {

@@ -73,12 +73,22 @@ function addToPrint( toPrint, postno ) {
  */
 async function pickEntity( viewer, windowPosition ) {
     let picked = viewer.scene.pick( windowPosition );
+
+    document.getElementById("showNDVIToggle").disabled = false;
     
     if ( picked ) {
 
-        setElementDisabledState( false );
-        document.getElementById( "showPlotToggle" ).checked = true;
+        if ( !document.getElementById( "showNDVIToggle" ).checked ) {
 
+            setElementDisabledState( false );
+
+        } else {
+
+            setElementDisabledState( true );
+
+        }
+
+        document.getElementById( "showPlotToggle" ).checked = true;
         setDistrictVariables( picked.id.properties );
          
         if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Eteläinen' ) {

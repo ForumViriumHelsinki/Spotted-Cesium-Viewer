@@ -38,10 +38,12 @@ function resetSwitches( ) {
 	document.getElementById( "showVegetationToggle" ).checked = false;
     document.getElementById( "showWaterToggle" ).checked = false;
     document.getElementById( "showFieldsToggle" ).checked = false;
+    document.getElementById( "showNDVIToggle" ).checked = false;
     document.getElementById( "showOtherNatureToggle" ).checked = false;
     document.getElementById( "showBuiltToggle" ).checked = false;
 
     setElementDisabledState( true );
+    document.getElementById("showNDVIToggle").disabled = true;
 
 	document.getElementById( "printToggle" ).checked = true;
     document.getElementById( 'returnButton' ).style.visibility = 'hidden';
@@ -273,7 +275,6 @@ function toggleReturnButtonVisibility() {
  * @param {boolean} isDisabled - Whether to set the elements as disabled (true) or enabled (false).
  */
 function setElementDisabledState( isDisabled ) {
-    document.getElementById("showTreeToggle").disabled = isDisabled;
     document.getElementById("showTreeToggle").disabled = isDisabled;
     document.getElementById("showVegetationToggle").disabled = isDisabled;
     document.getElementById("showWaterToggle").disabled = isDisabled;

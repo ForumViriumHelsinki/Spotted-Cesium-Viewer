@@ -19,6 +19,13 @@ function sliderEvents( event ) {
 
     }	
 
+    // If the slider value is "showNDVI", call the showNDVI function.
+    if ( event.target.value == 'showNDVI' ) {
+        
+        showNDVIEvent();
+            
+    } 
+
     // If the slider value is "showTree", call the showTreeEvent function.
     if ( event.target.value == 'showTree' ) {
 
@@ -64,6 +71,60 @@ function sliderEvents( event ) {
 }
 
 /**
+ * This function to show or hide NDVI entities on the map based on the toggle button state
+ *
+ */
+function showNDVIEvent( ) {
+
+    // Get the state of the showNDVI toggle button
+    const showNDVI = document.getElementById( "showNDVIToggle" ).checked;
+
+    // If showTrees toggle is on
+    if ( showNDVI ) {
+
+        setElementDisabledState( true );
+
+        // If a postal code is available, load trees for that postal code
+        if ( majorDistrict && !dataSourceWithNameExists( "ndvi" ) ) {
+
+            loadNDVI( majorDistrict );
+
+        } else {
+
+            showDataSourceByName( "ndvi" );
+
+        }
+        
+    } else { // If showTrees toggle is off
+        
+        document.getElementById( "plotContainer" ).style.visibility = 'hidden';
+        setElementDisabledState( false );
+        hideDataSourceByName( "ndvi" );
+
+    }
+
+}
+
+/**
+ * This function returns only if all hsy land cover
+ */
+function statusOfHSYToggles( ) {
+
+    if ( !document.getElementById( "showFieldsToggle" ).checked &&     !document.getElementById( "showTreeToggle" ).checked
+    &&     !document.getElementById( "showVegetationToggle" ).checked
+    &&     !document.getElementById( "showWaterToggle" ).checked
+    &&     !document.getElementById( "showOtherNatureToggle" ).checked
+    &&     !document.getElementById( "showBuiltSwitch" ).checked
+    ) {
+
+        return false;
+    }
+    
+    return true;
+}
+
+
+/**
  * This function to show or hide field entities on the map based on the toggle button state
  *
  */
@@ -74,6 +135,8 @@ function showFieldsEvent( ) {
 
     // If showTrees toggle is on
     if ( showFields ) {
+
+        document.getElementById("showNDVIToggle").disabled = true;
 
         // If a postal code is available, load trees for that postal code
         if ( majorDistrict && !dataSourceWithNameExists( "Fields" ) ) {
@@ -93,6 +156,7 @@ function showFieldsEvent( ) {
         createVegetationBarPlot( districtsVisited[ districtsVisited.length - 1 ] );
         createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
         hideDataSourceByName( "Fields" );
+        document.getElementById("showNDVIToggle").disabled = false;
 
     }
 
@@ -176,6 +240,7 @@ function showTreeEvent( ) {
 
     if ( showTree ) {
 
+        document.getElementById("showNDVIToggle").disabled = true;
 
         if ( majorDistrict && !dataSourceWithNameExists( "Trees" ) ) {
 
@@ -188,6 +253,7 @@ function showTreeEvent( ) {
 
     } else {
 
+        document.getElementById("showNDVIToggle").disabled = false;
         hideDataSourceByName( "Trees" );
 
     }
@@ -208,6 +274,8 @@ function showVegetationEvent( ) {
 
     if ( showVegetation ) {
 
+        document.getElementById("showNDVIToggle").disabled = true;
+
         // If the toggle button is checked, enable the toggle button for showing the nature area heat map.
         //document.getElementById("showVegetationHeatToggle").disabled = false;
 
@@ -225,6 +293,7 @@ function showVegetationEvent( ) {
     } else {
 
         hideDataSourceByName( "Vegetation" );
+        document.getElementById("showNDVIToggle").disabled = false;
 
     }
 
@@ -243,6 +312,8 @@ function showWaterEvent( ) {
 
     if ( showWater ) {
 
+        document.getElementById("showNDVIToggle").disabled = true;
+
         // If the toggle button is checked, enable the toggle button for showing the nature area heat map.
         //document.getElementById("showloadWater").disabled = false;
 
@@ -260,6 +331,7 @@ function showWaterEvent( ) {
     } else {
 
         hideDataSourceByName( "Water" );
+        document.getElementById("showNDVIToggle").disabled = false;
 
     }
 
@@ -278,6 +350,8 @@ function showOtherNatureEvent( ) {
 
     if ( showOtherNature) {
 
+        document.getElementById("showNDVIToggle").disabled = true;
+
         // If there is a postal code available, load the nature areas for that area.
         if ( majorDistrict && !dataSourceWithNameExists( "OtherNature" ) ) {
 
@@ -292,6 +366,7 @@ function showOtherNatureEvent( ) {
     } else {
 
         hideDataSourceByName( "OtherNature" );
+        document.getElementById("showNDVIToggle").disabled = false;
 
     }
 
@@ -308,6 +383,8 @@ function showBuiltEvent( ) {
 
     if ( showBuilt) {
 
+        document.getElementById("showNDVIToggle").disabled = true;
+
         // If there is a postal code available, load the nature areas for that area.
         if ( majorDistrict && !dataSourceWithNameExists( "Built" ) ) {
 
@@ -321,6 +398,7 @@ function showBuiltEvent( ) {
     } else {
 
         hideDataSourceByName( "Built" );
+        document.getElementById("showNDVIToggle").disabled = false;
 
     }
 

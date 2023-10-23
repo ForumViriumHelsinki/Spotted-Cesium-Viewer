@@ -323,35 +323,35 @@ function getNatureDataPerInhabitantForDistrict( district ) {
      // Check if the "showTreeToggle" checkbox is checked
      if ( document.getElementById( "showTreeToggle" ).checked ) {
 
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / districtPopulation ).toFixed( 1 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / districtPopulation ).toFixed( 3 ) );
 
     }    
 
      // Check if the "showVegetationToggle" checkbox is checked
     if ( document.getElementById( "showVegetationToggle" ).checked ) {
 
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'vegetation_m2' ] ) / districtPopulation ).toFixed( 1 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'vegetation_m2' ] ) / districtPopulation ).toFixed( 3 ) );
 
     }
 
     // Check if the "showWaterToggle" checkbox is checked
     if ( document.getElementById( "showWaterToggle" ).checked ) {
 
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'water_m2' ] ) / districtPopulation ).toFixed( 1 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'water_m2' ] ) / districtPopulation ).toFixed( 3 ) );
     
     }
 
     // Check if the "showFieldsToggle" checkbox is checked
     if ( document.getElementById( "showFieldsToggle" ).checked ) {
 
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'field_m2' ] ) / districtPopulation ).toFixed( 1 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'field_m2' ] ) / districtPopulation ).toFixed( 3 ) );
 
     }
     
     // Check if the "showOtherNatureToggle" checkbox is checked
     if ( document.getElementById( "showOtherNatureToggle").checked ) {
 
-        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / districtPopulation ).toFixed( 1 ) );
+        data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / districtPopulation ).toFixed( 3 ) );
 
     }
 
@@ -522,3 +522,70 @@ function getLandDataForCity( ) {
     return [ trees, vegetation, water, fields, other, built ];
 
 }
+
+
+/**
+ * Creates vegetation bar for a major district area area
+ *
+ * @param { String } district  district code
+ */
+function createNDVIBarPlot( district ) {
+
+    let trace1 = {
+        x: [ "ndvi" ],
+        y: [ getNDVIForDistrict( district ) ],
+        name: districtName,
+        type: 'bar',
+    };
+      
+    let trace2 = {
+        x: [ "ndvi" ],
+        y: [ 0.312 ],
+        name: "Helsinki",
+        type: 'bar',
+        marker: {
+            color: 'green'
+        }
+    };
+      
+    let data = [ trace1, trace2 ];
+    let layout = { title: { text: 'Average ndvi 15.08.2023' }, barmode: 'group' };
+
+    //Test plotting
+    if ( showPlot ) {
+
+        document.getElementById( "plotContainer" ).style.visibility = 'visible';
+    }
+
+    Plotly.newPlot( 'plotContainer', data, layout );
+
+}
+
+/**
+ * Get ndvi value for a specific major district
+ * 
+ * @param { string } majordistrict - Major district code
+ * @returns { Number } ndvi value for major district
+ */
+function getNDVIForDistrict( majordistrict ) {
+
+    switch ( majordistrict ){
+		case 1:
+            return 0.211;
+        case 2:
+            return 0.314;
+        case 3:
+            return 0.220;
+		case 4:
+            return 0.361;
+        case 5:
+            return 0.313;
+        case 6:
+            return 0.315;
+        case 7:
+            return 0.301;
+        case 8:
+            return 0.395;
+                                 
+	}	
+} 
