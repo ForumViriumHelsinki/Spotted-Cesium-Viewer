@@ -292,3 +292,68 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+/* Red label */
+.red-label {
+	position: fixed;
+	top: 250px;
+	left: 397px;
+	width: 100px;
+	height: 10px; 
+    background-color: red;
+    color: white; /* Set text color to white or a color that contrasts well */
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Orange label */
+.orange-label {
+	position: fixed;
+	top: 275px;
+	left: 397px;
+	width: 100px;
+	height: 10px; 
+    background-color: orange;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Yellow label */
+.yellow-label {
+	position: fixed;
+	top: 300px;
+	left: 397px;
+	width: 100px;
+	height: 10px; 
+    background-color: yellow;
+    color: black; /* Adjust text color for better visibility */
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Yellowgreen label */
+.yellowgreen-label {
+	position: fixed;
+	top: 325px;
+	left: 398px;
+	width: 100px;
+	height: 10px; 
+    background-color: yellowgreen;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Darkgreen label */
+.darkgreen-label {
+	position: fixed;	
+	top: 350px;
+	left: 397px;
+	width: 100px;
+	height: 10px; 
+    background-color: darkgreen;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+}

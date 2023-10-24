@@ -74,36 +74,46 @@ function sliderEvents( event ) {
  * This function to show or hide NDVI entities on the map based on the toggle button state
  *
  */
-function showNDVIEvent( ) {
-
+function showNDVIEvent() {
     // Get the state of the showNDVI toggle button
-    const showNDVI = document.getElementById( "showNDVIToggle" ).checked;
+    const showNDVI = document.getElementById("showNDVIToggle").checked;
 
-    // If showTrees toggle is on
-    if ( showNDVI ) {
+    // Get the labels for colors
+    const labels = document.querySelectorAll(".color-label.active");
 
-        setElementDisabledState( true );
-
-        // If a postal code is available, load trees for that postal code
-        if ( majorDistrict && !dataSourceWithNameExists( "ndvi" ) ) {
-
-            loadNDVI( majorDistrict );
-
-        } else {
-
-            showDataSourceByName( "ndvi" );
-
-        }
-        
-    } else { // If showTrees toggle is off
-        
-        document.getElementById( "plotContainer" ).style.visibility = 'hidden';
-        setElementDisabledState( false );
-        hideDataSourceByName( "ndvi" );
-
+    if (showNDVI) {
+        // Toggle the visibility of the labels
+        labels.forEach(label => {
+            label.style.display = "block";
+        });
+    } else {
+        // Hide the labels
+        labels.forEach(label => {
+            label.style.display = "none";
+        });
     }
 
+    // Rest of your showNDVIEvent function code
+    // ...
+
+    if (showNDVI) {
+        setElementDisabledState(true);
+
+        if (majorDistrict && !dataSourceWithNameExists("ndvi")) {
+            loadNDVI(majorDistrict);
+        } else {
+            showDataSourceByName("ndvi");
+            createNDVIBarPlot( majorDistrict._value );
+
+        }
+    } else {
+        document.getElementById("plotContainer").style.visibility = 'hidden';
+        setElementDisabledState(false);
+        hideDataSourceByName("ndvi");
+    }
 }
+
+
 
 /**
  * This function returns only if all hsy land cover
