@@ -195,7 +195,7 @@ function togglePlots( visibility ) {
     document.getElementById( 'plotBuiltContainer' ).style.visibility = visibility;
     document.getElementById( 'selectContainer' ).style.visibility = visibility;
 
-    if ( document.getElementById( "showNDVIToggle" ).checked ) {
+    if ( document.getElementById( "showNDVIToggle" ).checked ||  visibility == 'hidden' ) {
 
         toggleLabels( visibility );
 
