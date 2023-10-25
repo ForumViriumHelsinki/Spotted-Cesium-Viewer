@@ -81,6 +81,21 @@ function showNDVIEvent() {
     // Get the labels for colors
     const labels = document.querySelectorAll( ".color-label.active" );
 
+    const elements = [
+        'showVegetationSwitch',
+        'showVegetationLabel',
+        'showOtherNatureSwitch',
+        'showOtherNatureLabel',
+        'showWaterSwitch',
+        'showWaterLabel',
+        'showFieldsSwitch',
+        'showFieldsLabel',
+        'showBuiltSwitch',
+        'showBuiltLabel',
+        'showTreesSwitch',
+        'showTreesLabel'
+    ];
+
     // Rest of your showNDVIEvent function code
 
     if ( showNDVI ) {
@@ -90,7 +105,7 @@ function showNDVIEvent() {
             label.style.display = "block";
         });
 
-        setLandCoverElementsDisplay( 'none' );
+        setElementsDisplay( elements, 'none' );
         setElementDisabledState( true );
 
         if ( majorDistrict && !dataSourceWithNameExists( "ndvi" )) {
@@ -112,7 +127,7 @@ function showNDVIEvent() {
         } );
 
 
-        setLandCoverElementsDisplay( 'inline-block' );
+        setElementsDisplay( elements, 'inline-block' );
         document.getElementById( "plotContainer" ).style.visibility = 'hidden';
         setElementDisabledState( false );
         hideDataSourceByName( "ndvi" );
@@ -147,6 +162,11 @@ function statusOfHSYToggles( ) {
  */
 function showFieldsEvent( ) {
 
+    const elements = [
+        'showNDVISwitch',
+        'showNDVILabel'
+    ];
+
     // Get the state of the showFields toggle button
     const showFields = document.getElementById( "showFieldsToggle" ).checked;
 
@@ -167,6 +187,8 @@ function showFieldsEvent( ) {
             showDataSourceByName( "Fields" );
 
         }
+
+        setElementsDisplay( elements, 'none' );
         
     } else { // If showTrees toggle is off
         
@@ -174,6 +196,7 @@ function showFieldsEvent( ) {
         createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
         hideDataSourceByName( "Fields" );
         document.getElementById("showNDVIToggle").disabled = false;
+        setElementsDisplay( elements, 'inline-block' );
 
     }
 
@@ -249,6 +272,11 @@ function showPlotEvent( ) {
  */
 function showTreeEvent( ) {
 
+    const elements = [
+        'showNDVISwitch',
+        'showNDVILabel'
+    ];
+
     // Get the current state of the toggle button for showing nature areas.
     const showTree = document.getElementById( "showTreeToggle" ).checked;
 
@@ -258,6 +286,7 @@ function showTreeEvent( ) {
     if ( showTree ) {
 
         document.getElementById("showNDVIToggle").disabled = true;
+        setElementsDisplay( elements, 'none' );
 
         if ( majorDistrict && !dataSourceWithNameExists( "Trees" ) ) {
 
@@ -272,6 +301,7 @@ function showTreeEvent( ) {
 
         document.getElementById("showNDVIToggle").disabled = false;
         hideDataSourceByName( "Trees" );
+        setElementsDisplay( elements, 'inline-block' );
 
     }
 
@@ -283,6 +313,11 @@ function showTreeEvent( ) {
  */
 function showVegetationEvent( ) {
 
+    const elements = [
+        'showNDVISwitch',
+        'showNDVILabel'
+    ];
+
     // Get the current state of the toggle button for showing nature areas.
     const showVegetation = document.getElementById( "showVegetationToggle" ).checked;
 
@@ -292,6 +327,7 @@ function showVegetationEvent( ) {
     if ( showVegetation ) {
 
         document.getElementById("showNDVIToggle").disabled = true;
+        setElementsDisplay( elements, 'none' );
 
         // If the toggle button is checked, enable the toggle button for showing the nature area heat map.
         //document.getElementById("showVegetationHeatToggle").disabled = false;
@@ -311,6 +347,7 @@ function showVegetationEvent( ) {
 
         hideDataSourceByName( "Vegetation" );
         document.getElementById("showNDVIToggle").disabled = false;
+        setElementsDisplay( elements, 'inline-block' );
 
     }
 
@@ -322,6 +359,11 @@ function showVegetationEvent( ) {
  */
 function showWaterEvent( ) {
 
+    const elements = [
+        'showNDVISwitch',
+        'showNDVILabel'
+    ];
+
     // Get the current state of the toggle button for showing nature areas.
     const showWater = document.getElementById( "showWaterToggle" ).checked;
     createVegetationBarPlot( districtsVisited[ districtsVisited.length - 1 ] );
@@ -330,6 +372,7 @@ function showWaterEvent( ) {
     if ( showWater ) {
 
         document.getElementById("showNDVIToggle").disabled = true;
+        setElementsDisplay( elements, 'none' );
 
         // If the toggle button is checked, enable the toggle button for showing the nature area heat map.
         //document.getElementById("showloadWater").disabled = false;
@@ -349,6 +392,7 @@ function showWaterEvent( ) {
 
         hideDataSourceByName( "Water" );
         document.getElementById("showNDVIToggle").disabled = false;
+        setElementsDisplay( elements, 'inline-block' );
 
     }
 
@@ -360,12 +404,19 @@ function showWaterEvent( ) {
  */
 function showOtherNatureEvent( ) {
 
+    const elements = [
+        'showNDVISwitch',
+        'showNDVILabel'
+    ];
+
     // Get the current state of the toggle button for showing nature areas.
     const showOtherNature = document.getElementById( "showOtherNatureToggle" ).checked;
     createVegetationBarPlot( districtsVisited[ districtsVisited.length - 1 ] );
     createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
 
     if ( showOtherNature) {
+
+        setElementsDisplay( elements, 'none' );
 
         document.getElementById("showNDVIToggle").disabled = true;
 
@@ -384,6 +435,7 @@ function showOtherNatureEvent( ) {
 
         hideDataSourceByName( "OtherNature" );
         document.getElementById("showNDVIToggle").disabled = false;
+        setElementsDisplay( elements, 'inline-block' );
 
     }
 
@@ -395,10 +447,17 @@ function showOtherNatureEvent( ) {
  */
 function showBuiltEvent( ) {
 
+    const elements = [
+        'showNDVISwitch',
+        'showNDVILabel'
+    ];
+
     // Get the current state of the toggle button for showing nature areas.
     const showBuilt = document.getElementById( "showBuiltToggle" ).checked;
 
     if ( showBuilt) {
+
+        setElementsDisplay( elements, 'none' );
 
         document.getElementById("showNDVIToggle").disabled = true;
 
@@ -416,6 +475,7 @@ function showBuiltEvent( ) {
 
         hideDataSourceByName( "Built" );
         document.getElementById("showNDVIToggle").disabled = false;
+        setElementsDisplay( elements, 'inline-block' );
 
     }
 

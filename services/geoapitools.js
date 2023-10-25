@@ -32,6 +32,25 @@ function reset( ) {
  */
 function resetSwitches( ) {
 
+    const elements = [
+        'showPlotSwitch',
+        'showPlotLabel',
+        'showNDVISwitch',
+        'showNDVILabel',
+        'showVegetationSwitch',
+        'showVegetationLabel',
+        'showOtherNatureSwitch',
+        'showOtherNatureLabel',
+        'showWaterSwitch',
+        'showWaterLabel',
+        'showFieldsSwitch',
+        'showFieldsLabel',
+        'showBuiltSwitch',
+        'showBuiltLabel',
+        'showTreesSwitch',
+        'showTreesLabel'
+    ];
+
 	document.getElementById( "showPlotToggle" ).checked = false;
 
     document.getElementById( "showTreeToggle" ).checked = false;
@@ -43,7 +62,7 @@ function resetSwitches( ) {
     document.getElementById( "showBuiltToggle" ).checked = false;
 
     setElementDisabledState( true );
-    setLandCoverElementsDisplay( 'inline-block' );
+    setElementsDisplay( elements, 'inline-block' );
     document.getElementById("showNDVIToggle").disabled = true;
 
 	document.getElementById( "printToggle" ).checked = true;
@@ -383,21 +402,7 @@ function isNotHelsinkiSelected() {
 /**
  * Changes the display of land cover elements when user switches between land cover and ndvi view
  */
-function setLandCoverElementsDisplay( display ) {
-    const elements = [
-        'showVegetationSwitch',
-        'showVegetationLabel',
-        'showOtherNatureSwitch',
-        'showOtherNatureLabel',
-        'showWaterSwitch',
-        'showWaterLabel',
-        'showFieldsSwitch',
-        'showFieldsLabel',
-        'showBuiltSwitch',
-        'showBuiltLabel',
-        'showTreesSwitch',
-        'showTreesLabel'
-    ];
+function setElementsDisplay( elements, display ) {
 
     elements.forEach(( elementId ) => {
         const element = document.getElementById( elementId );
