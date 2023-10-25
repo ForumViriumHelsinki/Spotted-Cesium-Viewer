@@ -52,68 +52,68 @@
   <option value="avoindata:Tavoitteellinen_viher_ja_virkistysverkosto_VISTRA">Tavoitteellinen viher- ja virkistysverkosto</option>
 </select>
 
-  <!-- showPlotSwitch-->
-<label class="switch">
-  <input type="checkbox" id="showPlotToggle" value="showPlot" >
-  <span class="slider round"></span>
-</label>
-<label for="showPlotToggle" class="label">Display plot</label>
-
-  <!-- showPrintSwitch-->
+<!-- showPrintSwitch-->
 <label class="switch">
   <input type="checkbox" id="printToggle" value="print" checked>
   <span class="slider round"></span>
 </label>
 <label for="printToggle" class="label">Object details</label>
 
+<!-- showPlotSwitch-->
+<label class="switch">
+  <input type="checkbox" id="showPlotToggle" value="showPlot" >
+  <span class="slider round"></span>
+</label>
+<label for="showPlotToggle" class="label">Display plot</label>
+
 <!-- showNDVISwitch-->
 <label class="switch">
-  <input type="checkbox" id="showNDVIToggle" value="showNDVI" >
+  <input type="checkbox" id = "showNDVIToggle" value = "showNDVI">
   <span class="slider round"></span>
 </label>
 <label for="showNDVIToggle" class="label">NDVI</label>
 
 <!-- showTreeSwitch-->
-<label class="switch">
-  <input type="checkbox" id="showTreeToggle" value="showTree" >
+<label class="switch" id = "showTreesSwitch">
+  <input type="checkbox" id = "showTreeToggle" value = "showTree">
   <span class="slider round"></span>
 </label>
-<label for="showTreeToggle" class="label">Tree areas</label>
+<label for="showTreeToggle" class="label" id = "showTreesLabel">Tree areas</label>
 
   <!-- showVegetationSwitch-->
-<label class="switch">
-	<input type="checkbox" id="showVegetationToggle" value="showVegetation" >
+<label class="switch" id = "showVegetationSwitch">
+	<input type="checkbox" id = "showVegetationToggle" value = "showVegetation">
 	<span class="slider round"></span>
 </label>
-<label for="showVegetationToggle" class="label">Vegetation</label>
+<label for="showVegetationToggle" class = "label" id = "showVegetationLabel">Vegetation</label>
 
   <!-- showWaterSwitch-->
-<label class="switch">
-  <input type="checkbox" id="showWaterToggle" value="showWater" >
+<label class="switch" id = "showWaterSwitch">
+  <input type="checkbox" id = "showWaterToggle" value = "showWater">
   <span class="slider round"></span>
 </label>
-<label for="showWaterToggle" class="label">Fresh water</label>
+<label for="showWaterToggle" class="label" id = "showWaterLabel">Fresh water</label>
   
   <!--  showFields-->
-<label class="switch" id = "showFieldsSwitch" >
-  <input type="checkbox" id="showFieldsToggle" value="showFields" >
+<label class="switch" id = "showFieldsSwitch">
+  <input type="checkbox" id = "showFieldsToggle" value = "showFields">
   <span class="slider round"></span>
 </label>
-<label for="showFields" class="label">Fields</label>
+<label for="showFields" class="label" id = "showFieldsLabel">Fields</label>
 
   <!--  showOtherNature-->
-<label class="switch" id = "showOtherNatureSwitch" >
-  <input type="checkbox" id="showOtherNatureToggle" value="showOtherNature" >
+<label class="switch" id = "showOtherNatureSwitch">
+  <input type="checkbox" id = "showOtherNatureToggle" value = "showOtherNature">
   <span class="slider round"></span>
-  </label>
-<label for="showOtherNature" class="label">Rocks, Dirt, Unused Land</label>
+</label>
+<label for="showOtherNatureToggle" class="label" id = "showOtherNatureLabel">Rocks, Dirt, Unused Land</label>
 
   <!--  showBuilt-->
 <label class="switch" id = "showBuiltSwitch" >
-  <input type="checkbox" id="showBuiltToggle" value="showBuilt" >
+  <input type="checkbox" id = "showBuiltToggle" value="showBuilt">
   <span class="slider round"></span>
-  </label>
-<label for="showBuilt" class="label">Buildings and roads</label>
+</label>
+<label for="showBuilt" class="label" id = "showBuiltLabel">Buildings and roads</label>
 
 </div>
 
@@ -158,6 +158,7 @@
     var averageHeatExposure = 0;
     var majorDistrict = null;
     var districtName = null;
+    var majorDistrictName = null;
     var districtPopulation = null;
     var districtArea = null;
     var level = null;

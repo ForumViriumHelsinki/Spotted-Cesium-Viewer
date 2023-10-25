@@ -94,6 +94,7 @@ async function pickEntity( viewer, windowPosition ) {
         if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Eteläinen' ) {
 
             majorDistrict = picked.id.properties.tunnus;
+            majorDistrictName = picked.id.properties.nimi_fi._value;
             await removeDataSourcesByNamePrefix( "SubDistricts" );
             await newDistrict( 'assets/data/HelsinkiDistrict.json', 'Districts' );
             levelsVisited.push( 'MajorDistricts' );

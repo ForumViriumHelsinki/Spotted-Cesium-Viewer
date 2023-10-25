@@ -76,40 +76,47 @@ function sliderEvents( event ) {
  */
 function showNDVIEvent() {
     // Get the state of the showNDVI toggle button
-    const showNDVI = document.getElementById("showNDVIToggle").checked;
+    const showNDVI = document.getElementById( "showNDVIToggle" ).checked;
 
     // Get the labels for colors
-    const labels = document.querySelectorAll(".color-label.active");
-
-    if (showNDVI) {
-        // Toggle the visibility of the labels
-        labels.forEach(label => {
-            label.style.display = "block";
-        });
-    } else {
-        // Hide the labels
-        labels.forEach(label => {
-            label.style.display = "none";
-        });
-    }
+    const labels = document.querySelectorAll( ".color-label.active" );
 
     // Rest of your showNDVIEvent function code
-    // ...
 
-    if (showNDVI) {
-        setElementDisabledState(true);
+    if ( showNDVI ) {
 
-        if (majorDistrict && !dataSourceWithNameExists("ndvi")) {
-            loadNDVI(majorDistrict);
+        // Toggle the visibility of the labels
+        labels.forEach( label => {
+            label.style.display = "block";
+        });
+
+        setLandCoverElementsDisplay( 'none' );
+        setElementDisabledState( true );
+
+        if ( majorDistrict && !dataSourceWithNameExists( "ndvi" )) {
+
+            loadNDVI( majorDistrict );
+
         } else {
-            showDataSourceByName("ndvi");
+
+            showDataSourceByName( "ndvi" );
             createNDVIBarPlot( majorDistrict._value );
 
         }
+
     } else {
-        document.getElementById("plotContainer").style.visibility = 'hidden';
-        setElementDisabledState(false);
-        hideDataSourceByName("ndvi");
+
+        // Hide the labels
+        labels.forEach( label => {
+            label.style.display = "none";
+        } );
+
+
+        setLandCoverElementsDisplay( 'inline-block' );
+        document.getElementById( "plotContainer" ).style.visibility = 'hidden';
+        setElementDisabledState( false );
+        hideDataSourceByName( "ndvi" );
+
     }
 }
 

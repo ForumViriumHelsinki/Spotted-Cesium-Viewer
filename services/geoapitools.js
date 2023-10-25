@@ -43,6 +43,7 @@ function resetSwitches( ) {
     document.getElementById( "showBuiltToggle" ).checked = false;
 
     setElementDisabledState( true );
+    setLandCoverElementsDisplay( 'inline-block' );
     document.getElementById("showNDVIToggle").disabled = true;
 
 	document.getElementById( "printToggle" ).checked = true;
@@ -377,4 +378,33 @@ function isNotHelsinkiSelected() {
     // Handle the case where the <select> element is not found
     console.error("Select element with ID 'plotSelect' not found.");
     return false;
+}
+
+/**
+ * Changes the display of land cover elements when user switches between land cover and ndvi view
+ */
+function setLandCoverElementsDisplay( display ) {
+    const elements = [
+        'showVegetationSwitch',
+        'showVegetationLabel',
+        'showOtherNatureSwitch',
+        'showOtherNatureLabel',
+        'showWaterSwitch',
+        'showWaterLabel',
+        'showFieldsSwitch',
+        'showFieldsLabel',
+        'showBuiltSwitch',
+        'showBuiltLabel',
+        'showTreesSwitch',
+        'showTreesLabel'
+    ];
+
+    elements.forEach(( elementId ) => {
+        const element = document.getElementById( elementId );
+        if ( element ) {
+
+            element.style.display = display;
+        
+        }
+    });
 }

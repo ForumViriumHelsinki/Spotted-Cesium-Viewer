@@ -108,7 +108,7 @@ function createBuiltBarPlot( majordistrict ) {
     let trace1 = {
         x: [ 'buildings and roads' ],
         y: getBuiltDataForMajorDistrict( majordistrict ),
-        name: districtName,
+        name: majorDistrictName,
         type: 'bar',
         marker: {
             color: 'green'
@@ -151,7 +151,7 @@ function createVegetationBarPlot( district ) {
     let trace1 = {
         x: labels,
         y: getNatureDataForDistrict( district ),
-        name: districtName,
+        name: majorDistrictName,
         type: 'bar',
     };
       
@@ -192,7 +192,7 @@ function createVegetationBarPlotPerInhabitant( district ) {
     let trace1 = {
         x: labels,
         y: getNatureDataPerInhabitantForDistrict( district ),
-        name: districtName,
+        name: majorDistrictName,
         type: 'bar',
     };
       
@@ -534,7 +534,7 @@ function createNDVIBarPlot( district ) {
     let trace1 = {
         x: [ "ndvi" ],
         y: [ getNDVIForDistrict( district ) ],
-        name: districtName,
+        name: majorDistrictName,
         type: 'bar',
     };
       
