@@ -196,7 +196,12 @@ function showFieldsEvent( ) {
         createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
         hideDataSourceByName( "Fields" );
         document.getElementById("showNDVIToggle").disabled = false;
-        setElementsDisplay( elements, 'inline-block' );
+        if ( !areAnySwitchesOn() ) {
+
+            setElementsDisplay( elements, 'inline-block' );
+            toggleLandCoverBarPlots( 'hidden' );
+
+        }
 
     }
 
@@ -230,7 +235,6 @@ function printEvent( ) {
     if ( !print ) {
 
         document.getElementById( 'printContainer' ).style.visibility = 'hidden';
-        document.getElementById( 'searchcontainer' ).style.visibility = 'hidden';
         document.getElementById( 'georefContainer' ).style.visibility = 'hidden';
         document.getElementById( 'searchbutton' ).style.visibility = 'hidden';
 
@@ -301,7 +305,13 @@ function showTreeEvent( ) {
 
         document.getElementById("showNDVIToggle").disabled = false;
         hideDataSourceByName( "Trees" );
-        setElementsDisplay( elements, 'inline-block' );
+
+        if ( !areAnySwitchesOn() ) {
+
+            setElementsDisplay( elements, 'inline-block' );
+            toggleLandCoverBarPlots( 'hidden' );
+
+        }
 
     }
 
@@ -347,7 +357,13 @@ function showVegetationEvent( ) {
 
         hideDataSourceByName( "Vegetation" );
         document.getElementById("showNDVIToggle").disabled = false;
-        setElementsDisplay( elements, 'inline-block' );
+
+        if ( !areAnySwitchesOn() ) {
+
+            setElementsDisplay( elements, 'inline-block' );
+            toggleLandCoverBarPlots( 'hidden' );
+
+        }
 
     }
 
@@ -392,7 +408,13 @@ function showWaterEvent( ) {
 
         hideDataSourceByName( "Water" );
         document.getElementById("showNDVIToggle").disabled = false;
-        setElementsDisplay( elements, 'inline-block' );
+
+        if ( !areAnySwitchesOn() ) {
+
+            setElementsDisplay( elements, 'inline-block' );
+            toggleLandCoverBarPlots( 'hidden' );
+
+        }
 
     }
 
@@ -435,8 +457,13 @@ function showOtherNatureEvent( ) {
 
         hideDataSourceByName( "OtherNature" );
         document.getElementById("showNDVIToggle").disabled = false;
-        setElementsDisplay( elements, 'inline-block' );
 
+        if ( !areAnySwitchesOn() ) {
+
+            setElementsDisplay( elements, 'inline-block' );
+            toggleLandCoverBarPlots( 'hidden' );
+
+        }
     }
 
 }
@@ -475,7 +502,13 @@ function showBuiltEvent( ) {
 
         hideDataSourceByName( "Built" );
         document.getElementById("showNDVIToggle").disabled = false;
-        setElementsDisplay( elements, 'inline-block' );
+
+        if ( !areAnySwitchesOn() ) {
+
+            setElementsDisplay( elements, 'inline-block' );
+            toggleLandCoverBarPlots( 'hidden' );
+
+        }
 
     }
 

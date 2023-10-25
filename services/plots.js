@@ -89,7 +89,7 @@ function createPieChartForMajorDistrict( district ) {
     if ( showPlot ) {
 
         setPieChartVisibility( 'visible' );
-        populateSelectFromGeoJSON( levelsVisited[ levelsVisited.length - 1 ], 'plotSelect');
+        populateSelectFromGeoJSON( levelsVisited[ levelsVisited.length - 1 ], 'plotSelect', document.getElementById('plotSelect').value );
 
     }
 
@@ -173,6 +173,8 @@ function createVegetationBarPlot( district ) {
     if ( showPlot ) {
 
         document.getElementById( "plotContainer" ).style.visibility = 'visible';
+        toggleLabels( 'hidden' );
+
     }
 
     Plotly.newPlot( 'plotContainer', data, layout );
@@ -555,6 +557,7 @@ function createNDVIBarPlot( district ) {
     if ( showPlot ) {
 
         document.getElementById( "plotContainer" ).style.visibility = 'visible';
+        toggleLabels( 'visible' );
     }
 
     Plotly.newPlot( 'plotContainer', data, layout );

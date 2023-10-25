@@ -212,11 +212,6 @@ body, html
 	width: 100%;
 }
 
-#searchcontainer {
-	visibility: visible;
-	float:left;
-}
-
 #searchbutton {
 float: left;
 }

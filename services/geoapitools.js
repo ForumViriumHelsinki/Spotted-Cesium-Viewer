@@ -67,6 +67,7 @@ function resetSwitches( ) {
 
 	document.getElementById( "printToggle" ).checked = true;
     document.getElementById( 'returnButton' ).style.visibility = 'hidden';
+    document.getElementById( 'selectContainer' ).style.visibility = 'hidden';
     document.getElementById( "plotContainer" ).style.visibility = 'hidden';
 
     setPrintVisible( );
@@ -189,19 +190,44 @@ function getSelectedText( elementId ) {
  * Change visibility of plots
  * 
  * */
-function togglePlots( status ) {
+function togglePlots( visibility ) {
 
-    document.getElementById( 'plotBuiltContainer' ).style.visibility = status;
+    document.getElementById( 'plotBuiltContainer' ).style.visibility = visibility;
+    document.getElementById( 'selectContainer' ).style.visibility = visibility;
 
-    if ( areAnySwitchesOn() ) {
+    if ( document.getElementById( "showNDVIToggle" ).checked ) {
 
-        document.getElementById( 'plotInhabitantContainer' ).style.visibility = status;
-        document.getElementById( 'plotContainer' ).style.visibility = status;
+        toggleLabels( visibility );
 
+    }
+
+    if ( visibility == 'hidden' || areAnySwitchesOn() ) {
+
+        document.getElementById( 'plotInhabitantContainer' ).style.visibility = visibility;
+        document.getElementById( 'plotContainer' ).style.visibility = visibility;
+
+    } else {
+
+        if ( document.getElementById( "showNDVIToggle" ).checked ) {
+
+            document.getElementById( 'plotContainer' ).style.visibility = visibility;
+
+        }
     }
 
 }
 
+
+/**
+ * Change visibility of hsy landcover bar plots
+ * 
+ * */
+function toggleLandCoverBarPlots( visibility ) {
+
+    document.getElementById( 'plotInhabitantContainer' ).style.visibility = visibility;
+    document.getElementById( 'plotContainer' ).style.visibility = visibility;
+
+}
 
 /**
  * Check if any of the specified switches are turned on.
@@ -259,6 +285,8 @@ function toggleReturnButtonVisibility() {
  * Resets the objects displayed, camera orientation, and switches to their default state
  */
   async function prevLevel() {
+
+    document.getElementById( 'plotSelect' ).value = 'Helsinki';
 
     if ( levelsVisited[ levelsVisited.length - 1 ] === "Districts" ) {
 
@@ -325,7 +353,7 @@ function setPieChartVisibility( isVisible ) {
  * @param {string} dataSourceName - The name of the GeoJSON data source.
  * @param {string} selectElementId - The ID of the <select> element to populate.
  */
-function populateSelectFromGeoJSON(dataSourceName, selectElementId) {
+function populateSelectFromGeoJSON(dataSourceName, selectElementId, currentValue) {
     // Get the GeoJSON data source by name
     const geoJsonDataSource = viewer.dataSources.getByName(dataSourceName)[0];
 
@@ -363,6 +391,8 @@ function populateSelectFromGeoJSON(dataSourceName, selectElementId) {
         optionElement.textContent = nimiFi;
         selectElement.appendChild(optionElement);
     }
+
+    document.getElementById(selectElementId).value = currentValue;
 }
 
 /**
@@ -412,4 +442,17 @@ function setElementsDisplay( elements, display ) {
         
         }
     });
+}
+
+/**
+ * Changes the visibility of label elements 
+ */
+function toggleLabels( visibility ) {
+
+    document.getElementById( "red-label" ).style.visibility = visibility;
+    document.getElementById( "orange-label" ).style.visibility = visibility;
+    document.getElementById( "yellow-label" ).style.visibility = visibility;
+    document.getElementById( "yellowgreen-label" ).style.visibility = visibility;
+    document.getElementById( "darkgreen-label" ).style.visibility = visibility;
+
 }

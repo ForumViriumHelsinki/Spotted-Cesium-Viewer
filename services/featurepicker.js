@@ -5,6 +5,9 @@
  * @param {MouseEvent} event - The click event
  */
 function processClick( viewer, event ) {
+    
+    document.getElementById( 'plotSelect' ).value = 'Helsinki';
+
     if ( majorDistrict ) {
 
         const elements = [
@@ -188,13 +191,11 @@ async function pickEntity( viewer, windowPosition ) {
                 
         await removeDuplicateDataSources( );
 
-
         if ( document.getElementById( "printToggle" ).checked ) {
 
             setPrintVisible( );
     
         }
-
 
     }
 
