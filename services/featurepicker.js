@@ -76,9 +76,8 @@ function processClick( viewer, event ) {
  * Prints the properties of the picked Cesium entity
  * 
  * @param {Object} picked - The picked Cesium entity
- * @param {Object} id - The ID of the picked entity
  */
-function printCesiumEntity( picked, id ) {
+function printCesiumEntity( picked ) {
 
     document.getElementById( 'printContainer' ).scroll({
         top: 0,
@@ -89,21 +88,27 @@ function printCesiumEntity( picked, id ) {
         var toPrint = "<u>Found following properties & values:</u><br/>";	
 
         //Highlight for clicking...
-        let oldMaterial = id.polygon.material;
-        id.polygon.material = new Cesium.Color( 1, 0.5, 0.5, 0.8 );
-        setTimeout(() => { id.polygon.material = oldMaterial }, 500 );
+        let oldMaterial = picked.id.polygon.material;
+        picked.id.polygon.material = new Cesium.Color( 1, 0.5, 0.5, 0.8 );
+        setTimeout(() => { picked.id.polygon.material = oldMaterial }, 500 );
 
         let length = picked.id.properties.propertyNames.length;
         for ( let i = 0; i < length; ++i ) {
 
-            toPrint = toPrint + picked.id.properties.propertyNames[ i ] + ": " + picked.id.properties[ picked.id.properties.propertyNames[ i ] ] + "<br/>";
+            if ( typeof picked.id.properties[ picked.id.properties.propertyNames[ i ] ]._value === 'number' ) {
+
+                toPrint = toPrint + picked.id.properties.propertyNames[ i ] + ": " + picked.id.properties[ picked.id.properties.propertyNames[ i ] ]._value.toFixed( 0 ) + "<br/>";
+
+            } else {
+
+                toPrint = toPrint + picked.id.properties.propertyNames[ i ] + ": " + picked.id.properties[ picked.id.properties.propertyNames[ i ] ] + "<br/>";
+
+            }
             
         };
     }
-
-    console.log(toPrint);
     
-    addToPrint( toPrint, picked.id.properties.posno )
+    addToPrint( toPrint )
     
 }
 
@@ -111,15 +116,16 @@ function printCesiumEntity( picked, id ) {
  * Adds the provided content to the print container
  * 
  * @param {string} toPrint - The content to be added to the print container
- * @param {string} postno - The postal code associated with the content
  */
-function addToPrint( toPrint, postno ) {
+function addToPrint( toPrint ) {
 
-    if ( postno ) {
+    toPrint = toPrint + "<br/><br/><i>Display ndvi or land cover entities for selected major district, or select another district. </i>"
 
-        toPrint = toPrint + "<br/><br/><i>Click on objects to retrieve information.</i>"
-
-    } 
+    if ( levelsVisited.length && levelsVisited[ levelsVisited.length - 1 ] !== "MajorDistricts" ) {
+  
+        toPrint = toPrint + "<br/><br/><i>'Previous level' returns to previous district. </i>"
+  
+    }
 
     document.getElementById('printContainer').innerHTML = toPrint;
     document.getElementById('printContainer').scroll({
@@ -153,7 +159,7 @@ async function pickEntity( viewer, windowPosition ) {
 
         document.getElementById( "showPlotToggle" ).checked = true;
         setDistrictVariables( picked.id.properties );
-         
+
         if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Eteläinen' ) {
 
             majorDistrict = picked.id.properties.tunnus;
@@ -164,7 +170,8 @@ async function pickEntity( viewer, windowPosition ) {
             setDistrictOutlineColor( );
             toggleReturnButtonVisibility( );
             createPieChartForMajorDistrict( picked.id.properties.tunnus );
-                
+            printCesiumEntity( picked );
+             
         }
 
         if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vironniemi' ) {
@@ -176,6 +183,7 @@ async function pickEntity( viewer, windowPosition ) {
             createPieChartForMajorDistrict( picked.id.properties.tunnus );
             await removeDataSourcesByNamePrefix( "MajorDistricts" );
             await removeDataSourcesByNamePrefix( "Districts" );
+            printCesiumEntity( picked );
                 
         }
 
@@ -186,6 +194,7 @@ async function pickEntity( viewer, windowPosition ) {
             toggleReturnButtonVisibility( );
             await removeDataSourcesByNamePrefix( "Districts" );
             createPieChartForMajorDistrict( picked.id.properties.tunnus );
+            printCesiumEntity( picked );
                 
         }  
                 
