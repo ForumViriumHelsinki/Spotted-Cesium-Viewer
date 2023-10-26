@@ -212,19 +212,6 @@ body, html
 	width: 100%;
 }
 
-#searchbutton {
-float: left;
-}
-
-#searchresultscontainer
-{
-	background: white;
-	border-bottom: 1px solid black;
-	border-left: 1px solid black;
-	border-right: 1px solid black;
-}
-
-
 /* The switch - the box around the slider */
 .switch {
   position: relative;

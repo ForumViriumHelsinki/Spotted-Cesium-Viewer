@@ -123,7 +123,7 @@ function addToPrint( toPrint ) {
 
     if ( levelsVisited.length && levelsVisited[ levelsVisited.length - 1 ] !== "MajorDistricts" ) {
   
-        toPrint = toPrint + "<br/><br/><i>'Previous level' returns to previous district. </i>"
+        toPrint = toPrint + "<br/><br/><i>Previous district returns to previously picked district. </i>"
   
     }
 
@@ -160,46 +160,49 @@ async function pickEntity( viewer, windowPosition ) {
         document.getElementById( "showPlotToggle" ).checked = true;
         setDistrictVariables( picked.id.properties );
 
-        if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Eteläinen' ) {
+        if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi ) {
 
-            majorDistrict = picked.id.properties.tunnus;
-            majorDistrictName = picked.id.properties.nimi_fi._value;
-            await removeDataSourcesByNamePrefix( "SubDistricts" );
-            await newDistrict( 'assets/data/HelsinkiDistrict.json', 'Districts' );
-            levelsVisited.push( 'MajorDistricts' );
-            setDistrictOutlineColor( );
-            toggleReturnButtonVisibility( );
-            createPieChartForMajorDistrict( picked.id.properties.tunnus );
-            printCesiumEntity( picked );
-             
-        }
+            if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Eteläinen' ) {
 
-        if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vironniemi' ) {
+                majorDistrict = picked.id.properties.tunnus;
+                majorDistrictName = picked.id.properties.nimi_fi._value;
+                await removeDataSourcesByNamePrefix( "SubDistricts" );
+                await newDistrict( 'assets/data/HelsinkiDistrict.json', 'Districts' );
+                levelsVisited.push( 'MajorDistricts' );
+                setDistrictOutlineColor( );
+                toggleReturnButtonVisibility( );
+                createPieChartForMajorDistrict( picked.id.properties.tunnus );
+                 
+            }
+    
+            if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vironniemi' ) {
+    
+                await newDistrict( 'assets/data/HelsinkiSubDistrict.json', 'SubDistricts' );
+                levelsVisited.push( 'Districts' );
+                setDistrictOutlineColor( );
+                toggleReturnButtonVisibility( );
+                createPieChartForMajorDistrict( picked.id.properties.tunnus );
+                await removeDataSourcesByNamePrefix( "MajorDistricts" );
+                await removeDataSourcesByNamePrefix( "Districts" );
+                    
+            }
+    
+            if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vilhonvuori' ) {
+    
+                levelsVisited.push( 'SubDistricts' );
+                setDistrictOutlineColor( );
+                toggleReturnButtonVisibility( );
+                await removeDataSourcesByNamePrefix( "Districts" );
+                createPieChartForMajorDistrict( picked.id.properties.tunnus );
+                    
+            }  
 
-            await newDistrict( 'assets/data/HelsinkiSubDistrict.json', 'SubDistricts' );
-            levelsVisited.push( 'Districts' );
-            setDistrictOutlineColor( );
-            toggleReturnButtonVisibility( );
-            createPieChartForMajorDistrict( picked.id.properties.tunnus );
-            await removeDataSourcesByNamePrefix( "MajorDistricts" );
-            await removeDataSourcesByNamePrefix( "Districts" );
-            printCesiumEntity( picked );
+            await removeDuplicateDataSources( );
+
+        } 
+
+        printCesiumEntity( picked );
                 
-        }
-
-        if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vilhonvuori' ) {
-
-            levelsVisited.push( 'SubDistricts' );
-            setDistrictOutlineColor( );
-            toggleReturnButtonVisibility( );
-            await removeDataSourcesByNamePrefix( "Districts" );
-            createPieChartForMajorDistrict( picked.id.properties.tunnus );
-            printCesiumEntity( picked );
-                
-        }  
-                
-        await removeDuplicateDataSources( );
-
         if ( document.getElementById( "printToggle" ).checked ) {
 
             setPrintVisible( );

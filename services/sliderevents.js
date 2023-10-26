@@ -235,8 +235,6 @@ function printEvent( ) {
     if ( !print ) {
 
         document.getElementById( 'printContainer' ).style.visibility = 'hidden';
-        document.getElementById( 'georefContainer' ).style.visibility = 'hidden';
-        document.getElementById( 'searchbutton' ).style.visibility = 'hidden';
 
     } else { // Otherwise, make the print container visible
 
