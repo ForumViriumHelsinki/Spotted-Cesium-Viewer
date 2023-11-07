@@ -1,0 +1,159 @@
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|Current FME version: FME 2022.2.3.0 (20230131 - Build 22789 - macosx-x64)
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME_HOME is '/Library/FME/2022.2/'
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Desktop Professional Edition (floating)
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|Permanent License.
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|Machine host name is: Andreas-A-(FVH)-M2
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|OS Locale Name     : en_FI
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|OS Locale Encoding : UTF-8
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|Process Encoding   : UTF-8
+2023-11-06 13:20:39|   0.0|  0.0|WARN  |The user-selected locale setting of en_FI is not recognised by the operating system and might lead to unexpected results, including poor localization of messages
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME API version: '4.0 20220615'
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Configuration: FME_BASE is 'no'
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Configuration: FME_MF_DIR is '/Users/andreas.andra/Github/Spotted-Cesium-Viewer/processes/fme workspaces/'
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Configuration: FME_MF_NAME is 'spotted_ndvi_raster_range.fmw'
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Configuration: FME_PRODUCT_NAME is 'FME(R) 2022.2.3.0'
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|Operating System: macOS Version 	13.2.1 (Build 	22D68)
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Platform: macosx-x64
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|System Status: 74.73 GB of disk space available in the FME temporary folder (/private/var/folders/cc/10r67lds309fbk67j5bqy0rm0000gq/T/wbrun_1699269431045_26356/fmetmp_1)
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|System Status: 16.00 GB of physical memory available
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|System Status: 16.00 GB of virtual memory available
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|START - ProcessID: 26960, peak process memory usage: 86184 kB, current process memory usage: 86192 kB
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Configuration: Command line arguments are `/Library/FME/2022.2/fme' `/Users/andreas.andra/Github/Spotted-Cesium-Viewer/processes/fme workspaces/wb-xlate-1699269636855_26356' `LOG_STANDARDOUT' `YES' `LOG_TIMINGS' `YES' `LogCountServerName' `54422' `LOG_STANDARDOUT' `No' `WORKBENCH_LOG_SERVER' `54252'
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Configuration: Connection Storage: '/Users/andreas.andra/Library/Caches/Safe Software/FME/'
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|Shared folders for formats are : /Library/FME/2022.2/datasources;/Users/andreas.andra/Library/Application Support/FME/Formats
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|Shared folders for transformers are : /Users/andreas.andra/Library/Caches/Safe Software/FME/Packages/22789-macosx-x64/transformers;/Library/FME/2022.2/transformers
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|Shared folders for coordinate systems are : /Users/andreas.andra/Library/Application Support/FME/CoordinateSystems
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|Shared folders for coordinate system exceptions are : /Users/andreas.andra/Library/Application Support/FME/CoordinateSystemExceptions
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|Shared folders for coordinate system grid overrides are : /Users/andreas.andra/Library/Application Support/FME/CoordinateSystemGridOverrides
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|Shared folders for CS-MAP transformation exceptions are : /Users/andreas.andra/Library/Application Support/FME/CsmapTransformationExceptions
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|Shared folders for transformer categories are : /Users/andreas.andra/Library/Application Support/FME/TransformerCategories
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Configuration: Reader Keyword is `MULTI_READER'
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Configuration: Writer Keyword is `MULTI_WRITER'
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Configuration: Writer Group Definition Keyword is `MULTI_WRITER_DEF'
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Configuration: Reader type is `MULTI_READER'
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Configuration: Writer type is `MULTI_WRITER'
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Configuration: No destination coordinate system set
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Configuration: Current working folder is `/Users/andreas.andra/Github/Spotted-Cesium-Viewer/processes/fme workspaces'
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Configuration: Temporary folder is `/private/var/folders/cc/10r67lds309fbk67j5bqy0rm0000gq/T/wbrun_1699269431045_26356/fmetmp_1', set from environment variable `FME_TEMP'
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Configuration: Cache folder is '/private/var/folders/cc/10r67lds309fbk67j5bqy0rm0000gq/T'
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Configuration: FME_HOME is `/Library/FME/2022.2/'
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Configuration: Start freeing memory when the process exceeds 14.83 GB
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|FME Configuration: Stop freeing memory when the process is below 11.12 GB
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|Creating writer for format: 
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|Creating reader for format: 
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|MULTI_READER(MULTI_READER): Will fail with first member reader failure
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|MULTI_READER(MULTI_READER): Adding WFS Reader with keyword WFS_3
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|Using Multi Reader with keyword `MULTI_READER' to read multiple datasets
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|Creating reader for format: OGC WFS (Web Feature Service)
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|Trying to find a DYNAMIC plugin for reader named `WFS'
+2023-11-06 13:20:39|   0.0|  0.0|INFORM|DYLD_LIBRARY_PATH is not set
+2023-11-06 13:20:39|   0.3|  0.3|INFORM|Loaded module 'WFS' from file '/Library/FME/2022.2/plugins/wfs.so'
+2023-11-06 13:20:39|   0.3|  0.0|INFORM|FME API version of module 'WFS' matches current internal version (4.0 20220615)
+2023-11-06 13:20:39|   0.3|  0.0|INFORM|<WFS> Capabilities URL: `https://kartta.hel.fi:443/ws/geoserver/avoindata/wfs?SERVICE=WFS&REQUEST=GetCapabilities&VERSION=1.1.0'
+2023-11-06 13:20:40|   0.3|  0.0|INFORM|[1]: Starting HTTP download from 'kartta.hel.fi'
+2023-11-06 13:20:40|   0.3|  0.0|INFORM|[1]: HTTP transfer summary (kartta.hel.fi): status code: 200, download size: 10475 bytes, DNS lookup time: 2 ms, total transfer time: 220 ms
+2023-11-06 13:20:40|   0.4|  0.1|INFORM|FME Configuration: Using FME Reprojection Engine
+2023-11-06 13:20:40|   0.4|  0.0|INFORM|CS-MAP Reprojector: Transformation will be automatically selected for 'LL84' -> 'EPSG:3879', and is not guaranteed to remain the same in future releases of FME
+2023-11-06 13:20:40|   0.4|  0.0|INFORM|Reprojector: Using transformation `ETRS89/01_to_WGS84,Inverse(Geocentric)' when reprojecting from LL84 to EPSG:3879
+2023-11-06 13:20:40|   0.4|  0.0|INFORM|<WFS> DescribeFeatureType URL: `https://kartta.hel.fi:443/ws/geoserver/avoindata/wfs?SERVICE=WFS&VERSION=1.1.0&REQUEST=DescribeFeatureType&TYPENAME=avoindata%3AMaavesi_manner&NAMESPACE=xmlns%28avoindata%3Dhttps%3A%2F%2Fwww.hel.fi%2Favoindata%29'
+2023-11-06 13:20:40|   0.4|  0.0|INFORM|<WFS> GetFeature URL: `https://kartta.hel.fi:443/ws/geoserver/avoindata/wfs?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=avoindata%3AMaavesi_manner&NAMESPACE=xmlns%28avoindata%3Dhttps%3A%2F%2Fwww.hel.fi%2Favoindata%29&MAXFEATURES=30000'
+2023-11-06 13:20:40|   0.4|  0.0|INFORM|Creating reader for format: OGC GML (Geography Markup Language)
+2023-11-06 13:20:40|   0.4|  0.0|INFORM|Trying to find a DYNAMIC plugin for reader named `GML'
+2023-11-06 13:20:40|   0.4|  0.0|INFORM|Loaded module 'GML' from file '/Library/FME/2022.2/plugins/gml.so'
+2023-11-06 13:20:40|   0.4|  0.0|INFORM|FME API version of module 'GML' matches current internal version (4.0 20220615)
+2023-11-06 13:20:40|   0.4|  0.0|INFORM|Using MultiWriter with keyword `MULTI_WRITER' to output data (ID_ATTRIBUTE is `multi_writer_id')
+2023-11-06 13:20:40|   0.4|  0.0|INFORM|Writer output will be ordered by value of multi_writer_id
+2023-11-06 13:20:40|   0.4|  0.0|INFORM|Loaded module 'LogCount_func' from file '/Library/FME/2022.2/plugins/logcount_func.so'
+2023-11-06 13:20:40|   0.4|  0.0|INFORM|FME API version of module 'LogCount_func' matches current internal version (4.0 20220615)
+2023-11-06 13:20:40|   0.5|  0.1|INFORM|<R_1 - GML  Reader> - Opening the R_1 - GML  Reader reader with source dataset 'https://kartta.hel.fi:443/ws/geoserver/avoindata/wfs?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=avoindata%3AMaavesi_manner&NAMESPACE=xmlns%28avoindata%3Dhttps%3A%2F%2Fwww.hel.fi%2Favoindata%29&MAXFEATURES=30000'
+2023-11-06 13:20:40|   0.5|  0.0|INFORM|The uri-map document '/Library/FME/2022.2/xml/urimap/gml_inspire.xml' is being used to map from URI to URI
+2023-11-06 13:20:40|   0.5|  0.0|INFORM|The uri-map document '/Library/FME/2022.2/xml/urimap/gml_sosi.xml' is being used to map from URI to URI
+2023-11-06 13:20:40|   0.5|  0.0|INFORM|The uri-map document '/Library/FME/2022.2/xml/urimap/gml_citygml.xml' is being used to map from URI to URI
+2023-11-06 13:20:40|   0.5|  0.0|INFORM|The uri-map document '/Library/FME/2022.2/xml/urimap/gml_aixm.xml' is being used to map from URI to URI
+2023-11-06 13:20:40|   0.5|  0.0|INFORM|The uri-map document '/Library/FME/2022.2/xml/urimap/gml_urimap.xml' is being used to map from URI to URI
+2023-11-06 13:20:40|   0.5|  0.0|INFORM|Sending HTTP 'GET' request to 'https://kartta.hel.fi:443/ws/geoserver/avoindata/wfs?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=avoindata%3AMaavesi_manner&NAMESPACE=xmlns%28avoindata%3Dhttps%3A%2F%2Fwww.hel.fi%2Favoindata%29&MAXFEATURES=30000', waiting for response ...
+2023-11-06 13:20:40|   0.5|  0.0|INFORM|Parsing XML document 'https://kartta.hel.fi:443/ws/geoserver/avoindata/wfs?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=avoindata%3AMaavesi_manner&NAMESPACE=xmlns%28avoindata%3Dhttps%3A%2F%2Fwww.hel.fi%2Favoindata%29&MAXFEATURES=30000'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Received HTTP response header: 'HTTP/1.1 200 OK'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Received HTTP response header: 'Date: Mon, 06 Nov 2023 11:20:41 GMT'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Received HTTP response header: 'x-frame-options: ALLOW-FROM https://hsvanalytiikka.maps.arcgis.com/'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Received HTTP response header: 'x-content-type-options: nosniff'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Received HTTP response header: 'x-xss-protection: 1; mode=block'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Received HTTP response header: 'access-control-allow-origin: *'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Received HTTP response header: 'access-control-expose-headers: Access-Control-Allow-Origin,Access-Control-Allow-Credentials'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Received HTTP response header: 'x-control-flow-delay-ms: 0'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Received HTTP response header: 'content-disposition: inline; filename=Maavesi_manner.xml'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Received HTTP response header: 'Vary: Host'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Received HTTP response header: 'Content-Security-Policy: frame-src 'self' https://coh-chat-app-prod.ow6i4n9pdzm.eu-de.codeengine.appdomain.cloud https://*.hel.fi https://coh-chat-app-test.mo1wrhhyog0.eu-de.codeengine.appdomain.cloud https://*.siteimprove.com https://*.userneeds.com https://agreeable-island-03e85b803.azurestaticapps.net https://*.hotjar.com https://coh-chat-app-test-ibm.eu-de.mybluemix.net https://coh-chat-app-prod-ibm.eu-de.mybluemix.net https://suite.icareus.com https://*.helsinkikanava.fi https://*.youtube.com https://*.youtu.be https://*.facebook.com https://*.twitter.com https://*.linkedin.com https://*.readspeaker.com https://*.vimeo.com https://*.google.com https://*.siteimproveanalytics.com https://*.snoobi.com https://*.dreambroker.com https://youtu.be https://dreambroker.com https://pollev.com https://e.infogram.com https://tyoterveys-helsinki-pv.mail-eur.net https://walls.io https://*.youtube-nocookie.com https://*.flockler.com https://*.lightwidget.com https://hel-thk-botti.kuurahealth.com https://*.giosg.com https://*.giosgusercontent.com https://helfi.fi1.frosmo.com https://survey.feedbackly.com https://survey.userneeds.com https://*.powerbi.com https://coh-chat-app-test.eu-de.mybluemix.net https://coh-chat-app-dev.eu-de.mybluemix.net https://coh-chat-app-prod.eu-de.mybluemix.net https://reittiopas.hsl.fi https://hkp.maanmittauslaitos.fi ;'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Received HTTP response header: 'Transfer-Encoding: chunked'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Received HTTP response header: 'Content-Type: text/xml; subtype=gml/3.1.1'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Received HTTP response header: 'Content-Encoding: gzip'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|URI 'https://kartta.hel.fi:443/ws/geoserver/avoindata/wfs?SERVICE=WFS&VERSION=1.1.0&REQUEST=DescribeFeatureType&TYPENAME=avoindata%3AMaavesi_manner&NAMESPACE=xmlns%28avoindata%3Dhttps%3A%2F%2Fwww.hel.fi%2Favoindata%29' mapped to 'https://kartta.hel.fi:443/ws/geoserver/avoindata/wfs?SERVICE=WFS&VERSION=1.1.0&REQUEST=DescribeFeatureType&TYPENAME=avoindata%3AMaavesi_manner&NAMESPACE=xmlns%28avoindata%3Dhttps%3A%2F%2Fwww.hel.fi%2Favoindata%29'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|'https://kartta.hel.fi:443/ws/geoserver/avoindata/wfs?SERVICE=WFS&VERSION=1.1.0&REQUEST=DescribeFeatureType&TYPENAME=avoindata%3AMaavesi_manner&NAMESPACE=xmlns%28avoindata%3Dhttps%3A%2F%2Fwww.hel.fi%2Favoindata%29' mapped to '/Users/andreas.andra/.validationFactory_schema_cache/FME_XSD_CACHE/fmexsd_1699269628942_26939.xml'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Parsing schema document '/Users/andreas.andra/.validationFactory_schema_cache/FME_XSD_CACHE/fmexsd_1699269628942_26939.xml' ...
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|A <schemaLocation> in the uri-map is overriding the namespace 'http://www.w3.org/1999/xlink' xsd location from 'http://schemas.opengis.net/gml/3.1.0/xlink/xlinks.xsd' to 'xlink.xsd'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|A <schemaLocation> in the uri-map is overriding the namespace 'http://www.w3.org/1999/xlink' xsd location from 'http://schemas.opengis.net/gml/3.1.0/xlink/xlinks.xsd' to 'xlink.xsd'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|URI 'wfs.xsd' mapped to 'file:////Library/FME/2022.2/xml/schemas/wfs/1.1.0/wfs.xsd'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Parsing schema document 'file:////Library/FME/2022.2/xml/schemas/wfs/1.1.0/wfs.xsd' ...
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|A <schemaLocation> in the uri-map is overriding the namespace 'http://www.w3.org/1999/xlink' xsd location from '../../xlink/1.0.0/xlinks.xsd' to 'xlink.xsd'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|A <schemaLocation> in the uri-map is overriding the namespace 'http://www.w3.org/1999/xlink' xsd location from '../../xlink/1.0.0/xlinks.xsd' to 'xlink.xsd'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|<R_1 - GML  Reader> - Using the current GML 3.2.1 reader to read v3.1.1 and v2.1.2 documents.
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Using XSD semantics configuration file 'file:////Library/FME/2022.2/xml/gml_v3.2/gml_config.xml'.
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Using prefix 'xlink' for uri 'http://www.w3.org/1999/xlink'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Using prefix 'ows' for uri 'http://www.opengis.net/ows'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Using prefix 'gml' for uri 'http://www.opengis.net/gml'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Using prefix 'wfs' for uri 'http://www.opengis.net/wfs'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Using prefix 'sch' for uri 'http://www.ascc.net/xml/schematron'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Using prefix 'smil20' for uri 'http://www.w3.org/2001/SMIL20/'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Using prefix 'avoindata' for uri 'https://www.hel.fi/avoindata'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Using prefix 'xsi' for uri 'http://www.w3.org/2001/XMLSchema-instance'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Using prefix 'smil20lang' for uri 'http://www.w3.org/2001/SMIL20/Language'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Using prefix 'ogc' for uri 'http://www.opengis.net/ogc'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|<R_1 - GML  Reader> - Map Embedded Object as: 'ATTRIBUTES'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|<R_1 - GML  Reader> - Map Predefined Properties: 'NO'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|<R_1 - GML  Reader> - Map All Substitutable Properties: 'YES'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|<R_1 - GML  Reader> - Map Complex Properties as: 'NESTED_ATTRIBUTES'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|<R_1 - GML  Reader> - Add XML Namespace Prefix to: 'UNSET'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|<R_1 - GML  Reader> - Limit Number of Lists in Nested Attributes: 'UNSET'
+2023-11-06 13:20:41|   0.5|  0.0|INFORM|Pre-processing xfMap '/private/var/folders/cc/10r67lds309fbk67j5bqy0rm0000gq/T/wbrun_1699269431045_26356/fmetmp_1/WFS_Auto_Gen_xfmap1699269640332_26960.xml' with macro stylesheet '/Library/FME/2022.2/xfmap/xfmap_macro.xslt' into '/private/var/folders/cc/10r67lds309fbk67j5bqy0rm0000gq/T/wbrun_1699269431045_26356/fmetmp_1/NOMACRO_XFMAP_1699269641805_26960.xml'
+2023-11-06 13:20:42|   1.0|  0.5|INFORM|The XML Reader is using xfMap '/private/var/folders/cc/10r67lds309fbk67j5bqy0rm0000gq/T/wbrun_1699269431045_26356/fmetmp_1/NOMACRO_XFMAP_1699269641805_26960.xml'
+2023-11-06 13:20:42|   1.0|  0.0|WARN  |xfmap - Can't determine axis order from coordinate system or settings. Using assumed axis order of 1,2.
+2023-11-06 13:20:42|   1.0|  0.0|INFORM|FME Configuration: Source coordinate system for reader R_1[GML] set to `EPSG:3879' as read from input data
+2023-11-06 13:20:42|   1.0|  0.0|INFORM|Coordinate System `EPSG:3879' parameters: CS_NAME=`ETRS89.FinGK-25/10_FME' DESC_NM=`ETRS89 / ETRS-GK25FIN 2010' DT_NAME=`ETRS89/01' GROUP=`FINLAND' MAP_SCL=`1' MAX_LAT=`68.9' MAX_LNG=`25.5' MIN_LAT=`60' MIN_LNG=`24.5' PARM1=`25' PROJ=`TM' QUAD=`1' SCL_RED=`1' SOURCE=`EPSG' UNIT=`Meter' X_OFF=`25500000' ZERO_X=`0.001' ZERO_Y=`0.001'
+2023-11-06 13:20:42|   1.0|  0.0|INFORM|FME Configuration: Source coordinate system for reader WFS_3[WFS] set to `EPSG:3879' as read from input data
+2023-11-06 13:20:42|   1.0|  0.0|INFORM|Coordinate System `EPSG:3879' parameters: CS_NAME=`ETRS89.FinGK-25/10_FME' DESC_NM=`ETRS89 / ETRS-GK25FIN 2010' DT_NAME=`ETRS89/01' GROUP=`FINLAND' MAP_SCL=`1' MAX_LAT=`68.9' MAX_LNG=`25.5' MIN_LAT=`60' MIN_LNG=`24.5' PARM1=`25' PROJ=`TM' QUAD=`1' SCL_RED=`1' SOURCE=`EPSG' UNIT=`Meter' X_OFF=`25500000' ZERO_X=`0.001' ZERO_Y=`0.001'
+2023-11-06 13:20:42|   1.2|  0.2|INFORM|HTTP response - so far received: 2.33 MB
+2023-11-06 13:20:42|   1.2|  0.0|INFORM|HTTP transfer summary - download-size: '1493024 bytes', download-time: '2.227414 seconds', url: 'https://kartta.hel.fi:443/ws/geoserver/avoindata/wfs?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&TYPENAME=avoindata%3AMaavesi_manner&NAMESPACE=xmlns%28avoindata%3Dhttps%3A%2F%2Fwww.hel.fi%2Favoindata%29&MAXFEATURES=30000'
+2023-11-06 13:20:42|   1.2|  0.0|INFORM|MULTI_READER(MULTI_READER): Done reading 2 features from 1 readers
+2023-11-06 13:20:42|   1.2|  0.0|INFORM|Emptying factory pipeline
+2023-11-06 13:20:42|   1.2|  0.0|STATS |Router and Unexpected Input Remover (RoutingFactory): Tested 2 input feature(s), wrote 2 output feature(s): 2 matched merge filters, 2 were routed to output, 0 could not be routed.
+2023-11-06 13:20:42|   1.2|  0.0|STATS |Unwanted Router Input Nuker (TeeFactory): Cloned 0 input feature(s) into 0 output feature(s)
+2023-11-06 13:20:42|   1.2|  0.0|STATS |Maavesi_manner_WFS_3 Splitter (TeeFactory): Cloned 2 input feature(s) into 2 output feature(s)
+2023-11-06 13:20:42|   1.2|  0.0|STATS |Piirijako_suurpiiri_WFS_1 Splitter (TeeFactory): Cloned 0 input feature(s) into 0 output feature(s)
+2023-11-06 13:20:42|   1.2|  0.0|STATS |Maavesi_suurpiirit_WFS_2 Splitter (TeeFactory): Cloned 0 input feature(s) into 0 output feature(s)
+2023-11-06 13:20:42|   1.2|  0.0|STATS |TIFF_TIFF_2 Splitter (TeeFactory): Cloned 0 input feature(s) into 0 output feature(s)
+2023-11-06 13:20:42|   1.2|  0.0|STATS |CoordinateSwapper_3 (TeeFactory): Cloned 2 input feature(s) into 2 output feature(s)
+2023-11-06 13:20:42|   1.2|  0.0|STATS |Destination Feature Type Routing Correlator (RoutingFactory): Tested 0 input feature(s), wrote 0 output feature(s): 0 matched merge filters, 0 were routed to output, 0 could not be routed.
+2023-11-06 13:20:42|   1.2|  0.0|STATS |Final Output Nuker (TeeFactory): Cloned 0 input feature(s) into 0 output feature(s)
+2023-11-06 13:20:42|   1.2|  0.0|STATS |=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+2023-11-06 13:20:42|   1.2|  0.0|STATS |                            Features Read Summary
+2023-11-06 13:20:42|   1.2|  0.0|STATS |=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+2023-11-06 13:20:42|   1.2|  0.0|STATS |Maavesi_manner                                                               2
+2023-11-06 13:20:42|   1.2|  0.0|STATS |==============================================================================
+2023-11-06 13:20:42|   1.2|  0.0|STATS |Total Features Read                                                          2
+2023-11-06 13:20:42|   1.2|  0.0|STATS |=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+2023-11-06 13:20:42|   1.2|  0.0|STATS |=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+2023-11-06 13:20:42|   1.2|  0.0|STATS |                           Features Written Summary
+2023-11-06 13:20:42|   1.2|  0.0|STATS |=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+2023-11-06 13:20:42|   1.2|  0.0|STATS |==============================================================================
+2023-11-06 13:20:42|   1.2|  0.0|STATS |Total Features Written                                                       0
+2023-11-06 13:20:42|   1.2|  0.0|STATS |=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+2023-11-06 13:20:42|   1.2|  0.0|WARN  |-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
+2023-11-06 13:20:42|   1.2|  0.0|WARN  |-~                                                                             ~-
+2023-11-06 13:20:42|   1.2|  0.0|WARN  |-~    Feature caches have been recorded at every stage of the translation.     ~-
+2023-11-06 13:20:42|   1.2|  0.0|WARN  |-~                      To inspect the recorded features,                      ~-
+2023-11-06 13:20:42|   1.2|  0.0|WARN  |-~              click the feature cache icons next to the ports.               ~-
+2023-11-06 13:20:42|   1.2|  0.0|WARN  |-~                                                                             ~-
+2023-11-06 13:20:42|   1.2|  0.0|WARN  |-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
+2023-11-06 13:20:42|   1.2|  0.0|INFORM|Translation was SUCCESSFUL with 9 warning(s) (0 feature(s) output)
+2023-11-06 13:20:42|   1.2|  0.0|INFORM|FME Session Duration: 3.1 seconds. (CPU: 1.1s user, 0.1s system)
+2023-11-06 13:20:42|   1.2|  0.0|INFORM|END - ProcessID: 26960, peak process memory usage: 185740 kB, current process memory usage: 185740 kB

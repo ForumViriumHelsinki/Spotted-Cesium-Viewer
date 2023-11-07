@@ -29,6 +29,7 @@ function createPieChartForMajorDistrict( district ) {
         let otherDistrict = findDistrictIdByName( selectedDistrict )
         secondData = getLandDataForMajorDistrict( otherDistrict );
         secondDataName = selectedDistrict;
+        setDistrictOutlineColor( otherDistrict,  selectedDistrict );
 
     }
 

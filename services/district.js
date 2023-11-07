@@ -263,7 +263,7 @@ function findDistrictIdByName( name ) {
  * Set up entity outline
  * 
  */
-function setDistrictOutlineColor( ) {
+function setDistrictOutlineColor( otherDistrict ) {
 	
     for ( let i = 0; i < viewer.dataSources._dataSources.length; i++ ) {
 
@@ -279,6 +279,12 @@ function setDistrictOutlineColor( ) {
 
                     entity.polygon.outlineColor = Cesium.Color.RED; // Set outline color to red
                     
+                } 
+
+                else if ( otherDistrict && Number( entity._properties._tunnus && entity._properties._tunnus._value ) === Number( otherDistrict ) ) {
+                    
+                    entity.polygon.outlineColor = Cesium.Color.YELLOW; // Set outline color of district being compared to yellow
+
                 } else {
 
                     entity.polygon.outlineColor = Cesium.Color.BLACK; 
