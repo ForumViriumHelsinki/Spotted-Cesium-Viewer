@@ -36,28 +36,13 @@
 #plotContainer
 {
 	position: fixed;
-	top: 90px;
+	top: 81px;
 	left: 10px;
 	width: 500px;
 	height: 300px; 
 	visibility: hidden;
 	
-	font-size: smaller;
-	
-	border: 1px solid black;
-	box-shadow: 3px 5px 5px black; 
-}
-
-#plotBuiltContainer
-{
-	position: fixed;
-	top: 90px;
-	right: 10px;
-	width: 500px;
-	height: 300px; 
-	visibility: hidden;
-	
-	font-size: smaller;
+	font-size: 12px;
 	
 	border: 1px solid black;
 	box-shadow: 3px 5px 5px black; 
@@ -65,21 +50,21 @@
 
 #selectContainer {
     position: absolute;
-    bottom: -100px;
-    right: 0px;
+    top: 1px;
+    left: 360px;
     visibility: hidden;
 }
 
-#plotInhabitantContainer
+#plotBuiltContainer
 {
 	position: fixed;
-	bottom: 40px;
+	top: 350px;
 	left: 10px;
 	width: 500px;
-	height: 290px; 
+	height: 20px; 
 	visibility: hidden;
 	
-	font-size: smaller;
+	font-size: 12px;
 	border: 1px solid black;
 	box-shadow: 3px 5px 5px black;  
 }
@@ -278,7 +263,7 @@ input:checked + .slider:before {
 /* Red label */
 .red-label {
 	position: fixed;
-	top: 250px;
+	top: 234px;
 	left: 397px;
 	width: 100px;
 	height: 10px; 
@@ -286,12 +271,13 @@ input:checked + .slider:before {
     color: white; /* Set text color to white or a color that contrasts well */
     padding: 5px;
     border-radius: 5px;
+	font-size: 12px;
 }
 
 /* Orange label */
 .orange-label {
 	position: fixed;
-	top: 275px;
+	top: 257px;
 	left: 397px;
 	width: 100px;
 	height: 10px; 
@@ -299,25 +285,27 @@ input:checked + .slider:before {
     color: white;
     padding: 5px;
     border-radius: 5px;
+	font-size: 12px;
 }
 
 /* Yellow label */
 .yellow-label {
 	position: fixed;
-	top: 300px;
+	top: 280px;
 	left: 397px;
 	width: 100px;
 	height: 10px; 
     background-color: yellow;
     color: black; /* Adjust text color for better visibility */
     padding: 5px;
-    border-radius: 5px;
+    border-radius: 5px;	
+	font-size: 12px;
 }
 
 /* Yellowgreen label */
 .yellowgreen-label {
 	position: fixed;
-	top: 325px;
+	top: 303px;
 	left: 398px;
 	width: 100px;
 	height: 10px; 
@@ -325,12 +313,13 @@ input:checked + .slider:before {
     color: white;
     padding: 5px;
     border-radius: 5px;
+	font-size: 12px;
 }
 
 /* Darkgreen label */
 .darkgreen-label {
 	position: fixed;	
-	top: 350px;
+	top: 326px;
 	left: 397px;
 	width: 100px;
 	height: 10px; 
@@ -338,4 +327,5 @@ input:checked + .slider:before {
     color: white;
     padding: 5px;
     border-radius: 5px;
+	font-size: 12px;
 }

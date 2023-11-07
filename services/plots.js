@@ -6,7 +6,7 @@
 function createDiagrams( district ) {
 
     createPieChartForMajorDistrict( district );
-    createVegetationBarPlot( district );
+    //createVegetationBarPlot( district );
     createVegetationBarPlotPerInhabitant( district );
 
 }
@@ -220,10 +220,10 @@ function createVegetationBarPlotPerInhabitant( district ) {
     //Test plotting
     if ( showPlot ) {
 
-        document.getElementById( "plotInhabitantContainer" ).style.visibility = 'visible';
+        document.getElementById( "plotContainer" ).style.visibility = 'visible';
     }
 
-    Plotly.newPlot( 'plotInhabitantContainer', data, layout );
+    Plotly.newPlot( 'plotContainer', data, layout );
 
 }
 

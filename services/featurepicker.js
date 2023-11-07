@@ -201,13 +201,13 @@ async function pickEntity( viewer, windowPosition ) {
 
         } 
 
-        printCesiumEntity( picked );
+/*         printCesiumEntity( picked );
                 
         if ( document.getElementById( "printToggle" ).checked ) {
 
             setPrintVisible( );
     
-        }
+        } */
 
     }
 

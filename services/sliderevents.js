@@ -8,7 +8,7 @@ function sliderEvents( event ) {
     // If the slider value is "print", call the printEvent function.
     if ( event.target.value == 'print' ) {
 
-        printEvent();
+    //    printEvent();
 
     }
       
@@ -182,7 +182,6 @@ function showFieldsEvent( ) {
 
         } else {
 
-            createVegetationBarPlot( districtsVisited[ districtsVisited.length - 1 ] );
             createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
             showDataSourceByName( "Fields" );
 
@@ -192,7 +191,6 @@ function showFieldsEvent( ) {
         
     } else { // If showTrees toggle is off
         
-        createVegetationBarPlot( districtsVisited[ districtsVisited.length - 1 ] );
         createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
         hideDataSourceByName( "Fields" );
         document.getElementById("showNDVIToggle").disabled = false;
@@ -282,7 +280,6 @@ function showTreeEvent( ) {
     // Get the current state of the toggle button for showing nature areas.
     const showTree = document.getElementById( "showTreeToggle" ).checked;
 
-    createVegetationBarPlot( districtsVisited[ districtsVisited.length - 1 ] );
     createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
 
     if ( showTree ) {
@@ -329,7 +326,6 @@ function showVegetationEvent( ) {
     // Get the current state of the toggle button for showing nature areas.
     const showVegetation = document.getElementById( "showVegetationToggle" ).checked;
 
-    createVegetationBarPlot( districtsVisited[ districtsVisited.length - 1 ] );
     createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
 
     if ( showVegetation ) {
@@ -380,7 +376,6 @@ function showWaterEvent( ) {
 
     // Get the current state of the toggle button for showing nature areas.
     const showWater = document.getElementById( "showWaterToggle" ).checked;
-    createVegetationBarPlot( districtsVisited[ districtsVisited.length - 1 ] );
     createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
 
     if ( showWater ) {
@@ -431,7 +426,6 @@ function showOtherNatureEvent( ) {
 
     // Get the current state of the toggle button for showing nature areas.
     const showOtherNature = document.getElementById( "showOtherNatureToggle" ).checked;
-    createVegetationBarPlot( districtsVisited[ districtsVisited.length - 1 ] );
     createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
 
     if ( showOtherNature) {

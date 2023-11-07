@@ -23,7 +23,7 @@ function reset( ) {
     // Load major district zones
 	loadDistrictZones( 0.2, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
 	
-	document.getElementById( 'printContainer' ).innerHTML =  "<i>Please click on a majordistrict area to load building and nature areas from the PyGeo server...</i>";
+//	document.getElementById( 'printContainer' ).innerHTML =  "<i>Please click on a majordistrict area to load building and nature areas from the PyGeo server...</i>";
 
 }
 
@@ -65,12 +65,12 @@ function resetSwitches( ) {
     setElementsDisplay( elements, 'inline-block' );
     document.getElementById("showNDVIToggle").disabled = true;
 
-	document.getElementById( "printToggle" ).checked = true;
+//	document.getElementById( "printToggle" ).checked = true;
     document.getElementById( 'returnButton' ).style.visibility = 'hidden';
     document.getElementById( 'selectContainer' ).style.visibility = 'hidden';
     document.getElementById( "plotContainer" ).style.visibility = 'hidden';
 
-    setPrintVisible( );
+//    setPrintVisible( );
     togglePlots( 'hidden' );    
 
   	showPlot = true;

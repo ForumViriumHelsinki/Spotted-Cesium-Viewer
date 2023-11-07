@@ -44,13 +44,13 @@
   <option value="avoindata:Ortoilmakuva">Ortoilmakuva</option>
   <option value="avoindata:Ortoilmakuva_2022_5cm">Ortoilmakuva 2022</option>
   <option value="avoindata:Ortoilmakuva_2021_5cm">Ortoilmakuva 2021</option>
-  <option value="avoindata:Ortoilmakuva_2020" selected>Ortoilmakuva_2020</option>
+  <option value="avoindata:Ortoilmakuva_2020">Ortoilmakuva_2020</option>
   <option value="avoindata:Ortoilmakuva_2018">Ortoilmakuva_2018</option>
   <option value="avoindata:Ortoilmakuva_2016">Ortoilmakuva_2016</option>
   <option value="avoindata:Ortoilmakuva_2014">Ortoilmakuva_2014</option>
   <option value="avoindata:Kantakartta">Kantakartta</option>
   <option value="avoindata:Kiinteistokartta">Kiinteistokartta</option>
-  <option value="avoindata:Karttasarja_PKS">Karttasarja PKS</option>
+  <option value="avoindata:Karttasarja_PKS" selected>Karttasarja PKS</option>
   <option value="avoindata:Vaaravariortoilmakuva_2022_5cm">Vääräväriortoilmakuva</option>
   <option value="avoindata:Ajantasa_asemakaava">Asemakaava</option>
   <option value="avoindata:Kaavahakemisto">Kaavahakemisto</option>
@@ -59,11 +59,6 @@
 </select>
 
 <!-- showPrintSwitch-->
-<label class="switch">
-  <input type="checkbox" id="printToggle" value="print" checked>
-  <span class="slider round"></span>
-</label>
-<label for="printToggle" class="label">Object details</label>
 
 <!-- showPlotSwitch-->
 <label class="switch" id = "showPlotSwitch" style = "display: none">
@@ -123,18 +118,14 @@
 
 </div>
 
-	<div id="printContainer">
-  <i>Please click on a major district area to load ndvi or landcover polygons from the WFS server...</i>
-  	</div>
-
     <div id="plotContainer">
-      <!-- Labels for colors -->
-      <label class="color-label red-label active" id = "red-label">Very low: &lt 0.15</label>
-      <label class="color-label orange-label active" id = "orange-label">Low: 0.15-0.30</label>
-      <label class="color-label yellow-label active" id = "yellow-label">Average: 0.3-0.45</label>
-      <label class="color-label yellowgreen-label active" id = "yellowgreen-label">High: 0.45-0.60</label>
-      <label class="color-label darkgreen-label active" id = "darkgreen-label">Very high: &gt 0.6</label>
   </div>
+        <!-- Labels for colors -->
+        <label class="color-label red-label active" style = "display: none" id = "red-label">Very low: &lt 0.15</label>
+        <label class="color-label orange-label active" style = "display: none" id = "orange-label">Low: 0.15-0.30</label>
+        <label class="color-label yellow-label active" style = "display: none" id = "yellow-label">Average: 0.3-0.45</label>
+        <label class="color-label yellowgreen-label active" style = "display: none" id = "yellowgreen-label">High: 0.45-0.60</label>
+        <label class="color-label darkgreen-label active" style = "display: none" id = "darkgreen-label">Very high: &gt 0.6</label>
   <div id="plotInhabitantContainer">
   </div>
   <div id="plotBuiltContainer">
@@ -195,7 +186,7 @@
     
     // Fly the camera to Helsinki at the given longitude, latitude, and height.
     viewer.camera.flyTo({
-      destination : Cesium.Cartesian3.fromDegrees(24.941745, 60.165464, 35000), 
+      destination : Cesium.Cartesian3.fromDegrees(24.901745, 60.195464, 35000), 
       orientation : {
         heading : Cesium.Math.toRadians(0.0),
         pitch : Cesium.Math.toRadians(-85.0),
