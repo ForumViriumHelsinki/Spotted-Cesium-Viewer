@@ -95,7 +95,7 @@ function createPieChartForMajorDistrict( district ) {
     }
 
       
-    Plotly.newPlot('plotBuiltContainer', data, layout );
+    Plotly.newPlot('plotPieContainer', data, layout );
 
 }
 
@@ -133,10 +133,10 @@ function createBuiltBarPlot( majordistrict ) {
     //Test plotting
     if ( showPlot ) {
 
-        document.getElementById( "plotBuiltContainer" ).style.visibility = 'visible';
+        document.getElementById( "plotPieContainer" ).style.visibility = 'visible';
     }
 
-    Plotly.newPlot( 'plotBuiltContainer', data, layout );
+    Plotly.newPlot( 'plotPieContainer', data, layout );
 
 }
 

@@ -36,16 +36,30 @@
 #plotContainer
 {
 	position: fixed;
-	top: 81px;
-	left: 10px;
-	width: 500px;
-	height: 300px; 
+	top: 10.5%;
+	left: 0%;
+	width: 25%;
+	height: 30%; 
 	visibility: hidden;
 	
 	font-size: 12px;
-	
+ 	
 	border: 1px solid black;
 	box-shadow: 3px 5px 5px black; 
+}
+
+#plotPieContainer
+{
+	position: fixed;
+	bottom: 8.5%;
+	left: 0%;
+	width: 31.25%;
+	height: 45%; 
+	visibility: hidden;
+	
+	font-size: 12px;
+	border: 1px solid black;
+	box-shadow: 3px 5px 5px black;  
 }
 
 #selectContainer {
@@ -53,20 +67,6 @@
     top: 1px;
     left: 360px;
     visibility: hidden;
-}
-
-#plotBuiltContainer
-{
-	position: fixed;
-	top: 350px;
-	left: 10px;
-	width: 500px;
-	height: 20px; 
-	visibility: hidden;
-	
-	font-size: 12px;
-	border: 1px solid black;
-	box-shadow: 3px 5px 5px black;  
 }
 
 #numericalSelect
@@ -181,8 +181,8 @@ body, html
 }
 
 #UIContainer {
-	top: 10px; 
-	left: 0px; 
+	top: 0.5%; 
+	left: 0%; 
 
 	position: fixed; 
 	border: 1px solid black; 
@@ -263,10 +263,10 @@ input:checked + .slider:before {
 /* Red label */
 .red-label {
 	position: fixed;
-	top: 234px;
-	left: 397px;
-	width: 100px;
-	height: 10px; 
+	top: 33.5%;
+	left: 3.5%;
+	width: 4.5%;
+	height: 2%; 
     background-color: red;
     color: white; /* Set text color to white or a color that contrasts well */
     padding: 5px;
@@ -277,10 +277,10 @@ input:checked + .slider:before {
 /* Orange label */
 .orange-label {
 	position: fixed;
-	top: 257px;
-	left: 397px;
-	width: 100px;
-	height: 10px; 
+	top: 33.5%;
+	left: 9%;
+	width: 4.5%;
+	height: 2%; 
     background-color: orange;
     color: white;
     padding: 5px;
@@ -291,10 +291,10 @@ input:checked + .slider:before {
 /* Yellow label */
 .yellow-label {
 	position: fixed;
-	top: 280px;
-	left: 397px;
-	width: 100px;
-	height: 10px; 
+	top: 33.5%;
+	left: 14.5%;
+	width: 4.5%;
+	height: 2%;
     background-color: yellow;
     color: black; /* Adjust text color for better visibility */
     padding: 5px;
@@ -305,10 +305,10 @@ input:checked + .slider:before {
 /* Yellowgreen label */
 .yellowgreen-label {
 	position: fixed;
-	top: 303px;
-	left: 398px;
-	width: 100px;
-	height: 10px; 
+	top: 37%;
+	left: 6.5%;
+	width: 4.5%;
+	height: 2%; 
     background-color: yellowgreen;
     color: white;
     padding: 5px;
@@ -319,10 +319,10 @@ input:checked + .slider:before {
 /* Darkgreen label */
 .darkgreen-label {
 	position: fixed;	
-	top: 326px;
-	left: 397px;
-	width: 100px;
-	height: 10px; 
+	top: 37%;
+	left: 12%;
+	width: 4.5%;
+	height: 2%;  
     background-color: darkgreen;
     color: white;
     padding: 5px;

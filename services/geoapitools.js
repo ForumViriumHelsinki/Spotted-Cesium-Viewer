@@ -192,7 +192,7 @@ function getSelectedText( elementId ) {
  * */
 function togglePlots( visibility ) {
 
-    document.getElementById( 'plotBuiltContainer' ).style.visibility = visibility;
+    document.getElementById( 'plotPieContainer' ).style.visibility = visibility;
     document.getElementById( 'selectContainer' ).style.visibility = visibility;
 
     if ( document.getElementById( "showNDVIToggle" ).checked ||  visibility == 'hidden' ) {
@@ -339,7 +339,7 @@ function setElementDisabledState( isDisabled ) {
  */
 function setPieChartVisibility( isVisible ) {
 
-    const plotContainer = document.getElementById("plotBuiltContainer");
+    const plotContainer = document.getElementById("plotPieContainer");
     const selectContainer = document.getElementById("selectContainer");
     
     plotContainer.style.visibility = isVisible ? "visible" : "hidden";

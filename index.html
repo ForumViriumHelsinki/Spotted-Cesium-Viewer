@@ -40,7 +40,7 @@
 
   <!-- Selects WMS layer -->
 <select id="layerSelect">
-  <option value="avoindata:Opaskartta_Helsinki">Opaskartta</option>
+  <option value="avoindata:Opaskartta_Helsinki" selected>Opaskartta</option>
   <option value="avoindata:Ortoilmakuva">Ortoilmakuva</option>
   <option value="avoindata:Ortoilmakuva_2022_5cm">Ortoilmakuva 2022</option>
   <option value="avoindata:Ortoilmakuva_2021_5cm">Ortoilmakuva 2021</option>
@@ -50,7 +50,7 @@
   <option value="avoindata:Ortoilmakuva_2014">Ortoilmakuva_2014</option>
   <option value="avoindata:Kantakartta">Kantakartta</option>
   <option value="avoindata:Kiinteistokartta">Kiinteistokartta</option>
-  <option value="avoindata:Karttasarja_PKS" selected>Karttasarja PKS</option>
+  <option value="avoindata:Karttasarja_PKS">Karttasarja PKS</option>
   <option value="avoindata:Vaaravariortoilmakuva_2022_5cm">Vääräväriortoilmakuva</option>
   <option value="avoindata:Ajantasa_asemakaava">Asemakaava</option>
   <option value="avoindata:Kaavahakemisto">Kaavahakemisto</option>
@@ -128,7 +128,7 @@
         <label class="color-label darkgreen-label active" style = "display: none" id = "darkgreen-label">Very high: &gt 0.6</label>
   <div id="plotInhabitantContainer">
   </div>
-  <div id="plotBuiltContainer">
+  <div id="plotPieContainer">
     <div id="selectContainer">
         <select id="plotSelect">
             <option value="Helsinki">Helsinki</option>
@@ -186,7 +186,7 @@
     
     // Fly the camera to Helsinki at the given longitude, latitude, and height.
     viewer.camera.flyTo({
-      destination : Cesium.Cartesian3.fromDegrees(24.901745, 60.195464, 35000), 
+      destination : Cesium.Cartesian3.fromDegrees(24.901745, 60.195464, 33000), 
       orientation : {
         heading : Cesium.Math.toRadians(0.0),
         pitch : Cesium.Math.toRadians(-85.0),
