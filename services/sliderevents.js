@@ -26,6 +26,13 @@ function sliderEvents( event ) {
             
     } 
 
+    // If the slider value is "showGreen", call the showGreen function.
+    if ( event.target.value == 'showGreen' ) {
+        
+        showGreenEvent();
+            
+    } 
+
     // If the slider value is "showTree", call the showTreeEvent function.
     if ( event.target.value == 'showTree' ) {
 
@@ -68,6 +75,27 @@ function sliderEvents( event ) {
         
     } 
                 
+}
+
+/**
+ * This function to show or hide green area entities on the map based on the toggle button state
+ *
+ */
+function showGreenEvent() {
+
+    const showGreen = document.getElementById( "showGreenToggle" ).checked;
+
+    if ( showGreen ) {
+
+        loadGreenAreas();
+
+    } else { 
+        
+        hideDataSourceByName( "GreenAreas" );
+        document.getElementById( "greenAreaContainer" ).style.visibility = 'hidden';
+
+    }
+
 }
 
 /**

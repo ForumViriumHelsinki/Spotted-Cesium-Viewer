@@ -19,6 +19,7 @@
   <script type="text/javascript" src="services/district.js"></script>
   <script type="text/javascript" src="services/datasource.js"></script>
   <script type="text/javascript" src="services/ndvi.js"></script>
+  <script type="text/javascript" src="services/greenareas.js"></script>
   <script src="lib/localforage/dist/localforage.js"></script>
   <script src="lib/plotly-2.12.1.min.js"></script>
   <link href="lib/Cesium/Widgets/widgets.css" rel="stylesheet">
@@ -59,6 +60,14 @@
 </select>
 
 <!-- showPrintSwitch-->
+
+<!-- showGreenSwitch-->
+<label class="switch" id = "showGreenSwitch" >
+  <input type="checkbox" id = "showGreenToggle" value = "showGreen" >
+  <span class="slider round"></span>
+</label>
+<label for="showGreenToggle" class="label" id = "showGreen" >Green areas</label>
+
 
 <!-- showPlotSwitch-->
 <label class="switch" id = "showPlotSwitch" style = "display: none">
@@ -128,6 +137,8 @@
         <label class="color-label darkgreen-label active" style = "display: none" id = "darkgreen-label">Very high: &gt 0.6</label>
   <div id="plotInhabitantContainer">
   </div>
+  <div id="greenAreaContainer">
+  </div>  
   <div id="plotPieContainer">
     <div id="selectContainer">
         <select id="plotSelect">
@@ -161,6 +172,8 @@
     var level = null;
     var districtsVisited = [ ];
     var levelsVisited = [ ];
+    var currentDistrictName = null;
+    var currentSubDistrictName = null;
 
 	// OS version, operating without Cesium Ion services...
     Cesium.Ion.defaultAccessToken = null;
@@ -194,7 +207,7 @@
     });
     
     // Load district zones & energy data availability tags
-	loadDistrictZones( 0.2, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
+	loadDistrictZones( 0.1, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
     
 	//Experimental scripts for playing around with the objects, and retrieving their information...
 	document.getElementById("cesiumContainer").addEventListener("click", function() { processClick( viewer, event ) });

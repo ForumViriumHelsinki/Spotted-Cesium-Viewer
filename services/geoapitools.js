@@ -21,7 +21,7 @@ function reset( ) {
     resetViewer( );
     resetSwitches( );
     // Load major district zones
-	loadDistrictZones( 0.2, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
+	loadDistrictZones( 0.1, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
 	
 //	document.getElementById( 'printContainer' ).innerHTML =  "<i>Please click on a majordistrict area to load building and nature areas from the PyGeo server...</i>";
 
@@ -60,6 +60,7 @@ function resetSwitches( ) {
     document.getElementById( "showNDVIToggle" ).checked = false;
     document.getElementById( "showOtherNatureToggle" ).checked = false;
     document.getElementById( "showBuiltToggle" ).checked = false;
+    document.getElementById( "showGreenToggle" ).checked = false;
 
     setElementDisabledState( true );
     setElementsDisplay( elements, 'inline-block' );
@@ -69,6 +70,7 @@ function resetSwitches( ) {
     document.getElementById( 'returnButton' ).style.visibility = 'hidden';
     document.getElementById( 'selectContainer' ).style.visibility = 'hidden';
     document.getElementById( "plotContainer" ).style.visibility = 'hidden';
+    document.getElementById( "greenAreaContainer" ).style.visibility = 'hidden';
 
 //    setPrintVisible( );
     togglePlots( 'hidden' );    
@@ -205,6 +207,7 @@ function togglePlots( visibility ) {
 
         document.getElementById( 'plotInhabitantContainer' ).style.visibility = visibility;
         document.getElementById( 'plotContainer' ).style.visibility = visibility;
+        document.getElementById( "greenAreaContainer" ).style.visibility = visibility;
 
     } else {
 
@@ -226,6 +229,7 @@ function toggleLandCoverBarPlots( visibility ) {
 
     document.getElementById( 'plotInhabitantContainer' ).style.visibility = visibility;
     document.getElementById( 'plotContainer' ).style.visibility = visibility;
+    document.getElementById( "greenAreaContainer" ).style.visibility = visibility;
 
 }
 

@@ -48,6 +48,21 @@
 	box-shadow: 3px 5px 5px black; 
 }
 
+#greenAreaContainer
+{
+	position: fixed;
+	top: 10.5%;
+	right: 0%;
+	width: 50%;
+	height: 40%; 
+	visibility: hidden;
+	
+	font-size: 12px;
+ 	
+	border: 1px solid black;
+	box-shadow: 3px 5px 5px black; 
+}
+
 #plotPieContainer
 {
 	position: fixed;

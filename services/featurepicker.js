@@ -169,6 +169,7 @@ async function pickEntity( viewer, windowPosition ) {
                 await removeDataSourcesByNamePrefix( "SubDistricts" );
                 await newDistrict( 'assets/data/HelsinkiDistrict.json', 'Districts' );
                 levelsVisited.push( 'MajorDistricts' );
+                handleGreenAreas();
                 setDistrictOutlineColor( );
                 toggleReturnButtonVisibility( );
                 createPieChartForMajorDistrict( picked.id.properties.tunnus );
@@ -178,7 +179,9 @@ async function pickEntity( viewer, windowPosition ) {
             if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vironniemi' ) {
     
                 await newDistrict( 'assets/data/HelsinkiSubDistrict.json', 'SubDistricts' );
+                currentDistrictName = picked.id.properties.nimi_fi._value;
                 levelsVisited.push( 'Districts' );
+                handleGreenAreas();
                 setDistrictOutlineColor( );
                 toggleReturnButtonVisibility( );
                 createPieChartForMajorDistrict( picked.id.properties.tunnus );
@@ -190,6 +193,8 @@ async function pickEntity( viewer, windowPosition ) {
             if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vilhonvuori' ) {
     
                 levelsVisited.push( 'SubDistricts' );
+                currentSubDistrictName = picked.id.properties.nimi_fi._value;
+                handleGreenAreas();
                 setDistrictOutlineColor( );
                 toggleReturnButtonVisibility( );
                 await removeDataSourcesByNamePrefix( "Districts" );
@@ -211,4 +216,14 @@ async function pickEntity( viewer, windowPosition ) {
 
     }
 
+}
+
+function handleGreenAreas() {
+            if ( document.getElementById( "showGreenToggle" ).checked ) {
+
+                hideOutsideGreenAreas( );
+                createGreenAreaChart( );
+
+            }
+    
 }

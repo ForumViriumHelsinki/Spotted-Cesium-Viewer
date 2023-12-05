@@ -597,3 +597,46 @@ function getNDVIForDistrict( majordistrict ) {
                                  
 	}	
 } 
+
+
+/**
+ * Create current district green area chart
+ *
+ */
+function createGreenAreaChart( ) {
+
+    const greenAreaDataSource = getDataSourceByName( "GreenAreas" );
+
+    let puiston_nimi = [];
+    let mean_ndvi = [];
+
+    greenAreaDataSource.entities.values.forEach( entity => {
+
+        if ( entity.show && entity._properties._mean_ndvi._value > 0.3 && !puiston_nimi.includes( entity._properties._puiston_nimi._value ) ) {
+            puiston_nimi.push( entity._properties._puiston_nimi._value );
+            mean_ndvi.push( entity._properties._mean_ndvi._value );
+        } 
+
+    }); 
+
+    console.log( "puiston_nimi", puiston_nimi );   
+
+    let trace1 = {
+        x: puiston_nimi,
+        y: mean_ndvi,
+        type: 'bar'
+    };
+      
+    let data = [ trace1 ];
+      
+    let layout = { title: { text: 'Green areas in ' + majorDistrictName + ' with over 0.3 ndvi' }, barmode: 'group' };
+
+    //Test plotting
+    if ( showPlot ) {
+
+        document.getElementById( "greenAreaContainer" ).style.visibility = 'visible';
+    }
+
+    Plotly.newPlot( 'greenAreaContainer', data, layout );
+
+}
