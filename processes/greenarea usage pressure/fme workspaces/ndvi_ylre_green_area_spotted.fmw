@@ -1,0 +1,2451 @@
+#! <?xml version="1.0" encoding="UTF-8" ?>
+#! <WORKSPACE
+#    Command line to run this workspace:
+#        /Library/FME/2022.2/fme /Users/andreas.andra/Documents/FME/Workspaces/ndvi_ylre_green_area_spotted.fmw
+#          --SourceDataset_GEOJSON "/Users/andreas.andra/FME output/Spotted/ylre_viheralue.geojson"
+#          --SourceDataset_TIFF "/Users/andreas.andra/Downloads/ndvi_layer_2023_08_15_4326.tif"
+#          --DestDataset_GEOJSON "/Users/andreas.andra/FME output/Spotted/ylre_with_ndvi.geojson"
+#          --FME_LAUNCH_VIEWER_APP "YES"
+#    
+#!   A0_PREVIEW_IMAGE="data:image/png;base64,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"
+#!   ARCGIS_COMPATIBILITY="ARCGIS_AUTO"
+#!   ATTR_TYPE_ENCODING="SDF"
+#!   BEGIN_PYTHON=""
+#!   BEGIN_TCL=""
+#!   CATEGORY=""
+#!   DESCRIPTION=""
+#!   DESTINATION="NONE"
+#!   DESTINATION_ROUTING_FILE=""
+#!   DOC_EXTENTS="7330.37 1964.02"
+#!   DOC_TOP_LEFT="-1.00021 -1448.51"
+#!   END_PYTHON=""
+#!   END_TCL=""
+#!   EXPLICIT_BOOKMARK_ORDER="false"
+#!   FME_BUILD_NUM="22789"
+#!   FME_BULK_MODE_THRESHOLD="2000"
+#!   FME_DOCUMENT_GUID="5aa45517-14c1-4335-a6b4-f04dd58c806c"
+#!   FME_DOCUMENT_PRIORGUID="fe3738b4-20bf-43aa-ad57-d56829c30cc2,6e1d370c-47c1-46fd-b5aa-c4f555042e29,b1175623-56e1-47aa-b0a8-190c21e4eec6"
+#!   FME_GEOMETRY_HANDLING="Enhanced"
+#!   FME_IMPLICIT_CSMAP_REPROJECTION_MODE="Auto"
+#!   FME_NAMES_ENCODING="UTF-8"
+#!   FME_REPROJECTION_ENGINE="FME"
+#!   FME_SERVER_SERVICES=""
+#!   FME_STROKE_MAX_DEVIATION="0"
+#!   HISTORY=""
+#!   IGNORE_READER_FAILURE="No"
+#!   LAST_SAVE_BUILD="FME(R) 2022.2.3.0 (20230131 - Build 22789 - macosx-x64)"
+#!   LAST_SAVE_DATE="2023-12-07T21:05:45"
+#!   LOG_FILE=""
+#!   LOG_MAX_RECORDED_FEATURES="200"
+#!   MARKDOWN_DESCRIPTION=""
+#!   MARKDOWN_USAGE=""
+#!   MAX_LOG_FEATURES="200"
+#!   MULTI_WRITER_DATASET_ORDER="BY_ID"
+#!   PASSWORD=""
+#!   PYTHON_COMPATIBILITY="310"
+#!   REDIRECT_TERMINATORS="NONE"
+#!   SAVE_ON_PROMPT_AND_RUN="Yes"
+#!   SHOW_ANNOTATIONS="true"
+#!   SHOW_INFO_NODES="true"
+#!   SOURCE="NONE"
+#!   SOURCE_ROUTING_FILE=""
+#!   TERMINATE_REJECTED="YES"
+#!   TITLE=""
+#!   USAGE=""
+#!   USE_MARKDOWN=""
+#!   VIEW_POSITION="3387.03 372.004"
+#!   WARN_INVALID_XFORM_PARAM="Yes"
+#!   WORKSPACE_VERSION="1"
+#!   ZOOM_SCALE="100"
+#! >
+#! <DATASETS>
+#! <DATASET
+#!   IS_SOURCE="true"
+#!   ROLE="READER"
+#!   FORMAT="GEOJSON"
+#!   DATASET="$(SourceDataset_GEOJSON)"
+#!   KEYWORD="GEOJSON_1"
+#!   MULTI_GEOM_ALLOWED="false"
+#!   ATTR_MAX_LENGTH="0"
+#!   ATTR_CASE="ANY"
+#!   ALLOWED_FEAT_TYPES=""
+#!   WRITE_DEFS="true"
+#!   DEFLINE_TEMPLATE=""
+#!   DEFLINE_ATTRS="true"
+#!   EXPOSABLE_ATTRS="fme_basename string fme_color string fme_dataset string fme_feature_type string fme_fill_color string fme_geometry string fme_primary_axis float fme_rotation float fme_secondary_axis float fme_start_angle float fme_sweep_angle float fme_text_size float fme_text_string string fme_type string multi_reader_full_id int multi_reader_id int multi_reader_keyword string multi_reader_type string"
+#!   DEFLINE_PARMS=""
+#!   ATTR_INDEX_TYPES=""
+#!   ATTR_NAME_INVALID_CHARS=""
+#!   SUPPORTS_FEATURE_TYPE_FANOUT="true"
+#!   ENABLED="true"
+#!   DYNAMIC_FEATURE_TYPES_LIST_ON_MERGE="true"
+#!   DATASET_TYPE="FILE"
+#!   FTTR_TYPE="LISTBOX_ENCODED"
+#!   GENERATE_FME_BUILD_NUM="22789"
+#!   COORDSYS=""
+#!   FEATURE_TYPES=""
+#!   MAX_FEATURES=""
+#!   MAX_FEATURES_PER_FEATURE_TYPE=""
+#!   MIN_FEATURES=""
+#!   START_FEATURE=""
+#! >
+#! <METAFILE_PARAMETER
+#!   NAME="MIME_TYPE"
+#!   VALUE="application/geo+json ADD_DISPOSITION"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="READER_DATASET_HINT"
+#!   VALUE="Select the GeoJSON file(s) or type the GeoJSON URL"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="WRITER_DATASET_HINT"
+#!   VALUE="Specify a name for the GeoJSON file"
+#! />
+#! </DATASET>
+#! <DATASET
+#!   IS_SOURCE="true"
+#!   ROLE="READER"
+#!   FORMAT="TIFF"
+#!   DATASET="$(SourceDataset_TIFF)"
+#!   KEYWORD="TIFF_1"
+#!   MULTI_GEOM_ALLOWED="false"
+#!   ATTR_MAX_LENGTH="0"
+#!   ATTR_CASE="ANY"
+#!   ALLOWED_FEAT_TYPES=""
+#!   WRITE_DEFS="true"
+#!   DEFLINE_TEMPLATE=""
+#!   DEFLINE_ATTRS="true"
+#!   EXPOSABLE_ATTRS="fme_basename char(50) fme_color char(50) fme_dataset char(50) fme_feature_type char(50) fme_fill_color char(50) fme_geometry char(50) fme_primary_axis float fme_rotation float fme_secondary_axis float fme_start_angle float fme_sweep_angle float fme_text_size float fme_text_string char(50) fme_type char(50) multi_reader_full_id integer multi_reader_id integer multi_reader_keyword char(50) multi_reader_type char(50) tiff_area_or_point char(255) tiff_artist char(255) tiff_byte_order char(7) tiff_compression_method char(9) tiff_copyright char(255) tiff_datetime datetime tiff_documentname char(255) tiff_hostcomputer char(255) tiff_imagedescription char(255) tiff_interleaving_type char(3) tiff_maxsamplevalue integer tiff_minsamplevalue integer tiff_number_of_bits_per_cell decimal(1,0) tiff_photometric_interpretation char(10) tiff_pyramid_level{}.num_columns integer tiff_pyramid_level{}.num_rows integer tiff_pyramid_num_levels integer tiff_resolutionunit decimal(1,0) tiff_software char(255) tiff_subdataset_description char(255) tiff_subdataset_name char(255) tiff_type char(255) tiff_xresolution float tiff_yresolution float"
+#!   DEFLINE_PARMS=""
+#!   ATTR_INDEX_TYPES=""
+#!   ATTR_NAME_INVALID_CHARS=""
+#!   SUPPORTS_FEATURE_TYPE_FANOUT="true"
+#!   ENABLED="true"
+#!   DYNAMIC_FEATURE_TYPES_LIST_ON_MERGE="true"
+#!   DATASET_TYPE="FILEDIR"
+#!   FTTR_TYPE="LISTBOX_ENCODED"
+#!   GENERATE_FME_BUILD_NUM="22789"
+#!   COORDSYS=""
+#!   FEATURE_TYPES=""
+#!   MAX_FEATURES=""
+#!   MAX_FEATURES_PER_FEATURE_TYPE=""
+#!   MIN_FEATURES=""
+#!   START_FEATURE=""
+#! >
+#! <METAFILE_PARAMETER
+#!   NAME="ADVANCED_PARMS"
+#!   VALUE="TIFF_IN_PYRAMID_LEVEL"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="AUTO_FANOUT_ATTRIBUTE"
+#!   VALUE="fme_basename"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="FEATURE_TYPE_DEFAULT_NAME"
+#!   VALUE="Raster1"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="FEATURE_TYPE_NAME"
+#!   VALUE="Raster File"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="MIME_TYPE"
+#!   VALUE="image/tiff"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="READER_AUTO_EXPOSE"
+#!   VALUE="fme_basename char(50)"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="READER_DATASET_HINT"
+#!   VALUE="Select the TIFF file(s)"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="WRITER_DATASET_HINT"
+#!   VALUE="Specify a folder for the TIFF file"
+#! />
+#! </DATASET>
+#! <DATASET
+#!   IS_SOURCE="false"
+#!   ROLE="WRITER"
+#!   FORMAT="GEOJSON"
+#!   DATASET="$(DestDataset_GEOJSON)"
+#!   KEYWORD="GEOJSON_2"
+#!   MULTI_GEOM_ALLOWED="true"
+#!   ATTR_MAX_LENGTH="600"
+#!   ATTR_CASE="ANY"
+#!   ALLOWED_FEAT_TYPES=""
+#!   WRITE_DEFS="true"
+#!   DEFLINE_TEMPLATE=""
+#!   DEFLINE_ATTRS="true"
+#!   EXPOSABLE_ATTRS="fme_basename string fme_color string fme_dataset string fme_feature_type string fme_fill_color string fme_geometry string fme_primary_axis float fme_rotation float fme_secondary_axis float fme_start_angle float fme_sweep_angle float fme_text_size float fme_text_string string fme_type string"
+#!   DEFLINE_PARMS=""
+#!   ATTR_INDEX_TYPES=""
+#!   ATTR_NAME_INVALID_CHARS=""
+#!   SUPPORTS_FEATURE_TYPE_FANOUT="true"
+#!   ENABLED="true"
+#!   DYNAMIC_FEATURE_TYPES_LIST_ON_MERGE="true"
+#!   DATASET_TYPE="FILE"
+#!   FTTR_TYPE=""
+#!   GENERATE_FME_BUILD_NUM="22789"
+#!   COORDSYS=""
+#!   FANOUT_EXPRESSION=""
+#!   FANOUT_GROUP="NO"
+#! >
+#! <METAFILE_PARAMETER
+#!   NAME="MIME_TYPE"
+#!   VALUE="application/geo+json ADD_DISPOSITION"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="READER_DATASET_HINT"
+#!   VALUE="Select the GeoJSON file(s) or type the GeoJSON URL"
+#! />
+#! <METAFILE_PARAMETER
+#!   NAME="WRITER_DATASET_HINT"
+#!   VALUE="Specify a name for the GeoJSON file"
+#! />
+#! </DATASET>
+#! </DATASETS>
+#! <DATA_TYPES>
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_buffer"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_binarybuffer"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_xml"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_varchar(width)"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_varbinary(width)"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="boolean"
+#!   FME_TYPE="fme_boolean"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_char(width)"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_binary(width)"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_datetime"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_time"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_date"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="float"
+#!   FME_TYPE="fme_real64"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="float"
+#!   FME_TYPE="fme_real32"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="int"
+#!   FME_TYPE="fme_int64"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_uint64"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="int"
+#!   FME_TYPE="fme_int32"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="int"
+#!   FME_TYPE="fme_uint32"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="int"
+#!   FME_TYPE="fme_int16"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="int"
+#!   FME_TYPE="fme_uint16"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="int"
+#!   FME_TYPE="fme_int8"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="int"
+#!   FME_TYPE="fme_uint8"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_decimal(width,decimal)"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="json"
+#!   FME_TYPE="fme_json"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="char(width)"
+#!   FME_TYPE="fme_varchar(width)"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="char(width)"
+#!   FME_TYPE="fme_varbinary(width)"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="char(width)"
+#!   FME_TYPE="fme_char(width)"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="char(width)"
+#!   FME_TYPE="fme_binary(width)"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="char(254)"
+#!   FME_TYPE="fme_buffer"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="char(254)"
+#!   FME_TYPE="fme_binarybuffer"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="char(254)"
+#!   FME_TYPE="fme_xml"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="char(254)"
+#!   FME_TYPE="fme_json"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="datetime"
+#!   FME_TYPE="fme_datetime"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="time"
+#!   FME_TYPE="fme_time"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="date"
+#!   FME_TYPE="fme_date"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="decimal(width,decimal)"
+#!   FME_TYPE="fme_decimal(width,decimal)"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="float"
+#!   FME_TYPE="fme_real64"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="float"
+#!   FME_TYPE="fme_real32"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="integer"
+#!   FME_TYPE="fme_int32"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="largeint"
+#!   FME_TYPE="fme_int64"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="decimal(20,0)"
+#!   FME_TYPE="fme_uint64"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="largeint"
+#!   FME_TYPE="fme_uint32"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="logical"
+#!   FME_TYPE="fme_boolean"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="smallint"
+#!   FME_TYPE="fme_int16"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="integer"
+#!   FME_TYPE="fme_uint16"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="smallint"
+#!   FME_TYPE="fme_int8"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="smallint"
+#!   FME_TYPE="fme_uint8"
+#!   FORMAT="TIFF"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_buffer"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_binarybuffer"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_xml"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_varchar(width)"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_varbinary(width)"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="boolean"
+#!   FME_TYPE="fme_boolean"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_char(width)"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_binary(width)"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_datetime"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_time"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_date"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="float"
+#!   FME_TYPE="fme_real64"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="float"
+#!   FME_TYPE="fme_real32"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="int"
+#!   FME_TYPE="fme_int64"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_uint64"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="int"
+#!   FME_TYPE="fme_int32"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="int"
+#!   FME_TYPE="fme_uint32"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="int"
+#!   FME_TYPE="fme_int16"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="int"
+#!   FME_TYPE="fme_uint16"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="int"
+#!   FME_TYPE="fme_int8"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="int"
+#!   FME_TYPE="fme_uint8"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="string"
+#!   FME_TYPE="fme_decimal(width,decimal)"
+#!   FORMAT="GEOJSON"
+#! />
+#! <DATA_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="json"
+#!   FME_TYPE="fme_json"
+#!   FORMAT="GEOJSON"
+#! />
+#! </DATA_TYPES>
+#! <GEOM_TYPES>
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="json_point"
+#!   FME_TYPE="fme_point"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="json_line"
+#!   FME_TYPE="fme_line"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="json_polygon"
+#!   FME_TYPE="fme_area"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="json_text"
+#!   FME_TYPE="fme_text"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="json_ellipse"
+#!   FME_TYPE="fme_ellipse"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="json_arc"
+#!   FME_TYPE="fme_arc"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="json_rectangle"
+#!   FME_TYPE="fme_rectangle"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="json_rounded_rectangle"
+#!   FME_TYPE="fme_rounded_rectangle"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="json_raster"
+#!   FME_TYPE="fme_raster"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="json_no_geom"
+#!   FME_TYPE="fme_no_geom"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="json_collection"
+#!   FME_TYPE="fme_collection"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="json_line"
+#!   FME_TYPE="fme_surface"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="json_line"
+#!   FME_TYPE="fme_solid"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="json_polygon"
+#!   FME_TYPE="fme_point_cloud"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="json_polygon"
+#!   FME_TYPE="fme_voxel_grid"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="json_no_geom"
+#!   FME_TYPE="fme_feature_table"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="tiff_raster"
+#!   FME_TYPE="fme_raster"
+#!   FORMAT="TIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="tiff_none"
+#!   FME_TYPE="fme_no_geom"
+#!   FORMAT="TIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_point"
+#!   FORMAT="TIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_text"
+#!   FORMAT="TIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_line"
+#!   FORMAT="TIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_arc"
+#!   FORMAT="TIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_area"
+#!   FORMAT="TIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_ellipse"
+#!   FORMAT="TIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_rectangle"
+#!   FORMAT="TIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_rounded_rectangle"
+#!   FORMAT="TIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_no_geom"
+#!   FORMAT="TIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_surface"
+#!   FORMAT="TIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_solid"
+#!   FORMAT="TIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_point_cloud"
+#!   FORMAT="TIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="fme_no_map"
+#!   FME_TYPE="fme_voxel_grid"
+#!   FORMAT="TIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="tiff_none"
+#!   FME_TYPE="fme_feature_table"
+#!   FORMAT="TIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="true"
+#!   FORMAT_TYPE="tiff_none"
+#!   FME_TYPE="fme_collection"
+#!   FORMAT="TIFF"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="json_point"
+#!   FME_TYPE="fme_point"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="json_line"
+#!   FME_TYPE="fme_line"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="json_polygon"
+#!   FME_TYPE="fme_area"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="json_text"
+#!   FME_TYPE="fme_text"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="json_ellipse"
+#!   FME_TYPE="fme_ellipse"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="json_arc"
+#!   FME_TYPE="fme_arc"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="json_rectangle"
+#!   FME_TYPE="fme_rectangle"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="json_rounded_rectangle"
+#!   FME_TYPE="fme_rounded_rectangle"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="json_raster"
+#!   FME_TYPE="fme_raster"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="json_no_geom"
+#!   FME_TYPE="fme_no_geom"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="json_collection"
+#!   FME_TYPE="fme_collection"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="json_line"
+#!   FME_TYPE="fme_surface"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="json_line"
+#!   FME_TYPE="fme_solid"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="json_polygon"
+#!   FME_TYPE="fme_point_cloud"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="json_polygon"
+#!   FME_TYPE="fme_voxel_grid"
+#!   FORMAT="GEOJSON"
+#! />
+#! <GEOM_TYPE
+#!   IS_SOURCE="false"
+#!   FORMAT_TYPE="json_no_geom"
+#!   FME_TYPE="fme_feature_table"
+#!   FORMAT="GEOJSON"
+#! />
+#! </GEOM_TYPES>
+#! <FEATURE_TYPES>
+#! <FEATURE_TYPE
+#!   IS_SOURCE="true"
+#!   NODE_NAME="YLRE_Viheralue_alue"
+#!   FEATURE_TYPE_NAME=""
+#!   FEATURE_TYPE_NAME_QUALIFIER=""
+#!   IS_EDITABLE="false"
+#!   IDENTIFIER="2"
+#!   FEAT_GEOMTYPE="json_polygon"
+#!   POSITION="-1.0002100020999478 -304.00069000690007"
+#!   BOUNDING_RECT="-1.0002100020999478 -304.00069000690007 571.96981825772946 71"
+#!   ORDER="500000000000000"
+#!   COLLAPSED="true"
+#!   KEYWORD="GEOJSON_1"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   HIDDEN_USER_ATTRS=""
+#!   MERGE_FILTER=""
+#!   MERGE_FILTER_TYPE="FILTER_TYPE_GLOB"
+#!   MERGE_FILTER_CASE_SENSITIVE="true"
+#!   DYNAMIC_SCHEMA="false"
+#! >
+#!     <FEAT_ATTRIBUTE ATTR_NAME="viheralue_id" ATTR_TYPE="int" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="puistonumero" ATTR_TYPE="int" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="puistonimi_id" ATTR_TYPE="int" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="puiston_nimi" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="osoite" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="kaavamerkinta" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="kaavamerkinta_teksti" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="luokka" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="kayttotark_id" ATTR_TYPE="int" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="kayttotarkoitus" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="omistaja" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="rakentamisen_tila" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="kaupunginosa" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="osa_alue" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="suurpiiri" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="viheralueen_pa" ATTR_TYPE="float" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="alue_luonti_pvm" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="paivitetty_pvm" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="datanomistaja" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="vuokraus" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="vuokraaja" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#! </FEATURE_TYPE>
+#! <FEATURE_TYPE
+#!   IS_SOURCE="true"
+#!   NODE_NAME="TIFF"
+#!   FEATURE_TYPE_NAME=""
+#!   FEATURE_TYPE_NAME_QUALIFIER=""
+#!   IS_EDITABLE="false"
+#!   IDENTIFIER="3"
+#!   FEAT_GEOMTYPE="tiff_raster"
+#!   POSITION="116.96960825562951 -714.50213002130022"
+#!   BOUNDING_RECT="116.96960825562951 -714.50213002130022 454 71"
+#!   ORDER="500000000000000"
+#!   COLLAPSED="true"
+#!   KEYWORD="TIFF_1"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   HIDDEN_USER_ATTRS=""
+#!   MERGE_FILTER=""
+#!   MERGE_FILTER_TYPE="FILTER_TYPE_GLOB"
+#!   MERGE_FILTER_CASE_SENSITIVE="true"
+#!   DYNAMIC_SCHEMA="false"
+#! >
+#!     <FEAT_ATTRIBUTE ATTR_NAME="fme_basename" ATTR_TYPE="char(50)"  EXPOSABLE_ATTR="true" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#! </FEATURE_TYPE>
+#! <FEATURE_TYPE
+#!   IS_SOURCE="false"
+#!   NODE_NAME="YLRE_Viheralue_alue"
+#!   FEATURE_TYPE_NAME=""
+#!   FEATURE_TYPE_NAME_QUALIFIER=""
+#!   IS_EDITABLE="false"
+#!   IDENTIFIER="32"
+#!   FEAT_GEOMTYPE="All"
+#!   POSITION="6757.3979284214247 -24.99789997899984"
+#!   BOUNDING_RECT="6757.3979284214247 -24.99789997899984 571.96981825772946 71"
+#!   ORDER="500000000000346"
+#!   COLLAPSED="true"
+#!   KEYWORD="GEOJSON_2"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   SCHEMA_ATTRIBUTE_SOURCE="0"
+#! >
+#!     <FEAT_ATTRIBUTE ATTR_NAME="max_ndvi" ATTR_TYPE="float" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="min_ndvi" ATTR_TYPE="float" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="median_ndvi" ATTR_TYPE="float" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="mean_ndvi" ATTR_TYPE="float" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="count_ndvi" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="viheralue_id" ATTR_TYPE="int" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="puistonumero" ATTR_TYPE="int" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="puistonimi_id" ATTR_TYPE="int" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="puiston_nimi" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="osoite" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="kaavamerkinta" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="kaavamerkinta_teksti" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="luokka" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="kayttotark_id" ATTR_TYPE="int" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="kayttotarkoitus" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="omistaja" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="rakentamisen_tila" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="kaupunginosa" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="osa_alue" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="suurpiiri" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="viheralueen_pa" ATTR_TYPE="float" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="alue_luonti_pvm" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="paivitetty_pvm" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="datanomistaja" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="vuokraus" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#!     <FEAT_ATTRIBUTE ATTR_NAME="vuokraaja" ATTR_TYPE="string" ATTR_HAS_PORT="true" ATTR_VALUE=""/>
+#! </FEATURE_TYPE>
+#! </FEATURE_TYPES>
+#! <FMESERVER>
+#! <READER_DATASETS>
+#! <DATASET
+#!   NAME="TIFF_1"
+#!   OVERRIDE="-TIFF_1_DATASET"
+#!   DATASET="TIFF_1/ndvi_layer_2023_08_15_4326.tif"
+#! />
+#! <DATASET
+#!   NAME="GEOJSON_1"
+#!   OVERRIDE="-GEOJSON_1_DATASET"
+#!   DATASET="GEOJSON_1/ylre_viheralue.geojson"
+#! />
+#! </READER_DATASETS>
+#! <WRITER_DATASETS>
+#! <DATASET
+#!   NAME="GEOJSON_2"
+#!   OVERRIDE="-GEOJSON_2_DATASET"
+#!   DATASET="GEOJSON_2/ylre_with_ndvi.geojson"
+#! />
+#! </WRITER_DATASETS>
+#! </FMESERVER>
+#! <GLOBAL_PARAMETERS>
+#! <GLOBAL_PARAMETER
+#!   GUI_LINE="GUI FILE_OR_URL SourceDataset_GEOJSON INCLUDE_WEB_BROWSER%GeoJSON_Documents(*.json;*.geojson)|*.json;*.geojson|GeoJSON_Documents(*.json)|*.json|GeoJSON_Documents(*.geojson)|*.geojson|Archive_Files(*.7z;*.7zip;*.rar;*.rvz;*.tar;*.tar.bz2;*.tar.gz;*.tgz;*.zip;*.zipx)|*.7z;*.7zip;*.rar;*.rvz;*.tar;*.tar.bz2;*.tar.gz;*.tgz;*.zip;*.zipx|Compressed_Files(*.bz2;*.gz)|*.bz2;*.gz|All_Files(*)|* Source GeoJSON File or URL:"
+#!   DEFAULT_VALUE="/Users/andreas.andra/FME output/Spotted/ylre_viheralue.geojson"
+#!   IS_STAND_ALONE="false"
+#! />
+#! <GLOBAL_PARAMETER
+#!   GUI_LINE="GUI MULTIFILE SourceDataset_TIFF INCLUDE_WEB_BROWSER%TIFF_Files(*.tif;*.tiff;*.itiff;*.ovr)|*.tif;*.tiff;*.itiff;*.ovr|TIFF_Files(*.tif)|*.tif|TIFF_Files(*.tiff)|*.tiff|TIFF_Files(*.itiff)|*.itiff|Overview_Files(*.ovr)|*.ovr|Archive_Files(*.7z;*.7zip;*.rar;*.rvz;*.tar;*.tar.bz2;*.tar.gz;*.tgz;*.zip;*.zipx)|*.7z;*.7zip;*.rar;*.rvz;*.tar;*.tar.bz2;*.tar.gz;*.tgz;*.zip;*.zipx|Compressed_Files(*.bz2;*.gz)|*.bz2;*.gz|All_Files(*)|* Source TIFF (Tagged Image File Format) File(s):"
+#!   DEFAULT_VALUE="/Users/andreas.andra/Downloads/ndvi_layer_2023_08_15_4326.tif"
+#!   IS_STAND_ALONE="false"
+#! />
+#! <GLOBAL_PARAMETER
+#!   GUI_LINE="GUI FILENAME DestDataset_GEOJSON GeoJSON_Documents(*.json;*.geojson)|*.json;*.geojson|GeoJSON_Documents(*.json)|*.json|GeoJSON_Documents(*.geojson)|*.geojson|All_Files(*)|* Destination GeoJSON File:"
+#!   DEFAULT_VALUE="/Users/andreas.andra/FME output/Spotted/ylre_with_ndvi.geojson"
+#!   IS_STAND_ALONE="false"
+#! />
+#! </GLOBAL_PARAMETERS>
+#! <USER_PARAMETERS
+#!   FORM="eyJwYXJhbWV0ZXJzIjpbeyJhY2Nlc3NNb2RlIjoicmVhZCIsImFsbG93VVJMIjp0cnVlLCJkZWZhdWx0VmFsdWUiOiIvVXNlcnMvYW5kcmVhcy5hbmRyYS9GTUUgb3V0cHV0L1Nwb3R0ZWQveWxyZV92aWhlcmFsdWUuZ2VvanNvbiIsImZpbHRlcnMiOlt7ImRlc2NyaXB0aW9uIjoiR2VvSlNPTiBEb2N1bWVudHMiLCJmaWx0ZXIiOlsiKi5qc29uIiwiKi5nZW9qc29uIl19LHsiZGVzY3JpcHRpb24iOiJHZW9KU09OIERvY3VtZW50cyIsImZpbHRlciI6WyIqLmpzb24iXX0seyJkZXNjcmlwdGlvbiI6Ikdlb0pTT04gRG9jdW1lbnRzIiwiZmlsdGVyIjpbIiouZ2VvanNvbiJdfSx7ImRlc2NyaXB0aW9uIjoiQXJjaGl2ZSBGaWxlcyIsImZpbHRlciI6WyIqLjd6IiwiKi43emlwIiwiKi5yYXIiLCIqLnJ2eiIsIioudGFyIiwiKi50YXIuYnoyIiwiKi50YXIuZ3oiLCIqLnRneiIsIiouemlwIiwiKi56aXB4Il19LHsiZGVzY3JpcHRpb24iOiJDb21wcmVzc2VkIEZpbGVzIiwiZmlsdGVyIjpbIiouYnoyIiwiKi5neiJdfSx7ImRlc2NyaXB0aW9uIjoiQWxsIEZpbGVzIiwiZmlsdGVyIjpbIioiXX1dLCJpbmNsdWRlV2ViQnJvd3NlciI6dHJ1ZSwiaXRlbXNUb1NlbGVjdCI6ImZpbGVzIiwibmFtZSI6IlNvdXJjZURhdGFzZXRfR0VPSlNPTiIsInByb21wdCI6IlNvdXJjZSBHZW9KU09OIEZpbGUgb3IgVVJMOiIsInJlcXVpcmVkIjp0cnVlLCJzZWxlY3RNdWx0aXBsZSI6dHJ1ZSwic3VwcG9ydGVkVmFsdWVUeXBlcyI6WyJnbG9iYWxQYXJhbWV0ZXIiXSwidHlwZSI6ImZpbGUiLCJ2YWxpZGF0ZUV4aXN0ZW5jZSI6ZmFsc2UsInZhbHVlVHlwZSI6InN0cmluZyJ9LHsiYWNjZXNzTW9kZSI6InJlYWQiLCJkZWZhdWx0VmFsdWUiOiIvVXNlcnMvYW5kcmVhcy5hbmRyYS9Eb3dubG9hZHMvbmR2aV9sYXllcl8yMDIzXzA4XzE1XzQzMjYudGlmIiwiZmlsdGVycyI6W3siZGVzY3JpcHRpb24iOiJUSUZGIEZpbGVzIiwiZmlsdGVyIjpbIioudGlmIiwiKi50aWZmIiwiKi5pdGlmZiIsIioub3ZyIl19LHsiZGVzY3JpcHRpb24iOiJUSUZGIEZpbGVzIiwiZmlsdGVyIjpbIioudGlmIl19LHsiZGVzY3JpcHRpb24iOiJUSUZGIEZpbGVzIiwiZmlsdGVyIjpbIioudGlmZiJdfSx7ImRlc2NyaXB0aW9uIjoiVElGRiBGaWxlcyIsImZpbHRlciI6WyIqLml0aWZmIl19LHsiZGVzY3JpcHRpb24iOiJPdmVydmlldyBGaWxlcyIsImZpbHRlciI6WyIqLm92ciJdfSx7ImRlc2NyaXB0aW9uIjoiQXJjaGl2ZSBGaWxlcyIsImZpbHRlciI6WyIqLjd6IiwiKi43emlwIiwiKi5yYXIiLCIqLnJ2eiIsIioudGFyIiwiKi50YXIuYnoyIiwiKi50YXIuZ3oiLCIqLnRneiIsIiouemlwIiwiKi56aXB4Il19LHsiZGVzY3JpcHRpb24iOiJDb21wcmVzc2VkIEZpbGVzIiwiZmlsdGVyIjpbIiouYnoyIiwiKi5neiJdfSx7ImRlc2NyaXB0aW9uIjoiQWxsIEZpbGVzIiwiZmlsdGVyIjpbIioiXX1dLCJpbmNsdWRlV2ViQnJvd3NlciI6dHJ1ZSwiaXRlbXNUb1NlbGVjdCI6ImZpbGVzIiwibmFtZSI6IlNvdXJjZURhdGFzZXRfVElGRiIsInByb21wdCI6IlNvdXJjZSBUSUZGIChUYWdnZWQgSW1hZ2UgRmlsZSBGb3JtYXQpIEZpbGUocyk6IiwicmVxdWlyZWQiOnRydWUsInNlbGVjdE11bHRpcGxlIjp0cnVlLCJzdXBwb3J0ZWRWYWx1ZVR5cGVzIjpbImdsb2JhbFBhcmFtZXRlciJdLCJ0eXBlIjoiZmlsZSIsInZhbGlkYXRlRXhpc3RlbmNlIjpmYWxzZSwidmFsdWVUeXBlIjoic3RyaW5nIn0seyJhY2Nlc3NNb2RlIjoid3JpdGUiLCJkZWZhdWx0VmFsdWUiOiIvVXNlcnMvYW5kcmVhcy5hbmRyYS9GTUUgb3V0cHV0L1Nwb3R0ZWQveWxyZV93aXRoX25kdmkuZ2VvanNvbiIsImZpbHRlcnMiOlt7ImRlc2NyaXB0aW9uIjoiR2VvSlNPTiBEb2N1bWVudHMiLCJmaWx0ZXIiOlsiKi5qc29uIiwiKi5nZW9qc29uIl19LHsiZGVzY3JpcHRpb24iOiJHZW9KU09OIERvY3VtZW50cyIsImZpbHRlciI6WyIqLmpzb24iXX0seyJkZXNjcmlwdGlvbiI6Ikdlb0pTT04gRG9jdW1lbnRzIiwiZmlsdGVyIjpbIiouZ2VvanNvbiJdfSx7ImRlc2NyaXB0aW9uIjoiQWxsIEZpbGVzIiwiZmlsdGVyIjpbIioiXX1dLCJpdGVtc1RvU2VsZWN0IjoiZmlsZXMiLCJuYW1lIjoiRGVzdERhdGFzZXRfR0VPSlNPTiIsInByb21wdCI6IkRlc3RpbmF0aW9uIEdlb0pTT04gRmlsZToiLCJyZXF1aXJlZCI6dHJ1ZSwic2VsZWN0TXVsdGlwbGUiOmZhbHNlLCJzdXBwb3J0ZWRWYWx1ZVR5cGVzIjpbImdsb2JhbFBhcmFtZXRlciJdLCJ0eXBlIjoiZmlsZSIsInZhbGlkYXRlRXhpc3RlbmNlIjpmYWxzZSwidmFsdWVUeXBlIjoic3RyaW5nIn1dfQ=="
+#! >
+#! <PARAMETER_INFO>
+#!     <INFO NAME="SourceDataset_GEOJSON" 
+#!   DEFAULT_VALUE="/Users/andreas.andra/FME output/Spotted/ylre_viheralue.geojson"
+#!   SCOPE="DEPENDENT"
+#!   GENERATED_GUI_LINE="true"
+#!   GUI_LINE="GUI FILE_OR_URL SourceDataset_GEOJSON INCLUDE_WEB_BROWSER%GeoJSON_Documents(*.json;*.geojson)|*.json;*.geojson|GeoJSON_Documents(*.json)|*.json|GeoJSON_Documents(*.geojson)|*.geojson|Archive_Files(*.7z;*.7zip;*.rar;*.rvz;*.tar;*.tar.bz2;*.tar.gz;*.tgz;*.zip;*.zipx)|*.7z;*.7zip;*.rar;*.rvz;*.tar;*.tar.bz2;*.tar.gz;*.tgz;*.zip;*.zipx|Compressed_Files(*.bz2;*.gz)|*.bz2;*.gz|All_Files(*)|* Source GeoJSON File or URL:"
+#! />
+#!     <INFO NAME="SourceDataset_TIFF" 
+#!   DEFAULT_VALUE="/Users/andreas.andra/Downloads/ndvi_layer_2023_08_15_4326.tif"
+#!   SCOPE="DEPENDENT"
+#!   GENERATED_GUI_LINE="true"
+#!   GUI_LINE="GUI MULTIFILE SourceDataset_TIFF INCLUDE_WEB_BROWSER%TIFF_Files(*.tif;*.tiff;*.itiff;*.ovr)|*.tif;*.tiff;*.itiff;*.ovr|TIFF_Files(*.tif)|*.tif|TIFF_Files(*.tiff)|*.tiff|TIFF_Files(*.itiff)|*.itiff|Overview_Files(*.ovr)|*.ovr|Archive_Files(*.7z;*.7zip;*.rar;*.rvz;*.tar;*.tar.bz2;*.tar.gz;*.tgz;*.zip;*.zipx)|*.7z;*.7zip;*.rar;*.rvz;*.tar;*.tar.bz2;*.tar.gz;*.tgz;*.zip;*.zipx|Compressed_Files(*.bz2;*.gz)|*.bz2;*.gz|All_Files(*)|* Source TIFF (Tagged Image File Format) File(s):"
+#! />
+#!     <INFO NAME="DestDataset_GEOJSON" 
+#!   DEFAULT_VALUE="/Users/andreas.andra/FME output/Spotted/ylre_with_ndvi.geojson"
+#!   SCOPE="DEPENDENT"
+#!   GENERATED_GUI_LINE="true"
+#!   GUI_LINE="GUI FILENAME DestDataset_GEOJSON GeoJSON_Documents(*.json;*.geojson)|*.json;*.geojson|GeoJSON_Documents(*.json)|*.json|GeoJSON_Documents(*.geojson)|*.geojson|All_Files(*)|* Destination GeoJSON File:"
+#! />
+#! </PARAMETER_INFO>
+#! </USER_PARAMETERS>
+#! <COMMENTS>
+#! </COMMENTS>
+#! <CONSTANTS>
+#! </CONSTANTS>
+#! <BOOKMARKS>
+#! </BOOKMARKS>
+#! <TRANSFORMERS>
+#! <TRANSFORMER
+#!   IDENTIFIER="4"
+#!   TYPE="Clipper"
+#!   VERSION="14"
+#!   POSITION="978.97230828262946 -473.99990999909983"
+#!   BOUNDING_RECT="978.97230828262946 -473.99990999909983 430 71"
+#!   ORDER="500000000000336"
+#!   PARMS_EDITED="false"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="22789"
+#! >
+#!     <OUTPUT_FEAT NAME="INSIDE"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="fme_basename" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_clipped" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="OUTSIDE"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="fme_basename" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_clipped" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <OUTPUT_FEAT NAME="REMNANTS"/>
+#!     <FEAT_COLLAPSED COLLAPSED="2"/>
+#!     <XFORM_ATTR ATTR_NAME="fme_basename" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="3"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="puistonumero" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="puistonimi_id" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="puiston_nimi" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="osoite" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta_teksti" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="luokka" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotark_id" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotarkoitus" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="omistaja" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="rakentamisen_tila" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="kaupunginosa" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="osa_alue" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="suurpiiri" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="viheralueen_pa" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="alue_luonti_pvm" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="paivitetty_pvm" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="datanomistaja" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraus" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraaja" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="fme_basename" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_message" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_PARM PARM_NAME="ATTRIBUTES_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="ATTR_ACCUM_GROUP" PARM_VALUE="NO"/>
+#!     <XFORM_PARM PARM_NAME="ATTR_ACCUM_MODE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="ATTR_CONFLICT_RES" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="BOUNDARY_CASES" PARM_VALUE="INSIDE"/>
+#!     <XFORM_PARM PARM_NAME="CLEANING_TOLERANCE" PARM_VALUE="Automatic"/>
+#!     <XFORM_PARM PARM_NAME="CLIPPED_ATTR" PARM_VALUE="_clipped"/>
+#!     <XFORM_PARM PARM_NAME="CLIPPERS_FIRST" PARM_VALUE="NO"/>
+#!     <XFORM_PARM PARM_NAME="CLIPPER_PREFIX" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="CONNECT_Z_MODE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="GENERATE_LIST" PARM_VALUE="NO"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_BY" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_BY_MODE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_PROCESSING_GROUP" PARM_VALUE="NO"/>
+#!     <XFORM_PARM PARM_NAME="INVALID_PARTS_HANDLING" PARM_VALUE="REJECT_WHOLE"/>
+#!     <XFORM_PARM PARM_NAME="LIST_ATTRS_TO_INCLUDE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="LIST_ATTRS_TO_INCLUDE_MODE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="LIST_NAME" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="MEASURES_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="MISSING_M_MODE" PARM_VALUE="Linear Interpolation"/>
+#!     <XFORM_PARM PARM_NAME="MISSING_Z_MODE" PARM_VALUE="Planar Interpolation"/>
+#!     <XFORM_PARM PARM_NAME="MULTIPLE_CLIPPERS" PARM_VALUE="YES"/>
+#!     <XFORM_PARM PARM_NAME="M_VAL_SOURCE" PARM_VALUE="CANDIDATE"/>
+#!     <XFORM_PARM PARM_NAME="OAN_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="OVERLAPPING_CLIPPERS" PARM_VALUE="CLIP_OUTSIDE"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETERS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PRESERVE_RASTER_EXTENTS" PARM_VALUE="NO"/>
+#!     <XFORM_PARM PARM_NAME="RASTER_CELL_MODE" PARM_VALUE="CENTER"/>
+#!     <XFORM_PARM PARM_NAME="RASTER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="VECTOR_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="Clipper"/>
+#!     <XFORM_PARM PARM_NAME="Z_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="Z_VAL_SOURCE" PARM_VALUE="CANDIDATE"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="7"
+#!   TYPE="AttributeRemover"
+#!   VERSION="1"
+#!   POSITION="1630.973148291029 -1056.5061500615011"
+#!   BOUNDING_RECT="1630.973148291029 -1056.5061500615011 454 71"
+#!   ORDER="500000000000337"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="22789"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_PARM PARM_NAME="LIST_ATTRS" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PARAMETERS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="REMOVE_ATTRS" PARM_VALUE="_clipped,fme_basename"/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="AttributeRemover"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="9"
+#!   TYPE="RasterToPolygonCoercer"
+#!   VERSION="2"
+#!   POSITION="2237.9732982925298 -656.99933999339987"
+#!   BOUNDING_RECT="2237.9732982925298 -656.99933999339987 534.20419325772946 71"
+#!   ORDER="500000000000338"
+#!   PARMS_EDITED="false"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="22789"
+#! >
+#!     <OUTPUT_FEAT NAME="POLYGONS"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="_label" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_message" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="EXTRACT_NODATA" PARM_VALUE="No"/>
+#!     <XFORM_PARM PARM_NAME="LABEL_ATTRIBUTE" PARM_VALUE="_label"/>
+#!     <XFORM_PARM PARM_NAME="OAN_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PARAMETERS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PRESERVE_ATTRIBUTES" PARM_VALUE="Yes"/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="RasterToPolygonCoercer"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="11"
+#!   TYPE="SpatialFilter"
+#!   VERSION="12"
+#!   POSITION="3223.0376639020269 -401.9985899858998"
+#!   BOUNDING_RECT="3223.0376639020269 -401.9985899858998 430 71"
+#!   ORDER="500000000000021"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="22776"
+#! >
+#!     <OUTPUT_FEAT NAME="PASSED"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="puistonumero" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="puistonimi_id" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="puiston_nimi" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="osoite" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta_teksti" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="luokka" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotark_id" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotarkoitus" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="omistaja" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="rakentamisen_tila" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kaupunginosa" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="osa_alue" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="suurpiiri" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="viheralueen_pa" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="alue_luonti_pvm" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="paivitetty_pvm" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="datanomistaja" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraus" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraaja" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_predicate" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="FAILED"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="_label" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="2"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="puistonumero" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="puistonimi_id" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="puiston_nimi" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="osoite" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta_teksti" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="luokka" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotark_id" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotarkoitus" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="omistaja" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="rakentamisen_tila" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="kaupunginosa" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="osa_alue" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="suurpiiri" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="viheralueen_pa" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="alue_luonti_pvm" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="paivitetty_pvm" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="datanomistaja" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraus" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraaja" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="_label" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_PARM PARM_NAME="ADVANCED_GROUP" PARM_VALUE="FME_DISCLOSURE_OPEN"/>
+#!     <XFORM_PARM PARM_NAME="AGGREGATE_HANDLING" PARM_VALUE="Yes"/>
+#!     <XFORM_PARM PARM_NAME="ATTR_ACCUM_GROUP" PARM_VALUE="YES"/>
+#!     <XFORM_PARM PARM_NAME="ATTR_ACCUM_MODE" PARM_VALUE="Merge Filter"/>
+#!     <XFORM_PARM PARM_NAME="ATTR_CONFLICT_RES" PARM_VALUE="Use Candidate"/>
+#!     <XFORM_PARM PARM_NAME="ATTR_PREFIX" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="BASE_TYPE" PARM_VALUE="Multiple Filters"/>
+#!     <XFORM_PARM PARM_NAME="CURVE_BOUNDARY_RULE_PARAM" PARM_VALUE="Default Rule"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_BY" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_BY_MODE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_PROCESSING_GROUP" PARM_VALUE="NO"/>
+#!     <XFORM_PARM PARM_NAME="OAN_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PASS_CRITERIA" PARM_VALUE="Pass Against One Filter"/>
+#!     <XFORM_PARM PARM_NAME="PREDATTR" PARM_VALUE="_predicate"/>
+#!     <XFORM_PARM PARM_NAME="PREDICATES" PARM_VALUE="INTERSECTS WITHIN CONTAINS TOUCHES"/>
+#!     <XFORM_PARM PARM_NAME="PRESERVE_FEATURE_ORDER" PARM_VALUE="Per Output Port"/>
+#!     <XFORM_PARM PARM_NAME="TESTS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="USE_BOUNDING_BOX" PARM_VALUE="No"/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="SpatialFilter"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="14"
+#!   TYPE="StatisticsCalculator"
+#!   VERSION="11"
+#!   POSITION="4468.0503540289292 -817.00817008170111"
+#!   BOUNDING_RECT="4468.0503540289292 -817.00817008170111 454 71"
+#!   ORDER="500000000000340"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="22789"
+#! >
+#!     <OUTPUT_FEAT NAME="SUMMARY"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.min" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.max" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.total_count" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.mean" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.median" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="COMPLETE"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="puistonumero" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="puistonimi_id" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="puiston_nimi" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="osoite" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta_teksti" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="luokka" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotark_id" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotarkoitus" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="omistaja" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="rakentamisen_tila" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kaupunginosa" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="osa_alue" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="suurpiiri" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="viheralueen_pa" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="alue_luonti_pvm" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="paivitetty_pvm" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="datanomistaja" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraus" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraaja" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_label" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_predicate" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_label.min" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_label.max" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_label.total_count" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_label.mean" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_label.median" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="ADV_GROUP" PARM_VALUE="NO"/>
+#!     <XFORM_PARM PARM_NAME="ADV_PARAMETERMAP_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="CALCULATION_MODE" PARM_VALUE="NUMERIC"/>
+#!     <XFORM_PARM PARM_NAME="CUMULATIVE_STATS" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="FEAT_STATS" PARM_VALUE="_label,NUMERIC_MODE,MIN,MAX,COUNT,,MEAN,MEDIAN,,,,,,,"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_BY" PARM_VALUE="viheralue_id"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_BY_MODE" PARM_VALUE="No"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_PROCESSING_GROUP" PARM_VALUE="YES"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETERS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PREPEND_ATTR_NAME_OBS" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="STATISTIC_SUFFIX_RENAME_MAP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="STATS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="StatisticsCalculator"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="16"
+#!   TYPE="FeatureMerger"
+#!   VERSION="20"
+#!   POSITION="4575.0457504575061 456.0045600456005"
+#!   BOUNDING_RECT="4575.0457504575061 456.0045600456005 491.28125 71"
+#!   ORDER="500000000000343"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="22789"
+#! >
+#!     <OUTPUT_FEAT NAME="MERGED"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="puistonumero" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="puistonimi_id" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="puiston_nimi" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="osoite" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta_teksti" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="luokka" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotark_id" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotarkoitus" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="omistaja" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="rakentamisen_tila" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kaupunginosa" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="osa_alue" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="suurpiiri" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="viheralueen_pa" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="alue_luonti_pvm" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="paivitetty_pvm" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="datanomistaja" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraus" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraaja" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.min" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.max" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.total_count" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.mean" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.median" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="UNMERGED_REQUESTOR"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="puistonumero" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="puistonimi_id" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="puiston_nimi" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="osoite" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta_teksti" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="luokka" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotark_id" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotarkoitus" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="omistaja" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="rakentamisen_tila" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kaupunginosa" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="osa_alue" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="suurpiiri" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="viheralueen_pa" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="alue_luonti_pvm" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="paivitetty_pvm" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="datanomistaja" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraus" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraaja" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <OUTPUT_FEAT NAME="USED_SUPPLIER"/>
+#!     <FEAT_COLLAPSED COLLAPSED="2"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="_label.min" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="_label.max" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="_label.total_count" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="_label.mean" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="_label.median" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="numReferences" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <OUTPUT_FEAT NAME="UNUSED_SUPPLIER"/>
+#!     <FEAT_COLLAPSED COLLAPSED="3"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="_label.min" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="_label.max" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="_label.total_count" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="_label.mean" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="_label.median" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="4"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="puistonumero" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="puistonimi_id" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="puiston_nimi" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="osoite" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta_teksti" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="luokka" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotark_id" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotarkoitus" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="omistaja" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="rakentamisen_tila" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="kaupunginosa" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="osa_alue" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="suurpiiri" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="viheralueen_pa" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="alue_luonti_pvm" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="paivitetty_pvm" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="datanomistaja" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraus" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraaja" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="_label.min" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="_label.max" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="_label.total_count" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="_label.mean" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="_label.median" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_PARM PARM_NAME="ADVANCED_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="ATTR_ACCUM_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="ATTR_ACCUM_MODE" PARM_VALUE="Merge Supplier"/>
+#!     <XFORM_PARM PARM_NAME="ATTR_CONFLICT_RES" PARM_VALUE="Use Requestor"/>
+#!     <XFORM_PARM PARM_NAME="CLEANING_TOLERANCE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="CONNECT_Z_MODE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="GENERATE_LIST_GROUP" PARM_VALUE="NO"/>
+#!     <XFORM_PARM PARM_NAME="GEOM_TYPE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_BY" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_BY_MODE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_PROCESSING_GROUP" PARM_VALUE="NO"/>
+#!     <XFORM_PARM PARM_NAME="IGNORE_NULLS" PARM_VALUE="No"/>
+#!     <XFORM_PARM PARM_NAME="JOIN_ATTRIBUTES_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="JOIN_KEYS" PARM_VALUE="&lt;at&gt;Value&lt;openparen&gt;viheralue_id&lt;closeparen&gt; &lt;at&gt;Value&lt;openparen&gt;viheralue_id&lt;closeparen&gt; AUTO"/>
+#!     <XFORM_PARM PARM_NAME="LIST_ATTRS_TO_INCLUDE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="LIST_ATTRS_TO_INCLUDE_MODE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="LIST_NAME" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="MERGE_COUNT_ATTR" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="MERGE_TYPE" PARM_VALUE="Attributes Only"/>
+#!     <XFORM_PARM PARM_NAME="MODE_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PARAMETERS" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PRESERVE_FEATURE_ORDER" PARM_VALUE="Per Output Port"/>
+#!     <XFORM_PARM PARM_NAME="PROCESS_DUPS" PARM_VALUE="NO"/>
+#!     <XFORM_PARM PARM_NAME="REJECT_NULL_MISSING_KEYS" PARM_VALUE="No"/>
+#!     <XFORM_PARM PARM_NAME="SUPPLIERS_FIRST" PARM_VALUE="No"/>
+#!     <XFORM_PARM PARM_NAME="SUPPLIER_PREFIX" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="FeatureMerger"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="19"
+#!   TYPE="SpatialFilter"
+#!   VERSION="12"
+#!   POSITION="3412.0338952022303 -1308.5130372003791"
+#!   BOUNDING_RECT="3412.0338952022303 -1308.5130372003791 430 71"
+#!   ORDER="500000000000021"
+#!   PARMS_EDITED="false"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="22776"
+#! >
+#!     <OUTPUT_FEAT NAME="PASSED"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="puistonumero" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="puistonimi_id" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="puiston_nimi" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="osoite" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta_teksti" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="luokka" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotark_id" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotarkoitus" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="omistaja" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="rakentamisen_tila" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kaupunginosa" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="osa_alue" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="suurpiiri" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="viheralueen_pa" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="alue_luonti_pvm" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="paivitetty_pvm" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="datanomistaja" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraus" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraaja" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_predicate" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="FAILED"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="_label" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="2"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="puistonumero" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="puistonimi_id" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="puiston_nimi" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="osoite" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta_teksti" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="luokka" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotark_id" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotarkoitus" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="omistaja" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="rakentamisen_tila" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="kaupunginosa" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="osa_alue" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="suurpiiri" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="viheralueen_pa" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="alue_luonti_pvm" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="paivitetty_pvm" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="datanomistaja" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraus" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraaja" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="_label" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_PARM PARM_NAME="ADVANCED_GROUP" PARM_VALUE="FME_DISCLOSURE_OPEN"/>
+#!     <XFORM_PARM PARM_NAME="AGGREGATE_HANDLING" PARM_VALUE="Yes"/>
+#!     <XFORM_PARM PARM_NAME="ATTR_ACCUM_GROUP" PARM_VALUE="YES"/>
+#!     <XFORM_PARM PARM_NAME="ATTR_ACCUM_MODE" PARM_VALUE="Merge Filter"/>
+#!     <XFORM_PARM PARM_NAME="ATTR_CONFLICT_RES" PARM_VALUE="Use Candidate"/>
+#!     <XFORM_PARM PARM_NAME="ATTR_PREFIX" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="BASE_TYPE" PARM_VALUE="Multiple Filters"/>
+#!     <XFORM_PARM PARM_NAME="CURVE_BOUNDARY_RULE_PARAM" PARM_VALUE="Default Rule"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_BY" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_BY_MODE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_PROCESSING_GROUP" PARM_VALUE="NO"/>
+#!     <XFORM_PARM PARM_NAME="OAN_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PASS_CRITERIA" PARM_VALUE="Pass Against One Filter"/>
+#!     <XFORM_PARM PARM_NAME="PREDATTR" PARM_VALUE="_predicate"/>
+#!     <XFORM_PARM PARM_NAME="PREDICATES" PARM_VALUE="INTERSECTS WITHIN CONTAINS TOUCHES"/>
+#!     <XFORM_PARM PARM_NAME="PRESERVE_FEATURE_ORDER" PARM_VALUE="Per Output Port"/>
+#!     <XFORM_PARM PARM_NAME="TESTS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="USE_BOUNDING_BOX" PARM_VALUE="No"/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="SpatialFilter_2"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="22"
+#!   TYPE="StatisticsCalculator"
+#!   VERSION="11"
+#!   POSITION="4468.0503540289292 -1377.5143046175338"
+#!   BOUNDING_RECT="4468.0503540289292 -1377.5143046175338 454 71"
+#!   ORDER="500000000000340"
+#!   PARMS_EDITED="false"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="22789"
+#! >
+#!     <OUTPUT_FEAT NAME="SUMMARY"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.min" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.max" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.total_count" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.mean" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.median" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="COMPLETE"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="puistonumero" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="puistonimi_id" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="puiston_nimi" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="osoite" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta_teksti" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="luokka" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotark_id" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotarkoitus" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="omistaja" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="rakentamisen_tila" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kaupunginosa" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="osa_alue" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="suurpiiri" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="viheralueen_pa" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="alue_luonti_pvm" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="paivitetty_pvm" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="datanomistaja" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraus" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraaja" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_label" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_predicate" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_label.min" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_label.max" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_label.total_count" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_label.mean" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="_label.median" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_PARM PARM_NAME="ADV_GROUP" PARM_VALUE="NO"/>
+#!     <XFORM_PARM PARM_NAME="ADV_PARAMETERMAP_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="CALCULATION_MODE" PARM_VALUE="NUMERIC"/>
+#!     <XFORM_PARM PARM_NAME="CUMULATIVE_STATS" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="FEAT_STATS" PARM_VALUE="_label,NUMERIC_MODE,MIN,MAX,COUNT,,MEAN,MEDIAN,,,,,,,"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_BY" PARM_VALUE="viheralue_id"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_BY_MODE" PARM_VALUE="No"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_PROCESSING_GROUP" PARM_VALUE="YES"/>
+#!     <XFORM_PARM PARM_NAME="PARAMETERS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PREPEND_ATTR_NAME_OBS" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="STATISTIC_SUFFIX_RENAME_MAP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="STATS_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="StatisticsCalculator_2"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="24"
+#!   TYPE="FeatureMerger"
+#!   VERSION="20"
+#!   POSITION="5598.4138834247251 -126.50206485341187"
+#!   BOUNDING_RECT="5598.4138834247251 -126.50206485341187 491.28125 71"
+#!   ORDER="500000000000343"
+#!   PARMS_EDITED="false"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="22789"
+#! >
+#!     <OUTPUT_FEAT NAME="MERGED"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="puistonumero" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="puistonimi_id" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="puiston_nimi" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="osoite" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta_teksti" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="luokka" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotark_id" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotarkoitus" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="omistaja" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="rakentamisen_tila" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kaupunginosa" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="osa_alue" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="suurpiiri" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="viheralueen_pa" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="alue_luonti_pvm" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="paivitetty_pvm" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="datanomistaja" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraus" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraaja" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.min" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.max" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.total_count" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.mean" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="_label.median" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <OUTPUT_FEAT NAME="UNMERGED_REQUESTOR"/>
+#!     <FEAT_COLLAPSED COLLAPSED="1"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="puistonumero" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="puistonimi_id" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="puiston_nimi" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="osoite" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta_teksti" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="luokka" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotark_id" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotarkoitus" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="omistaja" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="rakentamisen_tila" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="kaupunginosa" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="osa_alue" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="suurpiiri" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="viheralueen_pa" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="alue_luonti_pvm" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="paivitetty_pvm" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="datanomistaja" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraus" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraaja" IS_USER_CREATED="false" FEAT_INDEX="1" />
+#!     <OUTPUT_FEAT NAME="USED_SUPPLIER"/>
+#!     <FEAT_COLLAPSED COLLAPSED="2"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="_label.min" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="_label.max" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="_label.total_count" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="_label.mean" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="_label.median" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <XFORM_ATTR ATTR_NAME="numReferences" IS_USER_CREATED="false" FEAT_INDEX="2" />
+#!     <OUTPUT_FEAT NAME="UNUSED_SUPPLIER"/>
+#!     <FEAT_COLLAPSED COLLAPSED="3"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="_label.min" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="_label.max" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="_label.total_count" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="_label.mean" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <XFORM_ATTR ATTR_NAME="_label.median" IS_USER_CREATED="false" FEAT_INDEX="3" />
+#!     <OUTPUT_FEAT NAME="&lt;REJECTED&gt;"/>
+#!     <FEAT_COLLAPSED COLLAPSED="4"/>
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="puistonumero" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="puistonimi_id" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="puiston_nimi" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="osoite" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta_teksti" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="luokka" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotark_id" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotarkoitus" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="omistaja" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="rakentamisen_tila" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="kaupunginosa" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="osa_alue" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="suurpiiri" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="viheralueen_pa" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="alue_luonti_pvm" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="paivitetty_pvm" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="datanomistaja" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraus" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraaja" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="_label.min" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="_label.max" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="_label.total_count" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="_label.mean" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="_label.median" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_ATTR ATTR_NAME="fme_rejection_code" IS_USER_CREATED="false" FEAT_INDEX="4" />
+#!     <XFORM_PARM PARM_NAME="ADVANCED_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="ATTR_ACCUM_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="ATTR_ACCUM_MODE" PARM_VALUE="Merge Supplier"/>
+#!     <XFORM_PARM PARM_NAME="ATTR_CONFLICT_RES" PARM_VALUE="Use Requestor"/>
+#!     <XFORM_PARM PARM_NAME="CLEANING_TOLERANCE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="CONNECT_Z_MODE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="GENERATE_LIST_GROUP" PARM_VALUE="NO"/>
+#!     <XFORM_PARM PARM_NAME="GEOM_TYPE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_BY" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_BY_MODE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="GROUP_PROCESSING_GROUP" PARM_VALUE="NO"/>
+#!     <XFORM_PARM PARM_NAME="IGNORE_NULLS" PARM_VALUE="No"/>
+#!     <XFORM_PARM PARM_NAME="JOIN_ATTRIBUTES_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="JOIN_KEYS" PARM_VALUE="&lt;at&gt;Value&lt;openparen&gt;viheralue_id&lt;closeparen&gt; &lt;at&gt;Value&lt;openparen&gt;viheralue_id&lt;closeparen&gt; AUTO"/>
+#!     <XFORM_PARM PARM_NAME="LIST_ATTRS_TO_INCLUDE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="LIST_ATTRS_TO_INCLUDE_MODE" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="LIST_NAME" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="MERGE_COUNT_ATTR" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="MERGE_TYPE" PARM_VALUE="Attributes Only"/>
+#!     <XFORM_PARM PARM_NAME="MODE_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PARAMETERS" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="PRESERVE_FEATURE_ORDER" PARM_VALUE="Per Output Port"/>
+#!     <XFORM_PARM PARM_NAME="PROCESS_DUPS" PARM_VALUE="NO"/>
+#!     <XFORM_PARM PARM_NAME="REJECT_NULL_MISSING_KEYS" PARM_VALUE="No"/>
+#!     <XFORM_PARM PARM_NAME="SUPPLIERS_FIRST" PARM_VALUE="No"/>
+#!     <XFORM_PARM PARM_NAME="SUPPLIER_PREFIX" PARM_VALUE="&lt;Unused&gt;"/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="FeatureMerger_2"/>
+#! </TRANSFORMER>
+#! <TRANSFORMER
+#!   IDENTIFIER="27"
+#!   TYPE="AttributeRenamer"
+#!   VERSION="5"
+#!   POSITION="5915.6920133935246 515.50435521078873"
+#!   BOUNDING_RECT="5915.6920133935246 515.50435521078873 454 71"
+#!   ORDER="500000000000344"
+#!   PARMS_EDITED="true"
+#!   ENABLED="true"
+#!   LAST_PARM_EDIT="22789"
+#! >
+#!     <OUTPUT_FEAT NAME="OUTPUT"/>
+#!     <FEAT_COLLAPSED COLLAPSED="0"/>
+#!     <XFORM_ATTR ATTR_NAME="max_ndvi" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="min_ndvi" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="median_ndvi" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="mean_ndvi" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="count_ndvi" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="viheralue_id" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="puistonumero" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="puistonimi_id" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="puiston_nimi" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="osoite" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kaavamerkinta_teksti" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="luokka" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotark_id" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kayttotarkoitus" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="omistaja" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="rakentamisen_tila" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="kaupunginosa" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="osa_alue" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="suurpiiri" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="viheralueen_pa" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="alue_luonti_pvm" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="paivitetty_pvm" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="datanomistaja" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraus" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_ATTR ATTR_NAME="vuokraaja" IS_USER_CREATED="false" FEAT_INDEX="0" />
+#!     <XFORM_PARM PARM_NAME="ATTRIBUTE_GRP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="ATTR_TABLE" PARM_VALUE="_label.max max_ndvi RENAME_SET_DEFAULT  _label.min min_ndvi RENAME_SET_DEFAULT  _label.median median_ndvi RENAME_SET_DEFAULT  _label.mean mean_ndvi RENAME_SET_DEFAULT  _label.total_count count_ndvi RENAME_SET_DEFAULT "/>
+#!     <XFORM_PARM PARM_NAME="MISSING_INPUT_ATTRS" PARM_VALUE="REMOVE"/>
+#!     <XFORM_PARM PARM_NAME="TRANSFORMER_GROUP" PARM_VALUE=""/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="AttributeRenamer"/>
+#! </TRANSFORMER>
+#! </TRANSFORMERS>
+#! <FEAT_LINKS>
+#! <FEAT_LINK
+#!   IDENTIFIER="6"
+#!   SOURCE_NODE="2"
+#!   TARGET_NODE="4"
+#!   SOURCE_PORT_DESC="-1"
+#!   TARGET_PORT_DESC="fi 0 CLIPPER"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   COLOUR="0,0,0,1"
+#!   PEN_WIDTH="4"
+#!   PEN_STYLE="1"
+#!   LINK_STYLE_NAME="&lt;Default&gt;"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="13"
+#!   SOURCE_NODE="2"
+#!   TARGET_NODE="11"
+#!   SOURCE_PORT_DESC="-1"
+#!   TARGET_PORT_DESC="fi 0 Filter"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="1"
+#!   HIDDEN="false"
+#!   COLOUR="0,0,0,1"
+#!   PEN_WIDTH="4"
+#!   PEN_STYLE="1"
+#!   LINK_STYLE_NAME="&lt;Default&gt;"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="17"
+#!   SOURCE_NODE="2"
+#!   TARGET_NODE="16"
+#!   SOURCE_PORT_DESC="-1"
+#!   TARGET_PORT_DESC="fi 0 REQUESTOR"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="2"
+#!   HIDDEN="false"
+#!   COLOUR="0,0,0,1"
+#!   PEN_WIDTH="4"
+#!   PEN_STYLE="1"
+#!   LINK_STYLE_NAME="&lt;Default&gt;"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="26"
+#!   SOURCE_NODE="2"
+#!   TARGET_NODE="24"
+#!   SOURCE_PORT_DESC="-1"
+#!   TARGET_PORT_DESC="fi 0 REQUESTOR"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="3"
+#!   HIDDEN="false"
+#!   COLOUR="0,0,0,1"
+#!   PEN_WIDTH="4"
+#!   PEN_STYLE="1"
+#!   LINK_STYLE_NAME="&lt;Default&gt;"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="5"
+#!   SOURCE_NODE="3"
+#!   TARGET_NODE="4"
+#!   SOURCE_PORT_DESC="-1"
+#!   TARGET_PORT_DESC="fi 1 CANDIDATE"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   COLOUR="0,0,0,1"
+#!   PEN_WIDTH="4"
+#!   PEN_STYLE="1"
+#!   LINK_STYLE_NAME="&lt;Default&gt;"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="8"
+#!   SOURCE_NODE="4"
+#!   TARGET_NODE="7"
+#!   SOURCE_PORT_DESC="fo 0 INSIDE"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   COLOUR="0,0,0,1"
+#!   PEN_WIDTH="4"
+#!   PEN_STYLE="1"
+#!   LINK_STYLE_NAME="&lt;Default&gt;"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="10"
+#!   SOURCE_NODE="7"
+#!   TARGET_NODE="9"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   COLOUR="0,0,0,1"
+#!   PEN_WIDTH="4"
+#!   PEN_STYLE="1"
+#!   LINK_STYLE_NAME="&lt;Default&gt;"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="12"
+#!   SOURCE_NODE="9"
+#!   TARGET_NODE="11"
+#!   SOURCE_PORT_DESC="fo 0 POLYGONS"
+#!   TARGET_PORT_DESC="fi 1 Candidate"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   COLOUR="0,0,0,1"
+#!   PEN_WIDTH="4"
+#!   PEN_STYLE="1"
+#!   LINK_STYLE_NAME="&lt;Default&gt;"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="21"
+#!   SOURCE_NODE="9"
+#!   TARGET_NODE="19"
+#!   SOURCE_PORT_DESC="fo 0 POLYGONS"
+#!   TARGET_PORT_DESC="fi 1 Candidate"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="1"
+#!   HIDDEN="false"
+#!   COLOUR="0,0,0,1"
+#!   PEN_WIDTH="4"
+#!   PEN_STYLE="1"
+#!   LINK_STYLE_NAME="&lt;Default&gt;"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="15"
+#!   SOURCE_NODE="11"
+#!   TARGET_NODE="14"
+#!   SOURCE_PORT_DESC="fo 0 PASSED"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   COLOUR="0,0,0,1"
+#!   PEN_WIDTH="4"
+#!   PEN_STYLE="1"
+#!   LINK_STYLE_NAME="&lt;Default&gt;"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="18"
+#!   SOURCE_NODE="14"
+#!   TARGET_NODE="16"
+#!   SOURCE_PORT_DESC="fo 0 SUMMARY"
+#!   TARGET_PORT_DESC="fi 1 SUPPLIER"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   COLOUR="0,0,0,1"
+#!   PEN_WIDTH="4"
+#!   PEN_STYLE="1"
+#!   LINK_STYLE_NAME="&lt;Default&gt;"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="29"
+#!   SOURCE_NODE="16"
+#!   TARGET_NODE="27"
+#!   SOURCE_PORT_DESC="fo 0 MERGED"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   COLOUR="0,0,0,1"
+#!   PEN_WIDTH="4"
+#!   PEN_STYLE="1"
+#!   LINK_STYLE_NAME="&lt;Default&gt;"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="23"
+#!   SOURCE_NODE="19"
+#!   TARGET_NODE="22"
+#!   SOURCE_PORT_DESC="fo 0 PASSED"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   COLOUR="0,0,0,1"
+#!   PEN_WIDTH="4"
+#!   PEN_STYLE="1"
+#!   LINK_STYLE_NAME="&lt;Default&gt;"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="25"
+#!   SOURCE_NODE="22"
+#!   TARGET_NODE="24"
+#!   SOURCE_PORT_DESC="fo 0 SUMMARY"
+#!   TARGET_PORT_DESC="fi 1 SUPPLIER"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   COLOUR="0,0,0,1"
+#!   PEN_WIDTH="4"
+#!   PEN_STYLE="1"
+#!   LINK_STYLE_NAME="&lt;Default&gt;"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="28"
+#!   SOURCE_NODE="24"
+#!   TARGET_NODE="27"
+#!   SOURCE_PORT_DESC="fo 0 MERGED"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   COLOUR="0,0,0,1"
+#!   PEN_WIDTH="4"
+#!   PEN_STYLE="1"
+#!   LINK_STYLE_NAME="&lt;Default&gt;"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="33"
+#!   SOURCE_NODE="27"
+#!   TARGET_NODE="32"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="-1"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   COLOUR="0,0,0,1"
+#!   PEN_WIDTH="4"
+#!   PEN_STYLE="1"
+#!   LINK_STYLE_NAME="&lt;Default&gt;"
+#!   EXTRA_POINTS=""
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="20"
+#!   SOURCE_NODE="16"
+#!   TARGET_NODE="19"
+#!   SOURCE_PORT_DESC="fo 1 UNMERGED_REQUESTOR"
+#!   TARGET_PORT_DESC="fi 0 Filter"
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#!   COLOUR="0,0,0,1"
+#!   PEN_WIDTH="4"
+#!   PEN_STYLE="1"
+#!   LINK_STYLE_NAME="&lt;Default&gt;"
+#!   EXTRA_POINTS=""
+#! />
+#! </FEAT_LINKS>
+#! <BREAKPOINTS>
+#! </BREAKPOINTS>
+#! <ATTR_LINKS>
+#! </ATTR_LINKS>
+#! <SUBDOCUMENTS>
+#! </SUBDOCUMENTS>
+#! <LOOKUP_TABLES>
+#! </LOOKUP_TABLES>
+#! </WORKSPACE>
+
+FME_PYTHON_VERSION 310
+ARCGIS_COMPATIBILITY ARCGIS_AUTO
+GUI IGNORE SourceDataset_GEOJSON_1,GEOJSON_IN_USE_SEARCH_ENVELOPE_GEOJSON_1,GEOJSON_IN_SEARCH_ENVELOPE_MINX_GEOJSON_1,GEOJSON_IN_SEARCH_ENVELOPE_MINY_GEOJSON_1,GEOJSON_IN_SEARCH_ENVELOPE_MAXX_GEOJSON_1,GEOJSON_IN_SEARCH_ENVELOPE_MAXY_GEOJSON_1,GEOJSON_IN_SEARCH_ENVELOPE_COORDINATE_SYSTEM_GEOJSON_1,GEOJSON_IN_CLIP_TO_ENVELOPE_GEOJSON_1,GEOJSON_IN_NETWORK_AUTHENTICATION_GEOJSON_1,SourceDataset_TIFF_1,TIFF_IN_USE_SEARCH_ENVELOPE_TIFF_1,TIFF_IN_SEARCH_ENVELOPE_MINX_TIFF_1,TIFF_IN_SEARCH_ENVELOPE_MINY_TIFF_1,TIFF_IN_SEARCH_ENVELOPE_MAXX_TIFF_1,TIFF_IN_SEARCH_ENVELOPE_MAXY_TIFF_1,TIFF_IN_SEARCH_ENVELOPE_COORDINATE_SYSTEM_TIFF_1,TIFF_IN_CLIP_TO_ENVELOPE_TIFF_1,TIFF_IN_TIFF_RDR_ADV_PARM_GROUP_TIFF_1,TIFF_IN_PYRAMID_LEVEL_TIFF_1,TIFF_IN_NETWORK_AUTHENTICATION_TIFF_1,DestDataset_GEOJSON_2,GEOJSON_OUT_FME_GROUP_NAMED1_GEOJSON_2,GEOJSON_OUT_WRITER_CHARSET_GEOJSON_2,GEOJSON_OUT_WRITE_BOM_GEOJSON_2,GEOJSON_OUT_FILE_STRUCTURE_GEOJSON_2,GEOJSON_OUT_FME_GROUP_NAMED2_GEOJSON_2,GEOJSON_OUT_PRETTY_PRINT_GEOJSON_2,GEOJSON_OUT_INDENT_SIZE_GEOJSON_2,GEOJSON_OUT_MAX_COORDINATE_PRECISION_GEOJSON_2,GEOJSON_OUT_FME_GROUP_NAMED3_GEOJSON_2,GEOJSON_OUT_COUNTER_CLOCKWISE_AREAS_GEOJSON_2,GEOJSON_OUT_WGS84_REPROJECTION_GEOJSON_2,GEOJSON_OUT_FME_GROUP_NAMED4_GEOJSON_2,GEOJSON_OUT_JSONP_FUNC_NAME_GEOJSON_2
+# ============================================================================
+DEFAULT_MACRO SourceDataset_GEOJSON /Users/andreas.andra/FME output/Spotted/ylre_viheralue.geojson
+
+DEFAULT_MACRO SourceDataset_TIFF /Users/andreas.andra/Downloads/ndvi_layer_2023_08_15_4326.tif
+
+DEFAULT_MACRO DestDataset_GEOJSON /Users/andreas.andra/FME output/Spotted/ylre_with_ndvi.geojson
+
+# ============================================================================
+INCLUDE [ if {{$(SourceDataset_GEOJSON$encode)} == {}} { puts_real {Parameter 'SourceDataset_GEOJSON' must be given a value.}; exit 1; }; ]
+INCLUDE [ if {{$(SourceDataset_TIFF$encode)} == {}} { puts_real {Parameter 'SourceDataset_TIFF' must be given a value.}; exit 1; }; ]
+INCLUDE [ if {{$(DestDataset_GEOJSON$encode)} == {}} { puts_real {Parameter 'DestDataset_GEOJSON' must be given a value.}; exit 1; }; ]
+#! START_HEADER
+#! START_WB_HEADER
+READER_TYPE MULTI_READER
+MULTI_READER_TYPE{0} GEOJSON
+MULTI_READER_KEYWORD{0} GEOJSON_1
+MULTI_READER_GEN_DIRECTIVES{0} SEARCH_ENVELOPE_MAXY,0,GEOJSON_EXPOSE_FORMAT_ATTRS,,EXPOSE_ATTRS_GROUP,,SEARCH_ENVELOPE_MINX,0,SEARCH_ENVELOPE_MAXX,0,CLIP_TO_ENVELOPE,NO,SEARCH_ENVELOPE_COORDINATE_SYSTEM,,USE_BASENAME_AS_DEFAULT_FEATURE_TYPE,Yes,FLATTEN_MODE,ALL_LEVELS,SEARCH_ENVELOPE_MINY,0,_MERGE_SCHEMAS,YES,USE_SEARCH_ENVELOPE,NO
+MULTI_READER_TYPE{1} TIFF
+MULTI_READER_KEYWORD{1} TIFF_1
+MULTI_READER_GEN_DIRECTIVES{1} USE_SEARCH_ENVELOPE,NO,SEARCH_ENVELOPE_MINY,0,LENIENT_READ,Yes,SEARCH_ENVELOPE_MAXY,0,SEARCH_ENVELOPE_MINX,0,TIFF_RDR_ADV_PARM_GROUP,,EXPOSE_ATTRS_GROUP,,CLIP_TO_ENVELOPE,NO,SEARCH_ENVELOPE_MAXX,0,FEATURE_TYPE_NAME,FORMAT_NAME,TIFF_EXPOSE_FORMAT_ATTRS,,READER_META_ATTRIBUTES,fme_dataset<space>fme_basename,_MERGE_SCHEMAS,YES,PYRAMID_LEVEL,,SEARCH_ENVELOPE_COORDINATE_SYSTEM,
+WRITER_TYPE MULTI_WRITER
+MULTI_WRITER_DATASET_ORDER BY_ID
+MULTI_WRITER_FIRST_WRITER_ID 0
+MULTI_WRITER_TYPE{0} GEOJSON
+MULTI_WRITER_KEYWORD{0} GEOJSON_2
+#! END_WB_HEADER
+#! START_WB_HEADER
+MACRO WB_KEYWORD "GEOJSON_1"
+#! END_WB_HEADER
+#! START_SOURCE_HEADER GEOJSON GEOJSON_1
+# The dataset this mapping file was generated from was:
+#! END_SOURCE_HEADER
+#! START_WB_HEADER
+DEFAULT_MACRO SourceDataset
+INCLUDE [ if {{$(SourceDataset)} != ""} {                        \
+ puts {DEFAULT_MACRO SourceDataset_GEOJSON_1 $(SourceDataset)}     \
+ } ]
+#! END_WB_HEADER
+#! START_SOURCE_HEADER GEOJSON GEOJSON_1
+DEFAULT_MACRO SourceDataset_GEOJSON_1 $(SourceDataset_GEOJSON)
+GUI FILE_OR_URL SourceDataset_GEOJSON_1 GeoJSON_Documents(*.json;*.geojson)|*.json;*.geojson|GeoJSON_Documents(*.json)|*.json|GeoJSON_Documents(*.geojson)|*.geojson|All_Files|* Source GeoJSON File or URL:
+DEFAULT_MACRO GEOJSON_IN_FLATTEN_MODE_GEOJSON_1 ALL_LEVELS
+GEOJSON_1_FLATTEN_MODE "$(GEOJSON_IN_FLATTEN_MODE_GEOJSON_1)"
+DEFAULT_MACRO GEOJSON_IN_EXPOSE_ATTRS_GROUP_GEOJSON_1 
+GEOJSON_1_EXPOSE_ATTRS_GROUP "$(GEOJSON_IN_EXPOSE_ATTRS_GROUP_GEOJSON_1)"
+DEFAULT_MACRO GEOJSON_IN_USE_BASENAME_AS_DEFAULT_FEATURE_TYPE_GEOJSON_1 Yes
+GEOJSON_1_USE_BASENAME_AS_DEFAULT_FEATURE_TYPE "$(GEOJSON_IN_USE_BASENAME_AS_DEFAULT_FEATURE_TYPE_GEOJSON_1)"
+# Include this file in source setting section to add external search envelope processing
+# Zero as a default means we don't do any search -- this makes workbench happier
+DEFAULT_MACRO GEOJSON_IN_USE_SEARCH_ENVELOPE_GEOJSON_1 NO
+GEOJSON_1_USE_SEARCH_ENVELOPE "$(GEOJSON_IN_USE_SEARCH_ENVELOPE_GEOJSON_1)"
+GUI ACTIVEDISCLOSUREGROUP GEOJSON_IN_USE_SEARCH_ENVELOPE_GEOJSON_1 GEOJSON_IN_SEARCH_ENVELOPE_MINX_GEOJSON_1%GEOJSON_IN_SEARCH_ENVELOPE_MINY_GEOJSON_1%GEOJSON_IN_SEARCH_ENVELOPE_MAXX_GEOJSON_1%GEOJSON_IN_SEARCH_ENVELOPE_MAXY_GEOJSON_1%GEOJSON_IN_SEARCH_ENVELOPE_COORDINATE_SYSTEM_GEOJSON_1%GEOJSON_IN_CLIP_TO_ENVELOPE_GEOJSON_1%GEOJSON_IN_SEARCH_METHOD%GEOJSON_IN_SEARCH_METHOD_FILTER%GEOJSON_IN_SEARCH_ORDER%GEOJSON_IN_SEARCH_FEATURE%GEOJSON_IN_DUMMY_SEARCH_ENVELOPE_PARAMETER Use Search Envelope
+# ===========================================================================
+GUI LOOKUP GEOJSON_IN_SEARCH_ENVELOPE_MINX_GEOJSON_1 <Unused>,0 
+DEFAULT_MACRO GEOJSON_IN_SEARCH_ENVELOPE_MINX_GEOJSON_1 0
+GEOJSON_1_SEARCH_ENVELOPE "$(GEOJSON_IN_SEARCH_ENVELOPE_MINX_GEOJSON_1)"
+GUI OPTIONAL FLOAT GEOJSON_IN_SEARCH_ENVELOPE_MINX_GEOJSON_1 Minimum X:
+# ===========================================================================
+GUI LOOKUP GEOJSON_IN_SEARCH_ENVELOPE_MINY_GEOJSON_1 <Unused>,0 
+DEFAULT_MACRO GEOJSON_IN_SEARCH_ENVELOPE_MINY_GEOJSON_1 0
+GEOJSON_1_SEARCH_ENVELOPE "$(GEOJSON_IN_SEARCH_ENVELOPE_MINY_GEOJSON_1)"
+GUI OPTIONAL FLOAT GEOJSON_IN_SEARCH_ENVELOPE_MINY_GEOJSON_1 Minimum Y:
+# ===========================================================================
+GUI LOOKUP GEOJSON_IN_SEARCH_ENVELOPE_MAXX_GEOJSON_1 <Unused>,0 
+DEFAULT_MACRO GEOJSON_IN_SEARCH_ENVELOPE_MAXX_GEOJSON_1 0
+GEOJSON_1_SEARCH_ENVELOPE "$(GEOJSON_IN_SEARCH_ENVELOPE_MAXX_GEOJSON_1)"
+GUI OPTIONAL FLOAT GEOJSON_IN_SEARCH_ENVELOPE_MAXX_GEOJSON_1 Maximum X:
+# ===========================================================================
+GUI LOOKUP GEOJSON_IN_SEARCH_ENVELOPE_MAXY_GEOJSON_1 <Unused>,0 
+DEFAULT_MACRO GEOJSON_IN_SEARCH_ENVELOPE_MAXY_GEOJSON_1 0
+GEOJSON_1_SEARCH_ENVELOPE "$(GEOJSON_IN_SEARCH_ENVELOPE_MAXY_GEOJSON_1)"
+GUI OPTIONAL FLOAT GEOJSON_IN_SEARCH_ENVELOPE_MAXY_GEOJSON_1 Maximum Y:
+# ===========================================================================
+GUI LOOKUP GEOJSON_IN_SEARCH_ENVELOPE_COORDINATE_SYSTEM_GEOJSON_1 <Unused>, 
+DEFAULT_MACRO GEOJSON_IN_SEARCH_ENVELOPE_COORDINATE_SYSTEM_GEOJSON_1 
+GEOJSON_1_SEARCH_ENVELOPE "$(GEOJSON_IN_SEARCH_ENVELOPE_COORDINATE_SYSTEM_GEOJSON_1)"
+GUI OPTIONAL COORDSYS GEOJSON_IN_SEARCH_ENVELOPE_COORDINATE_SYSTEM_GEOJSON_1 Search Envelope Coordinate System:
+# ===========================================================================
+# BUG18999: We now have a soft clip to fall back on like native spatial index
+# thus we are reintroducing the clip to envelop as an option for users.
+# Defualt to soft clip as per the existing database readers we are emulating
+GUI LOOKUP GEOJSON_IN_CLIP_TO_ENVELOPE_GEOJSON_1 <Unused>,NO 
+DEFAULT_MACRO GEOJSON_IN_CLIP_TO_ENVELOPE_GEOJSON_1 NO
+GEOJSON_1_CLIP_TO_ENVELOPE "$(GEOJSON_IN_CLIP_TO_ENVELOPE_GEOJSON_1)"
+GUI OPTIONAL CHECKBOX GEOJSON_IN_CLIP_TO_ENVELOPE_GEOJSON_1 YES%NO Clip to Search Envelope
+# ===========================================================================
+DEFAULT_MACRO GEOJSON_IN_NETWORK_AUTHENTICATION_GEOJSON_1 
+GEOJSON_1_NETWORK_AUTHENTICATION "$(GEOJSON_IN_NETWORK_AUTHENTICATION_GEOJSON_1)"
+GUI OPTIONAL AUTHENTICATOR GEOJSON_IN_NETWORK_AUTHENTICATION_GEOJSON_1 CONTAINER%GROUP%CONTAINER_TITLE%"Network Authentication"%PROMPT_TYPE%NETWORK Network Authentication
+# ============================================================================
+DEFAULT_MACRO GEOJSON_IN_ATTRIBUTE_READING_GEOJSON_1 ALL
+GEOJSON_1_ATTRIBUTE_READING "$(GEOJSON_IN_ATTRIBUTE_READING_GEOJSON_1)"
+# ============================================================================
+GEOJSON_1_GENERATE_FME_BUILD_NUM 22789
+GEOJSON_1_DATASET "$(SourceDataset_GEOJSON_1)"
+#! END_SOURCE_HEADER
+#! START_WB_HEADER
+MACRO WB_KEYWORD "TIFF_1"
+#! END_WB_HEADER
+#! START_SOURCE_HEADER TIFF TIFF_1
+# =======================================================================
+# The following GUI line prompts for a file to be used as the source TIF file.
+# The user input is stored in a macro, which is then used to define
+# the dataset to be read.
+# The dataset this mapping file was generated from was:
+#! END_SOURCE_HEADER
+#! START_WB_HEADER
+DEFAULT_MACRO SourceDataset
+INCLUDE [ if {{$(SourceDataset)} != ""} {                        \
+ puts {DEFAULT_MACRO SourceDataset_TIFF_1 $(SourceDataset)}     \
+ } ]
+#! END_WB_HEADER
+#! START_SOURCE_HEADER TIFF TIFF_1
+DEFAULT_MACRO SourceDataset_TIFF_1 $(SourceDataset_TIFF)
+GUI MULTIFILE SourceDataset_TIFF_1 TIFF_Files(*.tif;*.tiff;*.itiff;*.ovr)|*.tif;*.tiff;*.itiff;*.ovr|TIFF_Files(*.tif)|*.tif|TIFF_Files(*.tiff)|*.tiff|TIFF_Files(*.itiff)|*.itiff|Overview_Files(*.ovr)|*.ovr|All_Files(*)|* Source TIFF (Tagged Image File Format) File(s):
+DEFAULT_MACRO TIFF_IN_READER_META_ATTRIBUTES_TIFF_1 fme_dataset fme_basename
+TIFF_1_READER_META_ATTRIBUTES "$(TIFF_IN_READER_META_ATTRIBUTES_TIFF_1)"
+DEFAULT_MACRO TIFF_IN_FEATURE_TYPE_NAME_TIFF_1 FORMAT_NAME
+TIFF_1_FEATURE_TYPE_NAME "$(TIFF_IN_FEATURE_TYPE_NAME_TIFF_1)"
+DEFAULT_MACRO TIFF_IN_EXPOSE_ATTRS_GROUP_TIFF_1 
+TIFF_1_EXPOSE_ATTRS_GROUP "$(TIFF_IN_EXPOSE_ATTRS_GROUP_TIFF_1)"
+# Include this file in source setting section to add external search envelope processing
+# Zero as a default means we don't do any search -- this makes workbench happier
+DEFAULT_MACRO TIFF_IN_USE_SEARCH_ENVELOPE_TIFF_1 NO
+TIFF_1_USE_SEARCH_ENVELOPE "$(TIFF_IN_USE_SEARCH_ENVELOPE_TIFF_1)"
+GUI ACTIVEDISCLOSUREGROUP TIFF_IN_USE_SEARCH_ENVELOPE_TIFF_1 TIFF_IN_SEARCH_ENVELOPE_MINX_TIFF_1%TIFF_IN_SEARCH_ENVELOPE_MINY_TIFF_1%TIFF_IN_SEARCH_ENVELOPE_MAXX_TIFF_1%TIFF_IN_SEARCH_ENVELOPE_MAXY_TIFF_1%TIFF_IN_SEARCH_ENVELOPE_COORDINATE_SYSTEM_TIFF_1%TIFF_IN_CLIP_TO_ENVELOPE_TIFF_1%TIFF_IN_SEARCH_METHOD%TIFF_IN_SEARCH_METHOD_FILTER%TIFF_IN_SEARCH_ORDER%TIFF_IN_SEARCH_FEATURE%TIFF_IN_DUMMY_SEARCH_ENVELOPE_PARAMETER Use Search Envelope
+# ===========================================================================
+GUI LOOKUP TIFF_IN_SEARCH_ENVELOPE_MINX_TIFF_1 <Unused>,0 
+DEFAULT_MACRO TIFF_IN_SEARCH_ENVELOPE_MINX_TIFF_1 0
+TIFF_1_SEARCH_ENVELOPE "$(TIFF_IN_SEARCH_ENVELOPE_MINX_TIFF_1)"
+GUI OPTIONAL FLOAT TIFF_IN_SEARCH_ENVELOPE_MINX_TIFF_1 Minimum X:
+# ===========================================================================
+GUI LOOKUP TIFF_IN_SEARCH_ENVELOPE_MINY_TIFF_1 <Unused>,0 
+DEFAULT_MACRO TIFF_IN_SEARCH_ENVELOPE_MINY_TIFF_1 0
+TIFF_1_SEARCH_ENVELOPE "$(TIFF_IN_SEARCH_ENVELOPE_MINY_TIFF_1)"
+GUI OPTIONAL FLOAT TIFF_IN_SEARCH_ENVELOPE_MINY_TIFF_1 Minimum Y:
+# ===========================================================================
+GUI LOOKUP TIFF_IN_SEARCH_ENVELOPE_MAXX_TIFF_1 <Unused>,0 
+DEFAULT_MACRO TIFF_IN_SEARCH_ENVELOPE_MAXX_TIFF_1 0
+TIFF_1_SEARCH_ENVELOPE "$(TIFF_IN_SEARCH_ENVELOPE_MAXX_TIFF_1)"
+GUI OPTIONAL FLOAT TIFF_IN_SEARCH_ENVELOPE_MAXX_TIFF_1 Maximum X:
+# ===========================================================================
+GUI LOOKUP TIFF_IN_SEARCH_ENVELOPE_MAXY_TIFF_1 <Unused>,0 
+DEFAULT_MACRO TIFF_IN_SEARCH_ENVELOPE_MAXY_TIFF_1 0
+TIFF_1_SEARCH_ENVELOPE "$(TIFF_IN_SEARCH_ENVELOPE_MAXY_TIFF_1)"
+GUI OPTIONAL FLOAT TIFF_IN_SEARCH_ENVELOPE_MAXY_TIFF_1 Maximum Y:
+# ===========================================================================
+GUI LOOKUP TIFF_IN_SEARCH_ENVELOPE_COORDINATE_SYSTEM_TIFF_1 <Unused>, 
+DEFAULT_MACRO TIFF_IN_SEARCH_ENVELOPE_COORDINATE_SYSTEM_TIFF_1 
+TIFF_1_SEARCH_ENVELOPE "$(TIFF_IN_SEARCH_ENVELOPE_COORDINATE_SYSTEM_TIFF_1)"
+GUI OPTIONAL COORDSYS TIFF_IN_SEARCH_ENVELOPE_COORDINATE_SYSTEM_TIFF_1 Search Envelope Coordinate System:
+# ===========================================================================
+# BUG18999: We now have a soft clip to fall back on like native spatial index
+# thus we are reintroducing the clip to envelop as an option for users.
+# Defualt to soft clip as per the existing database readers we are emulating
+GUI LOOKUP TIFF_IN_CLIP_TO_ENVELOPE_TIFF_1 <Unused>,NO 
+DEFAULT_MACRO TIFF_IN_CLIP_TO_ENVELOPE_TIFF_1 NO
+TIFF_1_CLIP_TO_ENVELOPE "$(TIFF_IN_CLIP_TO_ENVELOPE_TIFF_1)"
+GUI OPTIONAL CHECKBOX TIFF_IN_CLIP_TO_ENVELOPE_TIFF_1 YES%NO Clip to Search Envelope
+DEFAULT_MACRO TIFF_IN_TIFF_RDR_ADV_PARM_GROUP_TIFF_1 
+GUI OPTIONAL DISCLOSUREGROUP TIFF_IN_TIFF_RDR_ADV_PARM_GROUP_TIFF_1 TIFF_IN_PYRAMID_LEVEL_TIFF_1 Advanced
+DEFAULT_MACRO TIFF_IN_PYRAMID_LEVEL_TIFF_1 
+TIFF_1_PYRAMID_LEVEL "$(TIFF_IN_PYRAMID_LEVEL_TIFF_1)"
+GUI OPTIONAL INTEGER TIFF_IN_PYRAMID_LEVEL_TIFF_1 Pyramid Level to Read:
+DEFAULT_MACRO TIFF_IN_LENIENT_READ_TIFF_1 Yes
+TIFF_1_LENIENT_READ "$(TIFF_IN_LENIENT_READ_TIFF_1)"
+# ===========================================================================
+DEFAULT_MACRO TIFF_IN_NETWORK_AUTHENTICATION_TIFF_1 
+TIFF_1_NETWORK_AUTHENTICATION "$(TIFF_IN_NETWORK_AUTHENTICATION_TIFF_1)"
+GUI OPTIONAL AUTHENTICATOR TIFF_IN_NETWORK_AUTHENTICATION_TIFF_1 CONTAINER%GROUP%CONTAINER_TITLE%"Network Authentication"%PROMPT_TYPE%NETWORK Network Authentication
+# ============================================================================
+DEFAULT_MACRO TIFF_IN_ATTRIBUTE_READING_TIFF_1 ALL
+TIFF_1_ATTRIBUTE_READING "$(TIFF_IN_ATTRIBUTE_READING_TIFF_1)"
+# ============================================================================
+TIFF_1_GENERATE_FME_BUILD_NUM 22789
+TIFF_1_DATASET "$(SourceDataset_TIFF_1)"
+#! END_SOURCE_HEADER
+#! START_WB_HEADER
+MACRO WB_KEYWORD "GEOJSON_2"
+#! END_WB_HEADER
+#! START_DEST_HEADER GEOJSON GEOJSON_2
+#! END_DEST_HEADER
+#! START_WB_HEADER
+DEFAULT_MACRO DestDataset
+INCLUDE [ if {"$(DestDataset)" != ""} {                          \
+ puts {DEFAULT_MACRO DestDataset_GEOJSON_2 $(DestDataset)}         \
+ } ]
+#! END_WB_HEADER
+#! START_DEST_HEADER GEOJSON GEOJSON_2
+DEFAULT_MACRO DestDataset_GEOJSON_2 $(DestDataset_GEOJSON)
+GUI FILENAME DestDataset_GEOJSON_2 GeoJSON_Documents(*.json;*.geojson)|*.json;*.geojson|GeoJSON_Documents(*.json)|*.json|GeoJSON_Documents(*.geojson)|*.geojson|All_Files|* Destination GeoJSON File:
+DEFAULT_MACRO GEOJSON_OUT_FME_GROUP_NAMED1_GEOJSON_2 
+GUI OPTIONAL DISCLOSUREGROUP GEOJSON_OUT_FME_GROUP_NAMED1_GEOJSON_2 GEOJSON_OUT_WRITER_CHARSET_GEOJSON_2%GEOJSON_OUT_WRITE_BOM_GEOJSON_2%GEOJSON_OUT_FILE_STRUCTURE_GEOJSON_2 Writer Parameters
+DEFAULT_MACRO GEOJSON_OUT_WRITER_CHARSET_GEOJSON_2 UTF-8
+GEOJSON_2_WRITER_CHARSET "$(GEOJSON_OUT_WRITER_CHARSET_GEOJSON_2)"
+GUI LOOKUP_CHOICE GEOJSON_OUT_WRITER_CHARSET_GEOJSON_2 UTF-8,UTF-8%UTF-16,UTF-16%UTF-16BE,UTF-16BE%UTF-16LE,UTF-16LE%UTF-32,UTF-32%UTF-32BE,UTF-32BE%UTF-32LE,UTF-32LE Output Character Set:
+DEFAULT_MACRO GEOJSON_OUT_WRITE_BOM_GEOJSON_2 No
+GEOJSON_2_WRITE_BOM "$(GEOJSON_OUT_WRITE_BOM_GEOJSON_2)"
+GUI LOOKUP_CHOICE GEOJSON_OUT_WRITE_BOM_GEOJSON_2 Yes,Yes%No,No Byte Order Marker:
+DEFAULT_MACRO GEOJSON_OUT_FILE_STRUCTURE_GEOJSON_2 SINGLE_FEATURE_COLLECTION
+GEOJSON_2_FILE_STRUCTURE "$(GEOJSON_OUT_FILE_STRUCTURE_GEOJSON_2)"
+GUI LOOKUP_CHOICE GEOJSON_OUT_FILE_STRUCTURE_GEOJSON_2 Single<space>FeatureCollection<space>object<space>containing<space>all<space>features,SINGLE_FEATURE_COLLECTION%Array<space>of<space>FeatureCollection<space>objects<space>-<space>one<space>per<space>feature<space>type,ARRAY_OF_FEATURE_COLLECTIONS%Object<space>with<space>feature<space>type<space>names<space>as<space>keys<comma><space>FeatureCollection<space>objects<space>as<space>values,OBJECT_WITH_FEATURE_TYPE_KEYS File Structure:
+DEFAULT_MACRO GEOJSON_OUT_FME_GROUP_NAMED2_GEOJSON_2 
+GUI OPTIONAL DISCLOSUREGROUP GEOJSON_OUT_FME_GROUP_NAMED2_GEOJSON_2 GEOJSON_OUT_PRETTY_PRINT_GEOJSON_2%GEOJSON_OUT_INDENT_SIZE_GEOJSON_2%GEOJSON_OUT_MAX_COORDINATE_PRECISION_GEOJSON_2 Formatting Parameters
+DEFAULT_MACRO GEOJSON_OUT_PRETTY_PRINT_GEOJSON_2 YES
+GEOJSON_2_PRETTY_PRINT "$(GEOJSON_OUT_PRETTY_PRINT_GEOJSON_2)"
+GUI ACTIVECHOICE_LOOKUP GEOJSON_OUT_PRETTY_PRINT_GEOJSON_2 Pretty<space>Print,YES%Linear,NO,GEOJSON_OUT_INDENT_SIZE_GEOJSON_2 Formatting Type:
+DEFAULT_MACRO GEOJSON_OUT_INDENT_SIZE_GEOJSON_2 0
+GEOJSON_2_INDENT_SIZE "$(GEOJSON_OUT_INDENT_SIZE_GEOJSON_2)"
+GUI LOOKUP_CHOICE GEOJSON_OUT_INDENT_SIZE_GEOJSON_2 Tabs,0%1<space>space,1%2<space>spaces,2%3<space>spaces,3%4<space>spaces,4%5<space>spaces,5%6<space>spaces,6%7<space>spaces,7%8<space>spaces,8 Indent Size:
+DEFAULT_MACRO GEOJSON_OUT_MAX_COORDINATE_PRECISION_GEOJSON_2 10
+GEOJSON_2_MAX_COORDINATE_PRECISION "$(GEOJSON_OUT_MAX_COORDINATE_PRECISION_GEOJSON_2)"
+GUI RANGE_SLIDER GEOJSON_OUT_MAX_COORDINATE_PRECISION_GEOJSON_2 1%15%0%ON Coordinate Precision (Maximum Number of Fractional Digits):
+DEFAULT_MACRO GEOJSON_OUT_FME_GROUP_NAMED3_GEOJSON_2 
+GUI OPTIONAL DISCLOSUREGROUP GEOJSON_OUT_FME_GROUP_NAMED3_GEOJSON_2 GEOJSON_OUT_COUNTER_CLOCKWISE_AREAS_GEOJSON_2%GEOJSON_OUT_WGS84_REPROJECTION_GEOJSON_2 Geometry
+DEFAULT_MACRO GEOJSON_OUT_COUNTER_CLOCKWISE_AREAS_GEOJSON_2 Yes
+GEOJSON_2_COUNTER_CLOCKWISE_AREAS "$(GEOJSON_OUT_COUNTER_CLOCKWISE_AREAS_GEOJSON_2)"
+GUI LOOKUP_CHOICE GEOJSON_OUT_COUNTER_CLOCKWISE_AREAS_GEOJSON_2 Yes,Yes%No,No Convert Areas to Counterclockwise:
+DEFAULT_MACRO GEOJSON_OUT_WGS84_REPROJECTION_GEOJSON_2 Yes
+GEOJSON_2_WGS84_REPROJECTION "$(GEOJSON_OUT_WGS84_REPROJECTION_GEOJSON_2)"
+GUI LOOKUP_CHOICE GEOJSON_OUT_WGS84_REPROJECTION_GEOJSON_2 Yes,Yes%No,No Reproject to WGS84:
+DEFAULT_MACRO GEOJSON_OUT_FME_GROUP_NAMED4_GEOJSON_2 
+GUI OPTIONAL DISCLOSUREGROUP GEOJSON_OUT_FME_GROUP_NAMED4_GEOJSON_2 GEOJSON_OUT_JSONP_FUNC_NAME_GEOJSON_2 JSONP
+DEFAULT_MACRO GEOJSON_OUT_JSONP_FUNC_NAME_GEOJSON_2 
+GEOJSON_2_JSONP_FUNC_NAME "$(GEOJSON_OUT_JSONP_FUNC_NAME_GEOJSON_2)"
+GUI OPTIONAL TEXT GEOJSON_OUT_JSONP_FUNC_NAME_GEOJSON_2 JSONP Function Name:
+# ============================================================================
+# Opt in for destination dataset type vs format type validation
+DEFAULT_MACRO GEOJSON_OUT_DESTINATION_DATASETTYPE_VALIDATION_GEOJSON_2 Yes
+GEOJSON_2_DESTINATION_DATASETTYPE_VALIDATION "$(GEOJSON_OUT_DESTINATION_DATASETTYPE_VALIDATION_GEOJSON_2)"
+# ============================================================================
+GEOJSON_2_GENERATE_FME_BUILD_NUM 22789
+GEOJSON_2_DATASET "$(DestDataset_GEOJSON_2)"
+#! END_DEST_HEADER
+#! START_WB_HEADER
+#! END_WB_HEADER
+#! END_HEADER
+
+LOG_FILENAME "$(FME_MF_DIR)ndvi_ylre_green_area_spotted.log"
+LOG_APPEND NO
+LOG_FILTER_MASK -1
+LOG_MAX_FEATURES 200
+LOG_MAX_RECORDED_FEATURES 200
+FME_REPROJECTION_ENGINE FME
+FME_IMPLICIT_CSMAP_REPROJECTION_MODE Auto
+FME_GEOMETRY_HANDLING Enhanced
+FME_STROKE_MAX_DEVIATION 0
+FME_NAMES_ENCODING UTF-8
+FME_BULK_MODE_THRESHOLD 2000
+LAST_SAVE_BUILD "FME 2022.2.3.0 (20230131 - Build 22789 - macosx-x64)"
+DEFAULT_MACRO DATASET_KEYWORD_GEOJSON_1 GEOJSON_1
+DEFAULT_MACRO DATASET_KEYWORD_TIFF_1 TIFF_1
+DEFAULT_MACRO DATASET_KEYWORD_GEOJSON_2 GEOJSON_2
+# -------------------------------------------------------------------------
+
+GEOJSON_1_READER_META_ATTRIBUTES fme_feature_type
+
+# -------------------------------------------------------------------------
+
+TIFF_1_READER_META_ATTRIBUTES fme_basename fme_feature_type
+
+# -------------------------------------------------------------------------
+
+MULTI_READER_CONTINUE_ON_READER_FAILURE No
+
+# -------------------------------------------------------------------------
+
+MACRO WORKSPACE_NAME ndvi_ylre_green_area_spotted
+MACRO FME_VIEWER_APP fmedatainspector
+# -------------------------------------------------------------------------
+GEOJSON_1_DEF YLRE_Viheralue_alue   viheralue_id                 int   puistonumero                 int   puistonimi_id                int   puiston_nimi                 string   osoite                       string   kaavamerkinta                string   kaavamerkinta_teksti         string   luokka                       string   kayttotark_id                int   kayttotarkoitus              string   omistaja                     string   rakentamisen_tila            string   kaupunginosa                 string   osa_alue                     string   suurpiiri                    string   viheralueen_pa               float   alue_luonti_pvm              string   paivitetty_pvm               string   datanomistaja                string   vuokraus                     string   vuokraaja                    string
+# -------------------------------------------------------------------------
+TIFF_1_DEF TIFF
+# -------------------------------------------------------------------------
+
+FACTORY_DEF * RoutingFactory   FACTORY_NAME "Router and Unexpected Input Remover"   COMMAND_PARM_EVALUATION SINGLE_PASS   INPUT FEATURE_TYPE *    ROUTE GEOJSON GEOJSON_1::YLRE_Viheralue_alue multi_reader_keyword,$(DATASET_KEYWORD_GEOJSON_1) TO FME_GENERIC ::YLRE_Viheralue_alue ALIAS_GEOMETRY    ROUTE TIFF TIFF_1::TIFF multi_reader_keyword,$(DATASET_KEYWORD_TIFF_1) TO FME_GENERIC ::TIFF ALIAS_GEOMETRY    MERGE_INPUT Yes   OUTPUT ROUTED FEATURE_TYPE *
+GEOJSON_1_MERGE_DEF GEOJSON_1::YLRE_Viheralue_alue EXACT YLRE_Viheralue_alue
+TIFF_1_MERGE_DEF TIFF_1::TIFF EXACT TIFF
+# -------------------------------------------------------------------------
+
+FACTORY_DEF * TeeFactory    FACTORY_NAME "TIFF_TIFF_1 Splitter"    INPUT FEATURE_TYPE TIFF    OUTPUT FEATURE_TYPE TIFF_TIFF_1
+# -------------------------------------------------------------------------
+
+FACTORY_DEF * TeeFactory    FACTORY_NAME "YLRE_Viheralue_alue_GEOJSON_1 Splitter"    INPUT FEATURE_TYPE YLRE_Viheralue_alue    OUTPUT FEATURE_TYPE YLRE_Viheralue_alue_GEOJSON_1_0_OpmbTXnlgig=    OUTPUT FEATURE_TYPE YLRE_Viheralue_alue_GEOJSON_1_1_5Xhh+kSKRkI=    OUTPUT FEATURE_TYPE YLRE_Viheralue_alue_GEOJSON_1_2_r8CXIFEV7Wk=    OUTPUT FEATURE_TYPE YLRE_Viheralue_alue_GEOJSON_1_3_yJiHekQK2LU=
+DEFAULT_MACRO WB_CURRENT_CONTEXT
+# -------------------------------------------------------------------------
+FACTORY_DEF {*} ClipperFactory    FACTORY_NAME { Clipper }    INPUT CLIPPER FEATURE_TYPE YLRE_Viheralue_alue_GEOJSON_1_0_OpmbTXnlgig=    INPUT CANDIDATE FEATURE_TYPE TIFF_TIFF_1    FLUSH_WHEN_GROUPS_CHANGE { <Unused> }    MULTIPLE_CLIPPERS { YES }    CLIPPERS_FIRST { NO }    OVERLAPPING_CLIPPERS { CLIP_OUTSIDE }    INVALID_PARTS_HANDLING { REJECT_WHOLE }    Z_VAL_SOURCE { CANDIDATE }    MISSING_Z_MODE { PLANAR }    CONNECT_Z_MODE { <Unused> }    M_VAL_SOURCE { CANDIDATE }    MISSING_M_MODE { LINEAR }    CLEANING_TOLERANCE { AUTO }    CANDIDATE_ON_BOUNDARY { INSIDE }    PRESERVE_RASTER_EXTENTS { NO }    RASTER_CELL_MODE { CENTER }    CLIPPED_INDICATOR_ATTR { _clipped }    MERGE_CLIPPER_ATTRIBUTES { NO }    ATTR_ACCUM_MODE { "<Unused>" }    ATTR_CONFLICT_RES { "<Unused>" }    CLIPPER_PREFIX { "<Unused>" }    LIST_NAME { "<Unused>" }    LIST_ATTRS_TO_INCLUDE { <Unused> }    LIST_ATTRS_TO_INCLUDE_MODE { <Unused> }    OUTPUT { INSIDE FEATURE_TYPE Clipper_INSIDE         }    OUTPUT { REJECTED FEATURE_TYPE Clipper_<REJECTED>         }
+DEFAULT_MACRO _WB_BYPASS_TERMINATION No
+FACTORY_DEF * TeeFactory FACTORY_NAME Clipper_<Rejected> INPUT FEATURE_TYPE Clipper_<REJECTED>  NO_LOGGING   OUTPUT FAILED FEATURE_TYPE * @Abort(ENCODED, Clipper<space>output<space>a<space><lt>Rejected<gt><space>feature.<space><space>To<space>continue<space>translation<space>when<space>features<space>are<space>rejected<comma><space>change<space><apos>Workspace<space>Parameters<apos><space><gt><space>Translation<space><gt><space><apos>Rejected<space>Feature<space>Handling<apos><space>to<space><apos>Continue<space>Translation<apos>)
+# -------------------------------------------------------------------------
+# Build the List removal function and regular expression if there was any list attributes to be removed.
+# If not, then we will not have any extra list removal call to @RemoveAttributes, which speeds the
+# normal, non-list removal especially when in Bulk Mode.  Note that this computation of the regular expressions is done
+# once during mapping file parse time.
+INCLUDE [    set listAttributeRemoveRegexps {};    set anyList {no};    foreach attr [split ""] {       set attr [FME_DecodeText $attr];       set attr [regsub "{}$" $attr "{}.*"];       set attr [regsub -all "{}" $attr "\\{\[0-9\]+\\}"];       append listAttributeRemoveRegexps ",^$attr$";       set anyList {yes};    };    if { ${anyList} == {no} } {        puts {MACRO AttributeRemover_LIST_FUNC }    } else {        puts "MACRO AttributeRemover_LIST_FUNC @RemoveAttributes(fme_pcre_match\"$listAttributeRemoveRegexps\")"    }; ]
+FACTORY_DEF {*} TeeFactory    FACTORY_NAME { AttributeRemover }    INPUT  FEATURE_TYPE Clipper_INSIDE    OUTPUT { FEATURE_TYPE AttributeRemover_OUTPUT        @RemoveAttributes(fme_encoded,_clipped,fme_basename)        $(AttributeRemover_LIST_FUNC)         }
+# -------------------------------------------------------------------------
+FACTORY_DEF {*} RasterSegmentationFactory    FACTORY_NAME { RasterToPolygonCoercer }    INPUT  FEATURE_TYPE AttributeRemover_OUTPUT    POLYGON_MODE UNIQUE    EXTRACT_NODATA { No }    PRESERVE_ATTRIBUTES { YES }    POLYGON_LABEL_ATTRIBUTE { "_label" }    REJECT_INVALID_FEATURES YES    OUTPUT { POLYGONS FEATURE_TYPE RasterToPolygonCoercer_POLYGONS        }    OUTPUT { <REJECTED> FEATURE_TYPE RasterToPolygonCoercer_<REJECTED>        }
+FACTORY_DEF * TeeFactory   FACTORY_NAME "RasterToPolygonCoercer POLYGONS Splitter"   INPUT FEATURE_TYPE RasterToPolygonCoercer_POLYGONS   OUTPUT FEATURE_TYPE RasterToPolygonCoercer_POLYGONS_0_APiIiA1xsjA=   OUTPUT FEATURE_TYPE RasterToPolygonCoercer_POLYGONS_1_5TsUjlmrsR8=
+DEFAULT_MACRO _WB_BYPASS_TERMINATION No
+FACTORY_DEF * TeeFactory FACTORY_NAME RasterToPolygonCoercer_<Rejected> INPUT FEATURE_TYPE RasterToPolygonCoercer_<REJECTED>  NO_LOGGING   OUTPUT FAILED FEATURE_TYPE * @Abort(ENCODED, RasterToPolygonCoercer<space>output<space>a<space><lt>Rejected<gt><space>feature.<space><space>To<space>continue<space>translation<space>when<space>features<space>are<space>rejected<comma><space>change<space><apos>Workspace<space>Parameters<apos><space><gt><space>Translation<space><gt><space><apos>Rejected<space>Feature<space>Handling<apos><space>to<space><apos>Continue<space>Translation<apos>)
+# -------------------------------------------------------------------------
+FACTORY_DEF {*} SpatialFilterFactory    FACTORY_NAME { SpatialFilter }    COMMAND_PARM_EVALUATION SINGLE_PASS    INPUT BASE FEATURE_TYPE YLRE_Viheralue_alue_GEOJSON_1_1_5Xhh+kSKRkI=    INPUT CANDIDATE FEATURE_TYPE RasterToPolygonCoercer_POLYGONS_0_APiIiA1xsjA=    FEATURE_TABLE_SHIM_SUPPORT Yes    PRESERVE_FEATURE_ORDER { PER_OUTPUT_PORT }    PREDICATE { "INTERSECTS WITHIN CONTAINS TOUCHES" }    USE_BOUNDING_BOX { NO }    MULTIPLE_BASES { YES }    MERGE_BASE_ATTR { YES }    ATTR_ACCUM_MODE { "HANDLE_CONFLICT" }    ATTR_CONFLICT_RES { "CANDIDATE_IF_CONFLICT" }    BASE_ATTR_PREFIX { "<Unused>" }    PREDICATE_ATTR { "_predicate" }    BOOLEAN_OPERATOR { OR }    REJECT_INVALID_GEOM Yes    REJECT_INVALID_PREDICATES Yes    REJECT_RASTERS No    ALLOW_NULLS Yes    CUSTOM_MULTI_HANDLING { Yes }    DIMENSION 2    FLUSH_WHEN_GROUPS_CHANGE { <Unused>  }    CURVE_BOUNDARY_RULE { ENDPOINTS_MOD2 }    OUTPUT { PASSED FEATURE_TYPE SpatialFilter_PASSED         }    OUTPUT { REJECTED FEATURE_TYPE SpatialFilter_<REJECTED>         }
+DEFAULT_MACRO _WB_BYPASS_TERMINATION No
+FACTORY_DEF * TeeFactory FACTORY_NAME SpatialFilter_<Rejected> INPUT FEATURE_TYPE SpatialFilter_<REJECTED>  NO_LOGGING   OUTPUT FAILED FEATURE_TYPE * @Abort(ENCODED, SpatialFilter<space>output<space>a<space><lt>Rejected<gt><space>feature.<space><space>To<space>continue<space>translation<space>when<space>features<space>are<space>rejected<comma><space>change<space><apos>Workspace<space>Parameters<apos><space><gt><space>Translation<space><gt><space><apos>Rejected<space>Feature<space>Handling<apos><space>to<space><apos>Continue<space>Translation<apos>)
+# -------------------------------------------------------------------------
+FACTORY_DEF {*} StatisticsCalculatorFactory    FACTORY_NAME { StatisticsCalculator }    INPUT  FEATURE_TYPE SpatialFilter_PASSED    GROUP_BY { viheralue_id }    FLUSH_WHEN_GROUPS_CHANGE { No }    FEAT_STATS { _label,NUMERIC_MODE,MIN,MAX,COUNT,,MEAN,MEDIAN,,,,,,, }    ADVANCED_MODE { NO }    CUMULATIVE_STATS {  }    CALCULATION_MODE { NUMERIC }    ATTRIBUTE_NAMES_AND_TYPES { viheralue_id,int64,puistonumero,int64,puistonimi_id,int64,puiston_nimi,buffer,osoite,buffer,kaavamerkinta,buffer,kaavamerkinta_teksti,buffer,luokka,buffer,kayttotark_id,int64,kayttotarkoitus,buffer,omistaja,buffer,rakentamisen_tila,buffer,kaupunginosa,buffer,osa_alue,buffer,suurpiiri,buffer,viheralueen_pa,real64,alue_luonti_pvm,buffer,paivitetty_pvm,buffer,datanomistaja,buffer,vuokraus,buffer,vuokraaja,buffer,_label,buffer,_predicate,buffer }    OUTPUT { SUMMARY FEATURE_TYPE StatisticsCalculator_SUMMARY        }
+# -------------------------------------------------------------------------
+INCLUDE [if { {ATTRIBUTES} == {ATTRIBUTES} } {                puts "MACRO FeatureMerger_REFERENCE_INFO ATTRIBUTES";             }          elseif { {ATTRIBUTES} == {GEOM_BUILD} && {<Unused>} == {POLYGONS}} {                puts "MACRO FeatureMerger_REFERENCE_INFO GEOM_BUILD_POLYS";             }          elseif { {ATTRIBUTES} == {GEOM_BUILD} && {<Unused>} == {AGGREGATES}} {                puts "MACRO FeatureMerger_REFERENCE_INFO GEOM_BUILD_AGGREGATES";             }          elseif { {ATTRIBUTES} == {GEOM_BUILD} && {<Unused>} == {LINESFROMPOINTS}} {                puts "MACRO FeatureMerger_REFERENCE_INFO GEOM_BUILD_LINES_FROM_POINTS";             }          elseif { {ATTRIBUTES} == {GEOM_AND_ATTRS} && {<Unused>} == {POLYGONS}} {                puts "MACRO FeatureMerger_REFERENCE_INFO GEOM_AND_ATTR_BUILD_POLYS";             }          elseif { {ATTRIBUTES} == {GEOM_AND_ATTRS} && {<Unused>} == {AGGREGATES}} {                puts "MACRO FeatureMerger_REFERENCE_INFO GEOM_AND_ATTR_BUILD_AGGREGATES";             }          elseif { {ATTRIBUTES} == {GEOM_AND_ATTRS} && {<Unused>} == {LINESFROMPOINTS}} {                puts "MACRO FeatureMerger_REFERENCE_INFO GEOM_AND_ATTR_BUILD_LINES_FROM_POINTS";             }          elseif { {ATTRIBUTES} == {GEOM_BUILD} } {                puts "MACRO FeatureMerger_REFERENCE_INFO GEOM_BUILD_AGGREGATES";             }          elseif { {ATTRIBUTES} == {GEOM_AND_ATTRS} } {                puts "MACRO FeatureMerger_REFERENCE_INFO GEOM_AND_ATTR_BUILD_AGGREGATES";             }          else {}; ]
+FACTORY_DEF {*} ReferenceFactory    FACTORY_NAME { FeatureMerger }    FLUSH_WHEN_GROUPS_CHANGE { <Unused> }    INPUT REFERENCER FEATURE_TYPE YLRE_Viheralue_alue_GEOJSON_1_2_r8CXIFEV7Wk=    INPUT REFERENCEE FEATURE_TYPE StatisticsCalculator_SUMMARY    REFERENCE_INFO { $(FeatureMerger_REFERENCE_INFO) }    REFERENCE_TABLE { @EvaluateExpression(FDIV,STRING_ENCODED,<at>Value<openparen>viheralue_id<closeparen>,FeatureMerger) @EvaluateExpression(FDIV,STRING_ENCODED,<at>Value<openparen>viheralue_id<closeparen>,FeatureMerger) AUTO }    ATTR_ACCUM_MODE { "HANDLE_CONFLICT" }    ATTR_CONFLICT_RES { "REQUESTOR_IF_CONFLICT" }    IGNORE_NULLS { "No" }    HANDLE_NULL_MISSING_KEYS_LIKE_FME2013 { No }    LIST_ATTRS_TO_INCLUDE { <Unused> }    LIST_ATTRS_TO_INCLUDE_MODE { <Unused> }    MERGE_ATTRIBUTES Yes    MANAGE_FME_TYPE Yes    MODE COMPLETE    PROCESS_DUPLICATE_REFERENCEES { NO }    REFERENCEES_FIRST { No }    REJECT_INVALID_GEOM YES    CLEANING_TOLERANCE { <Unused> }    PRESERVE_FEATURE_ORDER { PER_OUTPUT_PORT }    COMPARE_WHITESPACE Yes    OUTPUT { COMPLETE FEATURE_TYPE FeatureMerger_MERGED         }    OUTPUT { INCOMPLETE FEATURE_TYPE FeatureMerger_UNMERGED_REQUESTOR         }    OUTPUT { REJECTED FEATURE_TYPE FeatureMerger_<REJECTED>         }
+DEFAULT_MACRO _WB_BYPASS_TERMINATION No
+FACTORY_DEF * TeeFactory FACTORY_NAME FeatureMerger_<Rejected> INPUT FEATURE_TYPE FeatureMerger_<REJECTED>  NO_LOGGING   OUTPUT FAILED FEATURE_TYPE * @Abort(ENCODED, FeatureMerger<space>output<space>a<space><lt>Rejected<gt><space>feature.<space><space>To<space>continue<space>translation<space>when<space>features<space>are<space>rejected<comma><space>change<space><apos>Workspace<space>Parameters<apos><space><gt><space>Translation<space><gt><space><apos>Rejected<space>Feature<space>Handling<apos><space>to<space><apos>Continue<space>Translation<apos>)
+# -------------------------------------------------------------------------
+FACTORY_DEF {*} SpatialFilterFactory    FACTORY_NAME { SpatialFilter_2 }    COMMAND_PARM_EVALUATION SINGLE_PASS    INPUT BASE FEATURE_TYPE FeatureMerger_UNMERGED_REQUESTOR    INPUT CANDIDATE FEATURE_TYPE RasterToPolygonCoercer_POLYGONS_1_5TsUjlmrsR8=    FEATURE_TABLE_SHIM_SUPPORT Yes    PRESERVE_FEATURE_ORDER { PER_OUTPUT_PORT }    PREDICATE { "INTERSECTS WITHIN CONTAINS TOUCHES" }    USE_BOUNDING_BOX { NO }    MULTIPLE_BASES { YES }    MERGE_BASE_ATTR { YES }    ATTR_ACCUM_MODE { "HANDLE_CONFLICT" }    ATTR_CONFLICT_RES { "CANDIDATE_IF_CONFLICT" }    BASE_ATTR_PREFIX { "<Unused>" }    PREDICATE_ATTR { "_predicate" }    BOOLEAN_OPERATOR { OR }    REJECT_INVALID_GEOM Yes    REJECT_INVALID_PREDICATES Yes    REJECT_RASTERS No    ALLOW_NULLS Yes    CUSTOM_MULTI_HANDLING { Yes }    DIMENSION 2    FLUSH_WHEN_GROUPS_CHANGE { <Unused>  }    CURVE_BOUNDARY_RULE { ENDPOINTS_MOD2 }    OUTPUT { PASSED FEATURE_TYPE SpatialFilter_2_PASSED         }    OUTPUT { REJECTED FEATURE_TYPE SpatialFilter_2_<REJECTED>         }
+DEFAULT_MACRO _WB_BYPASS_TERMINATION No
+FACTORY_DEF * TeeFactory FACTORY_NAME SpatialFilter_2_<Rejected> INPUT FEATURE_TYPE SpatialFilter_2_<REJECTED>  NO_LOGGING   OUTPUT FAILED FEATURE_TYPE * @Abort(ENCODED, SpatialFilter_2<space>output<space>a<space><lt>Rejected<gt><space>feature.<space><space>To<space>continue<space>translation<space>when<space>features<space>are<space>rejected<comma><space>change<space><apos>Workspace<space>Parameters<apos><space><gt><space>Translation<space><gt><space><apos>Rejected<space>Feature<space>Handling<apos><space>to<space><apos>Continue<space>Translation<apos>)
+# -------------------------------------------------------------------------
+FACTORY_DEF {*} StatisticsCalculatorFactory    FACTORY_NAME { StatisticsCalculator_2 }    INPUT  FEATURE_TYPE SpatialFilter_2_PASSED    GROUP_BY { viheralue_id }    FLUSH_WHEN_GROUPS_CHANGE { No }    FEAT_STATS { _label,NUMERIC_MODE,MIN,MAX,COUNT,,MEAN,MEDIAN,,,,,,, }    ADVANCED_MODE { NO }    CUMULATIVE_STATS {  }    CALCULATION_MODE { NUMERIC }    ATTRIBUTE_NAMES_AND_TYPES { viheralue_id,int64,puistonumero,int64,puistonimi_id,int64,puiston_nimi,buffer,osoite,buffer,kaavamerkinta,buffer,kaavamerkinta_teksti,buffer,luokka,buffer,kayttotark_id,int64,kayttotarkoitus,buffer,omistaja,buffer,rakentamisen_tila,buffer,kaupunginosa,buffer,osa_alue,buffer,suurpiiri,buffer,viheralueen_pa,real64,alue_luonti_pvm,buffer,paivitetty_pvm,buffer,datanomistaja,buffer,vuokraus,buffer,vuokraaja,buffer,_label,buffer,_predicate,buffer }    OUTPUT { SUMMARY FEATURE_TYPE StatisticsCalculator_2_SUMMARY        }
+# -------------------------------------------------------------------------
+INCLUDE [if { {ATTRIBUTES} == {ATTRIBUTES} } {                puts "MACRO FeatureMerger_2_REFERENCE_INFO ATTRIBUTES";             }          elseif { {ATTRIBUTES} == {GEOM_BUILD} && {<Unused>} == {POLYGONS}} {                puts "MACRO FeatureMerger_2_REFERENCE_INFO GEOM_BUILD_POLYS";             }          elseif { {ATTRIBUTES} == {GEOM_BUILD} && {<Unused>} == {AGGREGATES}} {                puts "MACRO FeatureMerger_2_REFERENCE_INFO GEOM_BUILD_AGGREGATES";             }          elseif { {ATTRIBUTES} == {GEOM_BUILD} && {<Unused>} == {LINESFROMPOINTS}} {                puts "MACRO FeatureMerger_2_REFERENCE_INFO GEOM_BUILD_LINES_FROM_POINTS";             }          elseif { {ATTRIBUTES} == {GEOM_AND_ATTRS} && {<Unused>} == {POLYGONS}} {                puts "MACRO FeatureMerger_2_REFERENCE_INFO GEOM_AND_ATTR_BUILD_POLYS";             }          elseif { {ATTRIBUTES} == {GEOM_AND_ATTRS} && {<Unused>} == {AGGREGATES}} {                puts "MACRO FeatureMerger_2_REFERENCE_INFO GEOM_AND_ATTR_BUILD_AGGREGATES";             }          elseif { {ATTRIBUTES} == {GEOM_AND_ATTRS} && {<Unused>} == {LINESFROMPOINTS}} {                puts "MACRO FeatureMerger_2_REFERENCE_INFO GEOM_AND_ATTR_BUILD_LINES_FROM_POINTS";             }          elseif { {ATTRIBUTES} == {GEOM_BUILD} } {                puts "MACRO FeatureMerger_2_REFERENCE_INFO GEOM_BUILD_AGGREGATES";             }          elseif { {ATTRIBUTES} == {GEOM_AND_ATTRS} } {                puts "MACRO FeatureMerger_2_REFERENCE_INFO GEOM_AND_ATTR_BUILD_AGGREGATES";             }          else {}; ]
+FACTORY_DEF {*} ReferenceFactory    FACTORY_NAME { FeatureMerger_2 }    FLUSH_WHEN_GROUPS_CHANGE { <Unused> }    INPUT REFERENCER FEATURE_TYPE YLRE_Viheralue_alue_GEOJSON_1_3_yJiHekQK2LU=    INPUT REFERENCEE FEATURE_TYPE StatisticsCalculator_2_SUMMARY    REFERENCE_INFO { $(FeatureMerger_2_REFERENCE_INFO) }    REFERENCE_TABLE { @EvaluateExpression(FDIV,STRING_ENCODED,<at>Value<openparen>viheralue_id<closeparen>,FeatureMerger_2) @EvaluateExpression(FDIV,STRING_ENCODED,<at>Value<openparen>viheralue_id<closeparen>,FeatureMerger_2) AUTO }    ATTR_ACCUM_MODE { "HANDLE_CONFLICT" }    ATTR_CONFLICT_RES { "REQUESTOR_IF_CONFLICT" }    IGNORE_NULLS { "No" }    HANDLE_NULL_MISSING_KEYS_LIKE_FME2013 { No }    LIST_ATTRS_TO_INCLUDE { <Unused> }    LIST_ATTRS_TO_INCLUDE_MODE { <Unused> }    MERGE_ATTRIBUTES Yes    MANAGE_FME_TYPE Yes    MODE COMPLETE    PROCESS_DUPLICATE_REFERENCEES { NO }    REFERENCEES_FIRST { No }    REJECT_INVALID_GEOM YES    CLEANING_TOLERANCE { <Unused> }    PRESERVE_FEATURE_ORDER { PER_OUTPUT_PORT }    COMPARE_WHITESPACE Yes    OUTPUT { COMPLETE FEATURE_TYPE FeatureMerger_2_MERGED         }    OUTPUT { REJECTED FEATURE_TYPE FeatureMerger_2_<REJECTED>         }
+DEFAULT_MACRO _WB_BYPASS_TERMINATION No
+FACTORY_DEF * TeeFactory FACTORY_NAME FeatureMerger_2_<Rejected> INPUT FEATURE_TYPE FeatureMerger_2_<REJECTED>  NO_LOGGING   OUTPUT FAILED FEATURE_TYPE * @Abort(ENCODED, FeatureMerger_2<space>output<space>a<space><lt>Rejected<gt><space>feature.<space><space>To<space>continue<space>translation<space>when<space>features<space>are<space>rejected<comma><space>change<space><apos>Workspace<space>Parameters<apos><space><gt><space>Translation<space><gt><space><apos>Rejected<space>Feature<space>Handling<apos><space>to<space><apos>Continue<space>Translation<apos>)
+# -------------------------------------------------------------------------
+FACTORY_DEF {*} AttrSetFactory    COMMAND_PARM_EVALUATION SINGLE_PASS    FACTORY_NAME { AttributeRenamer }    INPUT  FEATURE_TYPE FeatureMerger_MERGED    INPUT  FEATURE_TYPE FeatureMerger_2_MERGED 	ATTRSET_CREATE_DIRECTIVES _PROPAGATE_MISSING_FDIV    MISSING_INPUT_ATTR_HANDLING RENAME_SET_DEFAULT REMOVE 	ATTR_ACTION { "_label.max" "max_ndvi" "RENAME_SET_DEFAULT" "" }      ATTR_ACTION { "_label.min" "min_ndvi" "RENAME_SET_DEFAULT" "" }      ATTR_ACTION { "_label.median" "median_ndvi" "RENAME_SET_DEFAULT" "" }      ATTR_ACTION { "_label.mean" "mean_ndvi" "RENAME_SET_DEFAULT" "" }      ATTR_ACTION { "_label.total_count" "count_ndvi" "RENAME_SET_DEFAULT" "" }    OUTPUT { OUTPUT FEATURE_TYPE AttributeRenamer_OUTPUT        }
+# -------------------------------------------------------------------------
+
+FACTORY_DEF * RoutingFactory FACTORY_NAME "Destination Feature Type Routing Correlator"   COMMAND_PARM_EVALUATION SINGLE_PASS   INPUT FEATURE_TYPE *    ROUTE FME_GENERIC AttributeRenamer_OUTPUT TO GEOJSON __GO_TO_FINAL_OUTPUT_ROUTER__ multi_writer_id,0,<at>SupplyAttributes<openparen>ENCODED<comma>__wb_out_feat_type__<comma>YLRE_Viheralue_alue<closeparen> GEOMETRY   FEATURE_TYPE_ATTRIBUTE __wb_out_feat_type__   OUTPUT ROUTED FEATURE_TYPE *    OUTPUT NOT_ROUTED FEATURE_TYPE __nuke_me__ @Tcl2("FME_StatMessage 818059 [FME_GetAttribute fme_template_feature_type] 818060 818061 fme_warn")
+# -------------------------------------------------------------------------
+
+FACTORY_DEF * TeeFactory   FACTORY_NAME "Final Output Nuker"   INPUT FEATURE_TYPE __nuke_me__
+
+# -------------------------------------------------------------------------
+GEOJSON_2_DEF YLRE_Viheralue_alue   max_ndvi                     float   min_ndvi                     float   median_ndvi                  float   mean_ndvi                    float   count_ndvi                   string   viheralue_id                 int   puistonumero                 int   puistonimi_id                int   puiston_nimi                 string   osoite                       string   kaavamerkinta                string   kaavamerkinta_teksti         string   luokka                       string   kayttotark_id                int   kayttotarkoitus              string   omistaja                     string   rakentamisen_tila            string   kaupunginosa                 string   osa_alue                     string   suurpiiri                    string   viheralueen_pa               float   alue_luonti_pvm              string   paivitetty_pvm               string   datanomistaja                string   vuokraus                     string   vuokraaja                    string
