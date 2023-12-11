@@ -11,8 +11,8 @@
 	  try {
   
 		  // Attempt to retrieve the GreenAreas data from the local storage using the API endpoint URL as the key
-    	  const value = await localforage.getItem( url );
-
+//		  const value = await localforage.getItem( url );
+  let value = null;
 		   // If the GreenAreas data is already available in the local storage, add it to the Cesium map
 		  if ( value ) {
   
