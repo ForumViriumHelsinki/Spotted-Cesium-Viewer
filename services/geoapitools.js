@@ -197,9 +197,16 @@ function togglePlots( visibility ) {
     document.getElementById( 'plotPieContainer' ).style.visibility = visibility;
     document.getElementById( 'selectContainer' ).style.visibility = visibility;
 
-    if ( document.getElementById( "showNDVIToggle" ).checked ||  visibility == 'hidden' ) {
+    if ( document.getElementById( "showNDVIToggle" ).checked || visibility == 'hidden' ) {
 
         toggleLabels( visibility );
+
+    }
+
+    if ( document.getElementById( "showGreenToggle" ).checked || visibility == 'hidden' ) {
+        
+        document.getElementById( 'greenAreaContainer' ).style.visibility = visibility;
+        document.getElementById( 'sliderContainer' ).style.visibility = visibility;
 
     }
 
@@ -459,4 +466,4 @@ function toggleLabels( visibility ) {
     document.getElementById( "yellowgreen-label" ).style.visibility = visibility;
     document.getElementById( "darkgreen-label" ).style.visibility = visibility;
 
-}
+} 

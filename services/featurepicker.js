@@ -222,8 +222,12 @@ function handleGreenAreas() {
             if ( document.getElementById( "showGreenToggle" ).checked ) {
 
                 hideOutsideGreenAreas( );
-                createGreenAreaChart( );
+                createGreenAreaScatterPlot( );
+                extrudedGreenAreas( );
 
+            } else {
+
+                resetViewer( );
             }
     
 }

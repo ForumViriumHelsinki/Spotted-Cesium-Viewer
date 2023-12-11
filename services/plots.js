@@ -619,7 +619,6 @@ function createGreenAreaChart( ) {
 
     }); 
 
-    console.log( "puiston_nimi", puiston_nimi );   
 
     let trace1 = {
         x: puiston_nimi,
@@ -638,5 +637,126 @@ function createGreenAreaChart( ) {
     }
 
     Plotly.newPlot( 'greenAreaContainer', data, layout );
+
+}
+
+/**
+ * Create current district green area scatterplot
+ *
+ */
+function createGreenAreaScatterPlot( ) {
+
+    const greenAreaDataSource = getDataSourceByName( "GreenAreas" );
+
+    let puiston_nimi = [];
+    let data = [ ];
+
+    greenAreaDataSource.entities.values.forEach( entity => {
+
+        if ( entity.show && entity._properties._population_0km && entity._properties._mean_ndvi._value > 0.3 && !puiston_nimi.includes( entity._properties._puiston_nimi._value ) ) {
+            puiston_nimi.push( entity._properties._puiston_nimi._value );
+
+            const plotData = {
+				x: [ entity._properties._mean_ndvi._value ],
+				y: [ addNearbyPopulation( entity ) ],
+				name: entity._properties._puiston_nimi._value,
+				type: 'scatter',
+				mode: 'markers'
+			};
+	
+			data.push( plotData );
+        } 
+
+    }); 
+			  
+		const layout = {
+			scattermode: 'group',
+			xaxis: {title: 'ndvi' },
+			yaxis: {title: 'Population'},
+            showlegend: false,
+		};
+		  
+    if ( showPlot ) {
+
+        document.getElementById( "greenAreaContainer" ).style.visibility = 'visible';
+        document.getElementById( 'sliderContainer' ).style.visibility = 'visible';
+    }
+
+    Plotly.newPlot( 'greenAreaContainer', data, layout );
+
+
+document.getElementById('greenAreaContainer').on('plotly_click', function(data){
+    let clickedParkName = data.points[0].data.name; // Retrieve the park name
+    highlightEntityInCesium(clickedParkName, greenAreaDataSource);
+});
+}
+
+function highlightEntityInCesium(parkName, greenAreaDataSource) {
+    const entities = greenAreaDataSource.entities.values;
+    for (let i = 0; i < entities.length; i++) {
+        let entity = entities[i];
+        if (entity._properties._puiston_nimi._value === parkName) {
+            // Apply highlighting, e.g., change color
+            entity.polygon.outlineColor = Cesium.Color.RED;
+        } else {
+
+            entity.polygon.outlineColor = Cesium.Color.BLACK; 
+        }
+    }
+}
+
+function addNearbyPopulation( entity ) {
+    // Retrieve the slider value from the document
+    const sliderValue = parseInt(document.getElementById('blueSlider').value);
+
+    // Start with the base population value
+    let value = entity._properties._population_0km._value;
+
+    // Add to the value based on slider value
+    if (sliderValue >= 1) {
+        value = value + entity._properties._population_1km._value;
+    }
+    if (sliderValue >= 2) {
+        value = value + entity._properties._population_2km._value;
+    }
+    if (sliderValue >= 3) {
+        value = value + entity._properties._population_3km._value;
+    }
+    if (sliderValue >= 4) {
+        value = value + entity._properties._population_4km._value;
+    }
+    if (sliderValue >= 5) {
+        value = value + entity._properties._population_5km._value;
+    }
+
+    return value;
+
+}
+
+function addNearbyPopulationWithWeights( entity ) {
+    // Retrieve the slider value from the document
+    const sliderValue = parseInt(document.getElementById('blueSlider').value);
+
+    // Start with the base population value
+    let value = entity._properties._population_0km._value;
+
+    // Add to the value based on slider value
+    if (sliderValue >= 1) {
+        value = value + entity._properties._population_1km._value * 0.8;
+    }
+    if (sliderValue >= 2) {
+        value = value + entity._properties._population_2km._value * 0.6;
+    }
+    if (sliderValue >= 3) {
+        value = value + entity._properties._population_3km._value * 0.4;
+    }
+    if (sliderValue >= 4) {
+        value = value + entity._properties._population_4km._value * 0.2;
+    }
+    if (sliderValue >= 5) {
+        value = value + entity._properties._population_5km._value * 0.1;
+    }
+
+    return value;
 
 }

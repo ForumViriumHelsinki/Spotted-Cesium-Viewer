@@ -344,3 +344,50 @@ input:checked + .slider:before {
     border-radius: 5px;
 	font-size: 12px;
 }
+
+#sliderContainer {
+    visibility: hidden;
+}
+
+.slider-container {
+    position: fixed;
+    top: 10%; /* Below #greenAreaContainer */
+    right: 5%; /* Align with the right edge of #greenAreaContainer */
+    transform: translateX(-25%); /* Adjust to make width half of #greenAreaContainer */
+    width: 25%; /* Half the width of #greenAreaContainer */
+    padding: 20px;
+    text-align: center;
+}
+
+
+input[type=range] {
+    -webkit-appearance: none; /* Override default appearance */
+    width: 100%;
+    margin: 10px 0;
+    background: #ddd; /* Background of the slider track */
+    border-radius: 10px; /* Rounded corners for the track */
+    height: 10px; /* Height of the slider track */
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 25px;
+    height: 25px;
+    background: blue;
+    border-radius: 50%; /* Fully rounded corners for the thumb */
+    cursor: pointer;
+}
+
+input[type=range]::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: blue;
+    border-radius: 50%; /* Fully rounded corners for the thumb */
+    cursor: pointer;
+}
+
+input[type=range]::-moz-range-track {
+    background: #ddd;
+    border-radius: 10px; /* Rounded corners for the track */
+    height: 10px; /* Height of the slider track */
+}

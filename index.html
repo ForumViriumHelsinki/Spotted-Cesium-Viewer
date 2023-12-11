@@ -147,6 +147,11 @@
     </div>
     <!-- Other content of the plot container -->
 </div>
+
+<div class="slider-container" id="sliderContainer">
+    <input type="range" id="blueSlider" min="0" max="5" value="0">
+    <span id="sliderValue">distance from green area 0 km</span>
+</div>
   		<!-- Add Logo -->
 		
 	<div class="logoHolder">	
@@ -213,6 +218,11 @@
 	document.getElementById("cesiumContainer").addEventListener("click", function() { processClick( viewer, event ) });
 	//Attaching UI events...
 	addEventListener('input', ( event ) => { sliderEvents( event ) } );
+
+  document.getElementById('blueSlider').addEventListener('input', function() {
+    document.getElementById('sliderValue').textContent = 'distance from green area ' + this.value + ' km';
+    handleGreenAreas( );
+});
 
   //disable switch for showing heat exposure on nature areas
 
