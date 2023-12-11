@@ -135,17 +135,24 @@ function extrudedGreenAreas( ) {
     
     const greenAreaDataSource = getDataSourceByName( "GreenAreas" );
 
+    const minAreaValue = 100;       // Minimum value for viheralueen_pa
+    const averageAreaValue = 43748;   // Maximum value for viheralueen_pa
+
     greenAreaDataSource.entities.values.forEach( entity => {
 
         if ( entity.show && entity.polygon && entity._properties._population_0km ) {
-
-            entity.polygon.extrudedHeight = addNearbyPopulationWithWeights( entity ) / ( entity._properties._viheralueen_pa._value / 100 );
+            
+            entity.polygon.extrudedHeight = addNearbyPopulationWithWeights(entity) / normalizeValue(entity._properties._viheralueen_pa._value, minAreaValue, averageAreaValue);
 
         } 
 
     });
 
     switchTo3DView( );
+}
+
+function normalizeValue(value, minValue, maxValue) {
+    return (value - minValue) / (maxValue - minValue);
 }
 
 
@@ -184,49 +191,4 @@ let latitude = Cesium.Math.toDegrees(center.latitude);
             break;
         }
     }
-}
-
-function findEntityBounds(element) {
-	
-    let i = 0;
-
-    //These hold the bounding box
-    let latMIN = 0;
-    let latMAX = 0;
-    let lonMIN = 0;
-    let lonMAX = 0;
-
-	//viewer.dataSources._dataSources[0].entities._entities._array[0]._polygon._hierarchy._value.positions[0]
-    while (i < element._polygon._hierarchy._value.positions.length) {
-
-        //Assemble lat & lon from entity position
-        var posDeg = Cesium.Cartographic.fromCartesian(element._polygon._hierarchy._value.positions[i]);
-
-        //First run
-        if (i == 0) {
-            latMIN = posDeg.latitude;
-            latMAX = posDeg.latitude;
-            lonMIN = posDeg.longitude;
-            lonMAX = posDeg.longitude;
-        }
-        
-        if (posDeg.latitude < latMIN) {
-            latMIN = posDeg.latitude;
-        }
-
-        if (posDeg.latitude > latMAX) {
-            latMAX = posDeg.latitude;
-        }
-
-        if (posDeg.longitude < lonMIN) {
-            lonMIN = posDeg.longitude;
-        }
-
-        if (posDeg.longitude > lonMAX) {
-            lonMAX = posDeg.longitude;
-        }
-      
-        i++;
-    }
-    return [latMIN, latMAX, lonMIN, lonMAX];
 }

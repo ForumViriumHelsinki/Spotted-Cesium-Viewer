@@ -734,29 +734,28 @@ function addNearbyPopulation( entity ) {
 }
 
 function addNearbyPopulationWithWeights( entity ) {
-    // Retrieve the slider value from the document
     const sliderValue = parseInt(document.getElementById('blueSlider').value);
+    let value = 0; // Start with a base value of 0
 
-    // Start with the base population value
-    let value = entity._properties._population_0km._value;
+    // Define maximum population values for each distance
+    const maxPopulations = [11626, 44913, 83572, 96108, 87885, 90733];
 
-    // Add to the value based on slider value
-    if (sliderValue >= 1) {
-        value = value + entity._properties._population_1km._value * 0.8;
+    // Define a scaling function
+    function scalePopulation(population, maxPopulation) {
+        return (population / maxPopulation) * 10;
     }
-    if (sliderValue >= 2) {
-        value = value + entity._properties._population_2km._value * 0.6;
-    }
-    if (sliderValue >= 3) {
-        value = value + entity._properties._population_3km._value * 0.4;
-    }
-    if (sliderValue >= 4) {
-        value = value + entity._properties._population_4km._value * 0.2;
-    }
-    if (sliderValue >= 5) {
-        value = value + entity._properties._population_5km._value * 0.1;
+
+    // Define weights for each distance band
+    const weights = [1, 0.9, 0.7, 0.5, 0.3, 0.1];
+
+    // Apply the scaling function to each population value, considering the slider value
+    for (let i = 0; i <= sliderValue; i++) {
+        let populationAttribute = `_population_${i}km`;
+        if (entity._properties[populationAttribute]) {
+            let populationValue = entity._properties[populationAttribute]._value;
+            value += scalePopulation(populationValue, maxPopulations[i]) * weights[i];
+        }
     }
 
     return value;
-
 }
