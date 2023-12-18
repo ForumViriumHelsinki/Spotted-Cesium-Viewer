@@ -275,29 +275,15 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-/* Red label */
-.red-label {
+/* White label */
+.white-label {
 	position: fixed;
 	top: 33.5%;
-	left: 3.5%;
-	width: 4.5%;
+	left: 2.5%;
+	width: 3%;
 	height: 2%; 
-    background-color: red;
+    background-color: #eaeaea;
     color: white; /* Set text color to white or a color that contrasts well */
-    padding: 5px;
-    border-radius: 5px;
-	font-size: 12px;
-}
-
-/* Orange label */
-.orange-label {
-	position: fixed;
-	top: 33.5%;
-	left: 9%;
-	width: 4.5%;
-	height: 2%; 
-    background-color: orange;
-    color: white;
     padding: 5px;
     border-radius: 5px;
 	font-size: 12px;
@@ -307,10 +293,24 @@ input:checked + .slider:before {
 .yellow-label {
 	position: fixed;
 	top: 33.5%;
-	left: 14.5%;
-	width: 4.5%;
+	left: 6.5%;
+	width: 3%;
+	height: 2%; 
+    background-color: #ccc682;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+	font-size: 12px;
+}
+
+/* Yellow label */
+.yellowgreen-label {
+	position: fixed;
+	top: 33.5%;
+	left: 10.5%;
+	width: 3%;
 	height: 2%;
-    background-color: yellow;
+    background-color: #91bf51;
     color: black; /* Adjust text color for better visibility */
     padding: 5px;
     border-radius: 5px;	
@@ -318,27 +318,69 @@ input:checked + .slider:before {
 }
 
 /* Yellowgreen label */
-.yellowgreen-label {
+.lightgreen-label {
 	position: fixed;
-	top: 37%;
-	left: 6.5%;
-	width: 4.5%;
-	height: 2%; 
-    background-color: yellowgreen;
+	top: 33.5%;
+	left: 14.5%;
+	width: 3%;
+	height: 2%;
+    background-color: #70a33f;
     color: white;
     padding: 5px;
     border-radius: 5px;
 	font-size: 12px;
 }
 
-/* Darkgreen label */
+/* Green label */
+.green-label {
+	position: fixed;	
+	top: 37%;
+	left: 2.5%;
+	width: 3%;
+	height: 2%;  
+    background-color: #4f892d;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+	font-size: 12px;
+}
+
+/* Light Dark Green label */
+.ldarkgreen-label {
+	position: fixed;	
+	top: 37%;
+	left: 6.5%;
+	width: 3%;
+	height: 2%;  
+    background-color: #306d1c;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+	font-size: 12px;
+}
+
+/* Dark Green label */
 .darkgreen-label {
 	position: fixed;	
 	top: 37%;
-	left: 12%;
-	width: 4.5%;
+	left: 10.5%;
+	width: 3%;
 	height: 2%;  
-    background-color: darkgreen;
+    background-color: #0f540a;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+	font-size: 12px;
+}
+
+/* Very Dark Green label */
+.vdarkgreen-label {
+	position: fixed;	
+	top: 37%;
+	left: 14.5%;
+	width: 3%;
+	height: 2%;  
+    background-color: #004400;
     color: white;
     padding: 5px;
     border-radius: 5px;
@@ -355,6 +397,20 @@ input:checked + .slider:before {
     right: 5%; /* Align with the right edge of #greenAreaContainer */
     transform: translateX(-25%); /* Adjust to make width half of #greenAreaContainer */
     width: 25%; /* Half the width of #greenAreaContainer */
+    padding: 20px;
+    text-align: center;
+}
+
+
+#ndviSliderContainer {
+    visibility: hidden;
+}
+
+.ndviSlider-container {
+    position: fixed;
+    top: 40%; 
+    left: 5%; 
+    width: 15%;
     padding: 20px;
     text-align: center;
 }

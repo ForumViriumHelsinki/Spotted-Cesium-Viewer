@@ -130,11 +130,14 @@
     <div id="plotContainer">
   </div>
         <!-- Labels for colors -->
-        <label class="color-label red-label active" style = "display: none" id = "red-label">Very low: &lt 0.15</label>
-        <label class="color-label orange-label active" style = "display: none" id = "orange-label">Low: 0.15-0.30</label>
-        <label class="color-label yellow-label active" style = "display: none" id = "yellow-label">Average: 0.3-0.45</label>
-        <label class="color-label yellowgreen-label active" style = "display: none" id = "yellowgreen-label">High: 0.45-0.60</label>
-        <label class="color-label darkgreen-label active" style = "display: none" id = "darkgreen-label">Very high: &gt 0.6</label>
+        <label class="color-label white-label active" style = "display: none" id = "white-label"> -1 - 0</label>
+        <label class="color-label yellow-label active" style = "display: none" id = "yellow-label">0 - 0.1</label>
+        <label class="color-label yellowgreen-label active" style = "display: none" id = "yellowgreen-label">0.1 - 0.2</label>
+        <label class="color-label lightgreen-label active" style = "display: none" id = "lightgreen-label">0.2 - 0.3</label>
+        <label class="color-label green-label active" style = "display: none" id = "green-label">0.3 - 0.4</label>
+        <label class="color-label ldarkgreen-label active" style = "display: none" id = "ldarkgreen-label">0.4 - 0.5</label>
+        <label class="color-label darkgreen-label active" style = "display: none" id = "darkgreen-label">0.5 - 0.6</label>
+        <label class="color-label vdarkgreen-label active" style = "display: none" id = "vdarkgreen-label">0.6 - 1</label>
   <div id="plotInhabitantContainer">
   </div>
   <div id="greenAreaContainer">
@@ -146,6 +149,11 @@
         </select>
     </div>
     <!-- Other content of the plot container -->
+</div>
+
+<div class="ndviSlider-container" id="ndviSliderContainer">
+  <input type="range" id="ndviSlider" min="0" max="2" value="0">
+  <span id="ndviSliderValue">NDVI</span>
 </div>
 
 <div class="slider-container" id="sliderContainer">
@@ -222,6 +230,11 @@
   document.getElementById('blueSlider').addEventListener('input', function() {
     document.getElementById('sliderValue').textContent = 'distance from green area ' + this.value + ' km';
     handleGreenAreas( );
+});
+
+document.getElementById('ndviSlider').addEventListener('input', function() {
+  document.getElementById('ndviSliderValue').textContent = 'ndvi';
+  updateNDVIDataSources( );
 });
 
   //disable switch for showing heat exposure on nature areas

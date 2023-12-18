@@ -221,6 +221,7 @@ function togglePlots( visibility ) {
         if ( document.getElementById( "showNDVIToggle" ).checked ) {
 
             document.getElementById( 'plotContainer' ).style.visibility = visibility;
+            document.getElementById( 'ndviSliderContainer' ).style.visibility = visibility;
 
         }
     }
@@ -460,10 +461,12 @@ function setElementsDisplay( elements, display ) {
  */
 function toggleLabels( visibility ) {
 
-    document.getElementById( "red-label" ).style.visibility = visibility;
-    document.getElementById( "orange-label" ).style.visibility = visibility;
+    document.getElementById( "white-label" ).style.visibility = visibility;
     document.getElementById( "yellow-label" ).style.visibility = visibility;
     document.getElementById( "yellowgreen-label" ).style.visibility = visibility;
+    document.getElementById( "lightgreen-label" ).style.visibility = visibility;
+    document.getElementById( "green-label" ).style.visibility = visibility;
+    document.getElementById( "ldarkgreen-label" ).style.visibility = visibility;
     document.getElementById( "darkgreen-label" ).style.visibility = visibility;
-
+    document.getElementById( "vdarkgreen-label" ).style.visibility = visibility;
 } 

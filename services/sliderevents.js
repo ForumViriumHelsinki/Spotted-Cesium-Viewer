@@ -102,7 +102,7 @@ function showGreenEvent() {
  * This function to show or hide NDVI entities on the map based on the toggle button state
  *
  */
-function showNDVIEvent() {
+async function showNDVIEvent() {
     // Get the state of the showNDVI toggle button
     const showNDVI = document.getElementById( "showNDVIToggle" ).checked;
 
@@ -136,13 +136,16 @@ function showNDVIEvent() {
         setElementsDisplay( elements, 'none' );
         setElementDisabledState( true );
 
-        if ( majorDistrict && !dataSourceWithNameExists( "ndvi" )) {
+        if ( majorDistrict && !dataSourceWithNameExists( "ndvi2018-06-14" )) {
 
-            loadNDVI( majorDistrict );
+            await loadNDVI( majorDistrict, '2018-06-14' );
+            await loadNDVI( majorDistrict, '2020-06-21' );
+            await loadNDVI( majorDistrict, '2022-06-26' );
+            document.getElementById( 'ndviSliderContainer' ).style.visibility = 'visible';
 
         } else {
 
-            showDataSourceByName( "ndvi" );
+            showDataSourceByName( "ndvi2018" );
             createNDVIBarPlot( majorDistrict._value );
 
         }

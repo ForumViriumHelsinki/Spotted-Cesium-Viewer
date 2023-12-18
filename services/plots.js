@@ -535,8 +535,9 @@ function getLandDataForCity( ) {
  * Creates vegetation bar for a major district area area
  *
  * @param { String } district  district code
+ * @param { String } date date of NDVI data
  */
-function createNDVIBarPlot( district ) {
+function createNDVIBarPlot( district, date ) {
 
     let trace1 = {
         x: [ "ndvi" ],
@@ -556,7 +557,7 @@ function createNDVIBarPlot( district ) {
     };
       
     let data = [ trace1, trace2 ];
-    let layout = { title: { text: 'Average ndvi 15.08.2023' }, barmode: 'group' };
+    let layout = { title: { text: 'NDVI ' + date }, barmode: 'group' };
 
     //Test plotting
     if ( showPlot ) {
