@@ -54,29 +54,7 @@ function addNDVIDataSource( data, date ) {
       
       // Set a name for the data source
       dataSource.name = "ndvi" + date;
-      let entities = dataSource.entities.values;
-      
-      for ( let i = 0; i < entities.length; i++ ) {
-          
-          let entity = entities[ i ];
-          entity.polygon.pickable = false;
 
-          if ( date == '2018-06-14' ) {
-
-            entity.polygon.extrudedHeight = 1;
-            entity.polygon.material = setNDVIPolygonMaterialColor( entity );
-
-          } else {
-
-            entity.show = false;
-
-          }
-
-
-      }
-
-      createNDVIBarPlot( majorDistrict._value, date );
- 
   })	
   .otherwise(function ( error ) {
       // Log any errors encountered while loading the data source
@@ -141,27 +119,28 @@ function setNDVIPolygonMaterialColor(entity) {
 function updateNDVIDataSources( ) {
     hideDataSourceByName( "ndvi" );
     const sliderValue = parseInt(document.getElementById('ndviSlider').value);
-    let dataSource = null
+    let dataSource = null;
+    let date = '2018-06-14';
+    let ndviData = [];
 
 
     if ( sliderValue === 0 ) {
 
         dataSource = getDataSourceByName( "ndvi2018-06-14" );
-        createNDVIBarPlot( majorDistrict._value, '2018-06-14' )
 
     }
 
     if ( sliderValue === 1 ) {
 
         dataSource = getDataSourceByName( "ndvi2020-06-21" );
-        createNDVIBarPlot( majorDistrict._value, '2020-06-21' )
+        date = '2020-06-21';
 
     }
 
     if ( sliderValue === 2 ) {
 
         dataSource = getDataSourceByName( "ndvi2022-06-26" );
-        createNDVIBarPlot( majorDistrict._value, '2022-06-26' )
+        date = '2022-06-26';
 
     }
 
@@ -172,7 +151,10 @@ function updateNDVIDataSources( ) {
         entity.show = true;
         entity.polygon.extrudedHeight = 1;
         entity.polygon.material = setNDVIPolygonMaterialColor( entity );
+        ndviData.push( entity._properties._avgndvi._value );
 
     });
+
+    createNDVIHistogram( ndviData, date )
     
 }

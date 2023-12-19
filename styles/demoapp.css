@@ -280,7 +280,7 @@ input:checked + .slider:before {
 	position: fixed;
 	top: 33.5%;
 	left: 2.5%;
-	width: 3%;
+	width: 4%;
 	height: 2%; 
     background-color: #eaeaea;
     color: white; /* Set text color to white or a color that contrasts well */
@@ -293,8 +293,8 @@ input:checked + .slider:before {
 .yellow-label {
 	position: fixed;
 	top: 33.5%;
-	left: 6.5%;
-	width: 3%;
+	left: 7.5%;
+	width: 4%;
 	height: 2%; 
     background-color: #ccc682;
     color: white;
@@ -307,8 +307,8 @@ input:checked + .slider:before {
 .yellowgreen-label {
 	position: fixed;
 	top: 33.5%;
-	left: 10.5%;
-	width: 3%;
+	left: 12.5%;
+	width: 4%;
 	height: 2%;
     background-color: #91bf51;
     color: black; /* Adjust text color for better visibility */
@@ -321,8 +321,8 @@ input:checked + .slider:before {
 .lightgreen-label {
 	position: fixed;
 	top: 33.5%;
-	left: 14.5%;
-	width: 3%;
+	left: 17.5%;
+	width: 4%;
 	height: 2%;
     background-color: #70a33f;
     color: white;
@@ -336,7 +336,7 @@ input:checked + .slider:before {
 	position: fixed;	
 	top: 37%;
 	left: 2.5%;
-	width: 3%;
+	width: 4%;
 	height: 2%;  
     background-color: #4f892d;
     color: white;
@@ -349,8 +349,8 @@ input:checked + .slider:before {
 .ldarkgreen-label {
 	position: fixed;	
 	top: 37%;
-	left: 6.5%;
-	width: 3%;
+	left: 7.5%;
+	width: 4%;
 	height: 2%;  
     background-color: #306d1c;
     color: white;
@@ -363,8 +363,8 @@ input:checked + .slider:before {
 .darkgreen-label {
 	position: fixed;	
 	top: 37%;
-	left: 10.5%;
-	width: 3%;
+	left: 12.5%;
+	width: 4%;
 	height: 2%;  
     background-color: #0f540a;
     color: white;
@@ -377,8 +377,8 @@ input:checked + .slider:before {
 .vdarkgreen-label {
 	position: fixed;	
 	top: 37%;
-	left: 14.5%;
-	width: 3%;
+	left: 17.5%;
+	width: 4%;
 	height: 2%;  
     background-color: #004400;
     color: white;

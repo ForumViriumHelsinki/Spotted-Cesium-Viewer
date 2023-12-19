@@ -760,3 +760,47 @@ function addNearbyPopulationWithWeights( entity ) {
 
     return value;
 }
+
+/**
+ * Creates NDVI histogram for a picked area
+ *
+ * @param { object } ndviData urban heat data of a buildings in postal code area
+ * @param { String } date date of NDVI data 
+ */
+function createNDVIHistogram( ndviData, date ) {
+
+	let data = {
+		x: ndviData,
+		type: 'histogram',
+		name: 'NDVI',
+		marker: {
+			color: 'green',
+		},
+        xbins: {
+            start: -0.1,
+            end: 1,
+            size: 0.1
+        }
+	};
+	
+	if ( showPlot ) {
+	
+		document.getElementById( "plotContainer" ).style.visibility = 'visible';
+	}
+	
+	let layout = { 
+		title: 'NDVI in ' + districtName + ' at ' + date,
+		bargap: 0.1, 
+	};
+	
+    //Test plotting
+    if ( showPlot ) {
+
+        document.getElementById( "plotContainer" ).style.visibility = 'visible';
+        toggleLabels( 'visible' );
+    }
+
+    Plotly.newPlot( 'plotContainer', [ data ], layout );
+
+
+}

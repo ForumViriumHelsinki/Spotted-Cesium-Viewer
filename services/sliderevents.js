@@ -142,11 +142,25 @@ async function showNDVIEvent() {
             await loadNDVI( majorDistrict, '2020-06-21' );
             await loadNDVI( majorDistrict, '2022-06-26' );
             document.getElementById( 'ndviSliderContainer' ).style.visibility = 'visible';
+            updateNDVIDataSources();
 
         } else {
 
-            showDataSourceByName( "ndvi2018" );
-            createNDVIBarPlot( majorDistrict._value );
+            let dataSource = getDataSourceByName( "ndvi2018-06-14" );
+            let ndviData = [];
+
+            dataSource.show = true;	
+
+            dataSource.entities.values.forEach( entity => {
+        
+                entity.show = true;
+                entity.polygon.extrudedHeight = 1;
+                entity.polygon.material = setNDVIPolygonMaterialColor( entity );
+                ndviData.push( entity._properties._avgndvi._value );
+        
+            });
+
+            createNDVIHistogram( ndviData, '2018-06-14' );
 
         }
 
