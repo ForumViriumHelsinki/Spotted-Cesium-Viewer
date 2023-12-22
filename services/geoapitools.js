@@ -20,6 +20,24 @@ function reset( ) {
     removeDataSourcesAndEntities();
     resetViewer( );
     resetSwitches( );
+    setToggleElements( );
+    showPlot = true;
+    showVegetation = false;
+    showWater = false;
+    print = true; //show object details..
+    nameOfZone = null;
+    averageHeatExposure = 0;
+    majorDistrict = null;
+    districtName = null;
+    majorDistrictName = null;
+    districtPopulation = null;
+    districtArea = null;
+    level = null;
+    districtsVisited = [ ];
+    levelsVisited = [ ];
+    currentDistrictName = null;
+    currentSubDistrictName = null;
+    majorDistrict = null;
     // Load major district zones
 	loadDistrictZones( 0.1, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
 	
@@ -71,6 +89,7 @@ function resetSwitches( ) {
     document.getElementById( 'selectContainer' ).style.visibility = 'hidden';
     document.getElementById( "plotContainer" ).style.visibility = 'hidden';
     document.getElementById( "greenAreaContainer" ).style.visibility = 'hidden';
+    document.getElementById( 'ndviSliderContainer' ).style.visibility = 'hidden';
 
 //    setPrintVisible( );
     togglePlots( 'hidden' );    
@@ -470,3 +489,40 @@ function toggleLabels( visibility ) {
     document.getElementById( "darkgreen-label" ).style.visibility = visibility;
     document.getElementById( "vdarkgreen-label" ).style.visibility = visibility;
 } 
+
+function setToggleElements() {
+
+    if ( majorDistrict ) {
+
+        const elements = [
+            'showPlotSwitch',
+            'showPlotLabel'
+        ];
+    
+  
+    
+            elements.push( 'showNDVISwitch' );
+            elements.push( 'showNDVILabel' );
+    
+        
+    
+     
+    
+            elements.push( 'showVegetationSwitch' );
+            elements.push( 'showVegetationLabel' );
+            elements.push( 'showOtherNatureSwitch' );
+            elements.push( 'showOtherNatureLabel' );
+            elements.push( 'showWaterSwitch' );
+            elements.push( 'showWaterLabel' );
+            elements.push( 'showFieldsSwitch' );
+            elements.push( 'showFieldsLabel' );
+            elements.push( 'showBuiltSwitch' );
+            elements.push( 'showBuiltLabel' );
+            elements.push( 'showTreesSwitch' );
+            elements.push( 'showTreesLabel' );                  
+        
+    
+        setElementsDisplay( elements, 'none' );
+
+    } 
+}

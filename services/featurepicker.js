@@ -7,66 +7,28 @@
 function processClick( viewer, event ) {
     
     document.getElementById( 'plotSelect' ).value = 'Helsinki';
+    const elements = [
+        'showPlotSwitch',
+        'showPlotLabel',
+        'showNDVISwitch',
+        'showNDVILabel',
+        'showVegetationSwitch',
+        'showVegetationLabel',
+        'showOtherNatureSwitch',
+        'showOtherNatureLabel',
+        'showWaterSwitch',
+        'showWaterLabel',
+        'showFieldsSwitch',
+        'showFieldsLabel',
+        'showBuiltSwitch',
+        'showBuiltLabel',
+        'showTreesSwitch',
+        'showTreesLabel'            
 
-    if ( majorDistrict ) {
-
-        const elements = [
-            'showPlotSwitch',
-            'showPlotLabel'
-        ];
-    
-        if ( document.getElementById( "showNDVIToggle" ).checked ) {
-    
-            elements.push( 'showNDVISwitch' );
-            elements.push( 'showNDVILabel' );
-    
-        }
-    
-        if ( areAnySwitchesOn( ) ) {
-    
-            elements.push( 'showVegetationSwitch' );
-            elements.push( 'showVegetationLabel' );
-            elements.push( 'showOtherNatureSwitch' );
-            elements.push( 'showOtherNatureLabel' );
-            elements.push( 'showWaterSwitch' );
-            elements.push( 'showWaterLabel' );
-            elements.push( 'showFieldsSwitch' );
-            elements.push( 'showFieldsLabel' );
-            elements.push( 'showBuiltSwitch' );
-            elements.push( 'showBuiltLabel' );
-            elements.push( 'showTreesSwitch' );
-            elements.push( 'showTreesLabel' );                  
-        }
-    
-        setElementsDisplay( elements, 'inline-block' );
-
-    } else {
-
-        const elements = [
-            'showPlotSwitch',
-            'showPlotLabel',
-            'showNDVISwitch',
-            'showNDVILabel',
-            'showVegetationSwitch',
-            'showVegetationLabel',
-            'showOtherNatureSwitch',
-            'showOtherNatureLabel',
-            'showWaterSwitch',
-            'showWaterLabel',
-            'showFieldsSwitch',
-            'showFieldsLabel',
-            'showBuiltSwitch',
-            'showBuiltLabel',
-            'showTreesSwitch',
-            'showTreesLabel'            
-
-        ];
-
-    
-        setElementsDisplay( elements, 'inline-block' );
+    ];
 
 
-    }
+    setElementsDisplay( elements, 'inline-block' );
     console.log("Clicked at " + String( event.x ) + ", " + String( event.y ));
     pickEntity( viewer, new Cesium.Cartesian2( event.x, event.y ) );
 

@@ -1,14 +1,33 @@
 /**
+   * s
+   * 
+   * @param { String } date - The date of NDVI data.
+*/
+function createNdviUrl( date ) {
+    const lastLevel = levelsVisited[ levelsVisited.length - 1 ];
+
+    switch ( lastLevel ) {
+        case 'MajorDistricts':
+            return "https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=" + date +  "&suurpiiri=" + majorDistrict;
+        case 'Districts':
+            return "https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=" + date +  "&peruspiiri=" + districtsVisited[ districtsVisited.length - 1 ];
+        case 'SubDistricts':
+            return "https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=" + date +  "&osaalue=" + districtsVisited[ districtsVisited.length - 1 ];
+        default:
+            return "https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=" + date +  "&suurpiiri=" + majorDistrict;
+    }
+}
+
+/**
    * Asynchronously load NDVI data from an API endpoint based on major district id
    * 
-   * @param { String } majordistrict - The major district code.
    * @param { String } date - The date of NDVI data.
    */
-async function loadNDVI( majordistrict, date ) {
+async function loadNDVI(  date ) {
 
   
     // Construct the API endpoint URL
-  let url = "https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=" + date +  "&suurpiiri=" + majordistrict;
+  let url = createNdviUrl( date );
 
   try {
 
@@ -54,6 +73,16 @@ function addNDVIDataSource( data, date ) {
       
       // Set a name for the data source
       dataSource.name = "ndvi" + date;
+
+      if ( date === '2018-06-14' ) {
+
+        updateNDVIDataSources( );
+
+      } else {
+
+        document.getElementById( 'ndviSliderContainer' ).style.visibility = 'visible';
+
+      }
 
   })	
   .otherwise(function ( error ) {
@@ -121,7 +150,7 @@ function updateNDVIDataSources( ) {
     const sliderValue = parseInt(document.getElementById('ndviSlider').value);
     let dataSource = null;
     let date = '2018-06-14';
-    let ndviData = [];
+    let ndviData = [ 0, 0, 0, 0, 0, 0, 0, 0 ];
 
 
     if ( sliderValue === 0 ) {
@@ -151,10 +180,30 @@ function updateNDVIDataSources( ) {
         entity.show = true;
         entity.polygon.extrudedHeight = 1;
         entity.polygon.material = setNDVIPolygonMaterialColor( entity );
-        ndviData.push( entity._properties._avgndvi._value );
+
+        const avgndvi = entity._properties._avgndvi._value;
+        const area_m2 = Number( entity._properties._area_m2._value );
+
+        if (avgndvi <= 0) {
+            ndviData[ 0 ] = ndviData[ 0 ] + area_m2;
+        } else if (avgndvi > 0.0 && avgndvi <= 0.1) {
+            ndviData[ 1 ] = ndviData[ 1 ] + area_m2;
+        } else if (avgndvi > 0.1 && avgndvi <= 0.2) {
+            ndviData[ 2 ] = ndviData[ 2 ] + area_m2;
+        } else if (avgndvi > 0.2 && avgndvi <= 0.3) {
+            ndviData[ 3 ] = ndviData[ 3 ] + area_m2;
+        } else if (avgndvi > 0.3 && avgndvi <= 0.4) {
+            ndviData[ 4 ] = ndviData[ 4 ] + area_m2;
+        } else if (avgndvi > 0.4 && avgndvi <= 0.5) {
+            ndviData[ 5 ] = ndviData[ 5 ] + area_m2;
+        } else if (avgndvi > 0.5 && avgndvi <= 0.6) {
+            ndviData[ 6 ] = ndviData[ 6 ] + area_m2;
+        } else if (avgndvi > 0.6) {
+            ndviData[ 7 ] = ndviData[ 7 ] + area_m2;
+        }
 
     });
 
-    createNDVIHistogram( ndviData, date )
+    createNDVIBarPlot( ndviData, date )
     
 }

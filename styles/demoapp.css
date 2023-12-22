@@ -38,7 +38,7 @@
 	position: fixed;
 	top: 10.5%;
 	left: 0%;
-	width: 25%;
+	width: 35%;
 	height: 30%; 
 	visibility: hidden;
 	
@@ -278,9 +278,9 @@ input:checked + .slider:before {
 /* White label */
 .white-label {
 	position: fixed;
-	top: 33.5%;
-	left: 2.5%;
-	width: 4%;
+	top: 37%;
+	left: 0.5%;
+	width: 3%;
 	height: 2%; 
     background-color: #eaeaea;
     color: white; /* Set text color to white or a color that contrasts well */
@@ -292,9 +292,9 @@ input:checked + .slider:before {
 /* Yellow label */
 .yellow-label {
 	position: fixed;
-	top: 33.5%;
-	left: 7.5%;
-	width: 4%;
+	top: 37%;
+	left: 4.5%;
+	width: 3%;
 	height: 2%; 
     background-color: #ccc682;
     color: white;
@@ -306,9 +306,9 @@ input:checked + .slider:before {
 /* Yellow label */
 .yellowgreen-label {
 	position: fixed;
-	top: 33.5%;
-	left: 12.5%;
-	width: 4%;
+	top: 37%;
+	left: 8.5%;
+	width: 3%;
 	height: 2%;
     background-color: #91bf51;
     color: black; /* Adjust text color for better visibility */
@@ -320,9 +320,9 @@ input:checked + .slider:before {
 /* Yellowgreen label */
 .lightgreen-label {
 	position: fixed;
-	top: 33.5%;
-	left: 17.5%;
-	width: 4%;
+	top: 37%;
+	left: 12.5%;
+	width: 3%;
 	height: 2%;
     background-color: #70a33f;
     color: white;
@@ -335,8 +335,8 @@ input:checked + .slider:before {
 .green-label {
 	position: fixed;	
 	top: 37%;
-	left: 2.5%;
-	width: 4%;
+	left: 16.5%;
+	width: 3%;
 	height: 2%;  
     background-color: #4f892d;
     color: white;
@@ -349,8 +349,8 @@ input:checked + .slider:before {
 .ldarkgreen-label {
 	position: fixed;	
 	top: 37%;
-	left: 7.5%;
-	width: 4%;
+	left: 20.5%;
+	width: 3%;
 	height: 2%;  
     background-color: #306d1c;
     color: white;
@@ -363,8 +363,8 @@ input:checked + .slider:before {
 .darkgreen-label {
 	position: fixed;	
 	top: 37%;
-	left: 12.5%;
-	width: 4%;
+	left: 24.5%;
+	width: 3%;
 	height: 2%;  
     background-color: #0f540a;
     color: white;
@@ -377,8 +377,8 @@ input:checked + .slider:before {
 .vdarkgreen-label {
 	position: fixed;	
 	top: 37%;
-	left: 17.5%;
-	width: 4%;
+	left: 28.5%;
+	width: 3%;
 	height: 2%;  
     background-color: #004400;
     color: white;

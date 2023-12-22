@@ -138,29 +138,13 @@ async function showNDVIEvent() {
 
         if ( majorDistrict && !dataSourceWithNameExists( "ndvi2018-06-14" )) {
 
-            await loadNDVI( majorDistrict, '2018-06-14' );
-            await loadNDVI( majorDistrict, '2020-06-21' );
-            await loadNDVI( majorDistrict, '2022-06-26' );
-            document.getElementById( 'ndviSliderContainer' ).style.visibility = 'visible';
-            updateNDVIDataSources();
+            await loadNDVI( '2018-06-14' );
+            await loadNDVI( '2020-06-21' );
+            await loadNDVI( '2022-06-26' );
 
         } else {
 
-            let dataSource = getDataSourceByName( "ndvi2018-06-14" );
-            let ndviData = [];
-
-            dataSource.show = true;	
-
-            dataSource.entities.values.forEach( entity => {
-        
-                entity.show = true;
-                entity.polygon.extrudedHeight = 1;
-                entity.polygon.material = setNDVIPolygonMaterialColor( entity );
-                ndviData.push( entity._properties._avgndvi._value );
-        
-            });
-
-            createNDVIHistogram( ndviData, '2018-06-14' );
+            updateNDVIDataSources( );
 
         }
 
@@ -174,6 +158,7 @@ async function showNDVIEvent() {
 
         setElementsDisplay( elements, 'inline-block' );
         document.getElementById( "plotContainer" ).style.visibility = 'hidden';
+        document.getElementById( 'ndviSliderContainer' ).style.visibility = 'hidden';
         setElementDisabledState( false );
         hideDataSourceByName( "ndvi" );
 

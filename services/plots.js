@@ -534,30 +534,38 @@ function getLandDataForCity( ) {
 /**
  * Creates vegetation bar for a major district area area
  *
- * @param { String } district  district code
- * @param { String } date date of NDVI data
+ * @param { object } ndviData data of a distrct 
+ * @param { String } date date of NDVI data 
  */
-function createNDVIBarPlot( district, date ) {
+function createNDVIBarPlot( ndviData, date ) {
 
-    let trace1 = {
-        x: [ "ndvi" ],
-        y: [ getNDVIForDistrict( district ) ],
-        name: majorDistrictName,
-        type: 'bar',
-    };
-      
-    let trace2 = {
-        x: [ "ndvi" ],
-        y: [ 0.312 ],
-        name: "Helsinki",
-        type: 'bar',
+    const mil = 1000000;
+
+    let x = [ "-0.0", "0.0-0.1","0.1-0.2","0.2-0.3","0.3-0.4","0.4-0.5","0.5-0.6","0.6-"];
+    let y = [ ndviData[ 0 ] / mil, ndviData[ 1 ] / mil, ndviData[ 2 ] / mil, ndviData[ 3 ] / mil, ndviData[ 4 ] / mil, ndviData[ 5 ] / mil, ndviData[ 6 ] / mil, ndviData[ 7 ] / mil ];
+
+    // Define an array of colors, one for each bar
+    let colors = ['#eaeaea', '#ccc682', '#91bf51', '#70a33f', '#4f892d', '#306d1c', '#0f540a', '#004400'];
+
+    let data = [{
+        x: x,
+        y: y,
+        type: 'bar',        
         marker: {
-            color: 'green'
+            color: colors, 
+        }
+    }];
+
+    let layout = {
+        title: { text: districtName + ' ' + date },
+        barmode: 'group',
+        yaxis: {
+            title: 'Area (km²)'
+        },
+        xaxis: {
+            title: 'NDVI'
         }
     };
-      
-    let data = [ trace1, trace2 ];
-    let layout = { title: { text: 'NDVI ' + date }, barmode: 'group' };
 
     //Test plotting
     if ( showPlot ) {
@@ -762,9 +770,9 @@ function addNearbyPopulationWithWeights( entity ) {
 }
 
 /**
- * Creates NDVI histogram for a picked area
+ * Creates NDVI histogram for a picked district
  *
- * @param { object } ndviData urban heat data of a buildings in postal code area
+ * @param { object } ndviData data of a distrct 
  * @param { String } date date of NDVI data 
  */
 function createNDVIHistogram( ndviData, date ) {
