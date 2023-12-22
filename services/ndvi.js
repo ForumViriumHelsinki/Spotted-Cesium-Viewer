@@ -118,8 +118,8 @@ function loadNDVIWithoutCache( url, date ) {
  * 
  * @param { object } entity ndvi entity
  */
-function setNDVIPolygonMaterialColor(entity) {
-    const avgndvi = entity._properties._avgndvi._value;
+function setNDVIPolygonMaterialColor(entity, property ) {
+    const avgndvi = entity._properties[ property ]._value;
 
     if (avgndvi <= 0) {
         return Cesium.Color.fromBytes(234, 234, 234); // #eaeaea
@@ -179,7 +179,7 @@ function updateNDVIDataSources( ) {
 
         entity.show = true;
         entity.polygon.extrudedHeight = 1;
-        entity.polygon.material = setNDVIPolygonMaterialColor( entity );
+        entity.polygon.material = setNDVIPolygonMaterialColor( entity, '_avgndvi' );
 
         const avgndvi = entity._properties._avgndvi._value;
         const area_m2 = Number( entity._properties._area_m2._value );

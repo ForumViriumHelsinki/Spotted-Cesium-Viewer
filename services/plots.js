@@ -751,7 +751,7 @@ function addNearbyPopulationWithWeights( entity ) {
 
     // Define a scaling function
     function scalePopulation(population, maxPopulation) {
-        return (population / maxPopulation) * 10;
+        return (population / maxPopulation);
     }
 
     // Define weights for each distance band
@@ -762,7 +762,7 @@ function addNearbyPopulationWithWeights( entity ) {
         let populationAttribute = `_population_${i}km`;
         if (entity._properties[populationAttribute]) {
             let populationValue = entity._properties[populationAttribute]._value;
-            value += scalePopulation(populationValue, maxPopulations[i]) * weights[i];
+            value += ( populationValue / 100 ) / ( i + 1 );
         }
     }
 

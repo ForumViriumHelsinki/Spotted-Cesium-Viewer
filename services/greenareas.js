@@ -55,8 +55,7 @@
 		  for ( let i = 0; i < entities.length; i++ ) {
 			  
 			let entity = entities[ i ];
-            let mean_ndi = entity._properties._mean_ndvi._value.toFixed( 3 );
-            entity.polygon.material = new Cesium.Color( 1 - mean_ndi, 1, 0, 1 );
+            entity.polygon.material = setNDVIPolygonMaterialColor( entity, '_mean_ndvi' );
             
 
 		  }
@@ -116,7 +115,7 @@
                 entity.show = false; // Hide the entity if osa_alue doesn't match
             }
 
-            if ( entity._properties._mean_ndvi._value <= 0.3 ) {
+            if ( entity._properties._mean_ndvi._value <= 0.3 || entity._properties._viheralueen_pa._value <= 10000 ) {
 
                 entity.show = false;
             }
@@ -135,14 +134,13 @@ function extrudedGreenAreas( ) {
     
     const greenAreaDataSource = getDataSourceByName( "GreenAreas" );
 
-    const minAreaValue = 100;       // Minimum value for viheralueen_pa
-    const averageAreaValue = 43748;   // Maximum value for viheralueen_pa
-
+    const minAreaValue = 10000;       // Minimum value for viheralueen_pa
+    const averageAreaValue =  87586;   // Average value if only 10 000 + are incldued
     greenAreaDataSource.entities.values.forEach( entity => {
 
         if ( entity.show && entity.polygon && entity._properties._population_0km ) {
             
-            entity.polygon.extrudedHeight = addNearbyPopulationWithWeights(entity) / normalizeValue(entity._properties._viheralueen_pa._value, minAreaValue, averageAreaValue);
+            entity.polygon.extrudedHeight = addNearbyPopulationWithWeights(entity) / ( entity._properties._viheralueen_pa._value / minAreaValue );
 
         } 
 
