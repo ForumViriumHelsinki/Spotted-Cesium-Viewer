@@ -204,6 +204,7 @@ function updateNDVIDataSources( ) {
 
     });
 
-    createNDVIBarPlot( ndviData, date )
+    createNDVIBarPlot( ndviData, date );
+    createPieChartForMajorDistrict( districtsVisited[ districtsVisited.length - 1 ], date.substring(0, 4) );
     
 }

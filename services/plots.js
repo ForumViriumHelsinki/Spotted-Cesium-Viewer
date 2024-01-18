@@ -16,7 +16,14 @@ function createDiagrams( district ) {
  *
  * @param { object } district major district code
  */
-function createPieChartForMajorDistrict( district ) {
+function createPieChartForMajorDistrict( district, year ) {
+
+    let yearLabel = year;
+
+    if ( !yearLabel ) {
+
+        yearLabel = '2022'
+    } 
 
     let firstData = getLandDataForMajorDistrict( district );
     let secondData = getLandDataForCity( );
@@ -60,7 +67,7 @@ function createPieChartForMajorDistrict( district ) {
       }];
       
     const layout = {
-        title: 'Landcover comparison',
+        title: 'Landcover comparison in ' + yearLabel,
         annotations: [
           {
             font: {

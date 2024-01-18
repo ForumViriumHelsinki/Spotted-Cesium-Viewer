@@ -37,6 +37,23 @@ function getCityTotalByNameAndProperty( property ) {
 
 }
 
+function getYearFromSlider( ) {
+
+    const sliderValue = parseInt(document.getElementById('ndviSlider').value);
+
+	switch ( sliderValue ) {
+		case 0: 
+			return '2022'
+		case 1: 
+			return '2020';
+		case 2: 
+			return '2018';          
+		default:
+			return '2022';  				
+	}
+
+}
+
 /**
  * Get total area of district properties by district data source name and district id and list of property keys
  * 
@@ -59,6 +76,8 @@ function getTotalAreaByNameAndIdAndPropertyKeys( id, propertyKeys ) {
 
 	}
 
+    const year = getYearFromSlider( );
+
     for ( let i = 0; i < districtDataSource._entityCollection._entities._array.length; i++ ) {
 
 		if ( Number( districtDataSource._entityCollection._entities._array[ i ]._properties._tunnus._value ) === Number( id ) ) {
@@ -67,9 +86,9 @@ function getTotalAreaByNameAndIdAndPropertyKeys( id, propertyKeys ) {
 	
 			propertyKeys.forEach( propertyKey => {
 
-				if ( entity._properties.hasOwnProperty( propertyKey )) {
+				if ( entity._properties.hasOwnProperty( propertyKey + '_' + year)) {
 
-					totalArea += entity._properties[ propertyKey ]._value;
+					totalArea += entity._properties[ propertyKey + '_' + year ]._value;
 
 				}
 
@@ -107,6 +126,8 @@ function getTotalAreaByNameAndPropertyKeys( propertyKeys ) {
 
     let idsDone = [];
 
+    const year = getYearFromSlider( );
+
     for ( let i = 0; i < districtDataSource._entityCollection._entities._array.length; i++ ) {
 
         const entity = districtDataSource._entityCollection._entities._array[ i ];
@@ -116,9 +137,9 @@ function getTotalAreaByNameAndPropertyKeys( propertyKeys ) {
 
             propertyKeys.forEach( propertyKey => {
 
-                if ( entity._properties.hasOwnProperty( propertyKey )) {
+                if ( entity._properties.hasOwnProperty( propertyKey + '_' + year )) {
 
-                    totalArea += entity._properties[ propertyKey ]._value;
+                    totalArea += entity._properties[ propertyKey + '_' + year ]._value;
 
                 }
             });
