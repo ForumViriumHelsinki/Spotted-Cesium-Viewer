@@ -18,91 +18,94 @@ function createDiagrams( district ) {
  */
 function createPieChartForMajorDistrict( district, year ) {
 
-    let yearLabel = year;
+    if ( !document.getElementById( "showGreenToggle" ).checked ) {
 
-    if ( !yearLabel ) {
+        let yearLabel = year;
 
-        yearLabel = '2022'
-    } 
-
-    let firstData = getLandDataForMajorDistrict( district );
-    let secondData = getLandDataForCity( );
-    let secondDataName = 'Helsinki';
-
-    if ( isNotHelsinkiSelected( ) ) {
-
-        const selectedDistrict = document.getElementById('plotSelect').value;
-
-        let otherDistrict = findDistrictIdByName( selectedDistrict )
-        secondData = getLandDataForMajorDistrict( otherDistrict );
-        secondDataName = selectedDistrict;
-        setDistrictOutlineColor( otherDistrict,  selectedDistrict );
-
-    }
-
-    const data = [{
-        values: firstData,
-        labels: [ 'trees', 'vegetation', 'water', 'fields', 'rocks, dirt unused land', 'buildings and roads' ],
-        domain: { column: 0 },
-        name: districtName,
-        hoverinfo: 'label+percent',
-        hole: .4,
-        type: 'pie',
-        marker: {
-            colors: [ 'forestgreen', 'green', 'mediumblue', 'yellow', 'sandybrown', ' red ']
-        },
-      },{
-        values: secondData,
-        labels: [ 'trees', 'vegetation', 'water', 'fields', 'rocks, dirt unused land', 'buildings and roads' ],
-        text: secondDataName,
-        textposition: 'inside',
-        domain: { column: 1 },
-        name: secondDataName,
-        hoverinfo: 'label+percent',
-        hole: .4,
-        type: 'pie',
-        marker: {
-            colors: [ 'forestgreen', 'green', 'mediumblue', 'yellow', 'sandybrown', ' red ']
-        },
-      }];
-      
-    const layout = {
-        title: 'Landcover comparison in ' + yearLabel,
-        annotations: [
-          {
-            font: {
-              size: 12
+        if ( !yearLabel ) {
+    
+            yearLabel = '2022'
+        } 
+    
+        let firstData = getLandDataForMajorDistrict( district );
+        let secondData = getLandDataForCity( );
+        let secondDataName = 'Helsinki';
+    
+        if ( isNotHelsinkiSelected( ) ) {
+    
+            const selectedDistrict = document.getElementById('plotSelect').value;
+    
+            let otherDistrict = findDistrictIdByName( selectedDistrict )
+            secondData = getLandDataForMajorDistrict( otherDistrict );
+            secondDataName = selectedDistrict;
+            setDistrictOutlineColor( otherDistrict,  selectedDistrict );
+    
+        }
+    
+        const data = [{
+            values: firstData,
+            labels: [ 'trees', 'vegetation', 'water', 'fields', 'rocks, dirt unused land', 'buildings and roads' ],
+            domain: { column: 0 },
+            name: districtName,
+            hoverinfo: 'label+percent',
+            hole: .4,
+            type: 'pie',
+            marker: {
+                colors: [ 'forestgreen', 'green', 'mediumblue', 'yellow', 'sandybrown', ' red ']
             },
-            showarrow: false,
-            text: districtName,
-            x: 0.17,
-            y: 0.5
-          },
-          {
-            font: {
-              size: 12
-            },
-            showarrow: false,
+          },{
+            values: secondData,
+            labels: [ 'trees', 'vegetation', 'water', 'fields', 'rocks, dirt unused land', 'buildings and roads' ],
             text: secondDataName,
-            x: 0.82,
-            y: 0.5
-          }
-        ],
-        height: 400,
-        width: 600,
-        showlegend: false,
-        grid: { rows: 1, columns: 2 }
-    };
-
-    if ( showPlot ) {
-
-        setPieChartVisibility( 'visible' );
-        populateSelectFromGeoJSON( levelsVisited[ levelsVisited.length - 1 ], 'plotSelect', document.getElementById('plotSelect').value );
+            textposition: 'inside',
+            domain: { column: 1 },
+            name: secondDataName,
+            hoverinfo: 'label+percent',
+            hole: .4,
+            type: 'pie',
+            marker: {
+                colors: [ 'forestgreen', 'green', 'mediumblue', 'yellow', 'sandybrown', ' red ']
+            },
+          }];
+          
+        const layout = {
+            title: 'Landcover comparison in ' + yearLabel,
+            annotations: [
+              {
+                font: {
+                  size: 12
+                },
+                showarrow: false,
+                text: districtName,
+                x: 0.17,
+                y: 0.5
+              },
+              {
+                font: {
+                  size: 12
+                },
+                showarrow: false,
+                text: secondDataName,
+                x: 0.82,
+                y: 0.5
+              }
+            ],
+            height: 400,
+            width: 600,
+            showlegend: false,
+            grid: { rows: 1, columns: 2 }
+        };
+    
+        if ( showPlot ) {
+    
+            setPieChartVisibility( 'visible' );
+            populateSelectFromGeoJSON( levelsVisited[ levelsVisited.length - 1 ], 'plotSelect', document.getElementById('plotSelect').value );
+    
+        }
+    
+        Plotly.newPlot('plotPieContainer', data, layout );
 
     }
-
-      
-    Plotly.newPlot('plotPieContainer', data, layout );
 
 }
 
@@ -673,8 +676,8 @@ function createGreenAreaScatterPlot( ) {
             puiston_nimi.push( entity._properties._puiston_nimi._value );
 
             const plotData = {
-				x: [ entity._properties._mean_ndvi._value ],
-				y: [ addNearbyPopulation( entity ) ],
+				x: [ addNearbyPopulation( entity ) ],
+				y: [ entity._properties._mean_ndvi._value ],
 				name: entity._properties._puiston_nimi._value,
 				type: 'scatter',
 				mode: 'markers'
@@ -687,21 +690,23 @@ function createGreenAreaScatterPlot( ) {
 			  
 		const layout = {
 			scattermode: 'group',
-			xaxis: {title: 'ndvi' },
-			yaxis: {title: 'Population'},
+			xaxis: {title: 'population' },
+			yaxis: {title: 'ndvi'},
             showlegend: false,
+            title: 'YLRE green areas population pressure ',
 		};
 		  
     if ( showPlot ) {
 
-        document.getElementById( "greenAreaContainer" ).style.visibility = 'visible';
+        document.getElementById( "plotPieContainer" ).style.visibility = 'visible';
         document.getElementById( 'sliderContainer' ).style.visibility = 'visible';
+        document.getElementById( "selectContainer" ).style.visibility = 'hidden';
     }
 
-    Plotly.newPlot( 'greenAreaContainer', data, layout );
+    Plotly.newPlot( 'plotPieContainer', data, layout );
 
 
-document.getElementById('greenAreaContainer').on('plotly_click', function(data){
+document.getElementById('plotPieContainer').on('plotly_click', function(data){
     let clickedParkName = data.points[0].data.name; // Retrieve the park name
     highlightEntityInCesium(clickedParkName, greenAreaDataSource);
 });

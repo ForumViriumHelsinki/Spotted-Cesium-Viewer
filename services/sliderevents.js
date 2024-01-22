@@ -92,7 +92,8 @@ function showGreenEvent() {
     } else { 
         
         hideDataSourceByName( "GreenAreas" );
-        document.getElementById( "greenAreaContainer" ).style.visibility = 'hidden';
+        document.getElementById( "plotPieContainer" ).style.visibility = 'hidden';
+        document.getElementById( "sliderContainer" ).style.visibility = 'hidden';
 
     }
 
