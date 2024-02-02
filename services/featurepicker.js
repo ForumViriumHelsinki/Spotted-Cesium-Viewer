@@ -12,6 +12,8 @@ function processClick( viewer, event ) {
         'showPlotLabel',
         'showNDVISwitch',
         'showNDVILabel',
+        'NDVI2023Switch',
+        'NDVI2023Label',        
         'showVegetationSwitch',
         'showVegetationLabel',
         'showOtherNatureSwitch',
@@ -106,10 +108,11 @@ async function pickEntity( viewer, windowPosition ) {
     let picked = viewer.scene.pick( windowPosition );
 
     document.getElementById("showNDVIToggle").disabled = false;
+    document.getElementById("NDVI2023Toggle").disabled = false;
     
     if ( picked ) {
 
-        if ( !document.getElementById( "showNDVIToggle" ).checked ) {
+        if ( !document.getElementById( "showNDVIToggle" ).checked || !document.getElementById( "NDVI2023Toggle" ).checked ) {
 
             setElementDisabledState( false );
 

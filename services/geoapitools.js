@@ -55,6 +55,8 @@ function resetSwitches( ) {
         'showPlotLabel',
         'showNDVISwitch',
         'showNDVILabel',
+        'NDVI2023Switch',
+        'NDVI2023Label',
         'showVegetationSwitch',
         'showVegetationLabel',
         'showOtherNatureSwitch',
@@ -76,6 +78,7 @@ function resetSwitches( ) {
     document.getElementById( "showWaterToggle" ).checked = false;
     document.getElementById( "showFieldsToggle" ).checked = false;
     document.getElementById( "showNDVIToggle" ).checked = false;
+    document.getElementById( "NDVI2023Toggle" ).checked = false;
     document.getElementById( "showOtherNatureToggle" ).checked = false;
     document.getElementById( "showBuiltToggle" ).checked = false;
     document.getElementById( "showGreenToggle" ).checked = false;
@@ -83,6 +86,7 @@ function resetSwitches( ) {
     setElementDisabledState( true );
     setElementsDisplay( elements, 'inline-block' );
     document.getElementById("showNDVIToggle").disabled = true;
+    document.getElementById("NDVI2023Toggle").disabled = true;
 
 //	document.getElementById( "printToggle" ).checked = true;
     document.getElementById( 'returnButton' ).style.visibility = 'hidden';
@@ -216,7 +220,7 @@ function togglePlots( visibility ) {
     document.getElementById( 'plotPieContainer' ).style.visibility = visibility;
     document.getElementById( 'selectContainer' ).style.visibility = visibility;
 
-    if ( document.getElementById( "showNDVIToggle" ).checked || visibility == 'hidden' ) {
+    if ( document.getElementById( "showNDVIToggle" ).checked || document.getElementById( "NDVI2023Toggle" ).checked || visibility == 'hidden' ) {
 
         toggleLabels( visibility );
 
@@ -237,7 +241,7 @@ function togglePlots( visibility ) {
 
     } else {
 
-        if ( document.getElementById( "showNDVIToggle" ).checked ) {
+        if ( document.getElementById( "showNDVIToggle" ).checked || document.getElementById( "NDVI2023Toggle" ).checked ) {
 
             document.getElementById( 'plotContainer' ).style.visibility = visibility;
             document.getElementById( 'ndviSliderContainer' ).style.visibility = visibility;
@@ -503,9 +507,9 @@ function setToggleElements() {
     
             elements.push( 'showNDVISwitch' );
             elements.push( 'showNDVILabel' );
-    
+            elements.push( 'NDVI2023Switch' );
+            elements.push( 'NDVI2023Label' );
         
-    
      
     
             elements.push( 'showVegetationSwitch' );

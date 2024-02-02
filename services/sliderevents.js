@@ -26,6 +26,13 @@ function sliderEvents( event ) {
             
     } 
 
+    // If the slider value is "NDVI2023", call the ndvi2023 function.
+    if ( event.target.value == 'NDVI2023' ) {
+        
+        ndvi2023();
+        
+    }
+
     // If the slider value is "showGreen", call the showGreen function.
     if ( event.target.value == 'showGreen' ) {
         
@@ -75,6 +82,51 @@ function sliderEvents( event ) {
         
     } 
                 
+}
+
+/**
+ * This function to show or hide NDVI 2023 entities on the map based on the toggle button state
+ *
+ */
+async function ndvi2023() {
+
+    const NDVI2023 = document.getElementById( "NDVI2023Toggle" ).checked;
+
+    if ( NDVI2023 ) {
+
+        document.getElementById( "plotPieContainer" ).style.visibility = 'hidden';
+        document.getElementById( "sliderContainer" ).style.visibility = 'hidden';
+        document.getElementById( "plotSelect" ).style.visibility = 'hidden';
+        await loadNDVI( '2023-01-27' );
+        await loadNDVI( '2023-02-26' );
+        const slider = document.getElementById('ndviSlider2023');
+        slider.max = Math.max(1, 11);
+        loadRemainingNDVIDataSequentially( );
+
+    } else { 
+
+        updateNDVIDataSources2023( );
+
+    }
+
+}
+
+async function loadRemainingNDVIDataSequentially() {
+    const dates = [ '2023-03-15', '2023-04-22', '2023-05-24', '2023-06-23', '2023-07-13', '2023-08-15', '2023-09-14', '2023-10-29', '2023-11-25', '2023-12-28' ];
+    for (let i = 0; i < dates.length; i++) {
+        try {
+            await loadNDVI(dates[i]);
+            unlockSliderPoint(i + 2); // Assuming the first two points are already loaded
+        } catch (error) {
+            console.error(`Failed to load NDVI data for ${dates[i]}:`, error);
+            // Handle the error, possibly retry or skip to the next
+        }
+    }
+}
+
+function unlockSliderPoint(index) {
+    const slider = document.getElementById('ndviSlider2023');
+    slider.max = Math.max(index, slider.max); // Ensure the slider's max is updated only if it's increasing
 }
 
 /**

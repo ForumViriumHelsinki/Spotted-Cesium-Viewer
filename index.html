@@ -83,6 +83,13 @@
 </label>
 <label for="showNDVIToggle" class="label" id = "showNDVILabel" style = "display: none">NDVI</label>
 
+<!-- NDVI2023Switch-->
+<label class="switch"  id = "NDVI2023Switch" style = "display: none">
+  <input type="checkbox" id = "NDVI2023Toggle" value = "NDVI2023">
+  <span class="slider round"></span>
+</label>
+<label for="NDVI2023Toggle" class="label" id = "NDVI2023Label" style = "display: none">NDVI 2023</label>
+
 <!-- showTreeSwitch-->
 <label class="switch" id = "showTreesSwitch" style = "display: none">
   <input type="checkbox" id = "showTreeToggle" value = "showTree">
@@ -156,6 +163,11 @@
   <span id="ndviSliderValue">NDVI</span>
 </div>
 
+<div class="ndviSlider-container2023" id="ndviSliderContainer2023">
+  <input type="range" id="ndviSlider2023" min="0" max="11" value="0">
+  <div class="slider-ticks-container"></div> <!-- Container for tick marks -->
+</div>
+
 <div class="slider-container" id="sliderContainer">
   <input type="range" id="blueSlider" min="0" max="5" value="0">
   <span id="sliderValue">distance from green area 0 km</span>
@@ -193,6 +205,7 @@
     setElementDisabledState( true );
     addSelectorEventListeners( );
     document.getElementById("showNDVIToggle").disabled = true;
+    document.getElementById("NDVI2023Toggle").disabled = true;
 
     // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
     const viewer = new Cesium.Viewer('cesiumContainer', {
@@ -235,6 +248,10 @@
 document.getElementById('ndviSlider').addEventListener('input', function() {
   document.getElementById('ndviSliderValue').textContent = 'ndvi';
   updateNDVIDataSources( );
+});
+
+document.getElementById('ndviSlider2023').addEventListener('input', function() {
+  updateNDVIDataSources2023( );
 });
 
   //disable switch for showing heat exposure on nature areas

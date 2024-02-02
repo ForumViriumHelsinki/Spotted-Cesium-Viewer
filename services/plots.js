@@ -549,6 +549,8 @@ function getLandDataForCity( ) {
  */
 function createNDVIBarPlot( ndviData, date ) {
 
+    console.log("date", date)
+
     const mil = 1000000;
 
     let x = [ "-0.0", "0.0-0.1","0.1-0.2","0.2-0.3","0.3-0.4","0.4-0.5","0.5-0.6","0.6-"];
