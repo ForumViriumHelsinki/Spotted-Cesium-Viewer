@@ -155,7 +155,7 @@ async function pickEntity( viewer, windowPosition ) {
                     
             }
     
-            if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vilhonvuori' ) {
+            if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Niemenmäki' ) {
     
                 levelsVisited.push( 'SubDistricts' );
                 currentSubDistrictName = picked.id.properties.nimi_fi._value;
