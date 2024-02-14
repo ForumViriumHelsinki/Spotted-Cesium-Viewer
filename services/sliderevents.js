@@ -89,10 +89,10 @@ function sliderEvents( event ) {
         
     } 
 
-    // If the slider value is "TreeRegistery", call the showBuilt function.
-    if ( event.target.value == 'TreeRegistery' ) {
+    // If the slider value is "TreeRegistry", call the showBuilt function.
+    if ( event.target.value == 'TreeRegistry' ) {
         
-        treeRegisteryEvent();
+        treeRegistryEvent();
         
     } 
 
@@ -101,28 +101,28 @@ function sliderEvents( event ) {
 }
 
 /**
- * This function shows and hides Helsinki Tree registery
+ * This function shows and hides Helsinki Tree Registry
  *
  */
-function treeRegisteryEvent() {
+function treeRegistryEvent() {
 
-    const treeRegistery = document.getElementById( "TreeRegisteryToggle" ).checked;
+    const treeRegistry = document.getElementById( "TreeRegistryToggle" ).checked;
 
-    if ( treeRegistery ) {
+    if ( treeRegistry ) {
 
-        if ( !dataSourceWithNameExists( "TreeRegistery" ) ) {
+        if ( !dataSourceWithNameExists( "TreeRegistry" ) ) {
 
-            addFeaturesWithNDVI( "https://geo.fvh.fi/spotted/data/Puurekisteri_piste_with_ndvi.geojson", "TreeRegistery", false );
+            addFeaturesWithNDVI( "https://geo.fvh.fi/spotted/data/Puurekisteri_piste_with_ndvi.geojson", "TreeRegistry", false );
 
         } else {
 
-            showDataSourceByName( "TreeRegistery" );
+            showDataSourceByName( "TreeRegistry" );
 
         }
         
     } else {
 
-        hideDataSourceByName( "TreeRegistery" );
+        hideDataSourceByName( "TreeRegistry" );
 
     }
 }
@@ -138,8 +138,8 @@ function wmsNDVIEvent() {
     if ( wmsNDVI ) {
 
         hideDataSourceByName( "MajorDistricts" );
-        document.getElementById( "TreeRegisterySwitch" ).style.display = 'inline-block';
-        document.getElementById( "TreeRegisteryLabel" ).style.display = 'inline-block';
+        document.getElementById( "TreeRegistrySwitch" ).style.display = 'inline-block';
+        document.getElementById( "TreeRegistryLabel" ).style.display = 'inline-block';
 
     //    toggleLayerSelectAndActivateNDVI();
 
@@ -147,10 +147,10 @@ function wmsNDVIEvent() {
 
         // showHelsinkiWMSAndActivateDefaultLayer();
         showDataSourceByName( "MajorDistricts" );
-        document.getElementById( "TreeRegisterySwitch" ).style.display = 'none';
-        document.getElementById( "TreeRegisteryLabel" ).style.display = 'none';
+        document.getElementById( "TreeRegistrySwitch" ).style.display = 'none';
+        document.getElementById( "TreeRegistryLabel" ).style.display = 'none';
         document.getElementById( "printContainer" ).style.display = 'none';
-        hideDataSourceByName( "TreeRegistery" );
+        hideDataSourceByName( "TreeRegistry" );
 
     }
 }
