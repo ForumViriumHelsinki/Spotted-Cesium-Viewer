@@ -147,6 +147,10 @@ function wmsNDVIEvent() {
 
         // showHelsinkiWMSAndActivateDefaultLayer();
         showDataSourceByName( "MajorDistricts" );
+        document.getElementById( "TreeRegisterySwitch" ).style.display = 'none';
+        document.getElementById( "TreeRegisteryLabel" ).style.display = 'none';
+        document.getElementById( "printContainer" ).style.display = 'none';
+        hideDataSourceByName( "TreeRegistery" );
 
     }
 }
