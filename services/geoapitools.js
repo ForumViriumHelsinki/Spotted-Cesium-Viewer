@@ -13,6 +13,19 @@ function createImageryProvider( layer ) {
 }
 
 /**
+ * Function to create a NDVI imagery provider based on the selected layer
+ * 
+ * @param { String } layer - layer of WMS service
+ */
+function createNDVIImageryProvider( layer ) {
+    return new Cesium.WebMapServiceImageryProvider({
+        url: 'https://sh.dataspace.copernicus.eu/ogc/wms/5ea5da6a-8c03-4a2a-932d-1468fb5bde2c',
+        layers: layer,
+        proxy: new Cesium.DefaultProxy('/proxy/')
+    });
+}
+
+/**
  * Resets the objects displayed, camera orientation, and switches to their default state
  */
 function reset( ) {
@@ -473,7 +486,7 @@ function setElementsDisplay( elements, display ) {
         const element = document.getElementById( elementId );
         if ( element ) {
 
-            element.style.display = display;
+            element.style.display = 'inline-block';
         
         }
     });

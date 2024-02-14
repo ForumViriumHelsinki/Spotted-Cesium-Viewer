@@ -569,13 +569,10 @@ function createNDVIBarPlot( ndviData, date ) {
     }];
 
     let layout = {
-        title: { text: districtName + ' ' + date },
+        title: { text: 'NDVI in ' + districtName + ' at ' + date },
         barmode: 'group',
         yaxis: {
             title: 'Area (km²)'
-        },
-        xaxis: {
-            title: 'NDVI'
         }
     };
 
@@ -794,7 +791,6 @@ function createNDVIHistogram( ndviData, date ) {
 	let data = {
 		x: ndviData,
 		type: 'histogram',
-		name: 'NDVI',
 		marker: {
 			color: 'green',
 		},

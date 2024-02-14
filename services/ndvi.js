@@ -133,9 +133,10 @@ function loadNDVIWithoutCache( url, date ) {
  * @param { object } entity ndvi entity
  */
 function setNDVIPolygonMaterialColor(entity, property ) {
-    const avgndvi = entity._properties[ property ]._value;
+    const avgndvi = Number( entity._properties[ property ]._value );
 
     if (avgndvi <= 0) {
+        console.log("negative ndvi")
         return Cesium.Color.fromBytes(234, 234, 234); // #eaeaea
     } else if (avgndvi > 0.0 && avgndvi <= 0.1) {
         return Cesium.Color.fromBytes(204, 198, 130); // #ccc682
@@ -376,6 +377,103 @@ function addTickMarksAndLabels(sliderId, ticksContainerClass, numberOfTicks) {
             
             container.appendChild(tick);
             container.appendChild(label);
+        }
+    }
+}
+
+  /**
+   * Add the features with ndvi data as a new data source to the Cesium
+   * 
+   * @param { object } data features with ndvi
+   * @param { Number } name name of the datasource
+   * @param { Boolean } isPolygon tells if feature is polygon
+   */
+  function addFeaturesWithNDVI( data, name, isPolygon ) {
+    viewer.dataSources.add(Cesium.GeoJsonDataSource.load(data, {
+        clampToGround: true
+    }))
+    .then(function(dataSource) {
+        dataSource.name = name;
+        let entities = dataSource.entities.values;
+
+        if ( isPolygon ) {
+
+            setColorAndLabelForPolygonEntities( entities, 'ndvi_june2023' );
+
+        } else {
+
+            setColorAndLabelForPointEntities( entities, 'ndvi_june2023' );
+
+        }
+    })
+    .otherwise(function(error) {
+        console.log(error);
+    });
+}
+
+function setColorAndLabelForPointEntities( entities, attributeName ) {
+
+    for (let i = 0; i < entities.length; i++) {
+        let entity = entities[i];
+        if (entity.position) { // Check if entity is a point
+            const color = setNDVIPolygonMaterialColor(entity, attributeName);
+            // Set point color
+            entity.point = new Cesium.PointGraphics({
+                color: color,
+                pixelSize: 20 // Adjust size as needed
+            });
+
+            // Add a label to display the NDVI value
+            const ndviValue = entity.properties[ attributeName ].getValue();
+            entity.label = new Cesium.LabelGraphics({
+                text: ndviValue.toFixed( 3 ).toString(),
+                font: '12pt sans-serif',
+                fillColor: Cesium.Color.WHITE,
+                outlineColor: Cesium.Color.BLACK,
+                outlineWidth: 2,
+                style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+                pixelOffset: new Cesium.Cartesian2(0, -12) // Adjust label position relative to the point
+            });
+
+            entity.billboard = undefined; // Remove any billboard icon
+
+        }
+    }
+
+}
+
+function setColorAndLabelForPolygonEntities(entities, attributeName) {
+    for (let i = 0; i < entities.length; i++) {
+        let entity = entities[i];
+        if (entity.polygon) { // Check if entity is a polygon
+            const color = setNDVIPolygonMaterialColor(entity, attributeName);
+            // Set polygon color
+            entity.polygon.material = color;
+            entity.polygon.outline = true; // Optional: Set to false if no outline is desired
+            entity.polygon.outlineColor = Cesium.Color.BLACK;
+
+            // Calculate the center of the polygon for placing the label
+            const polygonHierarchy = entity.polygon.hierarchy.getValue(); // Get the positions defining the polygon
+            const center = Cesium.BoundingSphere.fromPoints(polygonHierarchy.positions).center;
+            const centerCartographic = Cesium.Cartographic.fromCartesian(center);
+            const centerLongitude = Cesium.Math.toDegrees(centerCartographic.longitude);
+            const centerLatitude = Cesium.Math.toDegrees(centerCartographic.latitude);
+
+            // Add a label to display the NDVI value at the center of the polygon
+            const ndviValue = entity.properties[attributeName].getValue();
+            entity.label = new Cesium.LabelGraphics({
+                text: ndviValue.toFixed(3).toString(),
+                font: '12pt sans-serif',
+                fillColor: Cesium.Color.WHITE,
+                outlineColor: Cesium.Color.BLACK,
+                outlineWidth: 2,
+                style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                verticalOrigin: Cesium.VerticalOrigin.CENTER,
+                pixelOffset: new Cesium.Cartesian2(0, 0), // Centered on polygon
+                heightReference: Cesium.HeightReference.CLAMP_TO_GROUND, // Ensure label is clamped to the ground
+                position: Cesium.Cartesian3.fromDegrees(centerLongitude, centerLatitude)
+            });
         }
     }
 }

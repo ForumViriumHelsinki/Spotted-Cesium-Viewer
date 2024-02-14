@@ -33,6 +33,13 @@ function sliderEvents( event ) {
         
     }
 
+    // If the slider value is "wmsNDVI", call the wmsNDVI function.
+    if ( event.target.value == 'wmsNDVI' ) {
+        
+        wmsNDVIEvent();
+                
+    } 
+
     // If the slider value is "showGreen", call the showGreen function.
     if ( event.target.value == 'showGreen' ) {
         
@@ -74,14 +81,93 @@ function sliderEvents( event ) {
         showOtherNatureEvent();
     
     } 
-
+        
     // If the slider value is "showBuilt", call the showBuilt function.
     if ( event.target.value == 'showBuilt' ) {
         
         showBuiltEvent();
         
     } 
+
+    // If the slider value is "TreeRegistery", call the showBuilt function.
+    if ( event.target.value == 'TreeRegistery' ) {
+        
+        treeRegisteryEvent();
+        
+    } 
+
+    
                 
+}
+
+/**
+ * This function shows and hides Helsinki Tree registery
+ *
+ */
+function treeRegisteryEvent() {
+
+    const treeRegistery = document.getElementById( "TreeRegisteryToggle" ).checked;
+
+    if ( treeRegistery ) {
+
+        if ( !dataSourceWithNameExists( "TreeRegistery" ) ) {
+
+            addFeaturesWithNDVI( "https://geo.fvh.fi/spotted/data/Puurekisteri_piste_with_ndvi.geojson", "TreeRegistery", false );
+
+        } else {
+
+            showDataSourceByName( "TreeRegistery" );
+
+        }
+        
+    } else {
+
+        hideDataSourceByName( "TreeRegistery" );
+
+    }
+}
+
+/**
+ * This function switches the wms background from Helsinki wms to copernicus wms
+ *
+ */
+function wmsNDVIEvent() {
+
+    const wmsNDVI = document.getElementById( "wmsNDVIToggle" ).checked;
+
+    if ( wmsNDVI ) {
+
+        document.getElementById( "TreeRegisterySwitch" ).style.display = 'inline-block';
+        document.getElementById( "TreeRegisteryLabel" ).style.display = 'inline-block';
+
+    //    toggleLayerSelectAndActivateNDVI();
+
+    } else { 
+
+        showHelsinkiWMSAndActivateDefaultLayer();
+
+    }
+}
+
+function toggleLayerSelectAndActivateNDVI() {
+    // Hide the Helsinki WMS select dropdown
+    document.getElementById('layerSelect').style.display = 'none';
+    // Show the Copernicus NDVI select dropdown
+    document.getElementById('NDVISelect').style.display = 'block';
+    // Trigger the change event for the NDVISelect to load the "NDVI March" layer
+    console.log("test")
+    document.getElementById('NDVISelect').dispatchEvent(new Event('change'));
+}
+
+function showHelsinkiWMSAndActivateDefaultLayer() {
+    // Show the Helsinki WMS select dropdown
+    document.getElementById('layerSelect').style.display = 'block';
+    // Hide the Copernicus NDVI select dropdown
+    document.getElementById('NDVISelect').style.display = 'none';
+    // Set the default Helsinki layer (e.g., "avoindata:Opaskartta_Helsinki")
+    document.getElementById('layerSelect').value = 'avoindata:Opaskartta_Helsinki';
+    // Trigger the change event for the layerSelect to load the default Helsinki layer
+    document.getElementById('layerSelect').dispatchEvent(new Event('change'));
 }
 
 /**

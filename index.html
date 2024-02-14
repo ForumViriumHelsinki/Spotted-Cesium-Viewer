@@ -59,6 +59,18 @@
   <option value="avoindata:Tavoitteellinen_viher_ja_virkistysverkosto_VISTRA">Tavoitteellinen viher- ja virkistysverkosto</option>
 </select>
 
+  <!-- Selects WMS layer -->
+  <select id="NDVISelect" style = "display: none">
+    <option value="NDVI" selected>NDVI March</option>
+    <option value="NDVI_APRIL">NDVI April</option>
+    <option value="NDVI_MAY">NDVI May</option>
+    <option value="NDVI_JUNE">NDVI June</option>
+    <option value="NDVI_JULY">NDVI July</option>
+    <option value="NDVI_AUGUST">NDVI August</option>
+    <option value="NDVI_SEPTEMBER">NDVI September</option>
+    <option value="NDVI_OCTOBER">NDVI October</option>
+  </select>
+
 <!-- showPrintSwitch-->
 
 <!-- showGreenSwitch-->
@@ -89,6 +101,13 @@
   <span class="slider round"></span>
 </label>
 <label for="NDVI2023Toggle" class="label" id = "NDVI2023Label" style = "display: none">NDVI 2023</label>
+
+<!-- TreeRegisterySwitch-->
+<label class="switch"  id = "TreeRegisterySwitch" style = "display: none">
+  <input type="checkbox" id = "TreeRegisteryToggle" value = "TreeRegistery">
+  <span class="slider round"></span>
+</label>
+<label for="TreeRegisteryToggle" class="label" id = "TreeRegisteryLabel" style = "display: none">Tree Registery</label>
 
 <!-- showTreeSwitch-->
 <label class="switch" id = "showTreesSwitch" style = "display: none">
@@ -131,6 +150,13 @@
   <span class="slider round"></span>
 </label>
 <label for="showBuilt" class="label" id = "showBuiltLabel" style = "display: none">Buildings and roads</label>
+
+<!-- NDVI WMS-->
+<label class="switch" id = "wmsNDVISwitch" >
+  <input type="checkbox" id = "wmsNDVIToggle" value = "wmsNDVI" >
+  <span class="slider round"></span>
+</label>
+<label for="wmsNDVIToggle" class="label" id = "wmsNDVI" >NDVI background map</label>
 
 </div>
 
