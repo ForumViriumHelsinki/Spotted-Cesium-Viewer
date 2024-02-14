@@ -48,20 +48,15 @@ function printCesiumEntity( picked ) {
         behavior: 'instant'
     });
     
-    if ( picked.id._polygon && picked.id.properties ) {
+    if ( picked.id.properties ) {
         var toPrint = "<u>Found following properties & values:</u><br/>";	
-
-        //Highlight for clicking...
-        let oldMaterial = picked.id.polygon.material;
-        picked.id.polygon.material = new Cesium.Color( 1, 0.5, 0.5, 0.8 );
-        setTimeout(() => { picked.id.polygon.material = oldMaterial }, 500 );
 
         let length = picked.id.properties.propertyNames.length;
         for ( let i = 0; i < length; ++i ) {
 
             if ( typeof picked.id.properties[ picked.id.properties.propertyNames[ i ] ]._value === 'number' ) {
 
-                toPrint = toPrint + picked.id.properties.propertyNames[ i ] + ": " + picked.id.properties[ picked.id.properties.propertyNames[ i ] ]._value.toFixed( 0 ) + "<br/>";
+                toPrint = toPrint + picked.id.properties.propertyNames[ i ] + ": " + picked.id.properties[ picked.id.properties.propertyNames[ i ] ]._value.toFixed( 3 ) + "<br/>";
 
             } else {
 
@@ -82,14 +77,6 @@ function printCesiumEntity( picked ) {
  * @param {string} toPrint - The content to be added to the print container
  */
 function addToPrint( toPrint ) {
-
-    toPrint = toPrint + "<br/><br/><i>Display ndvi or land cover entities for selected major district, or select another district. </i>"
-
-    if ( levelsVisited.length && levelsVisited[ levelsVisited.length - 1 ] !== "MajorDistricts" ) {
-  
-        toPrint = toPrint + "<br/><br/><i>Previous district returns to previously picked district. </i>"
-  
-    }
 
     document.getElementById('printContainer').innerHTML = toPrint;
     document.getElementById('printContainer').scroll({
@@ -169,15 +156,15 @@ async function pickEntity( viewer, windowPosition ) {
 
             await removeDuplicateDataSources( );
 
-        } 
+        }
+        
+        if ( document.getElementById( "wmsNDVIToggle" ).checked ) {
 
-/*         printCesiumEntity( picked );
+            document.getElementById( "printContainer" ).style.display = 'inline-block';
+            printCesiumEntity( picked );
                 
-        if ( document.getElementById( "printToggle" ).checked ) {
+        }
 
-            setPrintVisible( );
-    
-        } */
 
     }
 

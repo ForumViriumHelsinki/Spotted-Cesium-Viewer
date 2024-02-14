@@ -137,6 +137,7 @@ function wmsNDVIEvent() {
 
     if ( wmsNDVI ) {
 
+        hideDataSourceByName( "MajorDistricts" );
         document.getElementById( "TreeRegisterySwitch" ).style.display = 'inline-block';
         document.getElementById( "TreeRegisteryLabel" ).style.display = 'inline-block';
 
@@ -144,7 +145,8 @@ function wmsNDVIEvent() {
 
     } else { 
 
-        showHelsinkiWMSAndActivateDefaultLayer();
+        // showHelsinkiWMSAndActivateDefaultLayer();
+        showDataSourceByName( "MajorDistricts" );
 
     }
 }
