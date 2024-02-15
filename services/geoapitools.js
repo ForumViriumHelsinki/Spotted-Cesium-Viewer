@@ -53,6 +53,13 @@ function reset( ) {
     majorDistrict = null;
     // Load major district zones
 	loadDistrictZones( 0.1, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
+
+
+    document.getElementById( "TreeRegistrySwitch" ).style.display = 'none';
+    document.getElementById( "TreeRegistryLabel" ).style.display = 'none';
+    document.getElementById( "printContainer" ).style.display = 'none';
+    document.getElementById( "PopulationGridLabel" ).style.display = 'none';
+    document.getElementById( "PopulationGridSwitch" ).style.display = 'none';
 	
 //	document.getElementById( 'printContainer' ).innerHTML =  "<i>Please click on a majordistrict area to load building and nature areas from the PyGeo server...</i>";
 

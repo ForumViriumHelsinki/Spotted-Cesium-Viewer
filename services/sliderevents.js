@@ -89,15 +89,47 @@ function sliderEvents( event ) {
         
     } 
 
-    // If the slider value is "TreeRegistry", call the showBuilt function.
-    if ( event.target.value == 'TreeRegistry' ) {
+    // If the slider value is "PopulationGrid", call the showBuilt function.
+    if ( event.target.value == 'PopulationGrid' ) {
         
-        treeRegistryEvent();
+        populationGridEvent();
         
     } 
 
-    
+    // If the slider value is "PopulationGrid", call the showBuilt function.
+    if ( event.target.value == 'PopulationGrid' ) {
+        
+        populationGridEvent();
+            
+    } 
                 
+}
+
+/**
+ * This function shows and hides Helsinki PopulationGrid
+ *
+ */
+function populationGridEvent() {
+
+    const populationGrid = document.getElementById( "PopulationGridToggle" ).checked;
+
+    if ( populationGrid ) {
+
+        if ( !dataSourceWithNameExists( "PopulationGrid" ) ) {
+
+            addFeaturesWithNDVI( "https://geo.fvh.fi/spotted/data/hki_populationgrid_with_ndvi.geojson", "PopulationGrid", true );
+
+        } else {
+
+            showDataSourceByName( "PopulationGrid" );
+
+        }
+        
+    } else {
+
+        hideDataSourceByName( "PopulationGrid" );
+
+    }
 }
 
 /**
@@ -140,6 +172,8 @@ function wmsNDVIEvent() {
         hideDataSourceByName( "MajorDistricts" );
         document.getElementById( "TreeRegistrySwitch" ).style.display = 'inline-block';
         document.getElementById( "TreeRegistryLabel" ).style.display = 'inline-block';
+        document.getElementById( "PopulationGridSwitch" ).style.display = 'inline-block';
+        document.getElementById( "PopulationGridLabel" ).style.display = 'inline-block';
 
     //    toggleLayerSelectAndActivateNDVI();
 
@@ -150,7 +184,10 @@ function wmsNDVIEvent() {
         document.getElementById( "TreeRegistrySwitch" ).style.display = 'none';
         document.getElementById( "TreeRegistryLabel" ).style.display = 'none';
         document.getElementById( "printContainer" ).style.display = 'none';
+        document.getElementById( "PopulationGridSwitch" ).style.display = 'none';
+        document.getElementById( "PopulationGridLabel" ).style.display = 'none';    
         hideDataSourceByName( "TreeRegistry" );
+        hideDataSourceByName( "PopulationGrid" );
 
     }
 }

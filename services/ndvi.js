@@ -452,28 +452,6 @@ function setColorAndLabelForPolygonEntities(entities, attributeName) {
             entity.polygon.material = color;
             entity.polygon.outline = true; // Optional: Set to false if no outline is desired
             entity.polygon.outlineColor = Cesium.Color.BLACK;
-
-            // Calculate the center of the polygon for placing the label
-            const polygonHierarchy = entity.polygon.hierarchy.getValue(); // Get the positions defining the polygon
-            const center = Cesium.BoundingSphere.fromPoints(polygonHierarchy.positions).center;
-            const centerCartographic = Cesium.Cartographic.fromCartesian(center);
-            const centerLongitude = Cesium.Math.toDegrees(centerCartographic.longitude);
-            const centerLatitude = Cesium.Math.toDegrees(centerCartographic.latitude);
-
-            // Add a label to display the NDVI value at the center of the polygon
-            const ndviValue = entity.properties[attributeName].getValue();
-            entity.label = new Cesium.LabelGraphics({
-                text: ndviValue.toFixed(3).toString(),
-                font: '12pt sans-serif',
-                fillColor: Cesium.Color.WHITE,
-                outlineColor: Cesium.Color.BLACK,
-                outlineWidth: 2,
-                style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-                verticalOrigin: Cesium.VerticalOrigin.CENTER,
-                pixelOffset: new Cesium.Cartesian2(0, 0), // Centered on polygon
-                heightReference: Cesium.HeightReference.CLAMP_TO_GROUND, // Ensure label is clamped to the ground
-                position: Cesium.Cartesian3.fromDegrees(centerLongitude, centerLatitude)
-            });
         }
     }
 }
