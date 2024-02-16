@@ -60,6 +60,8 @@ function reset( ) {
     document.getElementById( "printContainer" ).style.display = 'none';
     document.getElementById( "PopulationGridLabel" ).style.display = 'none';
     document.getElementById( "PopulationGridSwitch" ).style.display = 'none';
+    document.getElementById( "SubDistrictNDVISwitch" ).style.display = 'none';
+    document.getElementById( "SubDistrictNDVILabel" ).style.display = 'none';
 	
 //	document.getElementById( 'printContainer' ).innerHTML =  "<i>Please click on a majordistrict area to load building and nature areas from the PyGeo server...</i>";
 

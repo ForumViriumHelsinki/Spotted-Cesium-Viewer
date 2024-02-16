@@ -89,19 +89,26 @@ function sliderEvents( event ) {
         
     } 
 
-    // If the slider value is "PopulationGrid", call the showBuilt function.
+    // If the slider value is "PopulationGrid", call the populationGridEvent function.
     if ( event.target.value == 'PopulationGrid' ) {
         
         populationGridEvent();
         
     } 
 
-    // If the slider value is "PopulationGrid", call the showBuilt function.
+    // If the slider value is "PopulationGrid", call the populationGridEvent function.
     if ( event.target.value == 'PopulationGrid' ) {
         
         populationGridEvent();
             
     } 
+
+    // If the slider value is "SubDistrictNDVI", call the subDistrictNDVIEvent function.
+    if ( event.target.value == 'SubDistrictNDVI' ) {
+        
+        subDistrictNDVIEvent();
+            
+    }    
                 
 }
 
@@ -128,6 +135,33 @@ function populationGridEvent() {
     } else {
 
         hideDataSourceByName( "PopulationGrid" );
+
+    }
+}
+
+/**
+ * This function shows and hides Helsinki SubDistrict with NDVI
+ *
+ */
+function subDistrictNDVIEvent() {
+
+    const subDistrictNDVI = document.getElementById( "SubDistrictNDVIToggle" ).checked;
+
+    if ( subDistrictNDVI ) {
+
+        if ( !dataSourceWithNameExists( "SubDistrictNDVI" ) ) {
+
+            addFeaturesWithNDVI( "https://geo.fvh.fi/spotted/data/HelsinkiSubDistrict.geojson", "SubDistrictNDVI", false );
+
+        } else {
+
+            showDataSourceByName( "SubDistrictNDVI" );
+
+        }
+        
+    } else {
+
+        hideDataSourceByName( "SubDistrictNDVI" );
 
     }
 }
@@ -172,6 +206,8 @@ function wmsNDVIEvent() {
         hideDataSourceByName( "MajorDistricts" );
         document.getElementById( "TreeRegistrySwitch" ).style.display = 'inline-block';
         document.getElementById( "TreeRegistryLabel" ).style.display = 'inline-block';
+        document.getElementById( "SubDistrictNDVISwitch" ).style.display = 'inline-block';
+        document.getElementById( "SubDistrictNDVILabel" ).style.display = 'inline-block';
         document.getElementById( "PopulationGridSwitch" ).style.display = 'inline-block';
         document.getElementById( "PopulationGridLabel" ).style.display = 'inline-block';
 
@@ -183,11 +219,14 @@ function wmsNDVIEvent() {
         showDataSourceByName( "MajorDistricts" );
         document.getElementById( "TreeRegistrySwitch" ).style.display = 'none';
         document.getElementById( "TreeRegistryLabel" ).style.display = 'none';
+        document.getElementById( "SubDistrictNDVISwitch" ).style.display = 'none';
+        document.getElementById( "SubDistrictNDVILabel" ).style.display = 'none';
         document.getElementById( "printContainer" ).style.display = 'none';
         document.getElementById( "PopulationGridSwitch" ).style.display = 'none';
         document.getElementById( "PopulationGridLabel" ).style.display = 'none';    
         hideDataSourceByName( "TreeRegistry" );
         hideDataSourceByName( "PopulationGrid" );
+        hideDataSourceByName( "SubDistrictNDVI" );
 
     }
 }

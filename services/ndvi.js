@@ -136,7 +136,6 @@ function setNDVIPolygonMaterialColor(entity, property ) {
     const avgndvi = Number( entity._properties[ property ]._value );
 
     if (avgndvi <= 0) {
-        console.log("negative ndvi")
         return Cesium.Color.fromBytes(234, 234, 234); // #eaeaea
     } else if (avgndvi > 0.0 && avgndvi <= 0.1) {
         return Cesium.Color.fromBytes(204, 198, 130); // #ccc682
@@ -396,7 +395,7 @@ function addTickMarksAndLabels(sliderId, ticksContainerClass, numberOfTicks) {
         dataSource.name = name;
         let entities = dataSource.entities.values;
 
-        if ( isPolygon ) {
+        if ( isPolygon || name === 'SubDistrictNDVI') {
 
             setColorAndLabelForPolygonEntities( entities, 'ndvi_june2023' );
 
