@@ -29,8 +29,12 @@ function processClick( viewer, event ) {
 
     ];
 
+    if ( !document.getElementById( "wmsNDVIToggle" ).checked ) {
 
-    setElementsDisplay( elements, 'inline-block' );
+        setElementsDisplay( elements, 'inline-block' );
+
+    }
+
     console.log("Clicked at " + String( event.x ) + ", " + String( event.y ));
     pickEntity( viewer, new Cesium.Cartesian2( event.x, event.y ) );
 

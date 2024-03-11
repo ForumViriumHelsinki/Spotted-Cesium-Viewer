@@ -54,7 +54,8 @@ function reset( ) {
     // Load major district zones
 	loadDistrictZones( 0.1, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
 
-
+    document.getElementById( "YLRESwitch" ).style.display = 'none';
+    document.getElementById( "YLRELabel" ).style.display = 'none';
     document.getElementById( "TreeRegistrySwitch" ).style.display = 'none';
     document.getElementById( "TreeRegistryLabel" ).style.display = 'none';
     document.getElementById( "printContainer" ).style.display = 'none';
