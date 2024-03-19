@@ -15,19 +15,19 @@ app.use( bodyParser.urlencoded( { extended: true, limit: '50mb' } ) );
 const redis = new Redis( { host: 'redis' } );
 
 // Existing cache endpoints
-app.get( '/api/cache/get', async ( req, res ) => {
+app.get( '/spotted-api/cache/get', async ( req, res ) => {
 	const key = req.query.key;
 	const data = await redis.get( key );
 	res.json( data ? JSON.parse( data ) : null );
 } );
 
-app.post( '/api/cache/set', async ( req, res ) => {
+app.post( '/spotted-api/cache/set', async ( req, res ) => {
 	const { key, value } = req.body;
 	await redis.set( key, JSON.stringify( value ) );
 	res.status( 200 ).send( { message: 'Cached successfully' } );
 } );
 
-app.get( '/wms/proxy', async ( req, res ) => {
+app.get( '/spotted-wms/proxy', async ( req, res ) => {
     // The base URL of the WMS server you're proxying
     const baseUrl = 'https://kartta.hsy.fi/geoserver/wms';
 

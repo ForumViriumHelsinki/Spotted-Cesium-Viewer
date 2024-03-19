@@ -30,7 +30,7 @@ function createHSYImageryLayer() {
 		const backendURL = 'http://localhost:3003'; // Ensure this is set correctly in your .env file
 
 		// Construct the proxy URL with the full WMS request URL encoded as a query parameter
-		const proxyUrl = `${backendURL}/wms/proxy`;
+		const proxyUrl = `${backendURL}/spotted-wms/proxy`;
 
 		// Use the proxy URL in the WebMapServiceImageryProvider
 		const provider = new Cesium.WebMapServiceImageryProvider( {

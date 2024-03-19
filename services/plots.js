@@ -51,7 +51,7 @@ function createPieChartForMajorDistrict( district, year ) {
             hole: .4,
             type: 'pie',
             marker: {
-                colors: [ 'forestgreen', 'green', 'mediumblue', 'yellow', 'sandybrown', ' red ']
+                colors: [ 'forestgreen', '#bcbd22', 'mediumblue', 'yellow', 'sandybrown', ' red ']
             },
           },{
             values: secondData,
@@ -64,7 +64,7 @@ function createPieChartForMajorDistrict( district, year ) {
             hole: .4,
             type: 'pie',
             marker: {
-                colors: [ 'forestgreen', 'green', 'mediumblue', 'yellow', 'sandybrown', ' red ']
+                colors: [ 'forestgreen', '#bcbd22', 'mediumblue', 'yellow', 'sandybrown', ' red ']
             },
           }];
           
@@ -285,27 +285,13 @@ function getNatureDataForCity( ) {
     }
 
     // Check if the "showVegetationToggle" checkbox is checked
-    if ( document.getElementById( "showVegetationToggle" ).checked ) {
+    if ( document.getElementById( "landCoverToggle" ).checked ) {
         // If checked, add vegetation rate to the data array
         data.push( ( getTotalAreaByNameAndPropertyKeys( [ 'vegetation_m2' ] ) /  helsinkiTotalLandArea ).toFixed( 3 )  * 100  ) ;
-    }
-
-    // Check if the "showWaterToggle" checkbox is checked
-    if ( document.getElementById( "showWaterToggle").checked ) {
-        // If checked, add water rate to the data array
         data.push( ( getTotalAreaByNameAndPropertyKeys( [ 'water_m2' ] ) /  helsinkiTotalLandArea ).toFixed( 3 )  * 100 ) ;
-    }
-
-    // Check if the "showFieldsToggle" checkbox is checked
-    if ( document.getElementById( "showFieldsToggle" ).checked ) {
-        // If checked, add fields rate to the data array
         data.push( ( getTotalAreaByNameAndPropertyKeys( [ 'field_m2' ] ) /  helsinkiTotalLandArea ).toFixed( 3 )  * 100 ) ;
-    }
-
-    // Check if the "showOtherNatureToggle" checkbox is checked
-    if ( document.getElementById( "showOtherNatureToggle").checked ) {
-        // If checked, add fields rate to the data array
         data.push( ( getTotalAreaByNameAndPropertyKeys( [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) /  helsinkiTotalLandArea ).toFixed( 3 )  * 100 ) ;
+
     }
 
     return data; // Return the final data array
@@ -331,29 +317,11 @@ function getNatureDataPerInhabitantForDistrict( district ) {
     }    
 
      // Check if the "showVegetationToggle" checkbox is checked
-    if ( document.getElementById( "showVegetationToggle" ).checked ) {
+    if ( document.getElementById( "landCoverToggle" ).checked ) {
 
         data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'vegetation_m2' ] ) / districtPopulation ).toFixed( 3 ) );
-
-    }
-
-    // Check if the "showWaterToggle" checkbox is checked
-    if ( document.getElementById( "showWaterToggle" ).checked ) {
-
         data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'water_m2' ] ) / districtPopulation ).toFixed( 3 ) );
-    
-    }
-
-    // Check if the "showFieldsToggle" checkbox is checked
-    if ( document.getElementById( "showFieldsToggle" ).checked ) {
-
         data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'field_m2' ] ) / districtPopulation ).toFixed( 3 ) );
-
-    }
-    
-    // Check if the "showOtherNatureToggle" checkbox is checked
-    if ( document.getElementById( "showOtherNatureToggle").checked ) {
-
         data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / districtPopulation ).toFixed( 3 ) );
 
     }
@@ -381,33 +349,15 @@ function getNatureDataPerInhabitantForCity( ) {
     }
 
     // Check if the "showVegetationToggle" checkbox is checked
-    if ( document.getElementById( "showVegetationToggle" ).checked ) {
+    if ( document.getElementById( "landCoverToggle" ).checked ) {
     
         data.push( ( getTotalAreaByNameAndPropertyKeys( [ 'vegetation_m2' ] ) / helsinkiPopulation ).toFixed( 3 ) ) ;
-
-    }
-
-    // Check if the "showWaterToggle" checkbox is checked
-    if ( document.getElementById( "showWaterToggle" ).checked ) {
-
         data.push( ( getTotalAreaByNameAndPropertyKeys( [ 'water_m2' ] ) / helsinkiPopulation ).toFixed( 3 ) ) ;
-    
-    }   
-    
-    // Check if the "showFieldsToggle" checkbox is checked
-    if ( document.getElementById( "showFieldsToggle" ).checked ) {
-
         data.push( ( getTotalAreaByNameAndPropertyKeys( [ 'field_m2' ] ) / helsinkiPopulation ).toFixed( 3 ) ) ;
-
-    }
-    
-    // Check if the "showOtherNatureToggle" checkbox is checked
-    if ( document.getElementById( "showOtherNatureToggle").checked ) {
-
         data.push( ( getTotalAreaByNameAndPropertyKeys( [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / helsinkiPopulation ).toFixed( 3 ) ) ;
 
-    }    
-
+    }
+  
     return data; // Return the final data array
 
 }
@@ -428,27 +378,13 @@ function getVegetationPlotLabels( ) {
     }
 
     // Check if the "showVegetationToggle" checkbox is checked
-    if ( document.getElementById( "showVegetationToggle" ).checked ) {
+    if ( document.getElementById( "landCoverToggle" ).checked  ) {
         // If checked, add vegetation label to the labels array
         labels.push( 'vegetation' );
-    }
-
-    // Check if the "showWaterToggle" checkbox is checked
-    if ( document.getElementById( "showWaterToggle" ).checked ) {
-        // If checked, add water label to the labels array
         labels.push( 'water' );
-    }
-
-    // Check if the "showFieldsToggle" checkbox is checked
-    if ( document.getElementById( "showFieldsToggle" ).checked ) {
-        // If checked, add fields label to the labels array
         labels.push( 'fields' );
-    }
-
-    // Check if the "showOtherNatureToggle" checkbox is checked
-    if ( document.getElementById( "showOtherNatureToggle" ).checked ) {
-        // If checked, add fields label to the labels array
         labels.push( 'rocks, dirt unused land' );
+
     }
 
     return labels; // Return the final labels array
