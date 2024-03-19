@@ -254,27 +254,13 @@ function getNatureDataForDistrict( district ) {
     }
     
     // Check if the "showVegetationToggle" checkbox is checked
-    if ( document.getElementById( "showVegetationToggle" ).checked ) {
+    if ( document.getElementById( "landCoverToggle" ).checked ) {
         // If checked, add vegetation rate to the data array
         data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'vegetation_m2' ] ) / districtArea ).toFixed( 3 ) * 100 );
-    }
-
-    // Check if the "showWaterToggle" checkbox is checked
-    if ( document.getElementById( "showWaterToggle" ).checked ) {
-        // If checked, add water rate to the data array
         data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'water_m2' ] ) / districtArea ).toFixed( 3 ) * 100 );
-    }
-
-    // Check if the "showFieldsToggle" checkbox is checked
-    if ( document.getElementById( "showFieldsToggle").checked ) {
-        // If checked, add fields rate to the data array
         data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'field_m2' ] ) / districtArea ).toFixed( 3 ) * 100 );
-    }
-
-    // Check if the "showOtherNatureToggle" checkbox is checked
-    if ( document.getElementById( "showOtherNatureToggle").checked ) {
-        // If checked, add fields rate to the data array
         data.push( ( getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / districtArea ).toFixed( 3 ) * 100 );
+
     }
 
     return data; // Return the final data array

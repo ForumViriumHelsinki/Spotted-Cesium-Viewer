@@ -13,17 +13,7 @@ function processClick( viewer, event ) {
         'showNDVISwitch',
         'showNDVILabel',
         'NDVI2023Switch',
-        'NDVI2023Label',        
-        'showVegetationSwitch',
-        'showVegetationLabel',
-        'showOtherNatureSwitch',
-        'showOtherNatureLabel',
-        'showWaterSwitch',
-        'showWaterLabel',
-        'showFieldsSwitch',
-        'showFieldsLabel',
-        'showBuiltSwitch',
-        'showBuiltLabel',
+        'NDVI2023Label', 
         'showTreesSwitch',
         'showTreesLabel'            
 

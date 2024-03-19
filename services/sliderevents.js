@@ -54,41 +54,6 @@ function sliderEvents( event ) {
 
     }    
 
-    // If the slider value is "showVegetation", call the showVegetationEvent function.
-    if ( event.target.value == 'showVegetation' ) {
-
-        showVegetationEvent();
-
-    }
-
-    // If the slider value is "showWater", call the showWaterEvent function.
-    if ( event.target.value == 'showWater' ) {
-
-        showWaterEvent();
-    
-    }	
-
-    // If the slider value is "showFields", call the showFields function.
-    if ( event.target.value == 'showFields' ) {
-        
-        showFieldsEvent();
-
-    }  
-
-    // If the slider value is "showOtherNature", call the showOtherNature function.
-    if ( event.target.value == 'showOtherNature' ) {
-        
-        showOtherNatureEvent();
-    
-    } 
-        
-    // If the slider value is "showBuilt", call the showBuilt function.
-    if ( event.target.value == 'showBuilt' ) {
-        
-        showBuiltEvent();
-        
-    } 
-
     // If the slider value is "YLRE", call the ylreEvent function.
     if ( event.target.value == 'YLRE' ) {
         
@@ -115,9 +80,45 @@ function sliderEvents( event ) {
         
         subDistrictNDVIEvent();
             
-    }    
+    }
+
+    // If the slider value is "getLandCover", call the getLandCoverEvent function.
+    if ( event.target.value == 'getLandCover' ) {
+        
+        getLandCoverEvent();
+            
+    }          
                 
 }
+
+		/**
+ * This function handles the toggle event for switching to capital region view
+ */
+ function getLandCoverEvent() {
+
+			const landcover = document.getElementById( 'landCoverToggle' ).checked;
+
+			if ( landcover ) {
+
+                viewer.imageryLayers.removeAll();
+
+				viewer.imageryLayers.add(
+					createHSYImageryLayer()
+				);
+
+
+			} else {
+
+				viewer.imageryLayers.removeAll();
+
+				viewer.imageryLayers.add(
+					createImageryProvider( document.getElementById( 'layerSelect' ).value )
+                )
+			}
+
+
+
+		}
 
 /**
  * This function shows and hides Helsinki PopulationGrid
@@ -379,16 +380,6 @@ async function showNDVIEvent() {
     const labels = document.querySelectorAll( ".color-label.active" );
 
     const elements = [
-        'showVegetationSwitch',
-        'showVegetationLabel',
-        'showOtherNatureSwitch',
-        'showOtherNatureLabel',
-        'showWaterSwitch',
-        'showWaterLabel',
-        'showFieldsSwitch',
-        'showFieldsLabel',
-        'showBuiltSwitch',
-        'showBuiltLabel',
         'showTreesSwitch',
         'showTreesLabel'
     ];
@@ -441,12 +432,7 @@ async function showNDVIEvent() {
  */
 function statusOfHSYToggles( ) {
 
-    if ( !document.getElementById( "showFieldsToggle" ).checked &&     !document.getElementById( "showTreeToggle" ).checked
-    &&     !document.getElementById( "showVegetationToggle" ).checked
-    &&     !document.getElementById( "showWaterToggle" ).checked
-    &&     !document.getElementById( "showOtherNatureToggle" ).checked
-    &&     !document.getElementById( "showBuiltSwitch" ).checked
-    ) {
+    if ( !document.getElementById( "showTreeToggle" ).checked ) {
 
         return false;
     }
@@ -599,200 +585,6 @@ function showTreeEvent( ) {
 
         document.getElementById("showNDVIToggle").disabled = false;
         hideDataSourceByName( "Trees" );
-
-        if ( !areAnySwitchesOn() ) {
-
-            setElementsDisplay( elements, 'inline-block' );
-            toggleLandCoverBarPlots( 'hidden' );
-
-        }
-
-    }
-
-}
-
-/**
- * This function handles the toggle event for showing or hiding the vegetation layer on the map.
- *
- */
-function showVegetationEvent( ) {
-
-    const elements = [
-        'showNDVISwitch',
-        'showNDVILabel'
-    ];
-
-    // Get the current state of the toggle button for showing nature areas.
-    const showVegetation = document.getElementById( "showVegetationToggle" ).checked;
-
-    createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
-
-    if ( showVegetation ) {
-
-        document.getElementById("showNDVIToggle").disabled = true;
-        setElementsDisplay( elements, 'none' );
-
-        // If the toggle button is checked, enable the toggle button for showing the nature area heat map.
-        //document.getElementById("showVegetationHeatToggle").disabled = false;
-
-        // If there is a postal code available, load the nature areas for that area.
-
-        if ( majorDistrict && !dataSourceWithNameExists( "Vegetation" ) ) {
-
-            loadVegetationSequentially( majorDistrict );
-
-        } else {
-
-            showDataSourceByName( "Vegetation" );
-        }
-
-    } else {
-
-        hideDataSourceByName( "Vegetation" );
-        document.getElementById("showNDVIToggle").disabled = false;
-
-        if ( !areAnySwitchesOn() ) {
-
-            setElementsDisplay( elements, 'inline-block' );
-            toggleLandCoverBarPlots( 'hidden' );
-
-        }
-
-    }
-
-}
-
-/**
- * This function handles the toggle event for showing or hiding the water areas layer on the map.
- *
- */
-function showWaterEvent( ) {
-
-    const elements = [
-        'showNDVISwitch',
-        'showNDVILabel'
-    ];
-
-    // Get the current state of the toggle button for showing nature areas.
-    const showWater = document.getElementById( "showWaterToggle" ).checked;
-    createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
-
-    if ( showWater ) {
-
-        document.getElementById("showNDVIToggle").disabled = true;
-        setElementsDisplay( elements, 'none' );
-
-        // If the toggle button is checked, enable the toggle button for showing the nature area heat map.
-        //document.getElementById("showloadWater").disabled = false;
-
-        // If there is a postal code available, load the nature areas for that area.
-        if ( majorDistrict && !dataSourceWithNameExists( "Water" ) ) {
-            
-            loadWater( majorDistrict );
-
-        } else {
-
-            showDataSourceByName( "Water" );
-
-        }
-
-    } else {
-
-        hideDataSourceByName( "Water" );
-        document.getElementById("showNDVIToggle").disabled = false;
-
-        if ( !areAnySwitchesOn() ) {
-
-            setElementsDisplay( elements, 'inline-block' );
-            toggleLandCoverBarPlots( 'hidden' );
-
-        }
-
-    }
-
-}
-
-/**
- * This function handles the toggle event for showing or hiding the other nature datasource on the map.
- *
- */
-function showOtherNatureEvent( ) {
-
-    const elements = [
-        'showNDVISwitch',
-        'showNDVILabel'
-    ];
-
-    // Get the current state of the toggle button for showing nature areas.
-    const showOtherNature = document.getElementById( "showOtherNatureToggle" ).checked;
-    createVegetationBarPlotPerInhabitant( districtsVisited[ districtsVisited.length - 1 ] );
-
-    if ( showOtherNature) {
-
-        setElementsDisplay( elements, 'none' );
-
-        document.getElementById("showNDVIToggle").disabled = true;
-
-        // If there is a postal code available, load the nature areas for that area.
-        if ( majorDistrict && !dataSourceWithNameExists( "OtherNature" ) ) {
-
-            loadOtherNatureSequentially( majorDistrict );
-
-        } else {
-
-            showDataSourceByName( "OtherNature" );
-
-        }
-
-    } else {
-
-        hideDataSourceByName( "OtherNature" );
-        document.getElementById("showNDVIToggle").disabled = false;
-
-        if ( !areAnySwitchesOn() ) {
-
-            setElementsDisplay( elements, 'inline-block' );
-            toggleLandCoverBarPlots( 'hidden' );
-
-        }
-    }
-
-}
-
-/**
- * This function handles the toggle event for showing or hiding the built datasource on the map.
- *
- */
-function showBuiltEvent( ) {
-
-    const elements = [
-        'showNDVISwitch',
-        'showNDVILabel'
-    ];
-
-    // Get the current state of the toggle button for showing nature areas.
-    const showBuilt = document.getElementById( "showBuiltToggle" ).checked;
-
-    if ( showBuilt) {
-
-        setElementsDisplay( elements, 'none' );
-
-        document.getElementById("showNDVIToggle").disabled = true;
-
-        // If there is a postal code available, load the nature areas for that area.
-        if ( majorDistrict && !dataSourceWithNameExists( "Built" ) ) {
-
-            loadBuiltSequentially( majorDistrict );
-
-        } else {
-
-            showDataSourceByName( "Built" );
-        }
-
-    } else {
-
-        hideDataSourceByName( "Built" );
-        document.getElementById("showNDVIToggle").disabled = false;
 
         if ( !areAnySwitchesOn() ) {
 

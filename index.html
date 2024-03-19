@@ -137,47 +137,20 @@
 </label>
 <label for="showTreeToggle" class="label" id = "showTreesLabel" style = "display: none">Tree areas</label>
 
-  <!-- showVegetationSwitch-->
-<label class="switch" id = "showVegetationSwitch" style = "display: none">
-	<input type="checkbox" id = "showVegetationToggle" value = "showVegetation">
-	<span class="slider round"></span>
-</label>
-<label for="showVegetationToggle" class = "label" id = "showVegetationLabel" style = "display: none">Vegetation</label>
-
-  <!-- showWaterSwitch-->
-<label class="switch" id = "showWaterSwitch" style = "display: none">
-  <input type="checkbox" id = "showWaterToggle" value = "showWater">
-  <span class="slider round"></span>
-</label>
-<label for="showWaterToggle" class="label" id = "showWaterLabel" style = "display: none">Fresh water</label>
-  
-  <!--  showFields-->
-<label class="switch" id = "showFieldsSwitch" style = "display: none">
-  <input type="checkbox" id = "showFieldsToggle" value = "showFields">
-  <span class="slider round"></span>
-</label>
-<label for="showFields" class="label" id = "showFieldsLabel" style = "display: none">Fields</label>
-
-  <!--  showOtherNature-->
-<label class="switch" id = "showOtherNatureSwitch" style = "display: none">
-  <input type="checkbox" id = "showOtherNatureToggle" value = "showOtherNature">
-  <span class="slider round"></span>
-</label>
-<label for="showOtherNatureToggle" class="label" id = "showOtherNatureLabel" style = "display: none">Rocks, Dirt, Unused Land</label>
-
-  <!--  showBuilt-->
-<label class="switch" id = "showBuiltSwitch" style = "display: none">
-  <input type="checkbox" id = "showBuiltToggle" value ="showBuilt">
-  <span class="slider round"></span>
-</label>
-<label for="showBuilt" class="label" id = "showBuiltLabel" style = "display: none">Buildings and roads</label>
-
 <!-- NDVI WMS-->
 <label class="switch" id = "wmsNDVISwitch" >
   <input type="checkbox" id = "wmsNDVIToggle" value = "wmsNDVI" >
   <span class="slider round"></span>
 </label>
 <label for="wmsNDVIToggle" class="label" id = "wmsNDVI" >NDVI background map</label>
+
+<!--  showLandCover-->
+<label class="switch" id = "landCoverSwitch">
+  <input type="checkbox" id="landCoverToggle" value="getLandCover" >
+  <span class="slider round"></span>
+</label>
+<label for="landCoverToggle" class="label" id="landCoverLabel">HSY land cover</label>
+
 
 </div>
 
@@ -235,8 +208,6 @@
   
   	// UI related global variables...
   	var showPlot = true;
-	  var showVegetation = false;
-    var showWater = false;
   	var print = true; //show object details..
     var nameOfZone = null;
     var averageHeatExposure = 0;
