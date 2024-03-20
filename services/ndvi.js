@@ -32,14 +32,13 @@ async function loadNDVI(  date ) {
   try {
 
       // Attempt to retrieve the NDVI data from the local storage using the API endpoint URL as the key
-      const value = await localforage.getItem( url );
+      const cachedValue = await getCachedData(url);
 
        // If the NDVI data is already available in the local storage, add it to the Cesium map
       if ( value ) {
 
           console.log("found from cache");
-          let datasource = JSON.parse( value )
-          addNDVIDataSource( datasource, date );
+          addNDVIDataSource( cachedValue, date );
 
       } else {
 
@@ -112,19 +111,22 @@ function addNDVIDataSource( data, date ) {
 * @param { String } url API endpoint's url
 * @param { String } date - The date of NDVI data.
 */
-function loadNDVIWithoutCache( url, date ) {
-  
-  console.log("Not in cache! Loading: " + url );
+async function loadNDVIWithoutCache(url, date) {
+    console.log("Not in cache! Loading: " + url);
 
-  const response = fetch( url )
-  .then( function( response ) {
-    return response.json();
-  })
-  .then( function( data ) {
-      localforage.setItem( url, JSON.stringify( data ) );
-      addNDVIDataSource( data, date );
-  })
-  
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        
+        // After successfully fetching, cache the data and add it as a data source
+        await setCachedData(url, data);
+        addNDVIDataSource(data, date);
+    } catch (error) {
+        console.error("Error loading NDVI data:", error);
+    }
 }
 
 /**

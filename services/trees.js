@@ -62,13 +62,12 @@ async function loadTrees( majordistrict, lower, upper ) {
 	try {
 
         // Attempt to retrieve the tree data from the local storage using the API endpoint URL as the key
-		const value = await localforage.getItem( url );
+		const cachedValue = await getCachedData(url);
 
          // If the tree data is already available in the local storage, add it to the Cesium map
-		if ( value ) {
+		if ( cachedValue ) {
 
 			console.log("found from cache");
-			let datasource = JSON.parse( value )
 			addTreesDataSource( datasource, lower );
 
 		} else {
@@ -125,19 +124,23 @@ function addTreesDataSource( data, size ) {
  * 
  * @param { String } url API endpoint's url
  */
-function loadTreesWithoutCache( url , lower ) {
-	
-	console.log("Not in cache! Loading: " + url );
+async function loadTreesWithoutCache(url, lower) {
+    console.log("Not in cache! Loading: " + url);
 
-	const response = fetch( url )
-	.then( function( response ) {
-	  return response.json();
-	})
-	.then( function( data ) {
-		localforage.setItem( url, JSON.stringify( data ) );
-		addTreesDataSource( data, lower );
-	})
-	
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+
+        // After successfully fetching, cache the data
+        await setCachedData(url, data);
+        // Then, add it as a data source
+        addTreesDataSource(data, lower);
+    } catch (error) {
+        console.error("Error loading tree data:", error);
+    }
 }
 
 /**

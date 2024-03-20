@@ -11,14 +11,12 @@
 	  try {
   
 		  // Attempt to retrieve the GreenAreas data from the local storage using the API endpoint URL as the key
-//		  const value = await localforage.getItem( url );
-  let value = null;
+      const cachedValue = await getCachedData(url);
 		   // If the GreenAreas data is already available in the local storage, add it to the Cesium map
-		  if ( value ) {
+		  if ( cachedValue ) {
   
 			  console.log("found from cache");
-			  let datasource = JSON.parse( value )
-			  addGreenAreasDataSource( datasource );
+			  addGreenAreasDataSource( cachedValue );
   
 		  } else {
   
@@ -80,20 +78,24 @@
    * 
    * @param { String } url API endpoint's url
    */
-  function loadGreenAreasWithoutCache( url ) {
-	  
-	  console.log("Not in cache! Loading: " + url );
-  
-	  const response = fetch( url )
-	  .then( function( response ) {
-		return response.json();
-	  })
-	  .then( function( data ) {
-		  localforage.setItem( url, JSON.stringify( data ) );
-		  addGreenAreasDataSource( data );
-	  })
-	  
-  }
+async function loadGreenAreasWithoutCache(url) {
+    console.log("Not in cache! Loading: " + url);
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+
+        // After successfully fetching, cache the data
+        await setCachedData(url, data);
+        // Then, add it as a data source
+        addGreenAreasDataSource(data);
+    } catch (error) {
+        console.error("Error loading green areas data:", error);
+    }
+}
 
   function hideOutsideGreenAreas( ) {
     

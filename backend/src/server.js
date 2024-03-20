@@ -8,8 +8,8 @@ const https = require( 'https' );
 
 const app = express();
 app.use( cors() ); // Enable CORS for all routes
-app.use( bodyParser.json( { limit: '50mb' } ) );
-app.use( bodyParser.urlencoded( { extended: true, limit: '50mb' } ) );
+app.use( bodyParser.json( { limit: '200mb' } ) );
+app.use( bodyParser.urlencoded( { extended: true, limit: '200mb' } ) );
 
 // Connect to Redis
 const redis = new Redis( { host: 'redis' } );
