@@ -139,10 +139,14 @@ function populationGridEvent() {
             showDataSourceByName( "PopulationGrid" );
 
         }
+
+        document.getElementById('ndviAreaContainer').style.visibility = 'visible';
+        ndviAreaDataSourceName = "PopulationGrid";
         
     } else {
 
         hideDataSourceByName( "PopulationGrid" );
+        document.getElementById('ndviAreaContainer').style.visibility = 'hidden';
 
     }
 }
@@ -166,10 +170,14 @@ function subDistrictNDVIEvent() {
             showDataSourceByName( "SubDistrictNDVI" );
 
         }
+
+        document.getElementById('ndviAreaContainer').style.visibility = 'visible';
+        ndviAreaDataSourceName = "SubDistrictNDVI";
         
     } else {
 
         hideDataSourceByName( "SubDistrictNDVI" );
+        document.getElementById('ndviAreaContainer').style.visibility = 'hidden';
 
     }
 }
@@ -221,10 +229,14 @@ function treeRegistryEvent() {
             showDataSourceByName( "TreeRegistry" );
 
         }
+
+        document.getElementById('ndviAreaContainer').style.visibility = 'visible';
+        ndviAreaDataSourceName = "TreeRegistry";
         
     } else {
 
         hideDataSourceByName( "TreeRegistry" );
+        document.getElementById('ndviAreaContainer').style.visibility = 'hidden';
 
     }
 }

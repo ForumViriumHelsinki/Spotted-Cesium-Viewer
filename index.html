@@ -20,7 +20,7 @@
   <script type="text/javascript" src="services/datasource.js"></script>
   <script type="text/javascript" src="services/ndvi.js"></script>
   <script type="text/javascript" src="services/greenareas.js"></script>
-  <script type="text/javascript" src="services/cache.js"></script>
+  <script type="text/javascript" src="services/ndviarea.js"></script>
   <script src="lib/localforage/dist/localforage.js"></script>
   <script src="lib/plotly-2.12.1.min.js"></script>
   <link href="lib/Cesium/Widgets/widgets.css" rel="stylesheet">
@@ -188,6 +188,12 @@
   <span id="ndviSliderValue">NDVI</span>
 </div>
 
+<div class="ndviArea-container" id="ndviAreaContainer">
+  <input type="range" id="ndviArea" min="0" max="7" value="3">
+  <div class="slider-ticks-container"></div> <!-- Container for tick marks -->
+    <span id="ndviAreaValue">June 2023</span>
+</div>
+
 <div class="ndviSlider-container2023" id="ndviSliderContainer2023">
   <input type="range" id="ndviSlider2023" min="0" max="11" value="0">
   <div class="slider-ticks-container"></div> <!-- Container for tick marks -->
@@ -222,6 +228,7 @@
     var levelsVisited = [ ];
     var currentDistrictName = null;
     var currentSubDistrictName = null;
+    var ndviAreaDataSourceName = null;
 
 	// OS version, operating without Cesium Ion services...
     Cesium.Ion.defaultAccessToken = null;
@@ -275,6 +282,10 @@ document.getElementById('ndviSlider').addEventListener('input', function() {
 
 document.getElementById('ndviSlider2023').addEventListener('input', function() {
   updateNDVIDataSources2023( );
+});
+
+document.getElementById('ndviArea').addEventListener('input', function() {
+  updateNDVIAreaDataSources( );
 });
 
   //disable switch for showing heat exposure on nature areas
