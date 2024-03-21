@@ -509,3 +509,16 @@ input[type=range]::-moz-range-track {
     padding: 20px;
     text-align: center;
 }
+
+#ndviYlreContainer {
+    visibility: hidden;
+}
+
+.ndviYlre-container {
+    position: fixed;
+    top: 33%; 
+    left: 5%; 
+    width: 20%;
+    padding: 20px;
+    text-align: center;
+}

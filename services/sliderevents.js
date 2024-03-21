@@ -201,10 +201,14 @@ function ylreEvent() {
             showDataSourceByName( "YLRE" );
 
         }
+
+        document.getElementById('ndviYlreContainer').style.visibility = 'visible';
+        ndviAreaDataSourceName = "YLRE";
         
     } else {
 
         hideDataSourceByName( "YLRE" );
+        document.getElementById('ndviYlreContainer').style.visibility = 'hidden';
 
     }
 }

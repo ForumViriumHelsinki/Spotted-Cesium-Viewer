@@ -2,6 +2,83 @@
 * This function hides and shows ndvi datasources based on ndviSliderValue value
 * 
 */
+function updateNDVIYlreDataSources( ) {
+    const sliderValue = parseInt(document.getElementById('ndviYlre').value);
+    let dataSource = getDataSourceByName( ndviAreaDataSourceName );
+    let entities = dataSource.entities.values;
+    let ndviAreaValueElement = document.getElementById('ndviYlreValue');
+    console.log("entites", entities)
+    if ( sliderValue === 0 ) {
+
+        setColorAndLabelForPointEntities( entities, 'ndvi_august2015' );
+        ndviAreaValueElement.textContent = 'August 2015';
+
+    }
+
+    if ( sliderValue === 1 ) {
+
+        setColorAndLabelForPointEntities( entities, 'ndvi_june2016' );
+        ndviAreaValueElement.textContent = 'June 2016';
+
+    }
+
+    if ( sliderValue === 2 ) {
+
+        setColorAndLabelForPointEntities( entities, 'ndvi_july2017' );
+        ndviAreaValueElement.textContent = 'July 2017';
+
+    }
+
+    if ( sliderValue === 3 ) {
+
+        setColorAndLabelForPointEntities( entities, 'ndvi_june2018' );
+        ndviAreaValueElement.textContent = 'June 2018';
+
+    }
+
+    if ( sliderValue === 4 ) {
+
+        setColorAndLabelForPointEntities( entities, 'ndvi_july2019' );
+        ndviAreaValueElement.textContent = 'July 2019';
+
+    }
+
+    if ( sliderValue === 5 ) {
+
+        setColorAndLabelForPointEntities( entities, 'ndvi_june2020' );
+        ndviAreaValueElement.textContent = 'June 2020';
+
+    }
+
+    if ( sliderValue === 6 ) {
+
+        setColorAndLabelForPointEntities( entities, 'ndvi_june2021' );
+        ndviAreaValueElement.textContent = 'June 2021';
+
+    }
+
+    if ( sliderValue === 7 ) {
+
+        setColorAndLabelForPointEntities( entities, 'ndvi_june2022' );
+        ndviAreaValueElement.textContent = 'June 2022';
+
+    }
+
+    if ( sliderValue === 8 ) {
+
+        setColorAndLabelForPointEntities( entities, 'ndvi_june2023' );
+        ndviAreaValueElement.textContent = 'June 2023';
+
+    }
+
+    }
+
+
+
+/**
+* This function hides and shows ndvi datasources based on ndviSliderValue value
+* 
+*/
 function updateNDVIAreaDataSources( ) {
     console.log("ndviAreaDataSourceName", ndviAreaDataSourceName);
     const sliderValue = parseInt(document.getElementById('ndviArea').value);

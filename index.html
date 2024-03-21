@@ -199,6 +199,12 @@
   <div class="slider-ticks-container"></div> <!-- Container for tick marks -->
 </div>
 
+<div class="ndviYlre-container" id="ndviYlreContainer">
+  <input type="range" id="ndviYlre" min="0" max="8" value="8">
+  <div class="slider-ticks-container"></div> <!-- Container for tick marks -->
+    <span id="ndviYlreValue">June 2023</span>
+</div>
+
 <div class="slider-container" id="sliderContainer">
   <input type="range" id="blueSlider" min="0" max="5" value="0">
   <span id="sliderValue">distance from green area 0 km</span>
@@ -286,6 +292,10 @@ document.getElementById('ndviSlider2023').addEventListener('input', function() {
 
 document.getElementById('ndviArea').addEventListener('input', function() {
   updateNDVIAreaDataSources( );
+});
+
+document.getElementById('ndviYlre').addEventListener('input', function() {
+  updateNDVIYlreDataSources( );
 });
 
   //disable switch for showing heat exposure on nature areas
