@@ -186,7 +186,7 @@ function subDistrictNDVIEvent() {
  * This function shows and hides Helsinki Tree Registry
  *
  */
-function ylreEvent() {
+async function ylreEvent() {
 
     const ylre = document.getElementById( "YLREToggle" ).checked;
 
@@ -204,6 +204,9 @@ function ylreEvent() {
 
         document.getElementById('ndviYlreContainer').style.visibility = 'visible';
         ndviAreaDataSourceName = "YLRE";
+        let dataSource = await getDataSourceByName( ndviAreaDataSourceName );
+        let entities = dataSource.entities.values;
+        dataForHistogram( entities, 'ndvi_june2023', 'June 2023');
         
     } else {
 

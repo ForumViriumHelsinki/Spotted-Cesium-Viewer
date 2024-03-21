@@ -727,9 +727,17 @@ function createNDVIHistogram( ndviData, date ) {
 	
 		document.getElementById( "plotContainer" ).style.visibility = 'visible';
 	}
+
+        let title = { text: 'NDVI in ' + districtName + ' at ' + date };
+
+    if ( ndviAreaDataSourceName ) {
+        
+        title = { text: 'NDVI for ' + ndviAreaDataSourceName + ' at ' + date };
+
+    }
 	
 	let layout = { 
-		title: 'NDVI in ' + districtName + ' at ' + date,
+		title: title,
 		bargap: 0.1, 
 	};
 	

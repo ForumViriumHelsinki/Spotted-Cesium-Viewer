@@ -1,3 +1,15 @@
+function dataForHistogram(  entities, property, date ) {
+                    let propertyValuesList = [];
+
+            entities.forEach(function(entity) {
+    // Replace 'attributeName' with the name of the property you're interested in
+    let value = entity.properties[property].getValue();
+    // Add the property value to the list
+    propertyValuesList.push(value);
+});
+        createNDVIHistogram( propertyValuesList,date);
+}
+
 /**
 * This function hides and shows ndvi datasources based on ndviSliderValue value
 * 
@@ -12,6 +24,7 @@ function updateNDVIYlreDataSources( ) {
 
         setColorAndLabelForPointEntities( entities, 'ndvi_august2015' );
         ndviAreaValueElement.textContent = 'August 2015';
+        dataForHistogram( entities, 'ndvi_august2015', 'August 2015');
 
     }
 
@@ -19,6 +32,7 @@ function updateNDVIYlreDataSources( ) {
 
         setColorAndLabelForPointEntities( entities, 'ndvi_june2016' );
         ndviAreaValueElement.textContent = 'June 2016';
+        dataForHistogram( entities, 'ndvi_june2016', 'June 2016');
 
     }
 
@@ -26,6 +40,7 @@ function updateNDVIYlreDataSources( ) {
 
         setColorAndLabelForPointEntities( entities, 'ndvi_july2017' );
         ndviAreaValueElement.textContent = 'July 2017';
+        dataForHistogram( entities, 'ndvi_july2017', 'July 2017');
 
     }
 
@@ -33,6 +48,7 @@ function updateNDVIYlreDataSources( ) {
 
         setColorAndLabelForPointEntities( entities, 'ndvi_june2018' );
         ndviAreaValueElement.textContent = 'June 2018';
+        dataForHistogram( entities, 'ndvi_june2018', 'June 2018');
 
     }
 
@@ -40,6 +56,7 @@ function updateNDVIYlreDataSources( ) {
 
         setColorAndLabelForPointEntities( entities, 'ndvi_july2019' );
         ndviAreaValueElement.textContent = 'July 2019';
+        dataForHistogram( entities, 'ndvi_july2019', 'July 2019');
 
     }
 
@@ -47,6 +64,7 @@ function updateNDVIYlreDataSources( ) {
 
         setColorAndLabelForPointEntities( entities, 'ndvi_june2020' );
         ndviAreaValueElement.textContent = 'June 2020';
+        dataForHistogram( entities, 'ndvi_june2020', 'June 2020');
 
     }
 
@@ -54,6 +72,7 @@ function updateNDVIYlreDataSources( ) {
 
         setColorAndLabelForPointEntities( entities, 'ndvi_june2021' );
         ndviAreaValueElement.textContent = 'June 2021';
+        dataForHistogram( entities, 'ndvi_june2021', 'June 2021');
 
     }
 
@@ -61,6 +80,7 @@ function updateNDVIYlreDataSources( ) {
 
         setColorAndLabelForPointEntities( entities, 'ndvi_june2022' );
         ndviAreaValueElement.textContent = 'June 2022';
+        dataForHistogram( entities, 'ndvi_june2022', 'June 2022');
 
     }
 
@@ -68,6 +88,7 @@ function updateNDVIYlreDataSources( ) {
 
         setColorAndLabelForPointEntities( entities, 'ndvi_june2023' );
         ndviAreaValueElement.textContent = 'June 2023';
+        dataForHistogram( entities, 'ndvi_june2023', 'June 2023');
 
     }
 
@@ -92,6 +113,7 @@ function updateNDVIAreaDataSources( ) {
 
         setColorAndLabelForPointEntities( entities, 'ndvi_march2023' );
         ndviAreaValueElement.textContent = 'March 2023';
+        dataForHistogram( entities, 'ndvi_march2023', 'March 2023');
 
     }
 
@@ -99,6 +121,7 @@ function updateNDVIAreaDataSources( ) {
 
         setColorAndLabelForPointEntities( entities, 'ndvi_april2023' );
         ndviAreaValueElement.textContent = 'April 2023';
+        dataForHistogram( entities, 'ndvi_april2023', 'April 2023');
 
     }
 
@@ -106,6 +129,7 @@ function updateNDVIAreaDataSources( ) {
 
         setColorAndLabelForPointEntities( entities, 'ndvi_may023' );
         ndviAreaValueElement.textContent = 'May 2023';
+        dataForHistogram( entities, 'ndvi_may023', 'May 2023');
 
     }
 
@@ -113,6 +137,7 @@ function updateNDVIAreaDataSources( ) {
 
         setColorAndLabelForPointEntities( entities, 'ndvi_june2023' );
         ndviAreaValueElement.textContent = 'June 2023';
+        dataForHistogram( entities, 'ndvi_june2023', 'June 2023');
 
     }
 
@@ -120,6 +145,7 @@ function updateNDVIAreaDataSources( ) {
 
         setColorAndLabelForPointEntities( entities, 'ndvi_july2023' );
         ndviAreaValueElement.textContent = 'July 2023';
+        dataForHistogram( entities, 'ndvi_july2023', 'July 2023');
 
     }
 
@@ -127,6 +153,7 @@ function updateNDVIAreaDataSources( ) {
 
         setColorAndLabelForPointEntities( entities, 'ndvi_august2023' );
         ndviAreaValueElement.textContent = 'August 2023';
+        dataForHistogram( entities, 'ndvi_august2023', 'August 2023');
 
     }
 
@@ -134,6 +161,7 @@ function updateNDVIAreaDataSources( ) {
 
         setColorAndLabelForPointEntities( entities, 'ndvi_september2023' );
         ndviAreaValueElement.textContent = 'September 2023';
+        dataForHistogram( entities, 'ndvi_september2023', 'September 2023');
 
     }
 
@@ -141,6 +169,7 @@ function updateNDVIAreaDataSources( ) {
 
         setColorAndLabelForPointEntities( entities, 'ndvi_october2023' );
         ndviAreaValueElement.textContent = 'October 2023';
+        dataForHistogram( entities, 'ndvi_october2023', 'October 2023');
 
     }
  
@@ -150,6 +179,7 @@ function updateNDVIAreaDataSources( ) {
 
         setColorAndLabelForPolygonEntities( entities, 'ndvi_march2023' );
         ndviAreaValueElement.textContent = 'March 2023';
+        dataForHistogram( entities, 'ndvi_march2023', 'March 2023');
 
     }
 
@@ -157,6 +187,7 @@ function updateNDVIAreaDataSources( ) {
 
         setColorAndLabelForPolygonEntities( entities, 'ndvi_april2023' );
         ndviAreaValueElement.textContent = 'April 2023';
+        dataForHistogram( entities, 'ndvi_april2023', 'April 2023');
 
     }
 
@@ -164,6 +195,7 @@ function updateNDVIAreaDataSources( ) {
 
         setColorAndLabelForPolygonEntities( entities, 'ndvi_may2023' );
         ndviAreaValueElement.textContent = 'May 2023';
+        dataForHistogram( entities, 'ndvi_may2023', 'May 2023');
 
     }
 
@@ -171,6 +203,7 @@ function updateNDVIAreaDataSources( ) {
 
         setColorAndLabelForPolygonEntities( entities, 'ndvi_june2023' );
         ndviAreaValueElement.textContent = 'June 2023';
+        dataForHistogram( entities, 'ndvi_june2023', 'June 2023');
 
     }
 
@@ -178,6 +211,7 @@ function updateNDVIAreaDataSources( ) {
 
         setColorAndLabelForPolygonEntities( entities, 'ndvi_july2023' );
         ndviAreaValueElement.textContent = 'July 2023';
+        dataForHistogram( entities, 'ndvi_july2023', 'July 2023');
 
     }
 
@@ -185,6 +219,7 @@ function updateNDVIAreaDataSources( ) {
 
         setColorAndLabelForPolygonEntities( entities, 'ndvi_august2023' );
         ndviAreaValueElement.textContent = 'August 2023';
+        dataForHistogram( entities, 'ndvi_august2023', 'August 2023');
 
     }
 
@@ -192,6 +227,7 @@ function updateNDVIAreaDataSources( ) {
 
         setColorAndLabelForPolygonEntities( entities, 'ndvi_september2023' );
         ndviAreaValueElement.textContent = 'September 2023';
+        dataForHistogram( entities, 'ndvi_september2023', 'September 2023');
 
     }
 
@@ -199,7 +235,7 @@ function updateNDVIAreaDataSources( ) {
 
         setColorAndLabelForPolygonEntities( entities, 'ndvi_october2023' );
         ndviAreaValueElement.textContent = 'October 2023';
-
+        dataForHistogram( entities, 'ndvi_october2023', 'October 2023');
     }
 
     }
@@ -232,6 +268,9 @@ function updateNDVIAreaDataSources( ) {
             setColorAndLabelForPointEntities( entities, 'ndvi_june2023' );
 
         }
+
+        dataForHistogram( entities, 'ndvi_june2023', 'June 2023');
+
     })
     .otherwise(function(error) {
         console.log(error);
