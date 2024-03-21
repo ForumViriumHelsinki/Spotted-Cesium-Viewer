@@ -35,7 +35,7 @@ async function loadNDVI(  date ) {
       const cachedValue = await getCachedData(url);
 
        // If the NDVI data is already available in the local storage, add it to the Cesium map
-      if ( value ) {
+      if ( cachedValue ) {
 
           console.log("found from cache");
           addNDVIDataSource( cachedValue, date );
