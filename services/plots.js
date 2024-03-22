@@ -41,21 +41,21 @@ function createPieChartForMajorDistrict( district, year ) {
             setDistrictOutlineColor( otherDistrict,  selectedDistrict );
     
         }
-    
+
         const data = [{
             values: firstData,
-            labels: [ 'trees', 'vegetation', 'water', 'fields', 'rocks, dirt unused land', 'buildings and roads' ],
+            labels: [ 'trees20', 'trees15', 'trees10', 'trees2', 'vegetation', 'water', 'fields', 'rocks', 'other', 'bareland', 'buildings',  'dirtroads', 'pavedroads' ],
             domain: { column: 0 },
             name: districtName,
             hoverinfo: 'label+percent',
             hole: .4,
-            type: 'pie',
+            type: 'pie', 
             marker: {
-                colors: [ 'forestgreen', '#bcbd22', 'mediumblue', 'yellow', 'sandybrown', ' red ']
+                colors: [ '#327728', '#326428', '#328228', '#32a028', '#b2df43', '#6495ed', '#ffd980', '#bfbdc2', '#857976', '#cd853f', '#d80000', '#824513', '#000000']
             },
           },{
             values: secondData,
-            labels: [ 'trees', 'vegetation', 'water', 'fields', 'rocks, dirt unused land', 'buildings and roads' ],
+            labels: [ 'trees20', 'trees15', 'trees10', 'trees2', 'vegetation', 'water', 'fields', 'rocks', 'other', 'bareland', 'buildings',  'dirtroads', 'pavedroads' ],
             text: secondDataName,
             textposition: 'inside',
             domain: { column: 1 },
@@ -64,7 +64,7 @@ function createPieChartForMajorDistrict( district, year ) {
             hole: .4,
             type: 'pie',
             marker: {
-                colors: [ 'forestgreen', '#bcbd22', 'mediumblue', 'yellow', 'sandybrown', ' red ']
+                colors: [ '#327728', '#326428', '#328228', '#32a028', '#b2df43', '#6495ed', '#ffd980', '#bfbdc2', '#857976', '#cd853f', '#d80000', '#824513', '#000000' ]
             },
           }];
           
@@ -431,14 +431,21 @@ function getBuiltDataForMajorDistrict( majordistrict ) {
  */
 function getLandDataForMajorDistrict( majordistrict ) {
 
-    const trees = ( getTotalAreaByNameAndIdAndPropertyKeys( majordistrict, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
+    const trees20 = ( getTotalAreaByNameAndIdAndPropertyKeys( majordistrict, [ 'tree20_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
+    const trees15 = ( getTotalAreaByNameAndIdAndPropertyKeys( majordistrict, [ 'tree15_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
+    const trees10 = ( getTotalAreaByNameAndIdAndPropertyKeys( majordistrict, [ 'tree10_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
+    const trees2 = ( getTotalAreaByNameAndIdAndPropertyKeys( majordistrict, [ 'tree2_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
     const vegetation = ( getTotalAreaByNameAndIdAndPropertyKeys( majordistrict, [ 'vegetation_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
     const water = ( getTotalAreaByNameAndIdAndPropertyKeys( majordistrict, [ 'water_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
     const fields = ( getTotalAreaByNameAndIdAndPropertyKeys( majordistrict, [ 'field_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
-    const other = ( getTotalAreaByNameAndIdAndPropertyKeys( majordistrict, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
-    const built = ( getTotalAreaByNameAndIdAndPropertyKeys( majordistrict, [  'dirtroad_m2', 'pavedroad_m2', 'building_m2'  ] ) / districtArea ).toFixed( 3 ) * 100;
+    const rock = ( getTotalAreaByNameAndIdAndPropertyKeys( majordistrict, [ 'rocks_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
+    const other = ( getTotalAreaByNameAndIdAndPropertyKeys( majordistrict, [ 'other_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
+    const bareland = ( getTotalAreaByNameAndIdAndPropertyKeys( majordistrict, [ 'bareland_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
+    const building = ( getTotalAreaByNameAndIdAndPropertyKeys( majordistrict, [ 'building_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
+    const dirtroad = ( getTotalAreaByNameAndIdAndPropertyKeys( majordistrict, [  'dirtroad_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
+    const pavedroad = ( getTotalAreaByNameAndIdAndPropertyKeys( majordistrict, [  'pavedroad_m2' ] ) / districtArea ).toFixed( 3 ) * 100;
 
-    return [ trees, vegetation, water, fields, other, built ];
+    return [ trees20, trees15, trees10, trees2, vegetation, water, fields, rock, other, bareland, building, dirtroad, pavedroad ];
 
 } 
 
@@ -450,15 +457,21 @@ function getLandDataForMajorDistrict( majordistrict ) {
 function getLandDataForCity( ) {
 
     const helsinkiTotalLandArea = getCityTotalByNameAndProperty( 'pa_m2' );
-
-    const trees = ( getTotalAreaByNameAndPropertyKeys( [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
+    const trees20 = ( getTotalAreaByNameAndPropertyKeys( [ 'tree20_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
+    const trees15 = ( getTotalAreaByNameAndPropertyKeys( [ 'tree15_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
+    const trees10 = ( getTotalAreaByNameAndPropertyKeys( [ 'tree10_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
+    const trees2 = ( getTotalAreaByNameAndPropertyKeys( [ 'tree2_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
     const vegetation = ( getTotalAreaByNameAndPropertyKeys( [ 'vegetation_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
     const water = ( getTotalAreaByNameAndPropertyKeys( [ 'water_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
     const fields = ( getTotalAreaByNameAndPropertyKeys( [ 'field_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
-    const other = ( getTotalAreaByNameAndPropertyKeys( [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
-    const built = ( getTotalAreaByNameAndPropertyKeys( [ 'dirtroad_m2', 'pavedroad_m2', 'building_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
+    const rock = ( getTotalAreaByNameAndPropertyKeys( [ 'rocks_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
+    const other = ( getTotalAreaByNameAndPropertyKeys( [ 'other_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
+    const bareland = ( getTotalAreaByNameAndPropertyKeys( [ 'bareland_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
+    const building = ( getTotalAreaByNameAndPropertyKeys( [ 'building_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
+    const dirtroad = ( getTotalAreaByNameAndPropertyKeys( [ 'dirtroad_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
+    const pavedroad = ( getTotalAreaByNameAndPropertyKeys( [ 'pavedroad_m2' ] ) / helsinkiTotalLandArea ).toFixed( 3 ) * 100;
 
-    return [ trees, vegetation, water, fields, other, built ];
+    return [ trees20, trees15, trees10, trees2, vegetation, water, fields, rock, other, bareland, building, dirtroad, pavedroad ];
 
 }
 
