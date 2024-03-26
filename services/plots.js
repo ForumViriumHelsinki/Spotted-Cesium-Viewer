@@ -51,7 +51,7 @@ function createPieChartForMajorDistrict( district, year ) {
             hole: .4,
             type: 'pie', 
             marker: {
-                colors: [ '#327728', '#326428', '#328228', '#32a028', '#b2df43', '#6495ed', '#ffd980', '#bfbdc2', '#857976', '#cd853f', '#d80000', '#824513', '#000000']
+                colors: [ '#326428', '#327728', '#328228', '#32a028', '#b2df43', '#6495ed', '#ffd980', '#bfbdc2', '#857976', '#cd853f', '#d80000', '#824513', '#000000']
             },
           },{
             values: secondData,
@@ -64,7 +64,7 @@ function createPieChartForMajorDistrict( district, year ) {
             hole: .4,
             type: 'pie',
             marker: {
-                colors: [ '#327728', '#326428', '#328228', '#32a028', '#b2df43', '#6495ed', '#ffd980', '#bfbdc2', '#857976', '#cd853f', '#d80000', '#824513', '#000000' ]
+                colors: [  '#326428', '#327728', '#328228', '#32a028', '#b2df43', '#6495ed', '#ffd980', '#bfbdc2', '#857976', '#cd853f', '#d80000', '#824513', '#000000' ]
             },
           }];
           

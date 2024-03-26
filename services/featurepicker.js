@@ -110,6 +110,7 @@ async function pickEntity( viewer, windowPosition ) {
 
             if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Eteläinen' ) {
 
+                flyCameraToDistrict( picked, 20000 );    
                 majorDistrict = picked.id.properties.tunnus;
                 majorDistrictName = picked.id.properties.nimi_fi._value;
                 await removeDataSourcesByNamePrefix( "SubDistricts" );
@@ -123,7 +124,8 @@ async function pickEntity( viewer, windowPosition ) {
             }
     
             if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vironniemi' ) {
-    
+                
+                flyCameraToDistrict( picked, 10000 );    
                 await newDistrict( 'assets/data/HelsinkiSubDistrict.json', 'SubDistricts' );
                 currentDistrictName = picked.id.properties.nimi_fi._value;
                 levelsVisited.push( 'Districts' );
@@ -137,7 +139,9 @@ async function pickEntity( viewer, windowPosition ) {
             }
     
             if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Niemenmäki' &&  !document.getElementById( "SubDistrictNDVIToggle" ).checked ) {
-    
+
+                flyCameraToDistrict( picked, 5000 );    
+                console.log("distance" , distance)
                 levelsVisited.push( 'SubDistricts' );
                 currentSubDistrictName = picked.id.properties.nimi_fi._value;
                 handleGreenAreas();
@@ -158,9 +162,20 @@ async function pickEntity( viewer, windowPosition ) {
             printCesiumEntity( picked );
                 
         }
-
-
+   
     }
+
+}
+
+function flyCameraToDistrict( picked, distance ) {
+                viewer.camera.flyTo( {
+                    destination: Cesium.Cartesian3.fromDegrees( picked.id.properties.center_x, picked.id.properties.center_y, distance ),
+                    orientation: {
+                        heading : Cesium.Math.toRadians(0.0),
+                        pitch : Cesium.Math.toRadians(-85.0),
+                    },
+                    duration: 1
+                });
 
 }
 
@@ -171,9 +186,5 @@ function handleGreenAreas() {
                 createGreenAreaScatterPlot( );
                 extrudedGreenAreas( );
 
-            } else {
-
-                resetViewer( );
-            }
-    
+            } 
 }
