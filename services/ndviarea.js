@@ -22,7 +22,7 @@ function updateNDVIYlreDataSources( ) {
     console.log("entites", entities)
     if ( sliderValue === 0 ) {
 
-        setColorAndLabelForPointEntities( entities, 'ndvi_august2015' );
+        setColorAndLabelForPolygonEntities( entities, 'ndvi_august2015' );
         ndviAreaValueElement.textContent = 'August 2015';
         dataForHistogram( entities, 'ndvi_august2015', 'August 2015');
 
@@ -30,7 +30,7 @@ function updateNDVIYlreDataSources( ) {
 
     if ( sliderValue === 1 ) {
 
-        setColorAndLabelForPointEntities( entities, 'ndvi_june2016' );
+        setColorAndLabelForPolygonEntities( entities, 'ndvi_june2016' );
         ndviAreaValueElement.textContent = 'June 2016';
         dataForHistogram( entities, 'ndvi_june2016', 'June 2016');
 
@@ -38,7 +38,7 @@ function updateNDVIYlreDataSources( ) {
 
     if ( sliderValue === 2 ) {
 
-        setColorAndLabelForPointEntities( entities, 'ndvi_july2017' );
+        setColorAndLabelForPolygonEntities( entities, 'ndvi_july2017' );
         ndviAreaValueElement.textContent = 'July 2017';
         dataForHistogram( entities, 'ndvi_july2017', 'July 2017');
 
@@ -46,7 +46,7 @@ function updateNDVIYlreDataSources( ) {
 
     if ( sliderValue === 3 ) {
 
-        setColorAndLabelForPointEntities( entities, 'ndvi_june2018' );
+        setColorAndLabelForPolygonEntities( entities, 'ndvi_june2018' );
         ndviAreaValueElement.textContent = 'June 2018';
         dataForHistogram( entities, 'ndvi_june2018', 'June 2018');
 
@@ -54,7 +54,7 @@ function updateNDVIYlreDataSources( ) {
 
     if ( sliderValue === 4 ) {
 
-        setColorAndLabelForPointEntities( entities, 'ndvi_july2019' );
+        setColorAndLabelForPolygonEntities( entities, 'ndvi_july2019' );
         ndviAreaValueElement.textContent = 'July 2019';
         dataForHistogram( entities, 'ndvi_july2019', 'July 2019');
 
@@ -62,7 +62,7 @@ function updateNDVIYlreDataSources( ) {
 
     if ( sliderValue === 5 ) {
 
-        setColorAndLabelForPointEntities( entities, 'ndvi_june2020' );
+        setColorAndLabelForPolygonEntities( entities, 'ndvi_june2020' );
         ndviAreaValueElement.textContent = 'June 2020';
         dataForHistogram( entities, 'ndvi_june2020', 'June 2020');
 
@@ -70,7 +70,7 @@ function updateNDVIYlreDataSources( ) {
 
     if ( sliderValue === 6 ) {
 
-        setColorAndLabelForPointEntities( entities, 'ndvi_june2021' );
+        setColorAndLabelForPolygonEntities( entities, 'ndvi_june2021' );
         ndviAreaValueElement.textContent = 'June 2021';
         dataForHistogram( entities, 'ndvi_june2021', 'June 2021');
 
@@ -78,7 +78,7 @@ function updateNDVIYlreDataSources( ) {
 
     if ( sliderValue === 7 ) {
 
-        setColorAndLabelForPointEntities( entities, 'ndvi_june2022' );
+        setColorAndLabelForPolygonEntities( entities, 'ndvi_june2022' );
         ndviAreaValueElement.textContent = 'June 2022';
         dataForHistogram( entities, 'ndvi_june2022', 'June 2022');
 
@@ -86,7 +86,7 @@ function updateNDVIYlreDataSources( ) {
 
     if ( sliderValue === 8 ) {
 
-        setColorAndLabelForPointEntities( entities, 'ndvi_june2023' );
+        setColorAndLabelForPolygonEntities( entities, 'ndvi_june2023' );
         ndviAreaValueElement.textContent = 'June 2023';
         dataForHistogram( entities, 'ndvi_june2023', 'June 2023');
 
@@ -101,7 +101,6 @@ function updateNDVIYlreDataSources( ) {
 * 
 */
 function updateNDVIAreaDataSources( ) {
-    console.log("ndviAreaDataSourceName", ndviAreaDataSourceName);
     const sliderValue = parseInt(document.getElementById('ndviArea').value);
     let dataSource = getDataSourceByName( ndviAreaDataSourceName );
     let entities = dataSource.entities.values;
@@ -111,7 +110,7 @@ function updateNDVIAreaDataSources( ) {
 
     if ( sliderValue === 0 ) {
 
-        setColorAndLabelForPointEntities( entities, 'ndvi_march2023' );
+        setColorAndLabelForPolygonEntities( entities, 'ndvi_march2023' );
         ndviAreaValueElement.textContent = 'March 2023';
         dataForHistogram( entities, 'ndvi_march2023', 'March 2023');
 
@@ -119,7 +118,7 @@ function updateNDVIAreaDataSources( ) {
 
     if ( sliderValue === 1 ) {
 
-        setColorAndLabelForPointEntities( entities, 'ndvi_april2023' );
+        setColorAndLabelForPolygonEntities( entities, 'ndvi_april2023' );
         ndviAreaValueElement.textContent = 'April 2023';
         dataForHistogram( entities, 'ndvi_april2023', 'April 2023');
 

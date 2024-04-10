@@ -240,6 +240,8 @@ function getSelectedText( elementId ) {
  * 
  * */
 function togglePlots( visibility ) {
+            console.log("visibility",visibility)
+
 
     document.getElementById( 'plotPieContainer' ).style.visibility = visibility;
     document.getElementById( 'selectContainer' ).style.visibility = visibility;
@@ -263,14 +265,25 @@ function togglePlots( visibility ) {
         document.getElementById( 'plotContainer' ).style.visibility = visibility;
         document.getElementById( "greenAreaContainer" ).style.visibility = visibility;
 
-    } else {
+    } 
 
-        if ( document.getElementById( "showNDVIToggle" ).checked || document.getElementById( "NDVI2023Toggle" ).checked ) {
+    if ( document.getElementById( "showNDVIToggle" ).checked || document.getElementById( "NDVI2023Toggle" ).checked ) {
 
-            document.getElementById( 'plotContainer' ).style.visibility = visibility;
-            document.getElementById( 'ndviSliderContainer' ).style.visibility = visibility;
+        document.getElementById( 'plotContainer' ).style.visibility = visibility;
+        document.getElementById( 'ndviSliderContainer' ).style.visibility = visibility;
+        document.getElementById( 'ndviSlider' ).style.visibility = visibility;
+        document.getElementById( 'ndviSliderValue' ).style.visibility = visibility;
 
-        }
+    }
+
+    if ( document.getElementById( "wmsNDVISwitch" ).checked ) {
+
+        console.log("visibility",visibility)
+
+        document.getElementById( 'ndviAreaContainer' ).style.visibility = visibility;
+        document.getElementById( 'ndviAreaValue' ).style.visibility = visibility;
+        document.getElementById( 'ndviArea' ).style.visibility = visibility;
+
     }
 
 }
