@@ -19,7 +19,6 @@ function updateNDVIYlreDataSources( ) {
     let dataSource = getDataSourceByName( ndviAreaDataSourceName );
     let entities = dataSource.entities.values;
     let ndviAreaValueElement = document.getElementById('ndviYlreValue');
-    console.log("entites", entities)
     if ( sliderValue === 0 ) {
 
         setColorAndLabelForPolygonEntities( entities, 'ndvi_august2015' );
@@ -311,12 +310,10 @@ function setColorAndLabelForPointEntities( entities, attributeName ) {
 function setColorAndLabelForPolygonEntities(entities, attributeName) {
     for (let i = 0; i < entities.length; i++) {
         let entity = entities[i];
-        if (entity.polygon) { // Check if entity is a polygon
-            const color = setNDVIPolygonMaterialColor(entity, attributeName);
-            // Set polygon color
-            entity.polygon.material = color;
-            entity.polygon.outline = true; // Optional: Set to false if no outline is desired
-            entity.polygon.outlineColor = Cesium.Color.BLACK;
-        }
+        const color = setNDVIPolygonMaterialColor(entity, attributeName);
+        // Set polygon color
+        entity.polygon.material = color;
+        entity.polygon.outline = true; // Optional: Set to false if no outline is desired
+        entity.polygon.outlineColor = Cesium.Color.BLACK;
     }
 }

@@ -69,8 +69,6 @@ function reset( ) {
     // Load major district zones
 	loadDistrictZones( 0.1, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
 
-    document.getElementById( "YLRESwitch" ).style.display = 'none';
-    document.getElementById( "YLRELabel" ).style.display = 'none';
     document.getElementById( "TreeRegistrySwitch" ).style.display = 'none';
     document.getElementById( "TreeRegistryLabel" ).style.display = 'none';
     document.getElementById( "printContainer" ).style.display = 'none';
@@ -78,7 +76,21 @@ function reset( ) {
     document.getElementById( "PopulationGridSwitch" ).style.display = 'none';
     document.getElementById( "SubDistrictNDVISwitch" ).style.display = 'none';
     document.getElementById( "SubDistrictNDVILabel" ).style.display = 'none';
-	
+    document.getElementById( "showNDVISwitch" ).style.display = 'none';
+    document.getElementById( "showNDVILabel" ).style.display = 'none';
+    document.getElementById( "NDVI2023Switch" ).style.display = 'none';
+    document.getElementById( "NDVI2023Label" ).style.display = 'none';  
+    document.getElementById( "showPlotSwitch" ).style.display = 'none';
+    document.getElementById( "showPlotLabel" ).style.display = 'none';
+    document.getElementById( "TreeRegistrySwitch" ).style.display = 'none';
+    document.getElementById( "TreeRegistryLabel" ).style.display = 'none';   
+    document.getElementById( "YLRESwitch" ).style.display = 'none';
+    document.getElementById( "YLRELabel" ).style.display = 'none'; 	
+    document.getElementById( "showTreesSwitch" ).style.display = 'none';
+    document.getElementById( "showTreesLabel" ).style.display = 'none';
+    document.getElementById( "wmsNDVISwitch" ).style.display = 'inline-block';
+    document.getElementById( "wmsNDVILabel" ).style.display = 'inline-block';
+
 //	document.getElementById( 'printContainer' ).innerHTML =  "<i>Please click on a majordistrict area to load building and nature areas from the PyGeo server...</i>";
 
 }
@@ -240,8 +252,6 @@ function getSelectedText( elementId ) {
  * 
  * */
 function togglePlots( visibility ) {
-            console.log("visibility",visibility)
-
 
     document.getElementById( 'plotPieContainer' ).style.visibility = visibility;
     document.getElementById( 'selectContainer' ).style.visibility = visibility;
@@ -276,9 +286,7 @@ function togglePlots( visibility ) {
 
     }
 
-    if ( document.getElementById( "wmsNDVISwitch" ).checked ) {
-
-        console.log("visibility",visibility)
+    if ( document.getElementById( "wmsNDVIToggle" ).checked ) {
 
         document.getElementById( 'ndviAreaContainer' ).style.visibility = visibility;
         document.getElementById( 'ndviAreaValue' ).style.visibility = visibility;

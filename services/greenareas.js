@@ -97,9 +97,9 @@ async function loadGreenAreasWithoutCache(url) {
     }
 }
 
-  function hideOutsideGreenAreas( ) {
+  async function hideOutsideGreenAreas( ) {
     
-    const greenAreaDataSource = getDataSourceByName( "GreenAreas" );
+    const greenAreaDataSource = await getDataSourceByName( "GreenAreas" );
     const currentLevel = levelsVisited[ levelsVisited.length - 1 ];
 
     greenAreaDataSource.entities.values.forEach( entity => {

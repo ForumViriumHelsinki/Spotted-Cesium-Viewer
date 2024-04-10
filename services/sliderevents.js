@@ -260,7 +260,8 @@ function wmsNDVIEvent() {
 
         hideDataSourceByName( "MajorDistricts" );
 
-
+        document.getElementById( "wmsNDVISwitch" ).style.display = 'none';
+        document.getElementById( "wmsNDVILabel" ).style.display = 'none';
         document.getElementById( "showGreenSwitch" ).style.display = 'none';
         document.getElementById( "showGreenLabel" ).style.display = 'none';
         document.getElementById( "YLRESwitch" ).style.display = 'inline-block';

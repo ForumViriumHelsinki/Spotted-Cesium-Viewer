@@ -5,6 +5,9 @@
  * @param {MouseEvent} event - The click event
  */
 function processClick( viewer, event ) {
+
+    if ( !document.getElementById( "wmsNDVIToggle" ).checked ||  document.getElementById( "YLREToggle" ).checked || document.getElementById( "SubDistrictNDVIToggle" ).checked || document.getElementById( "PopulationGridToggle" ).checked || document.getElementById( "TreeRegistryToggle" ).checked  ) {
+
     
     document.getElementById( 'plotSelect' ).value = 'Helsinki';
     const elements = [
@@ -19,14 +22,17 @@ function processClick( viewer, event ) {
 
     ];
 
-    if ( !document.getElementById( "wmsNDVIToggle" ).checked ) {
+    if ( !document.getElementById( "showGreenToggle" ).checked ) {
 
+        console.log("click")
         setElementsDisplay( elements, 'inline-block' );
 
-    }
+    } 
 
     console.log("Clicked at " + String( event.x ) + ", " + String( event.y ));
     pickEntity( viewer, new Cesium.Cartesian2( event.x, event.y ) );
+
+    }
 
 }
 
@@ -90,6 +96,9 @@ async function pickEntity( viewer, windowPosition ) {
 
     document.getElementById("showNDVIToggle").disabled = false;
     document.getElementById("NDVI2023Toggle").disabled = false;
+
+    document.getElementById( "wmsNDVISwitch" ).style.display = 'none';
+    document.getElementById( "wmsNDVILabel" ).style.display = 'none';
     
     if ( picked ) {
 
