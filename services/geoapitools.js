@@ -105,6 +105,7 @@ function resetSwitches( ) {
     document.getElementById( "showNDVIToggle" ).checked = false;
     document.getElementById( "NDVI2023Toggle" ).checked = false;
     document.getElementById( "showGreenToggle" ).checked = false;
+    document.getElementById( "landCoverToggle" ).checked = false;
 
     setElementDisabledState( true );
     setElementsDisplay( elements, 'inline-block' );
