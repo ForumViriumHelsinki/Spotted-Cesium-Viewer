@@ -39,7 +39,7 @@
 	top: 10.5%;
 	left: 0%;
 	width: 35%;
-	height: 30%; 
+	height: 250px; 
 	visibility: hidden;
 	
 	font-size: 12px;
@@ -493,7 +493,7 @@ input[type=range]::-moz-range-track {
     position: absolute;
     top: -5px; /* Moves labels up closer to the slider, adjust as necessary */
     transform: translateX(-50%);
-    font-size: 12px;
+    font-size: 10px;
     color: #000;
 }
 

@@ -136,17 +136,20 @@ function populationGridEvent() {
 
         } else {
 
+            document.getElementById( "plotContainer" ).style.visibility = 'visible';
             showDataSourceByName( "PopulationGrid" );
 
         }
 
+        document.getElementById('ndviAreaContainer').style.display = 'inline-block';
         document.getElementById('ndviAreaContainer').style.visibility = 'visible';
         ndviAreaDataSourceName = "PopulationGrid";
         
     } else {
 
         hideDataSourceByName( "PopulationGrid" );
-        document.getElementById('ndviAreaContainer').style.visibility = 'hidden';
+        document.getElementById('ndviAreaContainer').style.display = 'none';
+        document.getElementById( "plotContainer" ).style.visibility = 'hidden';        
 
     }
 }
@@ -167,18 +170,20 @@ function subDistrictNDVIEvent() {
 
         } else {
 
+            document.getElementById( "plotContainer" ).style.visibility = 'visible';
             showDataSourceByName( "SubDistrictNDVI" );
 
         }
 
+        document.getElementById('ndviAreaContainer').style.display = 'inline-block';
         document.getElementById('ndviAreaContainer').style.visibility = 'visible';
         ndviAreaDataSourceName = "SubDistrictNDVI";
         
     } else {
 
         hideDataSourceByName( "SubDistrictNDVI" );
-        document.getElementById('ndviAreaContainer').style.visibility = 'hidden';
-
+        document.getElementById('ndviAreaContainer').style.display = 'none';
+        document.getElementById( "plotContainer" ).style.visibility = 'hidden'; 
     }
 }
 
@@ -202,6 +207,7 @@ async function ylreEvent() {
 
         }
 
+        document.getElementById('ndviYlreContainer').style.display = 'inline-block';
         document.getElementById('ndviYlreContainer').style.visibility = 'visible';
         ndviAreaDataSourceName = "YLRE";
         let dataSource = await getDataSourceByName( ndviAreaDataSourceName );
@@ -211,7 +217,8 @@ async function ylreEvent() {
     } else {
 
         hideDataSourceByName( "YLRE" );
-        document.getElementById('ndviYlreContainer').style.visibility = 'hidden';
+        document.getElementById('ndviYlreContainer').style.display = 'none';
+        document.getElementById( "plotContainer" ).style.visibility = 'hidden';
 
     }
 }
@@ -234,16 +241,19 @@ function treeRegistryEvent() {
         } else {
 
             showDataSourceByName( "TreeRegistry" );
+            document.getElementById( "plotContainer" ).style.visibility = 'visible';
 
         }
 
+        document.getElementById('ndviAreaContainer').style.display = 'inline-block';
         document.getElementById('ndviAreaContainer').style.visibility = 'visible';
         ndviAreaDataSourceName = "TreeRegistry";
         
     } else {
 
         hideDataSourceByName( "TreeRegistry" );
-        document.getElementById('ndviAreaContainer').style.visibility = 'hidden';
+        document.getElementById('ndviAreaContainer').style.display = 'none';
+        document.getElementById( "plotContainer" ).style.visibility = 'hidden';       
 
     }
 }

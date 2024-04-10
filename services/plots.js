@@ -736,10 +736,6 @@ function createNDVIHistogram( ndviData, date ) {
         }
 	};
 	
-	if ( showPlot ) {
-	
-		document.getElementById( "plotContainer" ).style.visibility = 'visible';
-	}
 
         let title = { text: 'NDVI in ' + districtName + ' at ' + date };
 
@@ -754,12 +750,10 @@ function createNDVIHistogram( ndviData, date ) {
 		bargap: 0.1, 
 	};
 	
-    //Test plotting
-    if ( showPlot ) {
 
-        document.getElementById( "plotContainer" ).style.visibility = 'visible';
-        toggleLabels( 'visible' );
-    }
+    document.getElementById( "plotContainer" ).style.visibility = 'visible';
+    toggleLabels( 'visible' );
+    
 
     Plotly.newPlot( 'plotContainer', [ data ], layout );
 
