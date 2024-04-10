@@ -90,6 +90,14 @@ function reset( ) {
     document.getElementById( "showTreesLabel" ).style.display = 'none';
     document.getElementById( "wmsNDVISwitch" ).style.display = 'inline-block';
     document.getElementById( "wmsNDVILabel" ).style.display = 'inline-block';
+    document.getElementById( "showGreenSwitch" ).style.display = 'inline-block';
+    document.getElementById( "showGreenLabel" ).style.display = 'inline-block'
+
+    document.getElementById('ndviSliderContainer').style.display = 'none';
+    document.getElementById('ndviAreaContainer').style.display = 'none';
+    document.getElementById('ndviSliderContainer2023').style.display = 'none';
+    document.getElementById('ndviYlreContainer').style.display = 'none';
+    document.getElementById('sliderContainer').style.display = 'none';
 
 //	document.getElementById( 'printContainer' ).innerHTML =  "<i>Please click on a majordistrict area to load building and nature areas from the PyGeo server...</i>";
 
@@ -118,6 +126,12 @@ function resetSwitches( ) {
     document.getElementById( "NDVI2023Toggle" ).checked = false;
     document.getElementById( "showGreenToggle" ).checked = false;
     document.getElementById( "landCoverToggle" ).checked = false;
+    document.getElementById( "wmsNDVIToggle" ).checked = false;
+    document.getElementById( "showGreenToggle" ).checked = false;
+    document.getElementById( "SubDistrictNDVIToggle" ).checked = false;
+    document.getElementById( "TreeRegistryToggle" ).checked = false;
+    document.getElementById( "PopulationGridToggle" ).checked = false;
+    document.getElementById( "YLREToggle" ).checked = false;
 
     setElementDisabledState( true );
     setElementsDisplay( elements, 'inline-block' );
@@ -291,6 +305,9 @@ function togglePlots( visibility ) {
         document.getElementById( 'ndviAreaContainer' ).style.visibility = visibility;
         document.getElementById( 'ndviAreaValue' ).style.visibility = visibility;
         document.getElementById( 'ndviArea' ).style.visibility = visibility;
+        
+        Array.from(document.getElementById('ndviYlreContainer').children).forEach(el => el.style.visibility = 'hidden');
+
 
     }
 
