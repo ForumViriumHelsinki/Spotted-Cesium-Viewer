@@ -647,6 +647,8 @@ YLREToggle.addEventListener('change', async function() {
         hideDataSourceByName( "PopulationGrid" );
         hideDataSourceByName( "SubDistrictNDVI" );
         document.getElementById('ndviAreaContainer').style.display = 'none';
+        document.getElementById('ndviYlre').value = 8;
+        document.getElementById('ndviYlreValue').innerHTML = "June 2023";
         let dataSource = await getDataSourceByName( "YLRE" );
         if ( dataSource ) {
             
@@ -666,14 +668,7 @@ TreeRegistryToggle.addEventListener('change', async function() {
         hideDataSourceByName( "YLRE" );  
         hideDataSourceByName( "PopulationGrid" );
         hideDataSourceByName( "SubDistrictNDVI" );
-        document.getElementById('ndviYlreContainer').style.display = 'none';
-        let dataSource = await getDataSourceByName( "TreeRegistry" );
-
-        if ( dataSource ) {
-            
-            dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023');
-
-        }
+        await ndviAreaUpdate();
     }
 });
 
@@ -687,13 +682,7 @@ PopulationGridToggle.addEventListener('change', async function() {
         hideDataSourceByName( "YLRE" );  
         hideDataSourceByName( "TreeRegistry" );
         hideDataSourceByName( "SubDistrictNDVI" );
-        document.getElementById('ndviYlreContainer').style.display = 'none';
-        let dataSource = await getDataSourceByName( "PopulationGrid" );
-        if ( dataSource ) {
-            
-            dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023');
-
-        }        
+        await ndviAreaUpdate();       
     }
 });
 
@@ -707,16 +696,23 @@ SubDistrictNDVIToggle.addEventListener('change', async function() {
         hideDataSourceByName( "YLRE" );  
         hideDataSourceByName( "TreeRegistry" );
         hideDataSourceByName( "PopulationGrid" );
-        document.getElementById('ndviYlreContainer').style.display = 'none';
-        let dataSource = await getDataSourceByName( "SubDistrictNDVI" );
-        if ( dataSource ) {
-            
-            dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023');
-
-        }
+        await ndviAreaUpdate();
     }
 });
   
 
 
+}
+
+async function ndviAreaUpdate() {
+
+        document.getElementById('ndviYlreContainer').style.display = 'none';
+        document.getElementById('ndviArea').value = 3;
+        document.getElementById('ndviAreaValue').innerHTML = "June 2023";
+        let dataSource = await getDataSourceByName( "SubDistrictNDVI" );
+        if ( dataSource ) {
+            
+            dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023');
+
+        }    
 }
