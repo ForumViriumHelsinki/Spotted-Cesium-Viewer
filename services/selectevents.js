@@ -8,9 +8,7 @@ function addSelectorEventListeners(  ) {
 		
     // Listen for changes in the layer selection
     layerSelect.addEventListener('change', function () {
-        const selectedLayer = document.getElementById('layerSelect').value;
-        viewer.imageryLayers.removeAll(); // Remove existing imagery layers
-        viewer.imageryLayers.addImageryProvider( createImageryProvider( selectedLayer ) ); // Add the selected layer
+        resetWMS( );
     });	
 
     // Listen for changes in the layer selection

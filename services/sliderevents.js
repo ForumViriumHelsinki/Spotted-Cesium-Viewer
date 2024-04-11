@@ -108,12 +108,9 @@ function sliderEvents( event ) {
 
 
 			} else {
+                
+                resetWMS( );
 
-				viewer.imageryLayers.removeAll();
-
-				viewer.imageryLayers.add(
-					createImageryProvider( document.getElementById( 'layerSelect' ).value )
-                )
 			}
 
 

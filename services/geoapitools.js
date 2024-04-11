@@ -51,6 +51,7 @@ function reset( ) {
     resetViewer( );
     resetSwitches( );
     setToggleElements( );
+    resetWMS( );
     showPlot = true;
     print = true; //show object details..
     nameOfZone = null;
@@ -481,6 +482,13 @@ function populateSelectFromGeoJSON(dataSourceName, selectElementId, currentValue
     }
 
     document.getElementById(selectElementId).value = currentValue;
+}
+
+function resetWMS() {
+
+    const selectedLayer = document.getElementById('layerSelect').value;
+    viewer.imageryLayers.removeAll(); // Remove existing imagery layers
+    viewer.imageryLayers.addImageryProvider( createImageryProvider( selectedLayer ) );
 }
 
 /**
