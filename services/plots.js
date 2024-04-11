@@ -630,12 +630,11 @@ function createGreenAreaScatterPlot( ) {
             title: 'YLRE green areas population pressure ',
 		};
 		  
-    if ( showPlot ) {
 
         document.getElementById( "plotPieContainer" ).style.visibility = 'visible';
         document.getElementById( 'sliderContainer' ).style.visibility = 'visible';
         document.getElementById( "selectContainer" ).style.visibility = 'hidden';
-    }
+    
 
     Plotly.newPlot( 'plotPieContainer', data, layout );
 

@@ -188,11 +188,11 @@ function flyCameraToDistrict( picked, distance ) {
 }
 
 function handleGreenAreas() {
-            if ( document.getElementById( "showGreenToggle" ).checked ) {
+    if ( document.getElementById( "showGreenToggle" ).checked ) {
 
-                hideOutsideGreenAreas( );
-                createGreenAreaScatterPlot( );
-                extrudedGreenAreas( );
+        hideOutsideGreenAreas( );
+        createGreenAreaScatterPlot( );
+        extrudedGreenAreas( );
 
-            } 
+    } 
 }

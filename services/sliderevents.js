@@ -208,8 +208,11 @@ async function ylreEvent() {
         document.getElementById('ndviYlreContainer').style.visibility = 'visible';
         ndviAreaDataSourceName = "YLRE";
         let dataSource = await getDataSourceByName( ndviAreaDataSourceName );
-        let entities = dataSource.entities.values;
-        dataForHistogram( entities, 'ndvi_june2023', 'June 2023');
+        if ( dataSource ) {
+            
+            dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023');
+
+        }
         
     } else {
 
@@ -623,4 +626,97 @@ function showTreeEvent( ) {
     }
 
 }
+
+function handleNDVIAreaSliders() {
+
+// Get references to all toggle inputs
+const YLREToggle = document.getElementById('YLREToggle');
+const TreeRegistryToggle = document.getElementById('TreeRegistryToggle');
+const PopulationGridToggle = document.getElementById('PopulationGridToggle');
+const SubDistrictNDVIToggle = document.getElementById('SubDistrictNDVIToggle');
+
+// Add event listeners to each toggle input
+YLREToggle.addEventListener('change', async function() {
+    if (YLREToggle.checked) {
+        // Disable other toggles
+        TreeRegistryToggle.checked = false;
+        PopulationGridToggle.checked = false;
+        SubDistrictNDVIToggle.checked = false;
+        ndviAreaDataSourceName = "YLRE";
+        hideDataSourceByName( "TreeRegistry" );
+        hideDataSourceByName( "PopulationGrid" );
+        hideDataSourceByName( "SubDistrictNDVI" );
+        document.getElementById('ndviAreaContainer').style.display = 'none';
+        let dataSource = await getDataSourceByName( "YLRE" );
+        if ( dataSource ) {
+            
+            dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023');
+
+        }
+    }
+});
+
+TreeRegistryToggle.addEventListener('change', async function() {
+    if (TreeRegistryToggle.checked) {
+        // Disable other toggles
+        YLREToggle.checked = false;
+        PopulationGridToggle.checked = false;
+        SubDistrictNDVIToggle.checked = false;
+        ndviAreaDataSourceName = "TreeRegistry";
+        hideDataSourceByName( "YLRE" );  
+        hideDataSourceByName( "PopulationGrid" );
+        hideDataSourceByName( "SubDistrictNDVI" );
+        document.getElementById('ndviYlreContainer').style.display = 'none';
+        let dataSource = await getDataSourceByName( "TreeRegistry" );
+
+        if ( dataSource ) {
+            
+            dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023');
+
+        }
+    }
+});
+
+PopulationGridToggle.addEventListener('change', async function() {
+    if (PopulationGridToggle.checked) {
+        // Disable other toggles
+        YLREToggle.checked = false;
+        TreeRegistryToggle.checked = false;
+        SubDistrictNDVIToggle.checked = false;
+        ndviAreaDataSourceName = "PopulationGrid";
+        hideDataSourceByName( "YLRE" );  
+        hideDataSourceByName( "TreeRegistry" );
+        hideDataSourceByName( "SubDistrictNDVI" );
+        document.getElementById('ndviYlreContainer').style.display = 'none';
+        let dataSource = await getDataSourceByName( "PopulationGrid" );
+        if ( dataSource ) {
+            
+            dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023');
+
+        }        
+    }
+});
+
+SubDistrictNDVIToggle.addEventListener('change', async function() {
+    if (SubDistrictNDVIToggle.checked) {
+        // Disable other toggles
+        YLREToggle.checked = false;
+        TreeRegistryToggle.checked = false;
+        PopulationGridToggle.checked = false;
+        ndviAreaDataSourceName = "SubDistrictNDVI";
+        hideDataSourceByName( "YLRE" );  
+        hideDataSourceByName( "TreeRegistry" );
+        hideDataSourceByName( "PopulationGrid" );
+        document.getElementById('ndviYlreContainer').style.display = 'none';
+        let dataSource = await getDataSourceByName( "SubDistrictNDVI" );
+        if ( dataSource ) {
+            
+            dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023');
+
+        }
+    }
+});
   
+
+
+}
