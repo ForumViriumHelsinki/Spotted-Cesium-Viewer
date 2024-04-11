@@ -24,8 +24,13 @@ function processClick( viewer, event ) {
 
     if ( !document.getElementById( "showGreenToggle" ).checked ) {
 
-        console.log("click")
         setElementsDisplay( elements, 'inline-block' );
+        setElementsDisplay( [
+            'showGreenLabel',
+            'showGreenSwitch'          
+        ], 'none' );
+
+        console.log("test")
 
     } 
 

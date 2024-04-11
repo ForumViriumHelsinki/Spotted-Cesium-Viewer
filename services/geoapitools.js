@@ -534,7 +534,7 @@ function setElementsDisplay( elements, display ) {
         const element = document.getElementById( elementId );
         if ( element ) {
 
-            element.style.display = 'inline-block';
+            element.style.display = display;
         
         }
     });
