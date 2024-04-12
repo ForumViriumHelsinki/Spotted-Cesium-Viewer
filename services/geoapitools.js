@@ -27,7 +27,7 @@ function createNDVIImageryProvider( layer ) {
 
 function createHSYImageryLayer() {
 		// Define the backend proxy URL
-		const backendURL = 'http://localhost:3003'; // Ensure this is set correctly in your .env file
+		const backendURL = 'http://localhost:3003';
 
 		// Construct the proxy URL with the full WMS request URL encoded as a query parameter
 		const proxyUrl = `${backendURL}/spotted-wms/proxy`;

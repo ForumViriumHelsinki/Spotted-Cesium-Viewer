@@ -316,7 +316,6 @@ function toggleLayerSelectAndActivateNDVI() {
     // Show the Copernicus NDVI select dropdown
     document.getElementById('NDVISelect').style.display = 'block';
     // Trigger the change event for the NDVISelect to load the "NDVI March" layer
-    console.log("test")
     document.getElementById('NDVISelect').dispatchEvent(new Event('change'));
 }
 
@@ -339,8 +338,15 @@ async function ndvi2023() {
 
     const NDVI2023 = document.getElementById( "NDVI2023Toggle" ).checked;
 
+    const elements = [
+        'showTreesSwitch',
+        'showTreesLabel'
+    ];
+
     if ( NDVI2023 ) {
 
+        setElementsDisplay( elements, 'none' );
+        document.getElementById("showNDVIToggle").disabled = true;
         document.getElementById( "plotPieContainer" ).style.visibility = 'hidden';
         document.getElementById( "sliderContainer" ).style.visibility = 'hidden';
         document.getElementById( "plotSelect" ).style.visibility = 'hidden';
@@ -348,11 +354,24 @@ async function ndvi2023() {
         await loadNDVI( '2023-02-26' );
         const slider = document.getElementById('ndviSlider2023');
         slider.max = Math.max(1, 11);
+
+        if ( document.getElementById( "showPlotToggle" ).checked ) {
+            
+            document.getElementById('ndviSliderContainer2023').style.display = 'inline-block';
+
+        }
+
         loadRemainingNDVIDataSequentially( );
 
     } else { 
 
-        updateNDVIDataSources2023( );
+        // updateNDVIDataSources2023( );
+        document.getElementById("showNDVIToggle").disabled = false;
+        document.getElementById('ndviSliderContainer2023').style.display = 'none';
+        document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
+        await hideDataSourceByName( "ndvi" );
+        await removeDataSourcesByNamePrefix("ndvi");
+        setElementsDisplay( elements, 'inline-block' );
 
     }
 
@@ -418,6 +437,8 @@ async function showNDVIEvent() {
 
     if ( showNDVI ) {
 
+        document.getElementById("NDVI2023Toggle").disabled = true;
+
         // Toggle the visibility of the labels
         labels.forEach( label => {
             label.style.display = "block";
@@ -439,6 +460,8 @@ async function showNDVIEvent() {
         }
 
     } else {
+
+        document.getElementById("NDVI2023Toggle").disabled = false;
 
         // Hide the labels
         labels.forEach( label => {

@@ -14,9 +14,7 @@ function processClick( viewer, event ) {
         'showPlotSwitch',
         'showPlotLabel',
         'showNDVISwitch',
-        'showNDVILabel',
-        'NDVI2023Switch',
-        'NDVI2023Label', 
+        'showNDVILabel', 
         'showTreesSwitch',
         'showTreesLabel'            
 
@@ -29,8 +27,6 @@ function processClick( viewer, event ) {
             'showGreenLabel',
             'showGreenSwitch'          
         ], 'none' );
-
-        console.log("test")
 
     } 
 
@@ -139,6 +135,7 @@ async function pickEntity( viewer, windowPosition ) {
     
             if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vironniemi' ) {
                 
+                setElementsDisplay( [ 'NDVI2023Switch', 'NDVI2023Label' ], 'inline-block' );
                 flyCameraToDistrict( picked, 10000 );    
                 await newDistrict( 'assets/data/HelsinkiSubDistrict.json', 'SubDistricts' );
                 currentDistrictName = picked.id.properties.nimi_fi._value;
