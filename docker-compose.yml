@@ -18,9 +18,9 @@ services:
     environment:
       - REDIS_HOST=redis
     depends_on:
-      - redis      
+      - spotted-redis      
 
-  redis:
+  spotted-redis:
     image: redis:alpine
     ports:
       - "6380:6380"
