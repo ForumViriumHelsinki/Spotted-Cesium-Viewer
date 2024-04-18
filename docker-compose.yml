@@ -16,9 +16,9 @@ services:
     ports:
       - "3003:3003"
     environment:
-      - REDIS_HOST=redis
+      - REDIS_HOST=spotted-redis
     depends_on:
-      - spotted-redis      
+      - spotted-redis  
 
   spotted-redis:
     image: redis:alpine
