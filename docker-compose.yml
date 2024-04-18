@@ -17,6 +17,8 @@ services:
       - "3003:3003"
     environment:
       - REDIS_HOST=redis
+    depends_on:
+      - redis      
 
   redis:
     image: redis:alpine
