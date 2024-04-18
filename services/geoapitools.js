@@ -27,7 +27,7 @@ function createNDVIImageryProvider( layer ) {
 
 function createHSYImageryLayer() {
 		// Define the backend proxy URL
-		const backendURL = 'http://localhost:3003';
+		const backendURL = 'https://geo.fvh.fi';
 
 		// Construct the proxy URL with the full WMS request URL encoded as a query parameter
 		const proxyUrl = `${backendURL}/spotted-wms/proxy`;

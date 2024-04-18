@@ -1,6 +1,6 @@
 async function getCachedData(key) {
     try {
-        const response = await fetch(`http://localhost:3003/spotted-api/cache/get?key=${key}`);
+        const response = await fetch(`https://geo.fvh.fi/spotted-api/cache/get?key=${key}`);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -14,7 +14,7 @@ async function getCachedData(key) {
 
 async function setCachedData(key, value) {
     try {
-        const response = await fetch('http://localhost:3003/spotted-api/cache/set', {
+        const response = await fetch('https://geo.fvh.fi/spotted-api/cache/set', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
