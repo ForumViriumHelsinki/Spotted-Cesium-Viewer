@@ -16,6 +16,11 @@ services:
     ports:
       - "3003:3003"
     environment:
-      - REDIS_HOST=redis # Use the service name from the second Docker Compose configuration
+      - REDIS_HOST=spotted-redis
     depends_on:
-      - redis      
+      - spotted-redis  
+
+  spotted-redis:
+    image: redis:alpine
+    ports:
+      - "6380:6380"
