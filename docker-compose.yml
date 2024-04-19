@@ -23,4 +23,4 @@ services:
   spotted-redis:
     image: redis:alpine
     ports:
-      - "6380:6380"
+      - "6380:6379" # Map port 6379 of the Redis container to port 6380 on the host
