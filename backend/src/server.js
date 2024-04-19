@@ -12,7 +12,7 @@ app.use( bodyParser.json( { limit: '200mb' } ) );
 app.use( bodyParser.urlencoded( { extended: true, limit: '200mb' } ) );
 
 // Connect to Redis
-const redis = new Redis( { host: 'redis', port: 6380 } );
+const redis = new Redis( { host: 'spotted-redis', port: 6380 } );
 
 // Existing cache endpoints
 app.get( '/spotted-api/cache/get', async ( req, res ) => {
