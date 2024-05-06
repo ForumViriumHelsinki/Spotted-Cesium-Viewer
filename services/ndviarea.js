@@ -1,12 +1,32 @@
 function dataForHistogram(  entities, property, date ) {
                     let propertyValuesList = [];
+                    let tunnusList = [];
 
             entities.forEach(function(entity) {
+
     // Replace 'attributeName' with the name of the property you're interested in
     let value = entity.properties[property].getValue();
-    // Add the property value to the list
-    propertyValuesList.push(value);
+
+    if ( ndviAreaDataSourceName == 'SubDistrictNDVI') {
+
+        let tunnus = entity.properties['tunnus'].getValue();
+
+        if ( !tunnusList.includes( tunnus )) {
+            
+            propertyValuesList.push(value);
+            tunnusList.push(tunnus);
+        } 
+
+    } else {
+
+        propertyValuesList.push(value);
+    }
+
+
 });
+
+
+
         createNDVIHistogram( propertyValuesList,date);
 }
 
