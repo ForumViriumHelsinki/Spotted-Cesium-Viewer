@@ -10,9 +10,9 @@ function createNdviUrl( date ) {
         case 'MajorDistricts':
             return "https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=" + date +  "&suurpiiri=" + majorDistrict;
         case 'Districts':
-            return "https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=" + date +  "&peruspiiri=" + districtsVisited[ districtsVisited.length - 1 ];
+            return "https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=" + date +  "&peruspiiri=" + districtsVisited[ districtsVisited.length - 1 ] +  "&suurpiiri=" + majorDistrict;
         case 'SubDistricts':
-            return "https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=" + date +  "&osaalue=" + districtsVisited[ districtsVisited.length - 1 ];
+            return "https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=" + date +  "&osaalue=" + districtsVisited[ districtsVisited.length - 1 ]  +  "&peruspiiri=" + district +  "&suurpiiri=" + majorDistrict;
         default:
             return "https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=" + date +  "&suurpiiri=" + majorDistrict;
     }

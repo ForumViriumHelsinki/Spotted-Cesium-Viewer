@@ -136,7 +136,8 @@ async function pickEntity( viewer, windowPosition ) {
             if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vironniemi' ) {
                 
                 setElementsDisplay( [ 'NDVI2023Switch', 'NDVI2023Label' ], 'inline-block' );
-                flyCameraToDistrict( picked, 10000 );    
+                flyCameraToDistrict( picked, 10000 );  
+                district = picked.id.properties.tunnus;
                 await newDistrict( 'assets/data/HelsinkiSubDistrict.json', 'SubDistricts' );
                 currentDistrictName = picked.id.properties.nimi_fi._value;
                 levelsVisited.push( 'Districts' );
