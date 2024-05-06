@@ -484,7 +484,7 @@ function getLandDataForCity( ) {
  */
 function createNDVIBarPlot( ndviData, date ) {
 
-    const mil = 1000000;
+    const mil = 10000;
 
     let x = [ "-0.0", "0.0-0.1","0.1-0.2","0.2-0.3","0.3-0.4","0.4-0.5","0.5-0.6","0.6-"];
     let y = [ ndviData[ 0 ] / mil, ndviData[ 1 ] / mil, ndviData[ 2 ] / mil, ndviData[ 3 ] / mil, ndviData[ 4 ] / mil, ndviData[ 5 ] / mil, ndviData[ 6 ] / mil, ndviData[ 7 ] / mil ];
@@ -505,7 +505,7 @@ function createNDVIBarPlot( ndviData, date ) {
         title: { text: 'NDVI in ' + districtName + ' at ' + date },
         barmode: 'group',
         yaxis: {
-            title: 'Area (km²)'
+            title: 'Area in hectares'
         }
     };
 
