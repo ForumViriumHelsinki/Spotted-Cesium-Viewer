@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev # Use the development Dockerfile
+    volumes:
+      - .:/usr/src/app # Mount the project directory inside the container
+      - /usr/src/app/node_modules # Persist node_modules
+    ports:
+      - "8086:8086"
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3003:3003"
+    environment:
+      - REDIS_HOST=spotted-redis
+    depends_on:
+      - spotted-redis  
+
+  spotted-redis:
+    image: redis:alpine
+    ports:
+      - "6380:6379" # Map port 6379 of the Redis container to port 6380 on the host

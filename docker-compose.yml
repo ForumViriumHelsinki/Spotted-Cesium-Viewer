@@ -4,23 +4,24 @@ services:
   app:
     build:
       context: .
+      dockerfile: Dockerfile # Use the production Dockerfile
     ports:
       - "8086:80"
-    volumes:
-      - .:/usr/local/apache2/htdocs/
-
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    ports:
-      - "3003:3003"
     environment:
-      - REDIS_HOST=spotted-redis
-    depends_on:
-      - spotted-redis  
-
+      - NODE_ENV=production
+    # Additional environment variables can be added here if needed
   spotted-redis:
     image: redis:alpine
     ports:
       - "6380:6379" # Map port 6379 of the Redis container to port 6380 on the host
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile # Make sure this points to your backend Dockerfile
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=production
+      - REDIS_HOST=spotted-redis
+    depends_on:
+      - spotted-redis  

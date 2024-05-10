@@ -1,5 +1,5 @@
-# Use the official Node.js image as the base image
-FROM node:18 AS build
+# Use an official Node.js image as the base image
+FROM node:latest
 
 # Set the working directory inside the container
 WORKDIR /usr/src/app
@@ -13,11 +13,11 @@ RUN npm install
 # Copy the rest of the application code to the working directory
 COPY . .
 
-# Build the application
+# Build the Vue app for production
 RUN npm run build
 
-# Stage 2: Use Nginx to serve the built application
-FROM nginx:alpine
+# Expose the port on which the Vue app runs (adjust according to your Vue app's configuration)
+EXPOSE 8086
 
-# Copy the built app from the previous stage
-COPY --from=build /usr/src/app/dist /usr/share/nginx/html
+# Command to serve the built Vue app
+CMD ["npm", "run", "dev"]
