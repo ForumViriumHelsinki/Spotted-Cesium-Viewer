@@ -2,10 +2,14 @@
   <div id="controlPanelContainer">
 
     <div id="UIButtonContainer">
+	    <!-- Rest of your UI elements -->
+    <button class="uiButton" @click="triggerFileUpload" style="display: block; margin: 10px auto;">
+      Upload GeoJSON Dataset
+    </button>
+    <input type="file" id="fileUpload" accept=".json,.geojson" style="display: none;" @change="handleFileUpload">
       <p class="uiReturnButton" id="returnButton" onClick="prevLevel()" style="color: black;">Previous district</p>
       <p class="uiButton" @click="reset" style="color: red; float:right; cursor: pointer;">Reset</p>
     </div>
-    <!-- Rest of your UI elements -->
 
   <!-- Selects WMS layer -->
 <select id="layerSelect"  style = "float:left;">
@@ -138,6 +142,9 @@ import Tree from '../services/tree.js';
 import NdviArea from '../services/ndvi-area.js';
 import Ndvi from '../services/ndvi.js';
 import GreenAreas from '../services/green-areas.js';
+import Platform from '../services/platform.js';
+import District from '../services/district.js';
+import * as Cesium from 'cesium';
 
 export default {
 	data() {
@@ -158,6 +165,7 @@ export default {
 		this.elementsDisplayService = new ElementsDisplay();
 		this.ndviAreaService = new NdviArea();
 		this.ndviService = new Ndvi();
+		this.platformService = new Platform();
 
 	},
 	beforeUnmount() {
@@ -166,6 +174,59 @@ export default {
 	methods: {
 		reset(){
 			location.reload();
+		},
+		triggerFileUpload() {
+			document.getElementById( 'fileUpload' ).click(); // Trigger hidden file input
+		},
+		handleFileUpload( event ) {
+			const file = event.target.files[0];
+			if ( file ) {
+				const reader = new FileReader();
+				reader.onload = ( e ) => {
+					try {
+						const data = JSON.parse( e.target.result );
+						// Process the uploaded data (e.g., display on the map)
+						this.processUploadedData( data, file.name.toLowerCase() );
+					} catch ( error ) {
+						// Handle invalid JSON format
+						console.error( 'Error parsing JSON:', error );
+						alert( 'Invalid file format. Please select a .json or .geojson file.' );
+					}
+				};
+				reader.readAsText( file );
+			}
+		},
+		processUploadedData( data, fileName ) {
+			this.viewer.dataSources.removeAll();
+			this.elementsDisplayService.resetSwitches();
+
+			this.setCamera();
+
+			if ( fileName.includes( 'urbangreenindex' ) ) {
+				this.platformService.addPlatformFeaturesWithNDVI( data, 'Spotted Platform Green Index' );
+			}
+
+			if ( fileName.includes( 'urbanheatvulnerability' ) ) {
+				this.platformService.addPlatformFeaturesWithHeat( data, 'Spotted Platform Heat Risk' );
+			}
+
+			if ( fileName.includes( 'urbanheatexposure' ) ) {
+				this.platformService.addPlatformFeaturesWithHeat( data, 'Spotted Platform Heat Exposure' );
+			}
+
+			this.store.fileUploaded = true;
+
+
+		},
+		setCamera() {
+			this.viewer.camera.setView( {
+				destination : Cesium.Cartesian3.fromDegrees( 24.901745, 60.195464, 33000 ), 
+				orientation : {
+					heading : Cesium.Math.toRadians( 0.0 ),
+					pitch : Cesium.Math.toRadians( -85.0 ),
+				}
+			} );
+
 		},
 		/**
  * Add EventListeners 
@@ -362,7 +423,17 @@ export default {
 
 			if ( wmsNDVI ) {
 
-				this.datasourceService.hideDataSourceByName( 'MajorDistricts' );
+				if ( this.store.fileUploaded ) {
+
+					this.viewer.dataSources.removeAll();
+					this.elementsDisplayService.togglePlots( 'hidden' );
+
+				} else {
+
+					this.datasourceService.hideDataSourceByName( 'MajorDistricts' );
+
+				}
+
 
 				document.getElementById( 'wmsNDVISwitch' ).style.display = 'none';
 				document.getElementById( 'wmsNDVILabel' ).style.display = 'none';
@@ -498,6 +569,15 @@ export default {
 			const showGreen = document.getElementById( 'showGreenToggle' ).checked;
 
 			if ( showGreen ) {
+
+				if ( this.store.fileUploaded ) {
+
+					this.elementsDisplayService.togglePlots( 'hidden' );
+					this.viewer.dataSources.removeAll();
+					const districtService = new District();
+					districtService.loadDistrictZones( 0.1, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
+
+				} 
 
 				const greenAreasService = new GreenAreas();
 				greenAreasService.loadGreenAreas();
@@ -637,11 +717,11 @@ export default {
 
 				this.store.showPlot = false;
 				this.elementsDisplayService.togglePlots( 'hidden' );
-
-			} else { // Otherwise, show the plot and its controls if the toggle button is checked and the plot is already loaded
-
-				this.elementsDisplayService.togglePlots( 'visible' );
-				this.store.showPlot = true;
+				const elements = [
+        			'showPlotSwitch',
+        			'showPlotLabel'
+    			];
+				this.setElementsDisplay( elements, 'none' );
 
 			}
 
@@ -806,6 +886,10 @@ export default {
 </script>
 
 <style>
+
+#fileUpload {
+  /* Optionally, you can style the file input element here */
+}
 
 #UIButtonContainer {
 	display: flex; /* Use flexbox to arrange items horizontally */

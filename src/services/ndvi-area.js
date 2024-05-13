@@ -43,7 +43,7 @@ export default class Ndviarea {
 
 
 		const plotService = new Plot();
-		plotService.createNDVIHistogram( propertyValuesList,date );
+		plotService.createNDVIHistogram( propertyValuesList, date );
 	}
 
 	/**

@@ -17,7 +17,8 @@ export const useGlobalStore = defineStore( 'global', {
 		levelsVisited: [],
 		currentDistrictName: null,
 		currentSubDistrictName: null,
-		ndviAreaDataSourceName: null
+		ndviAreaDataSourceName: null,
+		fileUploaded: false
 	} ),
 	getters: {
 		getLocation: ( state ) => state.location,
@@ -34,7 +35,8 @@ export const useGlobalStore = defineStore( 'global', {
 		getLevelsVisited: ( state ) => state.levelsVisited, 
 		getCurrentDistrictName: ( state ) => state.currentDistrictName, 
 		getCurrentSubDistrictName: ( state ) => state.currentSubDistrictName, 
-		getNdviAreaDataSourceName: ( state ) => state.ndviAreaDataSourceName 
+		getNdviAreaDataSourceName: ( state ) => state.ndviAreaDataSourceName,
+		getFileUploaded: ( state ) => state.fileUploaded  
 	}, 
 	actions: {
 		setLocation( newLocation ) {
@@ -87,6 +89,9 @@ export const useGlobalStore = defineStore( 'global', {
 		setNdviAreaDataSourceName( name ) {
 			this.ndviAreaDataSourceName = name;
 		},
+		setFileUploaded( value ) {
+			this.fileUploaded = value;
+		},		
 		reset() {
 			this.location = 'start'; // Reset to initial values
 			this.cesiumViewer = null;
@@ -103,6 +108,7 @@ export const useGlobalStore = defineStore( 'global', {
 			this.currentDistrictName = null;
 			this.currentSubDistrictName = null;
 			this.ndviAreaDataSourceName = null;
+			this.fileUploaded = false;
 
 			// Consider resetting other parts of the state as needed, 
 			// such as this.cesiumViewer if appropriate.                               

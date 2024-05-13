@@ -32,58 +32,58 @@ export default class ElementsDisplay {
 
 	}
 
-/**
+	/**
  * Change visibility of plots
  * 
  * */
-togglePlots( visibility ) {
+	togglePlots( visibility ) {
 
-    document.getElementById( 'plotPieContainer' ).style.visibility = visibility;
-	document.getElementById( 'chartContainer' ).style.visibility = visibility;
-    document.getElementById( 'selectContainer' ).style.visibility = visibility;
+		document.getElementById( 'plotPieContainer' ).style.visibility = visibility;
+		document.getElementById( 'chartContainer' ).style.visibility = visibility;
+		document.getElementById( 'selectContainer' ).style.visibility = visibility;
 
-    if ( document.getElementById( "showNDVIToggle" ).checked || document.getElementById( "NDVI2023Toggle" ).checked || visibility == 'hidden' ) {
+		if ( document.getElementById( 'showNDVIToggle' ).checked || document.getElementById( 'NDVI2023Toggle' ).checked || visibility == 'hidden' ) {
 
-        this.toggleLabels( visibility );
+			this.toggleLabels( visibility );
 
-    }
+		}
 
-    if ( document.getElementById( "showGreenToggle" ).checked || visibility == 'hidden' ) {
+		if ( document.getElementById( 'showGreenToggle' ).checked || visibility == 'hidden' ) {
         
-        document.getElementById( 'greenAreaContainer' ).style.visibility = visibility;
-        document.getElementById( 'sliderContainer' ).style.visibility = visibility;
+			document.getElementById( 'greenAreaContainer' ).style.visibility = visibility;
+			document.getElementById( 'sliderContainer' ).style.visibility = visibility;
 
-    }
+		}
 
-    if ( visibility == 'hidden' || areAnySwitchesOn() ) {
+		if ( visibility == 'hidden' || areAnySwitchesOn() ) {
 
-        document.getElementById( 'plotInhabitantContainer' ).style.visibility = visibility;
-        document.getElementById( 'plotContainer' ).style.visibility = visibility;
-        document.getElementById( "greenAreaContainer" ).style.visibility = visibility;
+			document.getElementById( 'plotInhabitantContainer' ).style.visibility = visibility;
+			document.getElementById( 'plotContainer' ).style.visibility = visibility;
+			document.getElementById( 'greenAreaContainer' ).style.visibility = visibility;
 
-    } 
+		} 
 
-    if ( document.getElementById( "showNDVIToggle" ).checked || document.getElementById( "NDVI2023Toggle" ).checked ) {
+		if ( document.getElementById( 'showNDVIToggle' ).checked || document.getElementById( 'NDVI2023Toggle' ).checked ) {
 
-        document.getElementById( 'plotContainer' ).style.visibility = visibility;
-        document.getElementById( 'ndviSliderContainer' ).style.visibility = visibility;
-        document.getElementById( 'ndviSlider' ).style.visibility = visibility;
-        document.getElementById( 'ndviSliderValue' ).style.visibility = visibility;
+			document.getElementById( 'plotContainer' ).style.visibility = visibility;
+			document.getElementById( 'ndviSliderContainer' ).style.visibility = visibility;
+			document.getElementById( 'ndviSlider' ).style.visibility = visibility;
+			document.getElementById( 'ndviSliderValue' ).style.visibility = visibility;
 
-    }
+		}
 
-    if ( document.getElementById( "wmsNDVIToggle" ).checked ) {
+		if ( document.getElementById( 'wmsNDVIToggle' ).checked ) {
 
-        document.getElementById( 'ndviAreaContainer' ).style.visibility = visibility;
-        document.getElementById( 'ndviAreaValue' ).style.visibility = visibility;
-        document.getElementById( 'ndviArea' ).style.visibility = visibility;
+			document.getElementById( 'ndviAreaContainer' ).style.visibility = visibility;
+			document.getElementById( 'ndviAreaValue' ).style.visibility = visibility;
+			document.getElementById( 'ndviArea' ).style.visibility = visibility;
         
-        Array.from(document.getElementById('ndviYlreContainer').children).forEach(el => el.style.visibility = 'hidden');
+			Array.from( document.getElementById( 'ndviYlreContainer' ).children ).forEach( el => el.style.visibility = 'hidden' );
 
 
-    }
+		}
 
-}
+	}
 	/**
  * Set the visibility status of the pie chart and select element.
  * 
@@ -136,4 +136,74 @@ togglePlots( visibility ) {
   
 		}
 	}
+
+/**
+ * Resets the switches to their default state
+ */
+resetSwitches( ) {
+
+    const elements = [
+        'showPlotSwitch',
+        'showPlotLabel',
+        'showNDVISwitch',
+        'showNDVILabel',
+        'NDVI2023Switch',
+        'NDVI2023Label',
+        'showTreesSwitch',
+        'showTreesLabel',
+        'SubDistrictNDVISwitch',
+        'SubDistrictNDVILabel',
+        'PopulationGridSwitch',
+        'PopulationGridLabel',
+        'TreeRegistrySwitch',
+        'TreeRegistryLabel',
+        'YLRESwitch',
+        'YLRELabel'		
+    ];
+
+	document.getElementById( "showPlotToggle" ).checked = true;
+
+    document.getElementById( "showTreeToggle" ).checked = false;
+    document.getElementById( "showNDVIToggle" ).checked = false;
+    document.getElementById( "NDVI2023Toggle" ).checked = false;
+    document.getElementById( "showGreenToggle" ).checked = false;
+    document.getElementById( "wmsNDVIToggle" ).checked = false;
+    document.getElementById( "SubDistrictNDVIToggle" ).checked = false;
+    document.getElementById( "TreeRegistryToggle" ).checked = false;
+    document.getElementById( "PopulationGridToggle" ).checked = false;
+    document.getElementById( "YLREToggle" ).checked = false;
+
+    this.setElementDisabledState( true );
+    this.setElementsDisplay( elements, 'none' );
+
+    const elements2 = [
+        'showPlotSwitch',
+        'showPlotLabel',
+        'wmsNDVISwitch',
+        'wmsNDVILabel',
+		'showGreenSwitch',
+		'showGreenLabel'
+    ];
+	this.setElementsDisplay( elements2, 'inline-block' );
+
+    document.getElementById("showNDVIToggle").disabled = true;
+    document.getElementById("NDVI2023Toggle").disabled = true;
+
+//	document.getElementById( "printToggle" ).checked = true;
+    document.getElementById( 'returnButton' ).style.visibility = 'hidden';
+    document.getElementById( 'selectContainer' ).style.visibility = 'hidden';
+    document.getElementById( "plotContainer" ).style.visibility = 'hidden';
+    document.getElementById( "greenAreaContainer" ).style.visibility = 'hidden';
+    document.getElementById( 'ndviSliderContainer' ).style.visibility = 'hidden';
+    document.getElementById( 'ndviSliderContainer2023' ).style.visibility = 'hidden';
+    document.getElementById( 'ndviAreaContainer' ).style.visibility = 'hidden';
+    document.getElementById( 'ndviYlreContainer' ).style.visibility = 'hidden';
+
+//    setPrintVisible( );
+    this.togglePlots( 'hidden' );    
+
+  	this.store.showPlot = true;
+	this.store.print = true;
+
+}	
 }
