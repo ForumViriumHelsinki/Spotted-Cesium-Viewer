@@ -2,7 +2,8 @@
   <div id="cesiumContainer"></div>
      <div id="plotContainer">
   </div>
-
+     <div id="chartContainer">
+  </div>
   <div id="printContainer"  style = "display: none">
     <i></i>
     </div>
@@ -98,63 +99,63 @@ export default {
       			baseLayerPicker: false,
       			infoBox: false,
 	  			homeButton: false
-    		});  
+    		} );  
 
-	// For example, add a placeholder imagery layer
-	this.store.cesiumViewer.imageryLayers.add(
-		this.wmsService.createImageryProvider( 'avoindata:Opaskartta_Helsinki' )
-	);
+			// For example, add a placeholder imagery layer
+			this.store.cesiumViewer.imageryLayers.add(
+				this.wmsService.createImageryProvider( 'avoindata:Opaskartta_Helsinki' )
+			);
     
 	    // Fly the camera to Helsinki at the given longitude, latitude, and height.
-    this.store.cesiumViewer.camera.flyTo({
-      destination : Cesium.Cartesian3.fromDegrees(24.901745, 60.195464, 33000), 
-      orientation : {
-        heading : Cesium.Math.toRadians(0.0),
-        pitch : Cesium.Math.toRadians(-85.0),
-      }
-    });
+			this.store.cesiumViewer.camera.flyTo( {
+				destination : Cesium.Cartesian3.fromDegrees( 24.901745, 60.195464, 33000 ), 
+				orientation : {
+					heading : Cesium.Math.toRadians( 0.0 ),
+					pitch : Cesium.Math.toRadians( -85.0 ),
+				}
+			} );
     
-	const districtService = new District();
+			const districtService = new District();
 
-    // Load district zones & energy data availability tags
-	districtService.loadDistrictZones( 0.1, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
-    const featurepicker = new Featurepicker(  );
+			// Load district zones & energy data availability tags
+			districtService.loadDistrictZones( 0.1, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
+			const featurepicker = new Featurepicker(  );
 
-	// Add click event listener to the viewer container
-	const cesiumContainer = document.getElementById( 'cesiumContainer' );
-		cesiumContainer.addEventListener( 'click', function( event ) { 
-		featurepicker.processClick( event ); // Assuming processClick is defined later
-	} );
-
-
-  document.getElementById('blueSlider').addEventListener('input', function() {
-    document.getElementById('sliderValue').textContent = 'distance from green area ' + this.value + ' km';
-    featurepicker.handleGreenAreas( );
-});
-
-const ndviService = new NDVI ();
-const ndviAreaService = new NdviArea ();
+			// Add click event listener to the viewer container
+			const cesiumContainer = document.getElementById( 'cesiumContainer' );
+			cesiumContainer.addEventListener( 'click', function( event ) { 
+				featurepicker.processClick( event ); // Assuming processClick is defined later
+			} );
 
 
-document.getElementById('ndviSlider').addEventListener('input', function() {
-  document.getElementById('ndviSliderValue').textContent = 'ndvi';
-  ndviService.updateNDVIDataSources( );
-});
+			document.getElementById( 'blueSlider' ).addEventListener( 'input', function() {
+				document.getElementById( 'sliderValue' ).textContent = 'distance from green area ' + this.value + ' km';
+				featurepicker.handleGreenAreas( );
+			} );
 
-document.getElementById('ndviSlider2023').addEventListener('input', function() {
-  ndviService.updateNDVIDataSources2023( );
-});
+			const ndviService = new NDVI ();
+			const ndviAreaService = new NdviArea ();
 
-document.getElementById('ndviArea').addEventListener('input', function() {
-  ndviAreaService.updateNDVIAreaDataSources( );
-});
 
-document.getElementById('ndviYlre').addEventListener('input', function() {
-  ndviAreaService.updateNDVIYlreDataSources( );
-});
+			document.getElementById( 'ndviSlider' ).addEventListener( 'input', function() {
+				document.getElementById( 'ndviSliderValue' ).textContent = 'ndvi';
+				ndviService.updateNDVIDataSources( );
+			} );
 
-const elementsDisplayService = new ElementsDisplay ();
-elementsDisplayService.toggleReturnButtonVisibility();
+			document.getElementById( 'ndviSlider2023' ).addEventListener( 'input', function() {
+				ndviService.updateNDVIDataSources2023( );
+			} );
+
+			document.getElementById( 'ndviArea' ).addEventListener( 'input', function() {
+				ndviAreaService.updateNDVIAreaDataSources( );
+			} );
+
+			document.getElementById( 'ndviYlre' ).addEventListener( 'input', function() {
+				ndviAreaService.updateNDVIYlreDataSources( );
+			} );
+
+			const elementsDisplayService = new ElementsDisplay ();
+			elementsDisplayService.toggleReturnButtonVisibility();
 
 			this.addAttribution( );
 
@@ -166,46 +167,46 @@ elementsDisplayService.toggleReturnButtonVisibility();
 		},
 
 
-/**
+		/**
  * 
  * A function for adding layer and plot select event listner.
  * 
  */
-addSelectorEventListeners(  ) {
+		addSelectorEventListeners(  ) {
 
-	// Get references to all toggle inputs
-	const layerSelect = document.getElementById('layerSelect');
-	const NDVISelect = document.getElementById('NDVISelect');
-	const plotSelect = document.getElementById('plotSelect');
+			// Get references to all toggle inputs
+			const layerSelect = document.getElementById( 'layerSelect' );
+			const NDVISelect = document.getElementById( 'NDVISelect' );
+			const plotSelect = document.getElementById( 'plotSelect' );
 
-	const store = useGlobalStore();
-	const plotService = new Plot();
-	const wmsService = new WMS();
+			const store = useGlobalStore();
+			const plotService = new Plot();
+			const wmsService = new WMS();
 
 		
-    // Listen for changes in the layer selection
-    layerSelect.addEventListener('change', function () {
-        wmsService.resetWMS( );
-    });	
+			// Listen for changes in the layer selection
+			layerSelect.addEventListener( 'change', function () {
+				wmsService.resetWMS( );
+			} );	
 
-    // Listen for changes in the layer selection
-    NDVISelect.addEventListener('change', function () {
-        const selectedLayer = document.getElementById('NDVISelect').value;
-        store.cesiumViewer.imageryLayers.removeAll(); // Remove existing imagery layers
-        store.cesiumViewer.imageryLayers.addImageryProvider( wmsService.createNDVIImageryProvider( selectedLayer ) ); // Add the selected layer
-    });	
+			// Listen for changes in the layer selection
+			NDVISelect.addEventListener( 'change', function () {
+				const selectedLayer = document.getElementById( 'NDVISelect' ).value;
+				store.cesiumViewer.imageryLayers.removeAll(); // Remove existing imagery layers
+				store.cesiumViewer.imageryLayers.addImageryProvider( wmsService.createNDVIImageryProvider( selectedLayer ) ); // Add the selected layer
+			} );	
 
-    plotSelect.addEventListener('change', function () {
+			plotSelect.addEventListener( 'change', function () {
 
-        if ( store.districtsVisited.length ) {
+				if ( store.districtsVisited.length ) {
 
-            plotService.createPieChartForMajorDistrict( store.districtsVisited[ store.districtsVisited.length - 1 ] );
+					plotService.createPieChartForMajorDistrict( store.districtsVisited[ store.districtsVisited.length - 1 ] );
 
-        }
+				}
 
-    });	
+			} );	
             
-},
+		},
 
 		addAttribution() {
 			
@@ -535,6 +536,20 @@ input[type=range]::-moz-range-track {
 	
 	font-size: 12px;
  	
+	border: 1px solid black;
+	box-shadow: 3px 5px 5px black; 
+}
+
+#chartContainer
+{
+	position: fixed;
+	top: 50%;
+	right: 0%;
+	width: 31.25%;
+	height: 45%; 
+	visibility: hidden;
+	
+	font-size: 12px;
 	border: 1px solid black;
 	box-shadow: 3px 5px 5px black; 
 }

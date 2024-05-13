@@ -137,14 +137,14 @@ import Datasource from '../services/datasource.js';
 import Tree from '../services/tree.js';
 import NdviArea from '../services/ndvi-area.js';
 import Ndvi from '../services/ndvi.js';
-import GreenAreas from '../services/green-areas.js'
+import GreenAreas from '../services/green-areas.js';
 
 export default {
 	data() {
 		return {
 			viewer: null,
 			treeService: null,
-            plotService: null,
+			plotService: null,
 		};
 	},
 	mounted() {
@@ -152,12 +152,12 @@ export default {
 		this.store = useGlobalStore();
 		this.viewer = this.store.cesiumViewer;
 		this.eventEmitterService = new EventEmitter();
-        this.plotService = new Plot();
-        this.treeService = new Tree();
-        this.datasourceService = new Datasource();
-        this.elementsDisplayService = new ElementsDisplay();
-        this.ndviAreaService = new NdviArea();
-        this.ndviService = new Ndvi();
+		this.plotService = new Plot();
+		this.treeService = new Tree();
+		this.datasourceService = new Datasource();
+		this.elementsDisplayService = new ElementsDisplay();
+		this.ndviAreaService = new NdviArea();
+		this.ndviService = new Ndvi();
 
 	},
 	beforeUnmount() {
@@ -171,29 +171,29 @@ export default {
  * Add EventListeners 
  */
 		addEventListeners() {
-            document.getElementById( 'landCoverToggle' ).addEventListener( 'change', this.getLandCoverEvent );
-            document.getElementById( 'PopulationGridToggle' ).addEventListener( 'change', this.populationGridEvent );
-            document.getElementById( 'SubDistrictNDVIToggle' ).addEventListener( 'change', this.subDistrictNDVIEvent );
-            document.getElementById( 'YLREToggle' ).addEventListener( 'change', this.ylreEvent );
-            document.getElementById( 'TreeRegistryToggle' ).addEventListener( 'change', this.treeRegistryEvent );
-            document.getElementById( 'wmsNDVIToggle' ).addEventListener( 'change', this.wmsNDVIEvent );
-            document.getElementById( 'NDVI2023Toggle' ).addEventListener( 'change', this.ndvi2023 );
-            document.getElementById( 'showGreenToggle' ).addEventListener( 'change', this.showGreenEvent );
-            document.getElementById( 'showNDVIToggle' ).addEventListener( 'change', this.showNDVIEvent );
-            document.getElementById( 'showPlotToggle' ).addEventListener( 'change', this.showPlotEvent );
-            document.getElementById( 'showTreeToggle' ).addEventListener( 'change', this.showTreeEvent );
-            //this.handleNDVIAreaSliders();
+			document.getElementById( 'landCoverToggle' ).addEventListener( 'change', this.getLandCoverEvent );
+			document.getElementById( 'PopulationGridToggle' ).addEventListener( 'change', this.populationGridEvent );
+			document.getElementById( 'SubDistrictNDVIToggle' ).addEventListener( 'change', this.subDistrictNDVIEvent );
+			document.getElementById( 'YLREToggle' ).addEventListener( 'change', this.ylreEvent );
+			document.getElementById( 'TreeRegistryToggle' ).addEventListener( 'change', this.treeRegistryEvent );
+			document.getElementById( 'wmsNDVIToggle' ).addEventListener( 'change', this.wmsNDVIEvent );
+			document.getElementById( 'NDVI2023Toggle' ).addEventListener( 'change', this.ndvi2023 );
+			document.getElementById( 'showGreenToggle' ).addEventListener( 'change', this.showGreenEvent );
+			document.getElementById( 'showNDVIToggle' ).addEventListener( 'change', this.showNDVIEvent );
+			document.getElementById( 'showPlotToggle' ).addEventListener( 'change', this.showPlotEvent );
+			document.getElementById( 'showTreeToggle' ).addEventListener( 'change', this.showTreeEvent );
+			//this.handleNDVIAreaSliders();
 
 		},
 
-getLandCoverEvent() {
+		getLandCoverEvent() {
 
 			const landcover = document.getElementById( 'landCoverToggle' ).checked;
-            const wmsService = new WMS();
+			const wmsService = new WMS();
 
 			if ( landcover ) {
 
-                this.viewer.imageryLayers.removeAll();
+				this.viewer.imageryLayers.removeAll();
 
 				this.viewer.imageryLayers.add(
 			        wmsService.createHSYImageryLayer()
@@ -202,7 +202,7 @@ getLandCoverEvent() {
 
 			} else {
                 
-                wmsService.resetWMS( );
+				wmsService.resetWMS( );
 
 			}
 
@@ -211,596 +211,596 @@ getLandCoverEvent() {
 		},
 
 
-/**
+		/**
  * This function shows and hides Helsinki PopulationGrid
  *
  */
-populationGridEvent() {
+		populationGridEvent() {
 
-    const populationGrid = document.getElementById( "PopulationGridToggle" ).checked;
+			const populationGrid = document.getElementById( 'PopulationGridToggle' ).checked;
 
-    if ( populationGrid ) {
+			if ( populationGrid ) {
 
-        if ( !this.datasourceService.dataSourceWithNameExists( "PopulationGrid" ) ) {
+				if ( !this.datasourceService.dataSourceWithNameExists( 'PopulationGrid' ) ) {
 
-            this.ndviAreaService.addFeaturesWithNDVI( "https://geo.fvh.fi/spotted/data/hki_populationgrid_with_ndvi.geojson", "PopulationGrid", true );
+					this.ndviAreaService.addFeaturesWithNDVI( 'https://geo.fvh.fi/spotted/data/hki_populationgrid_with_ndvi.geojson', 'PopulationGrid', true );
 
-        } else {
+				} else {
 
-            document.getElementById( "plotContainer" ).style.visibility = 'visible';
-            this.datasourceService.showDataSourceByName( "PopulationGrid" );
+					document.getElementById( 'plotContainer' ).style.visibility = 'visible';
+					this.datasourceService.showDataSourceByName( 'PopulationGrid' );
 
-        }
+				}
 
-        document.getElementById('ndviAreaContainer').style.display = 'inline-block';
-        document.getElementById('ndviAreaContainer').style.visibility = 'visible';
-        this.store.ndviAreaDataSourceName  = "PopulationGrid";
+				document.getElementById( 'ndviAreaContainer' ).style.display = 'inline-block';
+				document.getElementById( 'ndviAreaContainer' ).style.visibility = 'visible';
+				this.store.ndviAreaDataSourceName  = 'PopulationGrid';
         
-    } else {
+			} else {
 
-        this.datasourceService.hideDataSourceByName( "PopulationGrid" );
-        document.getElementById('ndviAreaContainer').style.display = 'none';
-        document.getElementById( "plotContainer" ).style.visibility = 'hidden';        
+				this.datasourceService.hideDataSourceByName( 'PopulationGrid' );
+				document.getElementById( 'ndviAreaContainer' ).style.display = 'none';
+				document.getElementById( 'plotContainer' ).style.visibility = 'hidden';        
 
-    }
-},
+			}
+		},
 
-/**
+		/**
  * This function shows and hides Helsinki SubDistrict with NDVI
  *
  */
- subDistrictNDVIEvent() {
+		subDistrictNDVIEvent() {
 
-    const subDistrictNDVI = document.getElementById( "SubDistrictNDVIToggle" ).checked;
+			const subDistrictNDVI = document.getElementById( 'SubDistrictNDVIToggle' ).checked;
 
-    if ( subDistrictNDVI ) {
+			if ( subDistrictNDVI ) {
 
-        if ( !this.datasourceService.dataSourceWithNameExists( "SubDistrictNDVI" ) ) {
+				if ( !this.datasourceService.dataSourceWithNameExists( 'SubDistrictNDVI' ) ) {
 
-            this.ndviAreaService.addFeaturesWithNDVI( "https://geo.fvh.fi/spotted/data/HelsinkiSubDistrict.geojson", "SubDistrictNDVI", false );
+					this.ndviAreaService.addFeaturesWithNDVI( 'https://geo.fvh.fi/spotted/data/HelsinkiSubDistrict.geojson', 'SubDistrictNDVI', false );
 
-        } else {
+				} else {
 
-            document.getElementById( "plotContainer" ).style.visibility = 'visible';
-            this.datasourceService.showDataSourceByName( "SubDistrictNDVI" );
+					document.getElementById( 'plotContainer' ).style.visibility = 'visible';
+					this.datasourceService.showDataSourceByName( 'SubDistrictNDVI' );
 
-        }
+				}
 
-        document.getElementById('ndviAreaContainer').style.display = 'inline-block';
-        document.getElementById('ndviAreaContainer').style.visibility = 'visible';
-        this.store.ndviAreaDataSourceName = "SubDistrictNDVI";
+				document.getElementById( 'ndviAreaContainer' ).style.display = 'inline-block';
+				document.getElementById( 'ndviAreaContainer' ).style.visibility = 'visible';
+				this.store.ndviAreaDataSourceName = 'SubDistrictNDVI';
         
-    } else {
+			} else {
 
-        this.datasourceService.hideDataSourceByName( "SubDistrictNDVI" );
-        document.getElementById('ndviAreaContainer').style.display = 'none';
-        document.getElementById( "plotContainer" ).style.visibility = 'hidden'; 
-    }
-},
+				this.datasourceService.hideDataSourceByName( 'SubDistrictNDVI' );
+				document.getElementById( 'ndviAreaContainer' ).style.display = 'none';
+				document.getElementById( 'plotContainer' ).style.visibility = 'hidden'; 
+			}
+		},
 
-/**
+		/**
  * This function shows and hides Helsinki Tree Registry
  *
  */
-async ylreEvent() {
+		async ylreEvent() {
 
-    const ylre = document.getElementById( "YLREToggle" ).checked;
+			const ylre = document.getElementById( 'YLREToggle' ).checked;
 
-    if ( ylre ) {
+			if ( ylre ) {
 
-        if ( !this.datasourceService.dataSourceWithNameExists( "YLRE" ) ) {
+				if ( !this.datasourceService.dataSourceWithNameExists( 'YLRE' ) ) {
 
-            await this.ndviAreaService.addFeaturesWithNDVI( "https://geo.fvh.fi/spotted/data/ylre_viheralue_with_ndvi.geojson", "YLRE", true );
+					await this.ndviAreaService.addFeaturesWithNDVI( 'https://geo.fvh.fi/spotted/data/ylre_viheralue_with_ndvi.geojson', 'YLRE', true );
 
-        } else {
+				} else {
 
-            this.datasourceService.showDataSourceByName( "YLRE" );
+					this.datasourceService.showDataSourceByName( 'YLRE' );
 
-        }
+				}
 
-        document.getElementById('ndviYlreContainer').style.display = 'inline-block';
-        document.getElementById('ndviYlreContainer').style.visibility = 'visible';
-        this.store.ndviAreaDataSourceName = "YLRE";
-        let dataSource = await this.datasourceService.getDataSourceByName( this.store.ndviAreaDataSourceName );
-        if ( dataSource ) {
+				document.getElementById( 'ndviYlreContainer' ).style.display = 'inline-block';
+				document.getElementById( 'ndviYlreContainer' ).style.visibility = 'visible';
+				this.store.ndviAreaDataSourceName = 'YLRE';
+				let dataSource = await this.datasourceService.getDataSourceByName( this.store.ndviAreaDataSourceName );
+				if ( dataSource ) {
             
-            this.ndviAreaService.dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023', this.store.ndviAreaDataSourceName );
+					this.ndviAreaService.dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023', this.store.ndviAreaDataSourceName );
 
-        }
+				}
         
-    } else {
+			} else {
 
-        this.datasourceService.hideDataSourceByName( "YLRE" );
-        document.getElementById('ndviYlreContainer').style.display = 'none';
-        document.getElementById( "plotContainer" ).style.visibility = 'hidden';
+				this.datasourceService.hideDataSourceByName( 'YLRE' );
+				document.getElementById( 'ndviYlreContainer' ).style.display = 'none';
+				document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
 
-    }
-},
+			}
+		},
 
 
-/**
+		/**
  * This function shows and hides Helsinki Tree Registry
  *
  */
-async treeRegistryEvent() {
+		async treeRegistryEvent() {
 
-    const treeRegistry = document.getElementById( "TreeRegistryToggle" ).checked;
+			const treeRegistry = document.getElementById( 'TreeRegistryToggle' ).checked;
 
-    if ( treeRegistry ) {
+			if ( treeRegistry ) {
 
-        if ( !this.datasourceService.dataSourceWithNameExists( "TreeRegistry" ) ) {
+				if ( !this.datasourceService.dataSourceWithNameExists( 'TreeRegistry' ) ) {
 
-            await this.ndviAreaService.addFeaturesWithNDVI( "https://geo.fvh.fi/spotted/data/Puurekisteri_piste_with_ndvi.geojson", "TreeRegistry", false );
+					await this.ndviAreaService.addFeaturesWithNDVI( 'https://geo.fvh.fi/spotted/data/Puurekisteri_piste_with_ndvi.geojson', 'TreeRegistry', false );
 
-        } else {
+				} else {
 
-            this.datasourceService.showDataSourceByName( "TreeRegistry" );
-            document.getElementById( "plotContainer" ).style.visibility = 'visible';
+					this.datasourceService.showDataSourceByName( 'TreeRegistry' );
+					document.getElementById( 'plotContainer' ).style.visibility = 'visible';
 
-        }
+				}
 
-        document.getElementById('ndviAreaContainer').style.display = 'inline-block';
-        document.getElementById('ndviAreaContainer').style.visibility = 'visible';
-        this.store.ndviAreaDataSourceName = "TreeRegistry";
+				document.getElementById( 'ndviAreaContainer' ).style.display = 'inline-block';
+				document.getElementById( 'ndviAreaContainer' ).style.visibility = 'visible';
+				this.store.ndviAreaDataSourceName = 'TreeRegistry';
         
-    } else {
+			} else {
 
-        this.datasourceService.hideDataSourceByName( "TreeRegistry" );
-        document.getElementById('ndviAreaContainer').style.display = 'none';
-        document.getElementById( "plotContainer" ).style.visibility = 'hidden';       
+				this.datasourceService.hideDataSourceByName( 'TreeRegistry' );
+				document.getElementById( 'ndviAreaContainer' ).style.display = 'none';
+				document.getElementById( 'plotContainer' ).style.visibility = 'hidden';       
 
-    }
-},
+			}
+		},
 
-/**
+		/**
  * This function switches the wms background from Helsinki wms to copernicus wms
  *
  */
-wmsNDVIEvent() {
+		wmsNDVIEvent() {
 
-    const wmsNDVI = document.getElementById( "wmsNDVIToggle" ).checked;
+			const wmsNDVI = document.getElementById( 'wmsNDVIToggle' ).checked;
 
-    if ( wmsNDVI ) {
+			if ( wmsNDVI ) {
 
-        this.datasourceService.hideDataSourceByName( "MajorDistricts" );
+				this.datasourceService.hideDataSourceByName( 'MajorDistricts' );
 
-        document.getElementById( "wmsNDVISwitch" ).style.display = 'none';
-        document.getElementById( "wmsNDVILabel" ).style.display = 'none';
-        document.getElementById( "showGreenSwitch" ).style.display = 'none';
-        document.getElementById( "showGreenLabel" ).style.display = 'none';
-        document.getElementById( "YLRESwitch" ).style.display = 'inline-block';
-        document.getElementById( "YLRELabel" ).style.display = 'inline-block';
-        document.getElementById( "TreeRegistrySwitch" ).style.display = 'inline-block';
-        document.getElementById( "TreeRegistryLabel" ).style.display = 'inline-block';
-        document.getElementById( "SubDistrictNDVISwitch" ).style.display = 'inline-block';
-        document.getElementById( "SubDistrictNDVILabel" ).style.display = 'inline-block';
-        document.getElementById( "PopulationGridSwitch" ).style.display = 'inline-block';
-        document.getElementById( "PopulationGridLabel" ).style.display = 'inline-block';
+				document.getElementById( 'wmsNDVISwitch' ).style.display = 'none';
+				document.getElementById( 'wmsNDVILabel' ).style.display = 'none';
+				document.getElementById( 'showGreenSwitch' ).style.display = 'none';
+				document.getElementById( 'showGreenLabel' ).style.display = 'none';
+				document.getElementById( 'YLRESwitch' ).style.display = 'inline-block';
+				document.getElementById( 'YLRELabel' ).style.display = 'inline-block';
+				document.getElementById( 'TreeRegistrySwitch' ).style.display = 'inline-block';
+				document.getElementById( 'TreeRegistryLabel' ).style.display = 'inline-block';
+				document.getElementById( 'SubDistrictNDVISwitch' ).style.display = 'inline-block';
+				document.getElementById( 'SubDistrictNDVILabel' ).style.display = 'inline-block';
+				document.getElementById( 'PopulationGridSwitch' ).style.display = 'inline-block';
+				document.getElementById( 'PopulationGridLabel' ).style.display = 'inline-block';
 
-    //    toggleLayerSelectAndActivateNDVI();
+				//    toggleLayerSelectAndActivateNDVI();
 
-    } else { 
+			} else { 
 
-        // showHelsinkiWMSAndActivateDefaultLayer();
-        this.datasourceServic.showDataSourceByName( "MajorDistricts" );
+				// showHelsinkiWMSAndActivateDefaultLayer();
+				this.datasourceServic.showDataSourceByName( 'MajorDistricts' );
 
 
-        document.getElementById( "showGreenSwitch" ).style.display = 'inline-block';
-        document.getElementById( "showGreenLabel" ).style.display = 'inline-block';
-        document.getElementById( "YLRESwitch" ).style.display = 'none';
-        document.getElementById( "YLRELabel" ).style.display = 'none';
-        document.getElementById( "TreeRegistrySwitch" ).style.display = 'none';
-        document.getElementById( "TreeRegistryLabel" ).style.display = 'none';
-        document.getElementById( "SubDistrictNDVISwitch" ).style.display = 'none';
-        document.getElementById( "SubDistrictNDVILabel" ).style.display = 'none';
-        document.getElementById( "printContainer" ).style.display = 'none';
-        document.getElementById( "PopulationGridSwitch" ).style.display = 'none';
-        document.getElementById( "PopulationGridLabel" ).style.display = 'none';  
-        this.datasourceServic.hideDataSourceByName( "YLRE" );  
-        this.datasourceServic.hideDataSourceByName( "TreeRegistry" );
-        this.datasourceServic.hideDataSourceByName( "PopulationGrid" );
-        this.datasourceServic.hideDataSourceByName( "SubDistrictNDVI" );
+				document.getElementById( 'showGreenSwitch' ).style.display = 'inline-block';
+				document.getElementById( 'showGreenLabel' ).style.display = 'inline-block';
+				document.getElementById( 'YLRESwitch' ).style.display = 'none';
+				document.getElementById( 'YLRELabel' ).style.display = 'none';
+				document.getElementById( 'TreeRegistrySwitch' ).style.display = 'none';
+				document.getElementById( 'TreeRegistryLabel' ).style.display = 'none';
+				document.getElementById( 'SubDistrictNDVISwitch' ).style.display = 'none';
+				document.getElementById( 'SubDistrictNDVILabel' ).style.display = 'none';
+				document.getElementById( 'printContainer' ).style.display = 'none';
+				document.getElementById( 'PopulationGridSwitch' ).style.display = 'none';
+				document.getElementById( 'PopulationGridLabel' ).style.display = 'none';  
+				this.datasourceServic.hideDataSourceByName( 'YLRE' );  
+				this.datasourceServic.hideDataSourceByName( 'TreeRegistry' );
+				this.datasourceServic.hideDataSourceByName( 'PopulationGrid' );
+				this.datasourceServic.hideDataSourceByName( 'SubDistrictNDVI' );
 
-    }
-},
+			}
+		},
 
-toggleLayerSelectAndActivateNDVI() {
-    // Hide the Helsinki WMS select dropdown
-    document.getElementById('layerSelect').style.display = 'none';
-    // Show the Copernicus NDVI select dropdown
-    document.getElementById('NDVISelect').style.display = 'block';
-    // Trigger the change event for the NDVISelect to load the "NDVI March" layer
-    document.getElementById('NDVISelect').dispatchEvent(new Event('change'));
-},
+		toggleLayerSelectAndActivateNDVI() {
+			// Hide the Helsinki WMS select dropdown
+			document.getElementById( 'layerSelect' ).style.display = 'none';
+			// Show the Copernicus NDVI select dropdown
+			document.getElementById( 'NDVISelect' ).style.display = 'block';
+			// Trigger the change event for the NDVISelect to load the "NDVI March" layer
+			document.getElementById( 'NDVISelect' ).dispatchEvent( new Event( 'change' ) );
+		},
 
-showHelsinkiWMSAndActivateDefaultLayer() {
-    // Show the Helsinki WMS select dropdown
-    document.getElementById('layerSelect').style.display = 'block';
-    // Hide the Copernicus NDVI select dropdown
-    document.getElementById('NDVISelect').style.display = 'none';
-    // Set the default Helsinki layer (e.g., "avoindata:Opaskartta_Helsinki")
-    document.getElementById('layerSelect').value = 'avoindata:Opaskartta_Helsinki';
-    // Trigger the change event for the layerSelect to load the default Helsinki layer
-    document.getElementById('layerSelect').dispatchEvent(new Event('change'));
-},
+		showHelsinkiWMSAndActivateDefaultLayer() {
+			// Show the Helsinki WMS select dropdown
+			document.getElementById( 'layerSelect' ).style.display = 'block';
+			// Hide the Copernicus NDVI select dropdown
+			document.getElementById( 'NDVISelect' ).style.display = 'none';
+			// Set the default Helsinki layer (e.g., "avoindata:Opaskartta_Helsinki")
+			document.getElementById( 'layerSelect' ).value = 'avoindata:Opaskartta_Helsinki';
+			// Trigger the change event for the layerSelect to load the default Helsinki layer
+			document.getElementById( 'layerSelect' ).dispatchEvent( new Event( 'change' ) );
+		},
 
-/**
+		/**
  * This function to show or hide NDVI 2023 entities on the map based on the toggle button state
  *
  */
-async ndvi2023() {
+		async ndvi2023() {
 
-    const NDVI2023 = document.getElementById( "NDVI2023Toggle" ).checked;
+			const NDVI2023 = document.getElementById( 'NDVI2023Toggle' ).checked;
 
-    const elements = [
-        'showTreesSwitch',
-        'showTreesLabel'
-    ];
+			const elements = [
+				'showTreesSwitch',
+				'showTreesLabel'
+			];
 
-    if ( NDVI2023 ) {
+			if ( NDVI2023 ) {
 
-        this.elementsDisplayService.setElementsDisplay( elements, 'none' );
-        document.getElementById("showNDVIToggle").disabled = true;
-        document.getElementById( "plotPieContainer" ).style.visibility = 'hidden';
-        document.getElementById( "sliderContainer" ).style.visibility = 'hidden';
-        document.getElementById( "plotSelect" ).style.visibility = 'hidden';
-        await this.ndviService.loadNDVI( '2023-01-27' );
-        await this.ndviService.loadNDVI( '2023-02-26' );
-        const slider = document.getElementById('ndviSlider2023');
-        slider.max = Math.max(1, 11);
+				this.elementsDisplayService.setElementsDisplay( elements, 'none' );
+				document.getElementById( 'showNDVIToggle' ).disabled = true;
+				document.getElementById( 'plotPieContainer' ).style.visibility = 'hidden';
+				document.getElementById( 'sliderContainer' ).style.visibility = 'hidden';
+				document.getElementById( 'plotSelect' ).style.visibility = 'hidden';
+				await this.ndviService.loadNDVI( '2023-01-27' );
+				await this.ndviService.loadNDVI( '2023-02-26' );
+				const slider = document.getElementById( 'ndviSlider2023' );
+				slider.max = Math.max( 1, 11 );
 
-        if ( document.getElementById( "showPlotToggle" ).checked ) {
+				if ( document.getElementById( 'showPlotToggle' ).checked ) {
             
-            document.getElementById('ndviSliderContainer2023').style.display = 'inline-block';
+					document.getElementById( 'ndviSliderContainer2023' ).style.display = 'inline-block';
 
-        }
+				}
 
-        this.loadRemainingNDVIDataSequentially( );
+				this.loadRemainingNDVIDataSequentially( );
 
-    } else { 
+			} else { 
 
-        // updateNDVIDataSources2023( );
-        document.getElementById("showNDVIToggle").disabled = false;
-        document.getElementById('ndviSliderContainer2023').style.display = 'none';
-        document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
-        await this.datasourceService.hideDataSourceByName( "ndvi" );
-        await this.datasourceService.removeDataSourcesByNamePrefix("ndvi");
-        this.elementsDisplayService.setElementsDisplay( elements, 'inline-block' );
+				// updateNDVIDataSources2023( );
+				document.getElementById( 'showNDVIToggle' ).disabled = false;
+				document.getElementById( 'ndviSliderContainer2023' ).style.display = 'none';
+				document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
+				await this.datasourceService.hideDataSourceByName( 'ndvi' );
+				await this.datasourceService.removeDataSourcesByNamePrefix( 'ndvi' );
+				this.elementsDisplayService.setElementsDisplay( elements, 'inline-block' );
 
-    }
+			}
 
-},
+		},
 
-async loadRemainingNDVIDataSequentially() {
-    const dates = [ '2023-03-15', '2023-04-22', '2023-05-24', '2023-06-23', '2023-07-13', '2023-08-15', '2023-09-14', '2023-10-29', '2023-11-25', '2023-12-28' ];
-    for (let i = 0; i < dates.length; i++) {
-        try {
-            await this.ndviService.loadNDVI(dates[i]);
-            this.unlockSliderPoint(i + 2); // Assuming the first two points are already loaded
-        } catch (error) {
-            console.error(`Failed to load NDVI data for ${dates[i]}:`, error);
-            // Handle the error, possibly retry or skip to the next
-        }
-    }
-},
+		async loadRemainingNDVIDataSequentially() {
+			const dates = [ '2023-03-15', '2023-04-22', '2023-05-24', '2023-06-23', '2023-07-13', '2023-08-15', '2023-09-14', '2023-10-29', '2023-11-25', '2023-12-28' ];
+			for ( let i = 0; i < dates.length; i++ ) {
+				try {
+					await this.ndviService.loadNDVI( dates[i] );
+					this.unlockSliderPoint( i + 2 ); // Assuming the first two points are already loaded
+				} catch ( error ) {
+					console.error( `Failed to load NDVI data for ${dates[i]}:`, error );
+					// Handle the error, possibly retry or skip to the next
+				}
+			}
+		},
 
-unlockSliderPoint(index) {
-    const slider = document.getElementById('ndviSlider2023');
-    slider.max = Math.max(index, slider.max); // Ensure the slider's max is updated only if it's increasing
-},
+		unlockSliderPoint( index ) {
+			const slider = document.getElementById( 'ndviSlider2023' );
+			slider.max = Math.max( index, slider.max ); // Ensure the slider's max is updated only if it's increasing
+		},
 
-/**
+		/**
  * This function to show or hide green area entities on the map based on the toggle button state
  *
  */
-showGreenEvent() {
+		showGreenEvent() {
 
-    const showGreen = document.getElementById( "showGreenToggle" ).checked;
+			const showGreen = document.getElementById( 'showGreenToggle' ).checked;
 
-    if ( showGreen ) {
+			if ( showGreen ) {
 
-        const greenAreasService = new GreenAreas();
-        greenAreasService.loadGreenAreas();
+				const greenAreasService = new GreenAreas();
+				greenAreasService.loadGreenAreas();
 
-    } else { 
+			} else { 
         
-		this.reset();
+				this.reset();
 
-    }
+			}
 
-},
+		},
 
-/**
+		/**
  * This function to show or hide NDVI entities on the map based on the toggle button state
  *
  */
-async showNDVIEvent() {
-    // Get the state of the showNDVI toggle button
-    const showNDVI = document.getElementById( "showNDVIToggle" ).checked;
+		async showNDVIEvent() {
+			// Get the state of the showNDVI toggle button
+			const showNDVI = document.getElementById( 'showNDVIToggle' ).checked;
 
-    // Get the labels for colors
-    const labels = document.querySelectorAll( ".color-label.active" );
+			// Get the labels for colors
+			const labels = document.querySelectorAll( '.color-label.active' );
 
-    const elements = [
-        'showTreesSwitch',
-        'showTreesLabel'
-    ];
+			const elements = [
+				'showTreesSwitch',
+				'showTreesLabel'
+			];
 
-    // Rest of your showNDVIEvent function code
+			// Rest of your showNDVIEvent function code
 
-    if ( showNDVI ) {
+			if ( showNDVI ) {
 
-        document.getElementById("NDVI2023Toggle").disabled = true;
+				document.getElementById( 'NDVI2023Toggle' ).disabled = true;
 
-        // Toggle the visibility of the labels
-        labels.forEach( label => {
-            label.style.display = "block";
-        });
+				// Toggle the visibility of the labels
+				labels.forEach( label => {
+					label.style.display = 'block';
+				} );
 
-        this.elementsDisplayService.setElementsDisplay( elements, 'none' );
-        this.elementsDisplayService.setElementDisabledState( true );
+				this.elementsDisplayService.setElementsDisplay( elements, 'none' );
+				this.elementsDisplayService.setElementDisabledState( true );
 
-        if ( this.store.majorDistrict && !this.datasourceService.dataSourceWithNameExists( "ndvi2018-06-14" )) {
+				if ( this.store.majorDistrict && !this.datasourceService.dataSourceWithNameExists( 'ndvi2018-06-14' ) ) {
 
-            await this.ndviService.loadNDVI( '2018-06-14' );
-            await this.ndviService.loadNDVI( '2020-06-21' );
-            await this.ndviService.loadNDVI( '2022-06-26' );
+					await this.ndviService.loadNDVI( '2018-06-14' );
+					await this.ndviService.loadNDVI( '2020-06-21' );
+					await this.ndviService.loadNDVI( '2022-06-26' );
 
-        } else {
+				} else {
 
-            this.ndviService.updateNDVIDataSources( );
+					this.ndviService.updateNDVIDataSources( );
 
-        }
+				}
 
-    } else {
+			} else {
 
-        document.getElementById("NDVI2023Toggle").disabled = false;
+				document.getElementById( 'NDVI2023Toggle' ).disabled = false;
 
-        // Hide the labels
-        labels.forEach( label => {
-            label.style.display = "none";
-        } );
-
-
-        this.elementsDisplayService.setElementsDisplay( elements, 'inline-block' );
-        document.getElementById( "plotContainer" ).style.visibility = 'hidden';
-        document.getElementById( 'ndviSliderContainer' ).style.visibility = 'hidden';
-        this.elementsDisplayService.setElementDisabledState( false );
-        this.datasourceService.hideDataSourceByName( "ndvi" );
-
-    }
-},
+				// Hide the labels
+				labels.forEach( label => {
+					label.style.display = 'none';
+				} );
 
 
+				this.elementsDisplayService.setElementsDisplay( elements, 'inline-block' );
+				document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
+				document.getElementById( 'ndviSliderContainer' ).style.visibility = 'hidden';
+				this.elementsDisplayService.setElementDisabledState( false );
+				this.datasourceService.hideDataSourceByName( 'ndvi' );
 
-/**
+			}
+		},
+
+
+
+		/**
  * This function returns only if all hsy land cover
  */
-statusOfHSYToggles( ) {
+		statusOfHSYToggles( ) {
 
-    if ( !document.getElementById( "showTreeToggle" ).checked ) {
+			if ( !document.getElementById( 'showTreeToggle' ).checked ) {
 
-        return false;
-    }
+				return false;
+			}
     
-    return true;
-},
+			return true;
+		},
 
 
-/**
+		/**
  * This function to shows all datasources to user.
  *
  */
-showAllDataSources( ) {
+		showAllDataSources( ) {
 
-    // Set the show property of all data sources to true to show the entities
-    this.viewer.dataSources._dataSources.forEach( function( dataSource ) {
+			// Set the show property of all data sources to true to show the entities
+			this.viewer.dataSources._dataSources.forEach( function( dataSource ) {
 
-        dataSource.show = true;
+				dataSource.show = true;
 
-    });  
-},
+			} );  
+		},
 
-/**
+		/**
  * This function is called when the Object details button is clicked
  *
  */
- printEvent( ) {
+		printEvent( ) {
 
-    console.log( "Set the print to: " + String( document.getElementById( "printToggle" ).checked ) );
-    const print = document.getElementById( "printToggle" ).checked;
+			console.log( 'Set the print to: ' + String( document.getElementById( 'printToggle' ).checked ) );
+			const print = document.getElementById( 'printToggle' ).checked;
 
-    // If print is not selected, hide the print container, search container, georeference container, and search button
-    if ( !print ) {
+			// If print is not selected, hide the print container, search container, georeference container, and search button
+			if ( !print ) {
 
-        document.getElementById( 'printContainer' ).style.visibility = 'hidden';
+				document.getElementById( 'printContainer' ).style.visibility = 'hidden';
 
-    } else { // Otherwise, make the print container visible
+			} else { // Otherwise, make the print container visible
 
-        document.getElementById( 'printContainer' ).style.visibility = 'visible';
+				document.getElementById( 'printContainer' ).style.visibility = 'visible';
 
-    }
+			}
 
-},
+		},
 
-/**
+		/**
  * This function is called when the "Display Plot" toggle button is clicked
  *
  */
-showPlotEvent( ) {
+		showPlotEvent( ) {
 
-    // Get the value of the "Show Plot" toggle button
-    const showPlots = document.getElementById( "showPlotToggle" ).checked;
+			// Get the value of the "Show Plot" toggle button
+			const showPlots = document.getElementById( 'showPlotToggle' ).checked;
     
-    // Hide the plot and its controls if the toggle button is unchecked
-    if ( !showPlots ) {
+			// Hide the plot and its controls if the toggle button is unchecked
+			if ( !showPlots ) {
 
-        this.store.showPlot = false;
-        this.elementsDisplayService.togglePlots( 'hidden' );
+				this.store.showPlot = false;
+				this.elementsDisplayService.togglePlots( 'hidden' );
 
-    } else { // Otherwise, show the plot and its controls if the toggle button is checked and the plot is already loaded
+			} else { // Otherwise, show the plot and its controls if the toggle button is checked and the plot is already loaded
 
-        this.elementsDisplayService.togglePlots( 'visible' );
-        this.store.showPlot = true;
+				this.elementsDisplayService.togglePlots( 'visible' );
+				this.store.showPlot = true;
 
-    }
+			}
 
-},
+		},
 
-/**
+		/**
  * This function handles the toggle event for showing or hiding the tree layer on the map.
  *
  */
-showTreeEvent( ) {
+		showTreeEvent( ) {
 
-    const elements = [
-        'showNDVISwitch',
-        'showNDVILabel'
-    ];
+			const elements = [
+				'showNDVISwitch',
+				'showNDVILabel'
+			];
 
-    // Get the current state of the toggle button for showing nature areas.
-    const showTree = document.getElementById( "showTreeToggle" ).checked;
+			// Get the current state of the toggle button for showing nature areas.
+			const showTree = document.getElementById( 'showTreeToggle' ).checked;
 
-    this.plotService.createVegetationBarPlotPerInhabitant( this.store.districtsVisited[ this.store.districtsVisited.length - 1 ] );
+			this.plotService.createVegetationBarPlotPerInhabitant( this.store.districtsVisited[ this.store.districtsVisited.length - 1 ] );
 
-    if ( showTree ) {
+			if ( showTree ) {
 
-        document.getElementById("showNDVIToggle").disabled = true;
-        this.elementsDisplayService.setElementsDisplay( elements, 'none' );
+				document.getElementById( 'showNDVIToggle' ).disabled = true;
+				this.elementsDisplayService.setElementsDisplay( elements, 'none' );
 
-        if ( this.store.majorDistrict && !this.datasourceService.dataSourceWithNameExists( "Trees" ) ) {
+				if ( this.store.majorDistrict && !this.datasourceService.dataSourceWithNameExists( 'Trees' ) ) {
 
-            this.treeService.loadTreesSequentially( this.store.majorDistrict );
+					this.treeService.loadTreesSequentially( this.store.majorDistrict );
 
-        } else {
+				} else {
 
-            this.datasourceService.showDataSourceByName( "Trees" );
-        }
+					this.datasourceService.showDataSourceByName( 'Trees' );
+				}
 
-    } else {
+			} else {
 
-        document.getElementById("showNDVIToggle").disabled = false;
-        this.datasourceService.hideDataSourceByName( "Trees" );
+				document.getElementById( 'showNDVIToggle' ).disabled = false;
+				this.datasourceService.hideDataSourceByName( 'Trees' );
 
-        if ( !this.areAnySwitchesOn() ) {
+				if ( !this.areAnySwitchesOn() ) {
 
-            this.elementsDisplayService.setElementsDisplay( elements, 'inline-block' );
-            this.elementsDisplayService.toggleLandCoverBarPlots( 'hidden' );
+					this.elementsDisplayService.setElementsDisplay( elements, 'inline-block' );
+					this.elementsDisplayService.toggleLandCoverBarPlots( 'hidden' );
 
-        }
+				}
 
-    }
+			}
 
-},
+		},
 
-areAnySwitchesOn() {
-    // List of switch IDs to check
-    const switchIds = [
-        'showTreeToggle'
-    ];
+		areAnySwitchesOn() {
+			// List of switch IDs to check
+			const switchIds = [
+				'showTreeToggle'
+			];
 
-    // Loop through the switch IDs and check if any are on
-    for (const switchId of switchIds) {
-        const switchElement = document.getElementById(switchId);
-        if ( switchElement && switchElement.checked ) {
+			// Loop through the switch IDs and check if any are on
+			for ( const switchId of switchIds ) {
+				const switchElement = document.getElementById( switchId );
+				if ( switchElement && switchElement.checked ) {
 
-            return true; // At least one switch is on, so return true
-        }
+					return true; // At least one switch is on, so return true
+				}
 
-    }
+			}
 
-    return false; // No switches are on, so return false
-},
+			return false; // No switches are on, so return false
+		},
 
-handleNDVIAreaSliders() {
+		handleNDVIAreaSliders() {
 
-// Get references to all toggle inputs
-const YLREToggle = document.getElementById('YLREToggle');
-const TreeRegistryToggle = document.getElementById('TreeRegistryToggle');
-const PopulationGridToggle = document.getElementById('PopulationGridToggle');
-const SubDistrictNDVIToggle = document.getElementById('SubDistrictNDVIToggle');
+			// Get references to all toggle inputs
+			const YLREToggle = document.getElementById( 'YLREToggle' );
+			const TreeRegistryToggle = document.getElementById( 'TreeRegistryToggle' );
+			const PopulationGridToggle = document.getElementById( 'PopulationGridToggle' );
+			const SubDistrictNDVIToggle = document.getElementById( 'SubDistrictNDVIToggle' );
 
-// Add event listeners to each toggle input
-YLREToggle.addEventListener('change', async function() {
-    if (YLREToggle.checked) {
-        // Disable other toggles
-        TreeRegistryToggle.checked = false;
-        PopulationGridToggle.checked = false;
-        SubDistrictNDVIToggle.checked = false;
-        this.store.ndviAreaDataSourceName = "YLRE";
-        this.datasourceService.hideDataSourceByName( "TreeRegistry" );
-        this.datasourceService.hideDataSourceByName( "PopulationGrid" );
-        this.datasourceService.hideDataSourceByName( "SubDistrictNDVI" );
-        document.getElementById('ndviAreaContainer').style.display = 'none';
-        document.getElementById('ndviYlre').value = 8;
-        document.getElementById('ndviYlreValue').innerHTML = "June 2023";
-        let dataSource = await this.datasourceService.getDataSourceByName( "YLRE" );
-        if ( dataSource ) {
+			// Add event listeners to each toggle input
+			YLREToggle.addEventListener( 'change', async function() {
+				if ( YLREToggle.checked ) {
+					// Disable other toggles
+					TreeRegistryToggle.checked = false;
+					PopulationGridToggle.checked = false;
+					SubDistrictNDVIToggle.checked = false;
+					this.store.ndviAreaDataSourceName = 'YLRE';
+					this.datasourceService.hideDataSourceByName( 'TreeRegistry' );
+					this.datasourceService.hideDataSourceByName( 'PopulationGrid' );
+					this.datasourceService.hideDataSourceByName( 'SubDistrictNDVI' );
+					document.getElementById( 'ndviAreaContainer' ).style.display = 'none';
+					document.getElementById( 'ndviYlre' ).value = 8;
+					document.getElementById( 'ndviYlreValue' ).innerHTML = 'June 2023';
+					let dataSource = await this.datasourceService.getDataSourceByName( 'YLRE' );
+					if ( dataSource ) {
             
-            this.ndviAreaService.dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023', this.store.ndviAreaDataSourceName );
+						this.ndviAreaService.dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023', this.store.ndviAreaDataSourceName );
 
-        }
-    }
-});
+					}
+				}
+			} );
 
-TreeRegistryToggle.addEventListener('change', async function() {
-    if (TreeRegistryToggle.checked) {
-        // Disable other toggles
-        YLREToggle.checked = false;
-        PopulationGridToggle.checked = false;
-        SubDistrictNDVIToggle.checked = false;
-        this.store.ndviAreaDataSourceName = "TreeRegistry";
-        this.datasourceService.hideDataSourceByName( "YLRE" );  
-        this.datasourceService.hideDataSourceByName( "PopulationGrid" );
-        this.datasourceService.hideDataSourceByName( "SubDistrictNDVI" );
-        await this.ndviAreaUpdate();
-    }
-});
+			TreeRegistryToggle.addEventListener( 'change', async function() {
+				if ( TreeRegistryToggle.checked ) {
+					// Disable other toggles
+					YLREToggle.checked = false;
+					PopulationGridToggle.checked = false;
+					SubDistrictNDVIToggle.checked = false;
+					this.store.ndviAreaDataSourceName = 'TreeRegistry';
+					this.datasourceService.hideDataSourceByName( 'YLRE' );  
+					this.datasourceService.hideDataSourceByName( 'PopulationGrid' );
+					this.datasourceService.hideDataSourceByName( 'SubDistrictNDVI' );
+					await this.ndviAreaUpdate();
+				}
+			} );
 
-PopulationGridToggle.addEventListener('change', async function() {
-    if (PopulationGridToggle.checked) {
-        // Disable other toggles
-        YLREToggle.checked = false;
-        TreeRegistryToggle.checked = false;
-        SubDistrictNDVIToggle.checked = false;
-        this.store.ndviAreaDataSourceName = "PopulationGrid";
-        this.datasourceService.hideDataSourceByName( "YLRE" );  
-        this.datasourceService.hideDataSourceByName( "TreeRegistry" );
-        this.datasourceService.hideDataSourceByName( "SubDistrictNDVI" );
-        await this.ndviAreaUpdate();       
-    }
-});
+			PopulationGridToggle.addEventListener( 'change', async function() {
+				if ( PopulationGridToggle.checked ) {
+					// Disable other toggles
+					YLREToggle.checked = false;
+					TreeRegistryToggle.checked = false;
+					SubDistrictNDVIToggle.checked = false;
+					this.store.ndviAreaDataSourceName = 'PopulationGrid';
+					this.datasourceService.hideDataSourceByName( 'YLRE' );  
+					this.datasourceService.hideDataSourceByName( 'TreeRegistry' );
+					this.datasourceService.hideDataSourceByName( 'SubDistrictNDVI' );
+					await this.ndviAreaUpdate();       
+				}
+			} );
 
-SubDistrictNDVIToggle.addEventListener('change', async function() {
-    if (SubDistrictNDVIToggle.checked) {
-        // Disable other toggles
-        YLREToggle.checked = false;
-        TreeRegistryToggle.checked = false;
-        PopulationGridToggle.checked = false;
-        this.store.ndviAreaDataSourceName = "SubDistrictNDVI";
-        this.datasourceService.hideDataSourceByName( "YLRE" );  
-        this.datasourceService.hideDataSourceByName( "TreeRegistry" );
-        this.datasourceService.hideDataSourceByName( "PopulationGrid" );
-        await this.ndviAreaUpdate();
-    }
-});
+			SubDistrictNDVIToggle.addEventListener( 'change', async function() {
+				if ( SubDistrictNDVIToggle.checked ) {
+					// Disable other toggles
+					YLREToggle.checked = false;
+					TreeRegistryToggle.checked = false;
+					PopulationGridToggle.checked = false;
+					this.store.ndviAreaDataSourceName = 'SubDistrictNDVI';
+					this.datasourceService.hideDataSourceByName( 'YLRE' );  
+					this.datasourceService.hideDataSourceByName( 'TreeRegistry' );
+					this.datasourceService.hideDataSourceByName( 'PopulationGrid' );
+					await this.ndviAreaUpdate();
+				}
+			} );
   
 
 
-},
+		},
 
-async ndviAreaUpdate() {
+		async ndviAreaUpdate() {
 
-        document.getElementById('ndviYlreContainer').style.display = 'none';
-        document.getElementById('ndviArea').value = 3;
-        document.getElementById('ndviAreaValue').innerHTML = "June 2023";
-        let dataSource = await this.datasourceService.getDataSourceByName( "SubDistrictNDVI" );
-        if ( dataSource ) {
+			document.getElementById( 'ndviYlreContainer' ).style.display = 'none';
+			document.getElementById( 'ndviArea' ).value = 3;
+			document.getElementById( 'ndviAreaValue' ).innerHTML = 'June 2023';
+			let dataSource = await this.datasourceService.getDataSourceByName( 'SubDistrictNDVI' );
+			if ( dataSource ) {
             
-            this.ndviAreaService.dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023', this.store.ndviAreaDataSourceName );
+				this.ndviAreaService.dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023', this.store.ndviAreaDataSourceName );
 
-        }  
-        }   
+			}  
+		}   
 	},
 };
 </script>

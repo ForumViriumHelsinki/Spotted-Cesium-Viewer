@@ -5,12 +5,12 @@ export default class Wms {
 	constructor() {
 		this.store = useGlobalStore();
 	}
-/**
+	/**
  * Function to create an imagery provider based on the selected layer
  * 
  * @param { String } layers - layers of WMS service
  */
-createImageryProvider( layers ) {
+	createImageryProvider( layers ) {
 		const provider = new Cesium.WebMapServiceImageryProvider( {
 			url : 'https://kartta.hel.fi/ws/geoserver/avoindata/ows?SERVICE=WMS&',
 			layers : layers,
@@ -18,22 +18,22 @@ createImageryProvider( layers ) {
 		} );
         
 		return new Cesium.ImageryLayer( provider );
-}
+	}
 
-/**
+	/**
  * Function to create a NDVI imagery provider based on the selected layer
  * 
  * @param { String } layer - layer of WMS service
  */
-createNDVIImageryProvider( layer ) {
-    return new Cesium.WebMapServiceImageryProvider({
-        url: 'https://sh.dataspace.copernicus.eu/ogc/wms/5ea5da6a-8c03-4a2a-932d-1468fb5bde2c',
-        layers: layer,
-        proxy: new Cesium.DefaultProxy('/proxy/')
-    });
-}
+	createNDVIImageryProvider( layer ) {
+		return new Cesium.WebMapServiceImageryProvider( {
+			url: 'https://sh.dataspace.copernicus.eu/ogc/wms/5ea5da6a-8c03-4a2a-932d-1468fb5bde2c',
+			layers: layer,
+			proxy: new Cesium.DefaultProxy( '/proxy/' )
+		} );
+	}
 
-createHSYImageryLayer() {
+	createHSYImageryLayer() {
 		// Define the backend proxy URL
 		const backendURL = 'https://geo.fvh.fi';
 
@@ -48,14 +48,14 @@ createHSYImageryLayer() {
 		} );
     
 		return new Cesium.ImageryLayer( provider );
-}
+	}
 
-resetWMS() {
+	resetWMS() {
 
-    const selectedLayer = document.getElementById('layerSelect').value;
-    this.store.cesiumViewer.imageryLayers.removeAll(); // Remove existing imagery layers
-    this.store.cesiumViewer.imageryLayers.add( this.createImageryProvider( selectedLayer ) );
+		const selectedLayer = document.getElementById( 'layerSelect' ).value;
+		this.store.cesiumViewer.imageryLayers.removeAll(); // Remove existing imagery layers
+		this.store.cesiumViewer.imageryLayers.add( this.createImageryProvider( selectedLayer ) );
 
-}
+	}
 
 }

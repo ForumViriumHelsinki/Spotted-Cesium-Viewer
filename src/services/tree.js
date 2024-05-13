@@ -6,107 +6,107 @@ import Datasource from './datasource.js';
 export default class Tree {
 	constructor() {
 		this.store = useGlobalStore();
-        this.cacheService = new Cache();
+		this.cacheService = new Cache();
 		this.datasourceService = new Datasource();
 		this.viewer = this.store.cesiumViewer;
 	}
 
-/**
+	/**
  * Load trees sequentially with different parameters.
  * 
  * @param { String } majordistrict - The major district code.
  * @returns { Promise<void> } Promise that resolves when all function calls complete.
  */
-async loadTreesSequentially( majordistrict ) {
+	async loadTreesSequentially( majordistrict ) {
 	
-	try {
+		try {
 
-		let i = 0;
+			let i = 0;
 
-		while ( true ) {
+			while ( true ) {
 
-			if ( i > 10000 ) {
+				if ( i > 10000 ) {
 		
-				await this.loadTrees( majordistrict, i, 300000 );
-				break; // Exit the loop when i is over 10000
+					await this.loadTrees( majordistrict, i, 300000 );
+					break; // Exit the loop when i is over 10000
 
 	  		} else {
 			
-				if ( i > 1000 ) {
+					if ( i > 1000 ) {
 
-					await this.loadTrees( majordistrict, i, i + 50 );
-					i = i + 50;
+						await this.loadTrees( majordistrict, i, i + 50 );
+						i = i + 50;
 
-				} else {
+					} else {
 
-					await this.loadTrees( majordistrict, i, i + 500 );
-					i = i + 500;
+						await this.loadTrees( majordistrict, i, i + 500 );
+						i = i + 500;
 			
+					}
 				}
 			}
+
+			// Code to execute after all function calls complete
+			console.log( 'All function calls have completed' );
+
+
+		} catch ( error ) {
+			// Handle any errors that occurred during the function calls
+			console.error( 'An error occurred:', error );
 		}
 
-    // Code to execute after all function calls complete
-    console.log('All function calls have completed');
+	}
 
-
-  } catch ( error ) {
-    // Handle any errors that occurred during the function calls
-    console.error( 'An error occurred:', error );
-  }
-
-}
-
-/**
+	/**
  * Asynchronously load tree data from an API endpoint based on major district id
  * 
  * @param { String } majordistrict - The major district code.
  * @param { Number } size minimun tree area size
  */
-async loadTrees( majordistrict, lower, upper ) {
+	async loadTrees( majordistrict, lower, upper ) {
 
-	//"https://geo.fvh.fi/spotted/collections/tree/items?f=json&limit=32000&filter=area_m2%20BETWEEN%20" + lower + "%20AND%20"+ upper;
-	//"https://geo.fvh.fi/spotted/collections/tree/items?f=json&limit=32000&tunnus=" + majordistrict + "&size=" + size;
+		//"https://geo.fvh.fi/spotted/collections/tree/items?f=json&limit=32000&filter=area_m2%20BETWEEN%20" + lower + "%20AND%20"+ upper;
+		//"https://geo.fvh.fi/spotted/collections/tree/items?f=json&limit=32000&tunnus=" + majordistrict + "&size=" + size;
 
-      // Construct the API endpoint URL
-	let url = "https://geo.fvh.fi/spotted/collections/tree/items?f=json&limit=32000&tunnus=" + majordistrict + "&filter=area_m2%20BETWEEN%20" + lower + "%20AND%20"+ upper;
+		// Construct the API endpoint URL
+		let url = 'https://geo.fvh.fi/spotted/collections/tree/items?f=json&limit=32000&tunnus=' + majordistrict + '&filter=area_m2%20BETWEEN%20' + lower + '%20AND%20'+ upper;
 
-	try {
+		try {
 
-        // Attempt to retrieve the tree data from the local storage using the API endpoint URL as the key
-		const cachedValue = await this.cacheService.getCachedData(url);
+			// Attempt to retrieve the tree data from the local storage using the API endpoint URL as the key
+			const cachedValue = await this.cacheService.getCachedData( url );
 
-         // If the tree data is already available in the local storage, add it to the Cesium map
-		if ( cachedValue ) {
+			// If the tree data is already available in the local storage, add it to the Cesium map
+			if ( cachedValue ) {
 
-			console.log("found from cache");
-			this.addTreesDataSource( cachedValue, lower );
+				console.log( 'found from cache' );
+				this.addTreesDataSource( cachedValue, lower );
 
-		} else {
+			} else {
 
-            // Otherwise, fetch the tree data from the API endpoint and add it to the local storage
-			this.loadTreesWithoutCache( url, lower );
+				// Otherwise, fetch the tree data from the API endpoint and add it to the local storage
+				this.loadTreesWithoutCache( url, lower );
 
-		}
+			}
 	  	
-	} catch ( err ) {
+		} catch ( err ) {
 		// This code runs if there were any errors.
-		console.log( err );
+			console.log( err );
+		}
 	}
-}
 
-/**
+	/**
  * Add the tree data as a new data source to the Cesium
  * 
  * @param { object } data tree data
  * @param { Number } size minimun tree area size
  */
-async addTreesDataSource( data, size ) {
+	async addTreesDataSource( data, size ) {
 
 
-    	let entities = await this.datasourceService.addDataSourceWithPolygonFix( data, "Trees" + size );
+    	let entities = await this.datasourceService.addDataSourceWithPolygonFix( data, 'Trees' + size );
 
-         // Iterate over each entity in the data source and set its polygon material color based on the tree description
+		// Iterate over each entity in the data source and set its polygon material color based on the tree description
 		for ( let i = 0; i < entities.length; i++ ) {
 
 			const entity = entities[ i ];
@@ -115,80 +115,80 @@ async addTreesDataSource( data, size ) {
 
 		}
 
-}
+	}
 
-/**
+	/**
  * Fetch tree data from the API endpoint and add it to the local storage
  * 
  * @param { String } url API endpoint's url
  */
-async loadTreesWithoutCache(url, lower) {
-    console.log("Not in cache! Loading: " + url);
+	async loadTreesWithoutCache( url, lower ) {
+		console.log( 'Not in cache! Loading: ' + url );
 
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
+		try {
+			const response = await fetch( url );
+			if ( !response.ok ) {
+				throw new Error( 'Network response was not ok' );
+			}
+			const data = await response.json();
 
-        // After successfully fetching, cache the data
-        await this.cacheService.setCachedData(url, data);
-        // Then, add it as a data source
-        this.addTreesDataSource(data, lower);
-    } catch (error) {
-        console.error("Error loading tree data:", error);
-    }
-}
+			// After successfully fetching, cache the data
+			await this.cacheService.setCachedData( url, data );
+			// Then, add it as a data source
+			this.addTreesDataSource( data, lower );
+		} catch ( error ) {
+			console.error( 'Error loading tree data:', error );
+		}
+	}
 
-/**
+	/**
  * Set the polygon material color and extruded height for a given tree entity based on its description
  * 
  * @param { object } entity tree entity
  * @param { String } code code of tree entity
  */
-setTreePolygonMaterialColor( entity, code ) {
+	setTreePolygonMaterialColor( entity, code ) {
 
-	switch ( code ){
-		case "224":
+		switch ( code ){
+		case '224':
 			entity.polygon.material = Cesium.Color.FORESTGREEN.withAlpha( 0.7 );
-            entity.polygon.extrudedHeight = 22.5;
+			entity.polygon.extrudedHeight = 22.5;
 			break;
-		case "223":
+		case '223':
 			entity.polygon.material = Cesium.Color.FORESTGREEN.withAlpha( 0.6 );
-            entity.polygon.extrudedHeight = 17.5;
-		case "222":
+			entity.polygon.extrudedHeight = 17.5;
+		case '222':
 			entity.polygon.material = Cesium.Color.FORESTGREEN.withAlpha( 0.55 );
-            entity.polygon.extrudedHeight = 12.5;
-		case "221":
+			entity.polygon.extrudedHeight = 12.5;
+		case '221':
 			entity.polygon.material = Cesium.Color.FORESTGREEN.withAlpha( 0.5 );
-            entity.polygon.extrudedHeight = 6;
+			entity.polygon.extrudedHeight = 6;
 		}	
 
-}
+	}
 
-/**
+	/**
  * Counts the total area of all tree datasources
  * 
  * @returns { Number } Tree area in square meters
  */
-countTreeArea( ) {
+	countTreeArea( ) {
 
-	let totalTreeArea = 0;
+		let totalTreeArea = 0;
 	
-    this.viewer.dataSources._dataSources.forEach( function( dataSource ) {
-        if ( dataSource.name.startsWith( "Trees" ) ) {
+		this.viewer.dataSources._dataSources.forEach( function( dataSource ) {
+			if ( dataSource.name.startsWith( 'Trees' ) ) {
 
-			for ( let i = 0; i < dataSource._entityCollection._entities._array.length; i++ ) {
+				for ( let i = 0; i < dataSource._entityCollection._entities._array.length; i++ ) {
 
-                const entityArea = dataSource._entityCollection._entities._array[ i ]._properties._area_m2._value;
-				totalTreeArea = totalTreeArea + entityArea;
+					const entityArea = dataSource._entityCollection._entities._array[ i ]._properties._area_m2._value;
+					totalTreeArea = totalTreeArea + entityArea;
                                                      
-            }
-        }
-    });
+				}
+			}
+		} );
 
-	return totalTreeArea;
+		return totalTreeArea;
 
-}
+	}
 }
