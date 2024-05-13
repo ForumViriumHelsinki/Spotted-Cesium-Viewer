@@ -3,7 +3,7 @@
 
     <div id="UIButtonContainer">
       <p class="uiReturnButton" id="returnButton" onClick="prevLevel()" style="color: black;">Previous district</p>
-      <p class="uiButton" onClick="reset()" style="color: red;">Reset</p>
+      <p class="uiButton" @click="reset" style="color: red; float:right; cursor: pointer;">Reset</p>
     </div>
     <!-- Rest of your UI elements -->
 
