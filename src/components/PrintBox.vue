@@ -1,6 +1,6 @@
 <template>
 
-	<div id="printContainer">
+	<div id="printContainer"  style = "visibility: hidden">
         <i>Please click on a postcode area or enter location to load building and nature polygons from the WFS server...</i>
 	</div>
 

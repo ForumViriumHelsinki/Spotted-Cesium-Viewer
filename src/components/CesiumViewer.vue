@@ -1,6 +1,59 @@
 <template>
   <div id="cesiumContainer"></div>
-  
+     <div id="plotContainer">
+  </div>
+
+  <div id="printContainer"  style = "display: none">
+    <i></i>
+    </div>
+        <!-- Labels for colors -->
+        <label class="color-label white-label active" style = "display: none" id = "white-label"> -1 - 0</label>
+        <label class="color-label yellow-label active" style = "display: none" id = "yellow-label">0 - 0.1</label>
+        <label class="color-label yellowgreen-label active" style = "display: none" id = "yellowgreen-label">0.1 - 0.2</label>
+        <label class="color-label lightgreen-label active" style = "display: none" id = "lightgreen-label">0.2 - 0.3</label>
+        <label class="color-label green-label active" style = "display: none" id = "green-label">0.3 - 0.4</label>
+        <label class="color-label ldarkgreen-label active" style = "display: none" id = "ldarkgreen-label">0.4 - 0.5</label>
+        <label class="color-label darkgreen-label active" style = "display: none" id = "darkgreen-label">0.5 - 0.6</label>
+        <label class="color-label vdarkgreen-label active" style = "display: none" id = "vdarkgreen-label">0.6 - 1</label>
+  <div id="plotInhabitantContainer">
+  </div>
+  <div id="greenAreaContainer">
+  </div>  
+  <div id="plotPieContainer" style = "visibility: hidden">
+    <div id="selectContainer">
+        <select id="plotSelect">
+            <option value="Helsinki">Helsinki</option>
+        </select>
+    </div>
+    <!-- Other content of the plot container -->
+</div>
+
+<div class="ndviSlider-container" id="ndviSliderContainer" style = "visibility: hidden">
+  <input type="range" id="ndviSlider" min="0" max="2" value="0">
+  <span id="ndviSliderValue">NDVI</span>
+</div>
+
+<div class="ndviArea-container" id="ndviAreaContainer" style = "visibility: hidden">
+  <input type="range" id="ndviArea" min="0" max="7" value="3">
+  <div class="slider-ticks-container"></div> <!-- Container for tick marks -->
+    <span id="ndviAreaValue">June 2023</span>
+</div>
+
+<div class="ndviSlider-container2023" id="ndviSliderContainer2023" style = "visibility: hidden">
+  <input type="range" id="ndviSlider2023" min="0" max="11" value="0">
+  <div class="slider-ticks-container"></div> <!-- Container for tick marks -->
+</div>
+
+<div class="ndviYlre-container" id="ndviYlreContainer" style = "visibility: hidden">
+  <input type="range" id="ndviYlre" min="0" max="8" value="8">
+  <div class="slider-ticks-container"></div> <!-- Container for tick marks -->
+    <span id="ndviYlreValue">June 2023</span>
+</div>
+
+<div class="slider-container" id="sliderContainer" style = "visibility: hidden">
+  <input type="range" id="blueSlider" min="0" max="5" value="0">
+  <span id="sliderValue">distance from green area 0 km</span>
+</div>
 </template>
 
 <script>
@@ -11,7 +64,8 @@ import Featurepicker from '../services/feature-picker.js';
 import WMS from '../services/wms.js'; 
 import { useGlobalStore } from '../stores/global-store.js';
 import ElementsDisplay from '../services/elements-display.js'; 
-import NDVI from '../services/ndvi.js'; 
+import NDVI from '../services/ndvi.js';
+import Plot from '../services/plot.js'; 
 import NdviArea from '../services/ndvi-area.js';
 import EventEmitter from '../services/event-emitter.js';
 
@@ -30,22 +84,26 @@ export default {
 	}, 
 	methods: {
 		initViewer() {
-			
+
 			// Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
 			this.store.cesiumViewer = new Cesium.Viewer( 'cesiumContainer', {
-    	terrainProvider : new Cesium.EllipsoidTerrainProvider(),
-    	imageryProvider: this.wmsService.createImageryProvider( document.getElementById( 'layerSelect' ).value ),
-    	animation: false,
-      fullscreenButton: false,
-      geocoder: false,
-      shadows: false,
-      navigationHelpButton: false,
-      timeline: false,
-      sceneModePicker: false,
-      baseLayerPicker: false,
-      infoBox: false,
-	  homeButton: false
-    });  
+				terrainProvider : new Cesium.EllipsoidTerrainProvider(),
+    			animation: false,
+      			fullscreenButton: false,
+      			geocoder: false,
+      			shadows: false,
+      			navigationHelpButton: false,
+      			timeline: false,
+      			sceneModePicker: false,
+      			baseLayerPicker: false,
+      			infoBox: false,
+	  			homeButton: false
+    		});  
+
+	// For example, add a placeholder imagery layer
+	this.store.cesiumViewer.imageryLayers.add(
+		this.wmsService.createImageryProvider( 'avoindata:Opaskartta_Helsinki' )
+	);
     
 	    // Fly the camera to Helsinki at the given longitude, latitude, and height.
     this.store.cesiumViewer.camera.flyTo({
@@ -60,10 +118,10 @@ export default {
 
     // Load district zones & energy data availability tags
 	districtService.loadDistrictZones( 0.1, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
-    
+    const featurepicker = new Featurepicker(  );
+
 	// Add click event listener to the viewer container
 	const cesiumContainer = document.getElementById( 'cesiumContainer' );
-		const featurepicker = new Featurepicker(  );
 		cesiumContainer.addEventListener( 'click', function( event ) { 
 		featurepicker.processClick( event ); // Assuming processClick is defined later
 	} );
@@ -71,7 +129,7 @@ export default {
 
   document.getElementById('blueSlider').addEventListener('input', function() {
     document.getElementById('sliderValue').textContent = 'distance from green area ' + this.value + ' km';
-    this.handleGreenAreas( );
+    featurepicker.handleGreenAreas( );
 });
 
 const ndviService = new NDVI ();
@@ -119,24 +177,29 @@ addSelectorEventListeners(  ) {
 	const layerSelect = document.getElementById('layerSelect');
 	const NDVISelect = document.getElementById('NDVISelect');
 	const plotSelect = document.getElementById('plotSelect');
+
+	const store = useGlobalStore();
+	const plotService = new Plot();
+	const wmsService = new WMS();
+
 		
     // Listen for changes in the layer selection
     layerSelect.addEventListener('change', function () {
-        this.wmsService.resetWMS( );
+        wmsService.resetWMS( );
     });	
 
     // Listen for changes in the layer selection
     NDVISelect.addEventListener('change', function () {
         const selectedLayer = document.getElementById('NDVISelect').value;
-        this.store.cesiumViewer.imageryLayers.removeAll(); // Remove existing imagery layers
-        this.store.cesiumViewer.imageryLayers.addImageryProvider( this.wmsService.createNDVIImageryProvider( selectedLayer ) ); // Add the selected layer
+        store.cesiumViewer.imageryLayers.removeAll(); // Remove existing imagery layers
+        store.cesiumViewer.imageryLayers.addImageryProvider( wmsService.createNDVIImageryProvider( selectedLayer ) ); // Add the selected layer
     });	
 
     plotSelect.addEventListener('change', function () {
 
-        if ( this.store.districtsVisited.length ) {
+        if ( store.districtsVisited.length ) {
 
-            createPieChartForMajorDistrict( this.store.districtsVisited[ districtsVisited.length - 1 ] );
+            plotService.createPieChartForMajorDistrict( store.districtsVisited[ store.districtsVisited.length - 1 ] );
 
         }
 
@@ -163,5 +226,352 @@ addSelectorEventListeners(  ) {
 #cesiumContainer {
 	width: 100%;
 	height: 100%;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* White label */
+.white-label {
+	position: fixed;
+	top: 37%;
+	left: 0.5%;
+	width: 3%;
+	height: 2%; 
+    background-color: #eaeaea;
+    color: white; /* Set text color to white or a color that contrasts well */
+    padding: 5px;
+    border-radius: 5px;
+	font-size: 12px;
+}
+
+/* Yellow label */
+.yellow-label {
+	position: fixed;
+	top: 37%;
+	left: 4.5%;
+	width: 3%;
+	height: 2%; 
+    background-color: #ccc682;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+	font-size: 12px;
+}
+
+/* Yellow label */
+.yellowgreen-label {
+	position: fixed;
+	top: 37%;
+	left: 8.5%;
+	width: 3%;
+	height: 2%;
+    background-color: #91bf51;
+    color: black; /* Adjust text color for better visibility */
+    padding: 5px;
+    border-radius: 5px;	
+	font-size: 12px;
+}
+
+/* Yellowgreen label */
+.lightgreen-label {
+	position: fixed;
+	top: 37%;
+	left: 12.5%;
+	width: 3%;
+	height: 2%;
+    background-color: #70a33f;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+	font-size: 12px;
+}
+
+/* Green label */
+.green-label {
+	position: fixed;	
+	top: 37%;
+	left: 16.5%;
+	width: 3%;
+	height: 2%;  
+    background-color: #4f892d;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+	font-size: 12px;
+}
+
+/* Light Dark Green label */
+.ldarkgreen-label {
+	position: fixed;	
+	top: 37%;
+	left: 20.5%;
+	width: 3%;
+	height: 2%;  
+    background-color: #306d1c;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+	font-size: 12px;
+}
+
+/* Dark Green label */
+.darkgreen-label {
+	position: fixed;	
+	top: 37%;
+	left: 24.5%;
+	width: 3%;
+	height: 2%;  
+    background-color: #0f540a;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+	font-size: 12px;
+}
+
+/* Very Dark Green label */
+.vdarkgreen-label {
+	position: fixed;	
+	top: 37%;
+	left: 28.5%;
+	width: 3%;
+	height: 2%;  
+    background-color: #004400;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+	font-size: 12px;
+}
+
+#sliderContainer {
+    visibility: hidden;
+}
+
+.slider-container {
+    position: fixed;
+    top: 53.5%; /* Below #greenAreaContainer */
+    left: 8%; /* Align with the right edge of #greenAreaContainer */
+    transform: translateX(-25%); /* Adjust to make width half of #greenAreaContainer */
+    width: 25%; /* Half the width of #greenAreaContainer */
+    padding: 20px;
+    text-align: center;
+}
+
+
+#ndviSliderContainer {
+    visibility: hidden;
+}
+
+.ndviSlider-container {
+    position: fixed;
+    top: 40%; 
+    left: 5%; 
+    width: 15%;
+    padding: 20px;
+    text-align: center;
+}
+
+#ndviSliderContainer2023 {
+    visibility: hidden;
+}
+
+.ndviSlider-container2023 {
+    position: fixed;
+    top: 33%; 
+    left: 5%; 
+    width: 20%;
+    padding: 20px;
+    text-align: center;
+}
+
+
+input[type=range] {
+    -webkit-appearance: none; /* Override default appearance */
+    width: 100%;
+    margin: 10px 0;
+    background: #ddd; /* Background of the slider track */
+    border-radius: 10px; /* Rounded corners for the track */
+    height: 10px; /* Height of the slider track */
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 25px;
+    height: 25px;
+    background: blue;
+    border-radius: 50%; /* Fully rounded corners for the thumb */
+    cursor: pointer;
+}
+
+input[type=range]::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: blue;
+    border-radius: 50%; /* Fully rounded corners for the thumb */
+    cursor: pointer;
+}
+
+input[type=range]::-moz-range-track {
+    background: #ddd;
+    border-radius: 10px; /* Rounded corners for the track */
+    height: 10px; /* Height of the slider track */
+}
+
+.slider-ticks-container {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    width: 100%;
+    height: 2px; /* Height of the tick marks container */
+    background-color: transparent; /* Optional: change if you want a background */
+    margin-top: -0px; /* Adjust the position to align with the slider */
+}
+
+.slider-ticks-container::before,
+.slider-ticks-container::after,
+.slider-tick {
+    position: absolute;
+    height: 20px; /* Adjust if necessary */
+    width: 2px;
+    background-color: #000;
+    top: -20px; /* Moves tick marks up towards the slider */
+}
+
+.slider-ticks-container::before {
+    left: 0;
+}
+
+.slider-ticks-container::after {
+    right: 0;
+}
+
+.slider-label {
+    position: absolute;
+    top: -5px; /* Moves labels up closer to the slider, adjust as necessary */
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: #000;
+}
+
+#ndviAreaContainer {
+    visibility: hidden;
+}
+
+.ndviArea-container {
+    position: fixed;
+    top: 33%; 
+    left: 5%; 
+    width: 20%;
+    padding: 20px;
+    text-align: center;
+}
+
+#ndviYlreContainer {
+    visibility: hidden;
+}
+
+.ndviYlre-container {
+    position: fixed;
+    top: 33%; 
+    left: 5%; 
+    width: 20%;
+    padding: 20px;
+    text-align: center;
+}
+
+#plotContainer
+{
+	position: fixed;
+	top: 10.5%;
+	left: 0%;
+	width: 35%;
+	height: 250px; 
+	visibility: hidden;
+	
+	font-size: 12px;
+ 	
+	border: 1px solid black;
+	box-shadow: 3px 5px 5px black; 
+}
+
+#greenAreaContainer
+{
+	position: fixed;
+	top: 10.5%;
+	right: 0%;
+	width: 50%;
+	height: 40%; 
+	visibility: hidden;
+	
+	font-size: 12px;
+ 	
+	border: 1px solid black;
+	box-shadow: 3px 5px 5px black; 
+}
+
+#plotPieContainer
+{
+	position: fixed;
+	top: 50%;
+	left: 0%;
+	width: 31.25%;
+	height: 45%; 
+	visibility: hidden;
+	
+	font-size: 12px;
+	border: 1px solid black;
+	box-shadow: 3px 5px 5px black;  
+}
+
+#selectContainer {
+    position: absolute;
+    top: 1px;
+    left: 360px;
+    visibility: hidden;
 }
 </style>

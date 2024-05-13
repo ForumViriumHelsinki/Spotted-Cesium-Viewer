@@ -101,21 +101,12 @@ async loadTrees( majordistrict, lower, upper ) {
  * @param { object } data tree data
  * @param { Number } size minimun tree area size
  */
-addTreesDataSource( data, size ) {
-	
-	this.viewer.dataSources.add( Cesium.GeoJsonDataSource.load( data, {
-		stroke: Cesium.Color.BLACK,
-		fill: Cesium.Color.DARKGREEN,
-		strokeWidth: 3,
-		clampToGround: true
-	}) )
-	.then(function ( dataSource ) {
-		
-        // Set a name for the data source
-		dataSource.name = "Trees" + size;
-		let entities = dataSource.entities.values;
-		
-        // Iterate over each entity in the data source and set its polygon material color based on the tree description
+async addTreesDataSource( data, size ) {
+
+
+    	let entities = await this.datasourceService.addDataSourceWithPolygonFix( data, "Trees" + size );
+
+         // Iterate over each entity in the data source and set its polygon material color based on the tree description
 		for ( let i = 0; i < entities.length; i++ ) {
 
 			const entity = entities[ i ];
@@ -123,11 +114,6 @@ addTreesDataSource( data, size ) {
 			this.setTreePolygonMaterialColor( entity, code );		
 
 		}
-	})	
-	.otherwise(function ( error ) {
-		// Log any errors encountered while loading the data source
-		console.log( error );
-	});
 
 }
 

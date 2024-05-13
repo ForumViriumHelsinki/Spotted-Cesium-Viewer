@@ -1,13 +1,14 @@
 <template>
   <div id="controlPanelContainer">
 
-    <p class="header">Spotted Viewer</p>
-    <p class="uiReturnButton" id="returnButton" style="color: black;">Previous district</p>
-    <p class="uiButton" @click="reset" style="color: red; float:right; cursor: pointer;">Reset</p>
+    <div id="UIButtonContainer">
+      <p class="uiReturnButton" id="returnButton" onClick="prevLevel()" style="color: black;">Previous district</p>
+      <p class="uiButton" onClick="reset()" style="color: red;">Reset</p>
+    </div>
     <!-- Rest of your UI elements -->
 
   <!-- Selects WMS layer -->
-<select id="layerSelect">
+<select id="layerSelect"  style = "float:left;">
   <option value="avoindata:Opaskartta_Helsinki" selected>Opaskartta</option>
   <option value="avoindata:Ortoilmakuva">Ortoilmakuva</option>
   <option value="avoindata:Ortoilmakuva_2022_5cm">Ortoilmakuva 2022</option>
@@ -121,61 +122,6 @@
 
 </div>
 
-    <div id="plotContainer">
-  </div>
-
-  <div id="printContainer"  style = "display: none">
-    <i></i>
-    </div>
-        <!-- Labels for colors -->
-        <label class="color-label white-label active" style = "display: none" id = "white-label"> -1 - 0</label>
-        <label class="color-label yellow-label active" style = "display: none" id = "yellow-label">0 - 0.1</label>
-        <label class="color-label yellowgreen-label active" style = "display: none" id = "yellowgreen-label">0.1 - 0.2</label>
-        <label class="color-label lightgreen-label active" style = "display: none" id = "lightgreen-label">0.2 - 0.3</label>
-        <label class="color-label green-label active" style = "display: none" id = "green-label">0.3 - 0.4</label>
-        <label class="color-label ldarkgreen-label active" style = "display: none" id = "ldarkgreen-label">0.4 - 0.5</label>
-        <label class="color-label darkgreen-label active" style = "display: none" id = "darkgreen-label">0.5 - 0.6</label>
-        <label class="color-label vdarkgreen-label active" style = "display: none" id = "vdarkgreen-label">0.6 - 1</label>
-  <div id="plotInhabitantContainer">
-  </div>
-  <div id="greenAreaContainer">
-  </div>  
-  <div id="plotPieContainer">
-    <div id="selectContainer">
-        <select id="plotSelect">
-            <option value="Helsinki">Helsinki</option>
-        </select>
-    </div>
-    <!-- Other content of the plot container -->
-</div>
-
-<div class="ndviSlider-container" id="ndviSliderContainer">
-  <input type="range" id="ndviSlider" min="0" max="2" value="0">
-  <span id="ndviSliderValue">NDVI</span>
-</div>
-
-<div class="ndviArea-container" id="ndviAreaContainer">
-  <input type="range" id="ndviArea" min="0" max="7" value="3">
-  <div class="slider-ticks-container"></div> <!-- Container for tick marks -->
-    <span id="ndviAreaValue">June 2023</span>
-</div>
-
-<div class="ndviSlider-container2023" id="ndviSliderContainer2023">
-  <input type="range" id="ndviSlider2023" min="0" max="11" value="0">
-  <div class="slider-ticks-container"></div> <!-- Container for tick marks -->
-</div>
-
-<div class="ndviYlre-container" id="ndviYlreContainer">
-  <input type="range" id="ndviYlre" min="0" max="8" value="8">
-  <div class="slider-ticks-container"></div> <!-- Container for tick marks -->
-    <span id="ndviYlreValue">June 2023</span>
-</div>
-
-<div class="slider-container" id="sliderContainer">
-  <input type="range" id="blueSlider" min="0" max="5" value="0">
-  <span id="sliderValue">distance from green area 0 km</span>
-</div>
-
 
 </template>
 
@@ -189,6 +135,9 @@ import { eventBus } from '../services/event-emitter.js';
 import ElementsDisplay from '../services/elements-display.js';
 import Datasource from '../services/datasource.js';
 import Tree from '../services/tree.js';
+import NdviArea from '../services/ndvi-area.js';
+import Ndvi from '../services/ndvi.js';
+import GreenAreas from '../services/green-areas.js'
 
 export default {
 	data() {
@@ -202,12 +151,13 @@ export default {
 		this.unsubscribe = eventBus.$on( 'initControlPanel', this.addEventListeners );
 		this.store = useGlobalStore();
 		this.viewer = this.store.cesiumViewer;
-        console.log("viewer", this.viewer)
 		this.eventEmitterService = new EventEmitter();
         this.plotService = new Plot();
         this.treeService = new Tree();
         this.datasourceService = new Datasource();
         this.elementsDisplayService = new ElementsDisplay();
+        this.ndviAreaService = new NdviArea();
+        this.ndviService = new Ndvi();
 
 	},
 	beforeUnmount() {
@@ -221,7 +171,6 @@ export default {
  * Add EventListeners 
  */
 		addEventListeners() {
-            console.log("hi")
             document.getElementById( 'landCoverToggle' ).addEventListener( 'change', this.getLandCoverEvent );
             document.getElementById( 'PopulationGridToggle' ).addEventListener( 'change', this.populationGridEvent );
             document.getElementById( 'SubDistrictNDVIToggle' ).addEventListener( 'change', this.subDistrictNDVIEvent );
@@ -244,9 +193,9 @@ getLandCoverEvent() {
 
 			if ( landcover ) {
 
-                this.store.viewer.imageryLayers.removeAll();
+                this.viewer.imageryLayers.removeAll();
 
-				this.store.viewer.imageryLayers.add(
+				this.viewer.imageryLayers.add(
 			        wmsService.createHSYImageryLayer()
 				);
 
@@ -272,24 +221,24 @@ populationGridEvent() {
 
     if ( populationGrid ) {
 
-        if ( !dataSourceWithNameExists( "PopulationGrid" ) ) {
+        if ( !this.datasourceService.dataSourceWithNameExists( "PopulationGrid" ) ) {
 
-            addFeaturesWithNDVI( "https://geo.fvh.fi/spotted/data/hki_populationgrid_with_ndvi.geojson", "PopulationGrid", true );
+            this.ndviAreaService.addFeaturesWithNDVI( "https://geo.fvh.fi/spotted/data/hki_populationgrid_with_ndvi.geojson", "PopulationGrid", true );
 
         } else {
 
             document.getElementById( "plotContainer" ).style.visibility = 'visible';
-            showDataSourceByName( "PopulationGrid" );
+            this.datasourceService.showDataSourceByName( "PopulationGrid" );
 
         }
 
         document.getElementById('ndviAreaContainer').style.display = 'inline-block';
         document.getElementById('ndviAreaContainer').style.visibility = 'visible';
-        ndviAreaDataSourceName = "PopulationGrid";
+        this.store.ndviAreaDataSourceName  = "PopulationGrid";
         
     } else {
 
-        hideDataSourceByName( "PopulationGrid" );
+        this.datasourceService.hideDataSourceByName( "PopulationGrid" );
         document.getElementById('ndviAreaContainer').style.display = 'none';
         document.getElementById( "plotContainer" ).style.visibility = 'hidden';        
 
@@ -306,24 +255,24 @@ populationGridEvent() {
 
     if ( subDistrictNDVI ) {
 
-        if ( !dataSourceWithNameExists( "SubDistrictNDVI" ) ) {
+        if ( !this.datasourceService.dataSourceWithNameExists( "SubDistrictNDVI" ) ) {
 
-            addFeaturesWithNDVI( "https://geo.fvh.fi/spotted/data/HelsinkiSubDistrict.geojson", "SubDistrictNDVI", false );
+            this.ndviAreaService.addFeaturesWithNDVI( "https://geo.fvh.fi/spotted/data/HelsinkiSubDistrict.geojson", "SubDistrictNDVI", false );
 
         } else {
 
             document.getElementById( "plotContainer" ).style.visibility = 'visible';
-            showDataSourceByName( "SubDistrictNDVI" );
+            this.datasourceService.showDataSourceByName( "SubDistrictNDVI" );
 
         }
 
         document.getElementById('ndviAreaContainer').style.display = 'inline-block';
         document.getElementById('ndviAreaContainer').style.visibility = 'visible';
-        ndviAreaDataSourceName = "SubDistrictNDVI";
+        this.store.ndviAreaDataSourceName = "SubDistrictNDVI";
         
     } else {
 
-        hideDataSourceByName( "SubDistrictNDVI" );
+        this.datasourceService.hideDataSourceByName( "SubDistrictNDVI" );
         document.getElementById('ndviAreaContainer').style.display = 'none';
         document.getElementById( "plotContainer" ).style.visibility = 'hidden'; 
     }
@@ -337,33 +286,31 @@ async ylreEvent() {
 
     const ylre = document.getElementById( "YLREToggle" ).checked;
 
-    console.log("ylre")
-
     if ( ylre ) {
 
-        if ( !dataSourceWithNameExists( "YLRE" ) ) {
+        if ( !this.datasourceService.dataSourceWithNameExists( "YLRE" ) ) {
 
-            addFeaturesWithNDVI( "https://geo.fvh.fi/spotted/data/ylre_viheralue_with_ndvi.geojson", "YLRE", true );
+            await this.ndviAreaService.addFeaturesWithNDVI( "https://geo.fvh.fi/spotted/data/ylre_viheralue_with_ndvi.geojson", "YLRE", true );
 
         } else {
 
-            showDataSourceByName( "YLRE" );
+            this.datasourceService.showDataSourceByName( "YLRE" );
 
         }
 
         document.getElementById('ndviYlreContainer').style.display = 'inline-block';
         document.getElementById('ndviYlreContainer').style.visibility = 'visible';
-        ndviAreaDataSourceName = "YLRE";
-        let dataSource = await getDataSourceByName( ndviAreaDataSourceName );
+        this.store.ndviAreaDataSourceName = "YLRE";
+        let dataSource = await this.datasourceService.getDataSourceByName( this.store.ndviAreaDataSourceName );
         if ( dataSource ) {
             
-            dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023');
+            this.ndviAreaService.dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023', this.store.ndviAreaDataSourceName );
 
         }
         
     } else {
 
-        hideDataSourceByName( "YLRE" );
+        this.datasourceService.hideDataSourceByName( "YLRE" );
         document.getElementById('ndviYlreContainer').style.display = 'none';
         document.getElementById( "plotContainer" ).style.visibility = 'hidden';
 
@@ -375,30 +322,30 @@ async ylreEvent() {
  * This function shows and hides Helsinki Tree Registry
  *
  */
-treeRegistryEvent() {
+async treeRegistryEvent() {
 
     const treeRegistry = document.getElementById( "TreeRegistryToggle" ).checked;
 
     if ( treeRegistry ) {
 
-        if ( !dataSourceWithNameExists( "TreeRegistry" ) ) {
+        if ( !this.datasourceService.dataSourceWithNameExists( "TreeRegistry" ) ) {
 
-            addFeaturesWithNDVI( "https://geo.fvh.fi/spotted/data/Puurekisteri_piste_with_ndvi.geojson", "TreeRegistry", false );
+            await this.ndviAreaService.addFeaturesWithNDVI( "https://geo.fvh.fi/spotted/data/Puurekisteri_piste_with_ndvi.geojson", "TreeRegistry", false );
 
         } else {
 
-            showDataSourceByName( "TreeRegistry" );
+            this.datasourceService.showDataSourceByName( "TreeRegistry" );
             document.getElementById( "plotContainer" ).style.visibility = 'visible';
 
         }
 
         document.getElementById('ndviAreaContainer').style.display = 'inline-block';
         document.getElementById('ndviAreaContainer').style.visibility = 'visible';
-        ndviAreaDataSourceName = "TreeRegistry";
+        this.store.ndviAreaDataSourceName = "TreeRegistry";
         
     } else {
 
-        hideDataSourceByName( "TreeRegistry" );
+        this.datasourceService.hideDataSourceByName( "TreeRegistry" );
         document.getElementById('ndviAreaContainer').style.display = 'none';
         document.getElementById( "plotContainer" ).style.visibility = 'hidden';       
 
@@ -415,7 +362,7 @@ wmsNDVIEvent() {
 
     if ( wmsNDVI ) {
 
-        hideDataSourceByName( "MajorDistricts" );
+        this.datasourceService.hideDataSourceByName( "MajorDistricts" );
 
         document.getElementById( "wmsNDVISwitch" ).style.display = 'none';
         document.getElementById( "wmsNDVILabel" ).style.display = 'none';
@@ -435,7 +382,7 @@ wmsNDVIEvent() {
     } else { 
 
         // showHelsinkiWMSAndActivateDefaultLayer();
-        showDataSourceByName( "MajorDistricts" );
+        this.datasourceServic.showDataSourceByName( "MajorDistricts" );
 
 
         document.getElementById( "showGreenSwitch" ).style.display = 'inline-block';
@@ -449,10 +396,10 @@ wmsNDVIEvent() {
         document.getElementById( "printContainer" ).style.display = 'none';
         document.getElementById( "PopulationGridSwitch" ).style.display = 'none';
         document.getElementById( "PopulationGridLabel" ).style.display = 'none';  
-        hideDataSourceByName( "YLRE" );  
-        hideDataSourceByName( "TreeRegistry" );
-        hideDataSourceByName( "PopulationGrid" );
-        hideDataSourceByName( "SubDistrictNDVI" );
+        this.datasourceServic.hideDataSourceByName( "YLRE" );  
+        this.datasourceServic.hideDataSourceByName( "TreeRegistry" );
+        this.datasourceServic.hideDataSourceByName( "PopulationGrid" );
+        this.datasourceServic.hideDataSourceByName( "SubDistrictNDVI" );
 
     }
 },
@@ -492,13 +439,13 @@ async ndvi2023() {
 
     if ( NDVI2023 ) {
 
-        setElementsDisplay( elements, 'none' );
+        this.elementsDisplayService.setElementsDisplay( elements, 'none' );
         document.getElementById("showNDVIToggle").disabled = true;
         document.getElementById( "plotPieContainer" ).style.visibility = 'hidden';
         document.getElementById( "sliderContainer" ).style.visibility = 'hidden';
         document.getElementById( "plotSelect" ).style.visibility = 'hidden';
-        await loadNDVI( '2023-01-27' );
-        await loadNDVI( '2023-02-26' );
+        await this.ndviService.loadNDVI( '2023-01-27' );
+        await this.ndviService.loadNDVI( '2023-02-26' );
         const slider = document.getElementById('ndviSlider2023');
         slider.max = Math.max(1, 11);
 
@@ -508,7 +455,7 @@ async ndvi2023() {
 
         }
 
-        loadRemainingNDVIDataSequentially( );
+        this.loadRemainingNDVIDataSequentially( );
 
     } else { 
 
@@ -516,9 +463,9 @@ async ndvi2023() {
         document.getElementById("showNDVIToggle").disabled = false;
         document.getElementById('ndviSliderContainer2023').style.display = 'none';
         document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
-        await hideDataSourceByName( "ndvi" );
-        await removeDataSourcesByNamePrefix("ndvi");
-        setElementsDisplay( elements, 'inline-block' );
+        await this.datasourceService.hideDataSourceByName( "ndvi" );
+        await this.datasourceService.removeDataSourcesByNamePrefix("ndvi");
+        this.elementsDisplayService.setElementsDisplay( elements, 'inline-block' );
 
     }
 
@@ -528,8 +475,8 @@ async loadRemainingNDVIDataSequentially() {
     const dates = [ '2023-03-15', '2023-04-22', '2023-05-24', '2023-06-23', '2023-07-13', '2023-08-15', '2023-09-14', '2023-10-29', '2023-11-25', '2023-12-28' ];
     for (let i = 0; i < dates.length; i++) {
         try {
-            await loadNDVI(dates[i]);
-            unlockSliderPoint(i + 2); // Assuming the first two points are already loaded
+            await this.ndviService.loadNDVI(dates[i]);
+            this.unlockSliderPoint(i + 2); // Assuming the first two points are already loaded
         } catch (error) {
             console.error(`Failed to load NDVI data for ${dates[i]}:`, error);
             // Handle the error, possibly retry or skip to the next
@@ -552,13 +499,12 @@ showGreenEvent() {
 
     if ( showGreen ) {
 
-        loadGreenAreas();
+        const greenAreasService = new GreenAreas();
+        greenAreasService.loadGreenAreas();
 
     } else { 
         
-        hideDataSourceByName( "GreenAreas" );
-        document.getElementById( "plotPieContainer" ).style.visibility = 'hidden';
-        document.getElementById( "sliderContainer" ).style.visibility = 'hidden';
+		this.reset();
 
     }
 
@@ -591,18 +537,18 @@ async showNDVIEvent() {
             label.style.display = "block";
         });
 
-        setElementsDisplay( elements, 'none' );
-        setElementDisabledState( true );
+        this.elementsDisplayService.setElementsDisplay( elements, 'none' );
+        this.elementsDisplayService.setElementDisabledState( true );
 
-        if ( majorDistrict && !dataSourceWithNameExists( "ndvi2018-06-14" )) {
+        if ( this.store.majorDistrict && !this.datasourceService.dataSourceWithNameExists( "ndvi2018-06-14" )) {
 
-            await loadNDVI( '2018-06-14' );
-            await loadNDVI( '2020-06-21' );
-            await loadNDVI( '2022-06-26' );
+            await this.ndviService.loadNDVI( '2018-06-14' );
+            await this.ndviService.loadNDVI( '2020-06-21' );
+            await this.ndviService.loadNDVI( '2022-06-26' );
 
         } else {
 
-            updateNDVIDataSources( );
+            this.ndviService.updateNDVIDataSources( );
 
         }
 
@@ -616,11 +562,11 @@ async showNDVIEvent() {
         } );
 
 
-        setElementsDisplay( elements, 'inline-block' );
+        this.elementsDisplayService.setElementsDisplay( elements, 'inline-block' );
         document.getElementById( "plotContainer" ).style.visibility = 'hidden';
         document.getElementById( 'ndviSliderContainer' ).style.visibility = 'hidden';
-        setElementDisabledState( false );
-        hideDataSourceByName( "ndvi" );
+        this.elementsDisplayService.setElementDisabledState( false );
+        this.datasourceService.hideDataSourceByName( "ndvi" );
 
     }
 },
@@ -648,7 +594,7 @@ statusOfHSYToggles( ) {
 showAllDataSources( ) {
 
     // Set the show property of all data sources to true to show the entities
-    viewer.dataSources._dataSources.forEach( function( dataSource ) {
+    this.viewer.dataSources._dataSources.forEach( function( dataSource ) {
 
         dataSource.show = true;
 
@@ -671,7 +617,7 @@ showAllDataSources( ) {
 
     } else { // Otherwise, make the print container visible
 
-        setPrintVisible( );
+        document.getElementById( 'printContainer' ).style.visibility = 'visible';
 
     }
 
@@ -690,12 +636,12 @@ showPlotEvent( ) {
     if ( !showPlots ) {
 
         this.store.showPlot = false;
-        togglePlots( 'hidden' );
+        this.elementsDisplayService.togglePlots( 'hidden' );
 
     } else { // Otherwise, show the plot and its controls if the toggle button is checked and the plot is already loaded
 
-        togglePlots( 'visible' );
-        this.storeshowPlot = true;
+        this.elementsDisplayService.togglePlots( 'visible' );
+        this.store.showPlot = true;
 
     }
 
@@ -722,7 +668,7 @@ showTreeEvent( ) {
         document.getElementById("showNDVIToggle").disabled = true;
         this.elementsDisplayService.setElementsDisplay( elements, 'none' );
 
-        if ( this.store.majorDistrict && !dataSourceWithNameExists( "Trees" ) ) {
+        if ( this.store.majorDistrict && !this.datasourceService.dataSourceWithNameExists( "Trees" ) ) {
 
             this.treeService.loadTreesSequentially( this.store.majorDistrict );
 
@@ -781,17 +727,17 @@ YLREToggle.addEventListener('change', async function() {
         TreeRegistryToggle.checked = false;
         PopulationGridToggle.checked = false;
         SubDistrictNDVIToggle.checked = false;
-        ndviAreaDataSourceName = "YLRE";
-        hideDataSourceByName( "TreeRegistry" );
-        hideDataSourceByName( "PopulationGrid" );
-        hideDataSourceByName( "SubDistrictNDVI" );
+        this.store.ndviAreaDataSourceName = "YLRE";
+        this.datasourceService.hideDataSourceByName( "TreeRegistry" );
+        this.datasourceService.hideDataSourceByName( "PopulationGrid" );
+        this.datasourceService.hideDataSourceByName( "SubDistrictNDVI" );
         document.getElementById('ndviAreaContainer').style.display = 'none';
         document.getElementById('ndviYlre').value = 8;
         document.getElementById('ndviYlreValue').innerHTML = "June 2023";
-        let dataSource = await getDataSourceByName( "YLRE" );
+        let dataSource = await this.datasourceService.getDataSourceByName( "YLRE" );
         if ( dataSource ) {
             
-            dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023');
+            this.ndviAreaService.dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023', this.store.ndviAreaDataSourceName );
 
         }
     }
@@ -803,11 +749,11 @@ TreeRegistryToggle.addEventListener('change', async function() {
         YLREToggle.checked = false;
         PopulationGridToggle.checked = false;
         SubDistrictNDVIToggle.checked = false;
-        ndviAreaDataSourceName = "TreeRegistry";
-        hideDataSourceByName( "YLRE" );  
-        hideDataSourceByName( "PopulationGrid" );
-        hideDataSourceByName( "SubDistrictNDVI" );
-        await ndviAreaUpdate();
+        this.store.ndviAreaDataSourceName = "TreeRegistry";
+        this.datasourceService.hideDataSourceByName( "YLRE" );  
+        this.datasourceService.hideDataSourceByName( "PopulationGrid" );
+        this.datasourceService.hideDataSourceByName( "SubDistrictNDVI" );
+        await this.ndviAreaUpdate();
     }
 });
 
@@ -817,11 +763,11 @@ PopulationGridToggle.addEventListener('change', async function() {
         YLREToggle.checked = false;
         TreeRegistryToggle.checked = false;
         SubDistrictNDVIToggle.checked = false;
-        ndviAreaDataSourceName = "PopulationGrid";
-        hideDataSourceByName( "YLRE" );  
-        hideDataSourceByName( "TreeRegistry" );
-        hideDataSourceByName( "SubDistrictNDVI" );
-        await ndviAreaUpdate();       
+        this.store.ndviAreaDataSourceName = "PopulationGrid";
+        this.datasourceService.hideDataSourceByName( "YLRE" );  
+        this.datasourceService.hideDataSourceByName( "TreeRegistry" );
+        this.datasourceService.hideDataSourceByName( "SubDistrictNDVI" );
+        await this.ndviAreaUpdate();       
     }
 });
 
@@ -831,11 +777,11 @@ SubDistrictNDVIToggle.addEventListener('change', async function() {
         YLREToggle.checked = false;
         TreeRegistryToggle.checked = false;
         PopulationGridToggle.checked = false;
-        ndviAreaDataSourceName = "SubDistrictNDVI";
-        hideDataSourceByName( "YLRE" );  
-        hideDataSourceByName( "TreeRegistry" );
-        hideDataSourceByName( "PopulationGrid" );
-        await ndviAreaUpdate();
+        this.store.ndviAreaDataSourceName = "SubDistrictNDVI";
+        this.datasourceService.hideDataSourceByName( "YLRE" );  
+        this.datasourceService.hideDataSourceByName( "TreeRegistry" );
+        this.datasourceService.hideDataSourceByName( "PopulationGrid" );
+        await this.ndviAreaUpdate();
     }
 });
   
@@ -848,10 +794,10 @@ async ndviAreaUpdate() {
         document.getElementById('ndviYlreContainer').style.display = 'none';
         document.getElementById('ndviArea').value = 3;
         document.getElementById('ndviAreaValue').innerHTML = "June 2023";
-        let dataSource = await getDataSourceByName( "SubDistrictNDVI" );
+        let dataSource = await this.datasourceService.getDataSourceByName( "SubDistrictNDVI" );
         if ( dataSource ) {
             
-            dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023');
+            this.ndviAreaService.dataForHistogram( dataSource.entities.values, 'ndvi_june2023', 'June 2023', this.store.ndviAreaDataSourceName );
 
         }  
         }   
@@ -860,6 +806,24 @@ async ndviAreaUpdate() {
 </script>
 
 <style>
+
+#UIButtonContainer {
+	display: flex; /* Use flexbox to arrange items horizontally */
+	align-items: center; /* Center vertically */
+	float: right;
+
+}
+
+.uiReturnButton {
+	background-color: white;
+	border: 0px solid black;
+	font-family: sans-serif;
+	font-size: small;
+	text-align: middle;
+	padding: 5px;
+	margin: 5px;
+}
+
 .uiButton {
 	background-color: white;
 	border: 0px solid black; 
@@ -922,51 +886,4 @@ async ndviAreaUpdate() {
   height: 0;
 }
 
-/* The slider */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 16px;
-  width: 16px;
-  left: 2px;
-  bottom: 2px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .slider {
-  background-color: #2196F3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
 </style>

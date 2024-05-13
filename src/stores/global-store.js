@@ -4,7 +4,8 @@ export const useGlobalStore = defineStore( 'global', {
     state: () => ( {
         location: 'start',
         cesiumViewer: null,
-
+        showPlot: true,
+        print: true,
         // UI-related variables
         majorDistrict: null,
         district: null,
@@ -21,6 +22,8 @@ export const useGlobalStore = defineStore( 'global', {
     getters: {
         getLocation: (state) => state.location,
         getCesiumViewer: (state) => state.cesiumViewer,
+        getShowPlot: (state) => state.showPlot,
+        getPrint: (state) => state.print,        
         getMajorDistrict: (state) => state.majorDistrict,
         getDistrict: (state) => state.district, 
         getDistrictName: (state) => state.districtName, 
@@ -40,6 +43,13 @@ export const useGlobalStore = defineStore( 'global', {
         setCesiumViewer(viewer) {
             this.cesiumViewer = viewer;
         },
+        setShowPlot(value) {
+            this.showPlot = value;
+        },
+        setPrint(value) {
+            this.print = value;
+        },
+
         setMajorDistrict(district) {
             this.majorDistrict = district;
         },
@@ -79,6 +89,9 @@ export const useGlobalStore = defineStore( 'global', {
         },
         reset() {
             this.location = 'start'; // Reset to initial values
+            this.cesiumViewer = null;
+            this.showPlot = true;
+            this.print = true;            
             this.majorDistrict = null;
             this.district = null;
             this.districtName = null;

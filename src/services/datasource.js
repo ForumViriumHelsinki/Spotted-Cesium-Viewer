@@ -1,4 +1,5 @@
 import { useGlobalStore } from '../stores/global-store.js';
+import * as Cesium from 'cesium';
 
 export default class Datasource {
 	constructor() {
@@ -16,6 +17,35 @@ getDataSourceByName( name ) {
 
     return this.viewer.dataSources._dataSources.find( ds => ds.name.startsWith( name )  );
 
+}
+
+async addDataSourceWithPolygonFix( data, name ) {
+
+		return new Promise( ( resolve ) => {
+			Cesium.GeoJsonDataSource.load( data, {
+				stroke: Cesium.Color.BLACK,
+				fill: Cesium.Color.CRIMSON,
+				strokeWidth: 3,
+				clampToGround: true,
+			} ).then( ( data ) => {
+          
+				data.name = name;
+
+				for ( let i = 0; i < data.entities.values.length; i++ ) {
+					let entity = data.entities.values[i];
+
+					if ( Cesium.defined( entity.polygon ) ) {
+						entity.polygon.arcType = Cesium.ArcType.GEODESIC;
+					}
+				}
+
+				this.store.cesiumViewer.dataSources.add( data );
+				resolve( data.entities.values );
+			} )
+				.catch( ( error ) => {
+					console.log( error );
+				} );
+		} );
 }
 
 /**
@@ -78,7 +108,7 @@ removeDataSourceByName( name ) {
  * @param {string} namePrefix The prefix of the data source names to remove.
  * @returns {Promise<void>} A promise that resolves when all matching data sources are removed.
  */
-async removeDataSourcesByNamePrefix( namePrefix ) {
+async removeDataSourcesByNamePrefix(namePrefix) {
     return new Promise((resolve, reject) => {
         const dataSources = this.viewer.dataSources._dataSources;
         const removalPromises = [];
@@ -87,25 +117,26 @@ async removeDataSourcesByNamePrefix( namePrefix ) {
             if (dataSource.name.startsWith(namePrefix)) {
                 const removalPromise = new Promise((resolveRemove, rejectRemove) => {
                     this.viewer.dataSources.remove(dataSource, true);
-                    this.viewer.dataSources.dataSourceRemoved.addEventListener(function onDataSourceRemoved() {
-                        this.viewer.dataSources.dataSourceRemoved.removeEventListener(onDataSourceRemoved);
-                        resolveRemove();
-                    });
+
+                    // Binding "this" to the onDataSourceRemoved function
+                    const onDataSourceRemovedHandler = this.onDataSourceRemoved.bind(this);  
+                    
+                    this.viewer.dataSources.dataSourceRemoved.addEventListener(onDataSourceRemovedHandler);
                 });
 
                 removalPromises.push(removalPromise);
             }
         }
 
-        // Wait for all removal promises to resolve
         Promise.all(removalPromises)
-            .then(() => {
-                resolve();
-            })
-            .catch((error) => {
-                reject(error);
-            });
+            .then(() => resolve())
+            .catch(error => reject(error));
     });
+}
+
+onDataSourceRemoved() {
+    // Now 'this' refers to the Datasource instance
+    this.viewer.dataSources.dataSourceRemoved.removeEventListener(this.onDataSourceRemoved.bind(this)); // Re-binding here too
 }
 
 /**

@@ -3,13 +3,16 @@ import District from './district.js';
 import Cache from './cache.js'; 
 import { useGlobalStore } from '../stores/global-store.js';
 import ElementsDisplay from './elements-display.js';
+import Datasource from './datasource.js';
 
 export default class Plot {
 	constructor() {
         this.store = useGlobalStore();
         this.districtService = new District();
+        this.datasourceService = new Datasource();
         this.cacheService = new Cache();
         this.elementsDisplayService = new ElementsDisplay();
+        this.viewer = this.store.cesiumViewer;
 	}
 
 /**
@@ -135,11 +138,9 @@ createPieChartForMajorDistrict( district, year ) {
         if ( this.store.showPlot ) {
     
             this.elementsDisplayService.setPieChartVisibility( 'visible' );
-            this.populateSelectFromGeoJSON( levelsVisited[ levelsVisited.length - 1 ], 'plotSelect', document.getElementById('plotSelect').value );
+            this.populateSelectFromGeoJSON( this.store.levelsVisited[ this.store.levelsVisited.length - 1 ], 'plotSelect', document.getElementById('plotSelect').value );
     
         }
-
-        console.log("data", data)
     
         Plotly.newPlot('plotPieContainer', data, layout );
 
@@ -155,7 +156,8 @@ createPieChartForMajorDistrict( district, year ) {
  */
  populateSelectFromGeoJSON(dataSourceName, selectElementId, currentValue) {
     // Get the GeoJSON data source by name
-    const geoJsonDataSource = this.store.viewer.dataSources.getByName(dataSourceName)[0];
+
+    const geoJsonDataSource = this.viewer.dataSources.getByName(dataSourceName)[0];
 
     if (!geoJsonDataSource) {
         console.error(`Data source with name '${dataSourceName}' not found.`);
@@ -182,7 +184,7 @@ createPieChartForMajorDistrict( district, year ) {
     }
 
     // Remove all options except the first one
-    removeOptionsExceptFirst(selectElement);
+    this.removeOptionsExceptFirst(selectElement);
 
     // Populate the <select> element with options
     for (const nimiFi of nimiFiValues) {
@@ -193,6 +195,18 @@ createPieChartForMajorDistrict( district, year ) {
     }
 
     document.getElementById(selectElementId).value = currentValue;
+}
+
+/**
+ * Remove all options except the first one from a <select> element.
+ * 
+ * @param {HTMLSelectElement} selectElement - The <select> element to remove options from.
+ */
+removeOptionsExceptFirst(selectElement) {
+    const options = selectElement.querySelectorAll("option");
+    for (let i = 1; i < options.length; i++) {
+        options[i].remove();
+    }
 }
 
 /**
@@ -254,7 +268,7 @@ createVegetationBarPlotPerInhabitant( district ) {
     let trace1 = {
         x: labels,
         y: this.getNatureDataPerInhabitantForDistrict( district ),
-        name: majorDistrictName,
+        name: this.store.majorDistrictName,
         type: 'bar',
     };
       
@@ -357,17 +371,17 @@ getNatureDataPerInhabitantForDistrict( district ) {
      // Check if the "showTreeToggle" checkbox is checked
      if ( document.getElementById( "showTreeToggle" ).checked ) {
 
-        data.push( ( this.districtService.getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / districtPopulation ).toFixed( 3 ) );
+        data.push( ( this.districtService.getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'tree2_m2', 'tree10_m2', 'tree15_m2', 'tree20_m2' ] ) / this.store.districtPopulation ).toFixed( 3 ) );
 
     }    
 
      // Check if the "showVegetationToggle" checkbox is checked
     if ( document.getElementById( "landCoverToggle" ).checked ) {
 
-        data.push( ( this.districtService.getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'vegetation_m2' ] ) / districtPopulation ).toFixed( 3 ) );
-        data.push( ( this.districtService.getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'water_m2' ] ) / districtPopulation ).toFixed( 3 ) );
-        data.push( ( this.districtService.getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'field_m2' ] ) / districtPopulation ).toFixed( 3 ) );
-        data.push( ( this.districtService.getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / districtPopulation ).toFixed( 3 ) );
+        data.push( ( this.districtService.getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'vegetation_m2' ] ) / this.store.districtPopulation ).toFixed( 3 ) );
+        data.push( ( this.districtService.getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'water_m2' ] ) / this.store.districtPopulation ).toFixed( 3 ) );
+        data.push( ( this.districtService.getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'field_m2' ] ) / this.store.districtPopulation ).toFixed( 3 ) );
+        data.push( ( this.districtService.getTotalAreaByNameAndIdAndPropertyKeys( district, [ 'rocks_m2', 'other_m2', 'bareland_m2' ] ) / this.store.districtPopulation ).toFixed( 3 ) );
 
     }
 
@@ -564,7 +578,7 @@ createNDVIBarPlot( ndviData, date ) {
         }
 
         document.getElementById( "plotContainer" ).style.visibility = 'visible';
-        toggleLabels( 'visible' );
+        this.elementsDisplayService.toggleLabels( 'visible' );
 
     }
 
@@ -608,7 +622,7 @@ getNDVIForDistrict( majordistrict ) {
  */
 createGreenAreaChart( ) {
 
-    const greenAreaDataSource = this.dataSourceService.getDataSourceByName( "GreenAreas" );
+    const greenAreaDataSource = this.datasourceService.getDataSourceByName( "GreenAreas" );
 
     let puiston_nimi = [];
     let mean_ndvi = [];
@@ -649,7 +663,7 @@ createGreenAreaChart( ) {
  */
 createGreenAreaScatterPlot( ) {
 
-    const greenAreaDataSource = this.dataSourceService.getDataSourceByName( "GreenAreas" );
+    const greenAreaDataSource = this.datasourceService.getDataSourceByName( "GreenAreas" );
 
     let puiston_nimi = [];
     let data = [ ];
@@ -786,11 +800,11 @@ createNDVIHistogram( ndviData, date ) {
 	};
 	
 
-        let title = { text: 'NDVI in ' + districtName + ' at ' + date };
+        let title = { text: 'NDVI in ' + this.store.districtName + ' at ' + date };
 
-    if ( ndviAreaDataSourceName ) {
+    if ( this.store.ndviAreaDataSourceName ) {
         
-        title = { text: 'NDVI for ' + ndviAreaDataSourceName + ' at ' + date };
+        title = { text: 'NDVI for ' + this.store.ndviAreaDataSourceName + ' at ' + date };
 
     }
 	

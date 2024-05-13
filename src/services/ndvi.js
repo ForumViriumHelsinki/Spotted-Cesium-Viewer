@@ -18,15 +18,15 @@ export default class Ndvi {
    * @param { String } date - The date of NDVI data.
 */
 createNdviUrl( date ) {
-    const lastLevel = this.store.levelsVisited[ levelsVisited.length - 1 ];
+    const lastLevel = this.store.levelsVisited[ this.store.levelsVisited.length - 1 ];
 
     switch ( lastLevel ) {
         case 'MajorDistricts':
             return "https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=" + date +  "&suurpiiri=" + this.store.majorDistrict;
         case 'Districts':
-            return "https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=" + date +  "&peruspiiri=" + this.store.districtsVisited[ districtsVisited.length - 1 ] +  "&suurpiiri=" + this.store.majorDistrict;
+            return "https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=" + date +  "&peruspiiri=" + this.store.districtsVisited[ this.store.districtsVisited.length - 1 ] +  "&suurpiiri=" + this.store.majorDistrict;
         case 'SubDistricts':
-            return "https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=" + date +  "&osaalue=" + this.store.districtsVisited[ districtsVisited.length - 1 ]  +  "&peruspiiri=" + this.store.district +  "&suurpiiri=" + this.store.majorDistrict;
+            return "https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=" + date +  "&osaalue=" + this.store.districtsVisited[ this.store.districtsVisited.length - 1 ]  +  "&peruspiiri=" + this.store.district +  "&suurpiiri=" + this.store.majorDistrict;
         default:
             return "https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=" + date +  "&suurpiiri=" + this.store.majorDistrict;
     }
@@ -38,7 +38,6 @@ createNdviUrl( date ) {
    * @param { String } date - The date of NDVI data.
    */
 async loadNDVI(  date ) {
-
   
     // Construct the API endpoint URL
   let url = this.createNdviUrl( date );
@@ -74,18 +73,11 @@ async loadNDVI(  date ) {
 * @param { String } date date of NDVI data
 * @param { Boolean } show NDVI data
 */
-addNDVIDataSource( data, date ) {
-  
-  this.store.viewer.dataSources.add( Cesium.GeoJsonDataSource.load( data, {
-    stroke: Cesium.Color.BLACK,
-    fill: Cesium.Color.DARKGREEN,
-    strokeWidth: 3,
-    clampToGround: true
-  }) )
-  .then(function ( dataSource ) {
-      
-        // Set a name for the data source
-        dataSource.name = "ndvi" + date;
+async addNDVIDataSource( data, date ) {
+
+
+    await this.datasourceService.addDataSourceWithPolygonFix( data, "ndvi" + date );
+
 
         if ( date === '2018-06-14' ) {
 
@@ -111,11 +103,6 @@ addNDVIDataSource( data, date ) {
 
         }
 
-  })	
-  .otherwise(function ( error ) {
-      // Log any errors encountered while loading the data source
-      console.log( error );
-  });
 
 }
 
@@ -235,7 +222,7 @@ updateNDVIDataSources( ) {
     });
 
     this.plotService.createNDVIBarPlot( ndviData, date );
-    this.plotService.createPieChartForMajorDistrict( districtsVisited[ districtsVisited.length - 1 ], date.substring(0, 4) );
+    this.plotService.createPieChartForMajorDistrict( this.store.districtsVisited[ this.store.districtsVisited.length - 1 ], date.substring(0, 4) );
     
 }
 

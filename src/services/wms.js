@@ -1,20 +1,23 @@
 import * as Cesium from 'cesium';
+import { useGlobalStore } from '../stores/global-store.js';
 
 export default class Wms {
 	constructor() {
-
+		this.store = useGlobalStore();
 	}
 /**
  * Function to create an imagery provider based on the selected layer
  * 
- * @param { String } layer - layer of WMS service
+ * @param { String } layers - layers of WMS service
  */
-createImageryProvider( layer ) {
-    return new Cesium.WebMapServiceImageryProvider({
-        url: 'https://kartta.hel.fi/ws/geoserver/avoindata/ows?SERVICE=WMS&',
-        layers: layer,
-        proxy: new Cesium.DefaultProxy('/proxy/')
-    });
+createImageryProvider( layers ) {
+		const provider = new Cesium.WebMapServiceImageryProvider( {
+			url : 'https://kartta.hel.fi/ws/geoserver/avoindata/ows?SERVICE=WMS&',
+			layers : layers,
+			proxy: new Cesium.DefaultProxy( '/proxy/' )
+		} );
+        
+		return new Cesium.ImageryLayer( provider );
 }
 
 /**
@@ -45,6 +48,14 @@ createHSYImageryLayer() {
 		} );
     
 		return new Cesium.ImageryLayer( provider );
+}
+
+resetWMS() {
+
+    const selectedLayer = document.getElementById('layerSelect').value;
+    this.store.cesiumViewer.imageryLayers.removeAll(); // Remove existing imagery layers
+    this.store.cesiumViewer.imageryLayers.add( this.createImageryProvider( selectedLayer ) );
+
 }
 
 }

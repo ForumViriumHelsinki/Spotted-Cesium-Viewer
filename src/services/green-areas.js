@@ -55,41 +55,27 @@ export default class GreenAreas {
    * 
    * @param { object } data GreenAreas data
    */
-   addGreenAreasDataSource( data ) {
-	  
-	  this.viewer.dataSources.add( Cesium.GeoJsonDataSource.load( data, {
-		  stroke: Cesium.Color.BLACK,
-		  fill: Cesium.Color.DARKGREEN,
-		  strokeWidth: 3,
-		  clampToGround: true
-	  }) )
-	  .then(function ( dataSource ) {
-		  
-		  // Set a name for the data source
-		  dataSource.name = "GreenAreas";
-		  let entities = dataSource.entities.values;
-		  
-		  for ( let i = 0; i < entities.length; i++ ) {
-			  
+   async addGreenAreasDataSource( data ) {
+
+        let entities = await this.datasourceService.addDataSourceWithPolygonFix( data, "GreenAreas");
+
+         // Iterate over each entity in the data source and set its polygon material color based on the tree description
+		for ( let i = 0; i < entities.length; i++ ) {
+
 			let entity = entities[ i ];
             entity.polygon.material = this.ndviService.setNDVIPolygonMaterialColor( entity, '_mean_ndvi' );
             
 
-		  }
+		}
 
-            if ( this.store.majorDistrictName ) {
+        if ( this.store.majorDistrictName ) {
+            
+            this.hideOutsideGreenAreas( );
+            this.plotService.createGreenAreaScatterPlot( );
+            this.extrudedGreenAreas( );
 
-                this.hideOutsideGreenAreas( );
-                this.plotService.createGreenAreaScatterPlot( );
-                this.extrudedGreenAreas( );
-
-            }
-	  })	
-	  .otherwise(function ( error ) {
-		  // Log any errors encountered while loading the data source
-		  console.log( error );
-	  });
-  
+        }
+        
   }
   
   /**
@@ -98,33 +84,30 @@ export default class GreenAreas {
    * @param { String } url API endpoint's url
    */
 async loadGreenAreasWithoutCache(url) {
-    console.log("Not in cache! Loading: " + url);
-
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-
-        // After successfully fetching, cache the data
-        await this.cacheService.setCachedData(url, data);
-        // Then, add it as a data source
+	console.log( 'Not in cache! Loading: ' + url );
+  
+	try {
+		const response = await fetch( url );
+		const data = await response.json();
+        this.cacheService.setCachedData(url, data)
         this.addGreenAreasDataSource(data);
-    } catch (error) {
-        console.error("Error loading green areas data:", error);
-    }
+	
+	} catch ( error ) {
+		console.error( 'Error loading green areas data:', error );
+		return null; // Handle error case or return accordingly
+	}
+
 }
 
   async hideOutsideGreenAreas( ) {
     
     const greenAreaDataSource = await this.datasourceService.getDataSourceByName( "GreenAreas" );
-    const currentLevel = this.store.levelsVisited[ levelsVisited.length - 1 ];
+    const currentLevel = this.store.levelsVisited[ this.store.levelsVisited.length - 1 ];
 
     greenAreaDataSource.entities.values.forEach( entity => {
 
-        if ( majorDistrictName ) {
-            if ( currentLevel === 'MajorDistricts' && entity._properties._suurpiiri._value !== majorDistrictName ) {
+        if ( this.store.majorDistrictName ) {
+            if ( currentLevel === 'MajorDistricts' && entity._properties._suurpiiri._value !== this.store.majorDistrictName ) {
                 entity.show = false; // Hide the entity if suurpiiri doesn't match
             }
 
@@ -187,7 +170,7 @@ switchTo3DView() {
         let entity = districtDataSource._entityCollection._entities._array[ i ];
         
         // Check if the entity posno property matches the postalcode.
-        if ( entity._properties._tunnus._value == majorDistrict ) {
+        if ( entity._properties._tunnus._value == this.store.majorDistrict ) {
 
             let polygonHierarchy = entity.polygon.hierarchy.getValue(Cesium.JulianDate.now());
 let positions = polygonHierarchy.positions;
