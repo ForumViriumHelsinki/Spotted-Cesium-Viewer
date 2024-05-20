@@ -20,19 +20,6 @@ export default class Wms {
 		return new Cesium.ImageryLayer( provider );
 	}
 
-	/**
- * Function to create a NDVI imagery provider based on the selected layer
- * 
- * @param { String } layer - layer of WMS service
- */
-	createNDVIImageryProvider( layer ) {
-		return new Cesium.WebMapServiceImageryProvider( {
-			url: 'https://sh.dataspace.copernicus.eu/ogc/wms/5ea5da6a-8c03-4a2a-932d-1468fb5bde2c',
-			layers: layer,
-			proxy: new Cesium.DefaultProxy( '/proxy/' )
-		} );
-	}
-
 	createHSYImageryLayer() {
 		// Define the backend proxy URL
 		const backendURL = 'https://geo.fvh.fi';

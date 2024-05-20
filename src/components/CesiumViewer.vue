@@ -2,6 +2,8 @@
   <div id="cesiumContainer"></div>
      <div id="plotContainer">
   </div>
+     <div id="ndviChartContainer">
+  </div>  
      <div id="chartContainer">
   </div>
   <div id="printContainer"  style = "display: none">
@@ -176,7 +178,6 @@ export default {
 
 			// Get references to all toggle inputs
 			const layerSelect = document.getElementById( 'layerSelect' );
-			const NDVISelect = document.getElementById( 'NDVISelect' );
 			const plotSelect = document.getElementById( 'plotSelect' );
 
 			const store = useGlobalStore();
@@ -187,13 +188,6 @@ export default {
 			// Listen for changes in the layer selection
 			layerSelect.addEventListener( 'change', function () {
 				wmsService.resetWMS( );
-			} );	
-
-			// Listen for changes in the layer selection
-			NDVISelect.addEventListener( 'change', function () {
-				const selectedLayer = document.getElementById( 'NDVISelect' ).value;
-				store.cesiumViewer.imageryLayers.removeAll(); // Remove existing imagery layers
-				store.cesiumViewer.imageryLayers.addImageryProvider( wmsService.createNDVIImageryProvider( selectedLayer ) ); // Add the selected layer
 			} );	
 
 			plotSelect.addEventListener( 'change', function () {
@@ -546,7 +540,21 @@ input[type=range]::-moz-range-track {
 	top: 50%;
 	right: 0%;
 	width: 31.25%;
-	height: 45%; 
+	height: 40%; 
+	visibility: hidden;
+	
+	font-size: 12px;
+	border: 1px solid black;
+	box-shadow: 3px 5px 5px black; 
+}
+
+#ndviChartContainer
+{
+	position: fixed;
+	top: 10%;
+	right: 0%;
+	width: 31.25%;
+	height: 40%; 
 	visibility: hidden;
 	
 	font-size: 12px;

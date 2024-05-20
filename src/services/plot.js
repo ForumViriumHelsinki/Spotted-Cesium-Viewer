@@ -786,11 +786,11 @@ export default class Plot {
  */
 	createNDVIHistogram( ndviData, date ) {
 
-		let markerColor = 'green'
+		let markerColor = 'green';
 
 		if ( this.store.ndviAreaDataSourceName.includes( 'Heat' ) ) {
 
-			markerColor =  'orange'
+			markerColor =  'orange';
 
 		}
 
@@ -836,15 +836,48 @@ export default class Plot {
  *
  * @param { object } properties data of a distrct 
  */
+	createNDVILineChart( data ) {
+
+		let years = [ 2018, 2020, 2022 ];
+		let traces = [ ];
+		let labels = [ '- 0.0' , '0.0 - 0.1', '0.1 - 0.2', '0.2 - 0.3', '0.3 - 0.4', '0.4 - 0.5', , '0.6 - ' ];
+
+		for ( let i = 0; i < labels.length; i++ ) {
+
+			let trace = generateTraceForDataAndYear( data, labels[ i ], years, i  );
+
+			if ( trace ) {
+            
+				traces.push( trace );
+        
+			}
+		}
+		const layout = {
+			xaxis: {title: 'year' },
+			yaxis: {title: 'NDVI area in hectares'},
+			showlegend: false,
+			title: 'NDVI changes in ' + this.store.districtName,
+		};
+
+		document.getElementById( 'ndviChartContainer' ).style.visibility = 'visible';   
+		Plotly.newPlot( 'ndviChartContainer', traces, layout );
+
+	}	
+
+	/**
+ * Creates HSY line chart for a picked district
+ *
+ * @param { object } properties data of a distrct 
+ */
 	createHSYLineChart( properties ) {
 
 		let years = [ 2018, 2020, 2022 ];
-		let data = [ this.generateTraceForTrees( properties, years ) ];
+		let data = [ generateTraceForTrees( properties, years ) ];
 		let labels = [ '_bareland_m2_' , '_building_m2_', '_dirtroad_m2_', '_field_m2_', '_other_m2_', '_pavedroad_m2_', '_rocks_m2_', '_vegetation_m2_', '_water_m2_' ];
 
 		for ( let i = 0; i < labels.length; i++ ) {
 
-			let trace = this.generateTraceForLabelAndYear( properties, labels[ i ], years  );
+			let trace = generateTraceForLabelAndYear( properties, labels[ i ], years  );
 
 			if ( trace ) {
             
@@ -865,7 +898,9 @@ export default class Plot {
 
 	}
 
-	generateTraceForLabelAndYear( properties, label, years ) {
+}
+
+const generateTraceForLabelAndYear = ( properties, label, years ) => {
 
 		if ( properties[ label + years[ 0 ] ] != 0 && properties[ label + years[ 1 ] ] != 0  && properties[ label + years[ 2 ] ] != 0 ) {
 
@@ -875,7 +910,7 @@ export default class Plot {
 				type: 'scatter',
 				name: label.replace( /^_(.*)_m2_$/, '$1' ),
 				line: {
-					color: this.getColorForLabel( label )
+					color: getColorForHSYLabel( label )
 				}
 
 			};  
@@ -883,9 +918,29 @@ export default class Plot {
 			return trace;      
 		}
 
-	}
+}
 
-	getColorForLabel( label ) {
+const generateTraceForTrees = ( properties, years ) => {
+
+		let trees2022 = properties[ '_tree2_m2_2022' ] + properties[ '_tree10_m2_2022' ] + properties[ '_tree15_m2_2022' ] + properties[ '_tree20_m2_2022' ];
+		let trees2020 = properties[ '_tree2_m2_2020' ] + properties[ '_tree10_m2_2020' ] + properties[ '_tree15_m2_2020' ] + properties[ '_tree20_m2_2020' ];
+		let trees2018 = properties[ '_tree2_m2_2018' ] + properties[ '_tree10_m2_2018' ] + properties[ '_tree15_m2_2018' ] + properties[ '_tree20_m2_2018' ];
+
+		let trace = {
+			x: years,
+			y: [ trees2018 / 10000, trees2020 / 10000, trees2022 / 10000 ],
+			type: 'scatter',
+			name: 'trees',
+			line: {
+				color: '#326428'
+			}
+		};  
+
+		return trace;      
+
+}
+
+const getColorForHSYLabel = ( label ) =>  {
 
 		switch ( label ){
 		case '_bareland_m2_':
@@ -910,23 +965,43 @@ export default class Plot {
 
 	}
 
-	generateTraceForTrees( properties, years ) {
+	const getColorForNDVILabel = ( label ) =>  {
 
-		let trees2022 = properties[ '_tree2_m2_2022' ] + properties[ '_tree10_m2_2022' ] + properties[ '_tree15_m2_2022' ] + properties[ '_tree20_m2_2022' ];
-		let trees2020 = properties[ '_tree2_m2_2020' ] + properties[ '_tree10_m2_2020' ] + properties[ '_tree15_m2_2020' ] + properties[ '_tree20_m2_2020' ];
-		let trees2018 = properties[ '_tree2_m2_2018' ] + properties[ '_tree10_m2_2018' ] + properties[ '_tree15_m2_2018' ] + properties[ '_tree20_m2_2018' ];
-
-		let trace = {
-			x: years,
-			y: [ trees2018 / 10000, trees2020 / 10000, trees2022 / 10000 ],
-			type: 'scatter',
-			name: 'trees',
-			line: {
-				color: '#326428'
-			}
-		};  
-
-		return trace;      
-
+		switch ( label ){
+		case '- 0.0':
+			return '#eaeaea';           
+		case '0.0 - 0.1':
+			return '#ccc682';           
+		case '0.1 - 0.2':
+			return '#91bf51';           
+		case '_field_m2_':
+			return '#70a33f';           
+		case '0.2 - 0.3':
+			return '#4f892d';           
+		case '0.3 - 0.4':
+			return '#306d1c';           
+		case '0.4 - 0.5':
+			return '#0f540a';    
+		case '0.6 - ':
+			return '#004400';           
 	}
 }
+
+		const generateTraceForDataAndYear = ( data, label, years, i )  => {
+
+
+			let trace = {
+				x: years,
+				y: [ data[ 0 ][ i ] / 10000, data[ 1 ][ i ] / 10000, data[ 2 ][ i ] / 10000 ],
+				type: 'scatter',
+				name: label,
+				line: {
+					color: getColorForNDVILabel( label )
+				}
+
+			};  
+
+			return trace;      
+		
+
+	}

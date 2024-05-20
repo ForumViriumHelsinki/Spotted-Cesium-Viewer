@@ -40,6 +40,7 @@ export default class ElementsDisplay {
 
 		document.getElementById( 'plotPieContainer' ).style.visibility = visibility;
 		document.getElementById( 'chartContainer' ).style.visibility = visibility;
+		document.getElementById( 'ndviChartContainer' ).style.visibility = visibility;
 		document.getElementById( 'selectContainer' ).style.visibility = visibility;
 
 		if ( document.getElementById( 'showNDVIToggle' ).checked || document.getElementById( 'NDVI2023Toggle' ).checked || visibility == 'hidden' ) {
@@ -137,73 +138,73 @@ export default class ElementsDisplay {
 		}
 	}
 
-/**
+	/**
  * Resets the switches to their default state
  */
-resetSwitches( ) {
+	resetSwitches( ) {
 
-    const elements = [
-        'showPlotSwitch',
-        'showPlotLabel',
-        'showNDVISwitch',
-        'showNDVILabel',
-        'NDVI2023Switch',
-        'NDVI2023Label',
-        'showTreesSwitch',
-        'showTreesLabel',
-        'SubDistrictNDVISwitch',
-        'SubDistrictNDVILabel',
-        'PopulationGridSwitch',
-        'PopulationGridLabel',
-        'TreeRegistrySwitch',
-        'TreeRegistryLabel',
-        'YLRESwitch',
-        'YLRELabel'		
-    ];
+		const elements = [
+			'showPlotSwitch',
+			'showPlotLabel',
+			'showNDVISwitch',
+			'showNDVILabel',
+			'NDVI2023Switch',
+			'NDVI2023Label',
+			'showTreesSwitch',
+			'showTreesLabel',
+			'SubDistrictNDVISwitch',
+			'SubDistrictNDVILabel',
+			'PopulationGridSwitch',
+			'PopulationGridLabel',
+			'TreeRegistrySwitch',
+			'TreeRegistryLabel',
+			'YLRESwitch',
+			'YLRELabel'		
+		];
 
-	document.getElementById( "showPlotToggle" ).checked = true;
+		document.getElementById( 'showPlotToggle' ).checked = true;
 
-    document.getElementById( "showTreeToggle" ).checked = false;
-    document.getElementById( "showNDVIToggle" ).checked = false;
-    document.getElementById( "NDVI2023Toggle" ).checked = false;
-    document.getElementById( "showGreenToggle" ).checked = false;
-    document.getElementById( "wmsNDVIToggle" ).checked = false;
-    document.getElementById( "SubDistrictNDVIToggle" ).checked = false;
-    document.getElementById( "TreeRegistryToggle" ).checked = false;
-    document.getElementById( "PopulationGridToggle" ).checked = false;
-    document.getElementById( "YLREToggle" ).checked = false;
+		document.getElementById( 'showTreeToggle' ).checked = false;
+		document.getElementById( 'showNDVIToggle' ).checked = false;
+		document.getElementById( 'NDVI2023Toggle' ).checked = false;
+		document.getElementById( 'showGreenToggle' ).checked = false;
+		document.getElementById( 'wmsNDVIToggle' ).checked = false;
+		document.getElementById( 'SubDistrictNDVIToggle' ).checked = false;
+		document.getElementById( 'TreeRegistryToggle' ).checked = false;
+		document.getElementById( 'PopulationGridToggle' ).checked = false;
+		document.getElementById( 'YLREToggle' ).checked = false;
 
-    this.setElementDisabledState( true );
-    this.setElementsDisplay( elements, 'none' );
+		this.setElementDisabledState( true );
+		this.setElementsDisplay( elements, 'none' );
 
-    const elements2 = [
-        'showPlotSwitch',
-        'showPlotLabel',
-        'wmsNDVISwitch',
-        'wmsNDVILabel',
-		'showGreenSwitch',
-		'showGreenLabel'
-    ];
-	this.setElementsDisplay( elements2, 'inline-block' );
+		const elements2 = [
+			'showPlotSwitch',
+			'showPlotLabel',
+			'wmsNDVISwitch',
+			'wmsNDVILabel',
+			'showGreenSwitch',
+			'showGreenLabel'
+		];
+		this.setElementsDisplay( elements2, 'inline-block' );
 
-    document.getElementById("showNDVIToggle").disabled = true;
-    document.getElementById("NDVI2023Toggle").disabled = true;
+		document.getElementById( 'showNDVIToggle' ).disabled = true;
+		document.getElementById( 'NDVI2023Toggle' ).disabled = true;
 
-//	document.getElementById( "printToggle" ).checked = true;
-    document.getElementById( 'returnButton' ).style.visibility = 'hidden';
-    document.getElementById( 'selectContainer' ).style.visibility = 'hidden';
-    document.getElementById( "plotContainer" ).style.visibility = 'hidden';
-    document.getElementById( "greenAreaContainer" ).style.visibility = 'hidden';
-    document.getElementById( 'ndviSliderContainer' ).style.visibility = 'hidden';
-    document.getElementById( 'ndviSliderContainer2023' ).style.visibility = 'hidden';
-    document.getElementById( 'ndviAreaContainer' ).style.visibility = 'hidden';
-    document.getElementById( 'ndviYlreContainer' ).style.visibility = 'hidden';
+		//	document.getElementById( "printToggle" ).checked = true;
+		document.getElementById( 'returnButton' ).style.visibility = 'hidden';
+		document.getElementById( 'selectContainer' ).style.visibility = 'hidden';
+		document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
+		document.getElementById( 'greenAreaContainer' ).style.visibility = 'hidden';
+		document.getElementById( 'ndviSliderContainer' ).style.visibility = 'hidden';
+		document.getElementById( 'ndviSliderContainer2023' ).style.visibility = 'hidden';
+		document.getElementById( 'ndviAreaContainer' ).style.visibility = 'hidden';
+		document.getElementById( 'ndviYlreContainer' ).style.visibility = 'hidden';
 
-//    setPrintVisible( );
-    this.togglePlots( 'hidden' );    
+		//    setPrintVisible( );
+		this.togglePlots( 'hidden' );    
 
   	this.store.showPlot = true;
-	this.store.print = true;
+		this.store.print = true;
 
-}	
+	}	
 }

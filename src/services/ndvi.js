@@ -81,10 +81,22 @@ export default class Ndvi {
 
 		if ( date === '2018-06-14' ) {
 
-			this.updateNDVIDataSources();
+			await this.loadNDVI( '2020-06-21' );
 
 		} 
 
+		if ( date === '2020-06-21' ) {
+
+			await this.loadNDVI( '2022-06-26' );
+
+		} 
+
+		if ( date === '2022-06-26' ) {
+
+			this.updateNDVIDataSources();
+
+		} 
+	
 		if ( date === '2023-01-27' ) {
 
 			this.updateNDVIDataSources2023();
@@ -162,66 +174,46 @@ export default class Ndvi {
 * This function hides and shows ndvi datasources based on ndviSliderValue value
 * 
 */
-	updateNDVIDataSources( ) {
+	async updateNDVIDataSources( ) {
 		this.datasourceService.hideDataSourceByName( 'ndvi' );
 		const sliderValue = parseInt( document.getElementById( 'ndviSlider' ).value );
-		let dataSource = null;
 		let date = '2018-06-14';
-		let ndviData = [ 0, 0, 0, 0, 0, 0, 0, 0 ];
+		let ndviData = [[ 0, 0, 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ,0, 0 ], [ 0, 0, 0, 0, 0, 0, 0, 0 ]];
 
+		const datasource2018 = 	await this.datasourceService.getDataSourceByName( 'ndvi2018-06-14' );
+		const datasource2020 = await this.datasourceService.getDataSourceByName( 'ndvi2020-06-21' );
+		const datasource2022 =  await this.datasourceService.getDataSourceByName( 'ndvi2022-06-26' );
+
+		addNDVI( ndviData, datasource2018.entities.values, 0 );
 
 		if ( sliderValue === 0 ) {
 
-			dataSource = this.datasourceService.getDataSourceByName( 'ndvi2018-06-14' );
+			this.colorAndShow( datasource2018.entities.values, );
+			this.plotService.createNDVIBarPlot( ndviData[ 0 ], date );
 
 		}
+
+		addNDVI( ndviData, datasource2020.entities.values, 1 );
 
 		if ( sliderValue === 1 ) {
 
-			dataSource = this.datasourceService.getDataSourceByName( 'ndvi2020-06-21' );
+			this.colorAndShow( datasource2020.entities.values, );
 			date = '2020-06-21';
+			this.plotService.createNDVIBarPlot( ndviData[ 1 ], date );
 
-		}
+		} 
+
+		addNDVI( ndviData, datasource2022.entities.values, 2 );
 
 		if ( sliderValue === 2 ) {
 
-			dataSource = this.datasourceService.getDataSourceByName( 'ndvi2022-06-26' );
+			this.colorAndShow( datasource2022.entities.values, );
 			date = '2022-06-26';
+			this.plotService.createNDVIBarPlot( ndviData[ 2 ], date );
 
-		}
+		} 		
 
-		dataSource.show = true;	
-
-		dataSource.entities.values.forEach( entity => {
-
-			entity.show = true;
-			entity.polygon.extrudedHeight = 1;
-			entity.polygon.material = this.setNDVIPolygonMaterialColor( entity, '_avgndvi' );
-
-			const avgndvi = entity._properties._avgndvi._value;
-			const area_m2 = Number( entity._properties._area_m2._value );
-
-			if ( avgndvi <= 0 ) {
-				ndviData[ 0 ] = ndviData[ 0 ] + area_m2;
-			} else if ( avgndvi > 0.0 && avgndvi <= 0.1 ) {
-				ndviData[ 1 ] = ndviData[ 1 ] + area_m2;
-			} else if ( avgndvi > 0.1 && avgndvi <= 0.2 ) {
-				ndviData[ 2 ] = ndviData[ 2 ] + area_m2;
-			} else if ( avgndvi > 0.2 && avgndvi <= 0.3 ) {
-				ndviData[ 3 ] = ndviData[ 3 ] + area_m2;
-			} else if ( avgndvi > 0.3 && avgndvi <= 0.4 ) {
-				ndviData[ 4 ] = ndviData[ 4 ] + area_m2;
-			} else if ( avgndvi > 0.4 && avgndvi <= 0.5 ) {
-				ndviData[ 5 ] = ndviData[ 5 ] + area_m2;
-			} else if ( avgndvi > 0.5 && avgndvi <= 0.6 ) {
-				ndviData[ 6 ] = ndviData[ 6 ] + area_m2;
-			} else if ( avgndvi > 0.6 ) {
-				ndviData[ 7 ] = ndviData[ 7 ] + area_m2;
-			}
-
-		} );
-
-		this.plotService.createNDVIBarPlot( ndviData, date );
+		this.plotService.createNDVILineChart( ndviData );
 		this.plotService.createPieChartForMajorDistrict( this.store.districtsVisited[ this.store.districtsVisited.length - 1 ], date.substring( 0, 4 ) );
     
 	}
@@ -382,5 +374,48 @@ export default class Ndvi {
 			}
 		}
 	}
+
+	colorAndShow( entities ) {
+		
+		entities.forEach( entity => {
+
+			entity.show = true;
+			entity.polygon.extrudedHeight = 1;
+			entity.polygon.material = this.setNDVIPolygonMaterialColor( entity, '_avgndvi' );
+
+})
+
+
+
+}
+}
+
+const addNDVI = ( ndviData, entities, index ) => {
+	
+	entities.forEach( entity => {
+
+
+			const avgndvi = entity._properties._avgndvi._value;
+			const area_m2 = Number( entity._properties._area_m2._value );
+
+			if ( avgndvi <= 0 ) {
+				ndviData[ index ][ 0 ] = ndviData[ index ][ 0 ] + area_m2;
+			} else if ( avgndvi > 0.0 && avgndvi <= 0.1 ) {
+				ndviData[ index ][ 1 ] = ndviData[ index ][ 1 ] + area_m2;
+			} else if ( avgndvi > 0.1 && avgndvi <= 0.2 ) {
+				ndviData[ index ][ 2 ] = ndviData[ index ][ 2 ] + area_m2;
+			} else if ( avgndvi > 0.2 && avgndvi <= 0.3 ) {
+				ndviData[ index ][ 3 ] = ndviData[ index ][ 3 ] + area_m2;
+			} else if ( avgndvi > 0.3 && avgndvi <= 0.4 ) {
+				ndviData[ index ][ 4 ] = ndviData[ index ][ 4 ] + area_m2;
+			} else if ( avgndvi > 0.4 && avgndvi <= 0.5 ) {
+				ndviData[ index ][ 5 ] = ndviData[ index ][ 5 ] + area_m2;
+			} else if ( avgndvi > 0.5 && avgndvi <= 0.6 ) {
+				ndviData[ index ][ 6 ] = ndviData[ index ][ 6 ] + area_m2;
+			} else if ( avgndvi > 0.6 ) {
+				ndviData[ index ][ 7 ] = ndviData[ index ][ 7 ] + area_m2;
+			}
+
+		} );
 
 }

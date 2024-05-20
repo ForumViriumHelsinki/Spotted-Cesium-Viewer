@@ -623,8 +623,6 @@ export default {
 				if ( this.store.majorDistrict && !this.datasourceService.dataSourceWithNameExists( 'ndvi2018-06-14' ) ) {
 
 					await this.ndviService.loadNDVI( '2018-06-14' );
-					await this.ndviService.loadNDVI( '2020-06-21' );
-					await this.ndviService.loadNDVI( '2022-06-26' );
 
 				} else {
 
@@ -721,7 +719,7 @@ export default {
         			'showPlotSwitch',
         			'showPlotLabel'
     			];
-				this.setElementsDisplay( elements, 'none' );
+				this.elementsDisplayService.setElementsDisplay( elements, 'none' );
 
 			}
 
