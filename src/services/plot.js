@@ -22,7 +22,7 @@ export default class Plot {
  */
 	createDiagrams( district ) {
 
-		this.createPieChartForMajorDistrict( district );
+		this.createPieChartForMajorDistrict( );
 		//createVegetationBarPlot( district );
 		this.createVegetationBarPlotPerInhabitant( district );
 
@@ -53,9 +53,9 @@ export default class Plot {
 	/**
  * Creates landcover comparasion pie chart for major district area
  *
- * @param { object } district major district code
+ * @param { string } year
  */
-	createPieChartForMajorDistrict( district, year ) {
+	createPieChartForMajorDistrict( year ) {
 
 		if ( !document.getElementById( 'showGreenToggle' ).checked ) {
 
@@ -66,7 +66,7 @@ export default class Plot {
 				yearLabel = '2022';
 			} 
     
-			let firstData = this.getLandDataForMajorDistrict( district );
+			let firstData = this.getLandDataForMajorDistrict( this.store.districtsVisited[ this.store.districtsVisited.length - 1 ] );
 			let secondData = this.getLandDataForCity( );
 			let secondDataName = 'Helsinki';
     
@@ -902,106 +902,106 @@ export default class Plot {
 
 const generateTraceForLabelAndYear = ( properties, label, years ) => {
 
-		if ( properties[ label + years[ 0 ] ] != 0 && properties[ label + years[ 1 ] ] != 0  && properties[ label + years[ 2 ] ] != 0 ) {
-
-			let trace = {
-				x: years,
-				y: [ properties[ label + years[ 0 ] ]._value / 10000, properties[ label + years[ 1 ] ]._value / 10000, properties[ label + years[ 2 ] ]._value / 10000 ],
-				type: 'scatter',
-				name: label.replace( /^_(.*)_m2_$/, '$1' ),
-				line: {
-					color: getColorForHSYLabel( label )
-				}
-
-			};  
-
-			return trace;      
-		}
-
-}
-
-const generateTraceForTrees = ( properties, years ) => {
-
-		let trees2022 = properties[ '_tree2_m2_2022' ] + properties[ '_tree10_m2_2022' ] + properties[ '_tree15_m2_2022' ] + properties[ '_tree20_m2_2022' ];
-		let trees2020 = properties[ '_tree2_m2_2020' ] + properties[ '_tree10_m2_2020' ] + properties[ '_tree15_m2_2020' ] + properties[ '_tree20_m2_2020' ];
-		let trees2018 = properties[ '_tree2_m2_2018' ] + properties[ '_tree10_m2_2018' ] + properties[ '_tree15_m2_2018' ] + properties[ '_tree20_m2_2018' ];
+	if ( properties[ label + years[ 0 ] ] != 0 && properties[ label + years[ 1 ] ] != 0  && properties[ label + years[ 2 ] ] != 0 ) {
 
 		let trace = {
 			x: years,
-			y: [ trees2018 / 10000, trees2020 / 10000, trees2022 / 10000 ],
+			y: [ properties[ label + years[ 0 ] ]._value / 10000, properties[ label + years[ 1 ] ]._value / 10000, properties[ label + years[ 2 ] ]._value / 10000 ],
 			type: 'scatter',
-			name: 'trees',
+			name: label.replace( /^_(.*)_m2_$/, '$1' ),
 			line: {
-				color: '#326428'
+				color: getColorForHSYLabel( label )
 			}
+
 		};  
 
 		return trace;      
+	}
 
-}
+};
+
+const generateTraceForTrees = ( properties, years ) => {
+
+	let trees2022 = properties[ '_tree2_m2_2022' ] + properties[ '_tree10_m2_2022' ] + properties[ '_tree15_m2_2022' ] + properties[ '_tree20_m2_2022' ];
+	let trees2020 = properties[ '_tree2_m2_2020' ] + properties[ '_tree10_m2_2020' ] + properties[ '_tree15_m2_2020' ] + properties[ '_tree20_m2_2020' ];
+	let trees2018 = properties[ '_tree2_m2_2018' ] + properties[ '_tree10_m2_2018' ] + properties[ '_tree15_m2_2018' ] + properties[ '_tree20_m2_2018' ];
+
+	let trace = {
+		x: years,
+		y: [ trees2018 / 10000, trees2020 / 10000, trees2022 / 10000 ],
+		type: 'scatter',
+		name: 'trees',
+		line: {
+			color: '#326428'
+		}
+	};  
+
+	return trace;      
+
+};
 
 const getColorForHSYLabel = ( label ) =>  {
 
-		switch ( label ){
-		case '_bareland_m2_':
-			return '#cd853f';           
-		case '_building_m2_':
-			return '#d80000';           
-		case '_dirtroad_m2_':
-			return '#824513';           
-		case '_field_m2_':
-			return '#ffd980';           
-		case '_other_m2_':
-			return '#857976';           
-		case '_pavedroad_m2_':
-			return '#000000';           
-		case '_rocks_m2_':
-			return '#bfbdc2';    
-		case '_vegetation_m2_':
-			return '#b2df43';           
-		case '_water_m2_':
-			return  '#6495ed';          
-		}        
+	switch ( label ){
+	case '_bareland_m2_':
+		return '#cd853f';           
+	case '_building_m2_':
+		return '#d80000';           
+	case '_dirtroad_m2_':
+		return '#824513';           
+	case '_field_m2_':
+		return '#ffd980';           
+	case '_other_m2_':
+		return '#857976';           
+	case '_pavedroad_m2_':
+		return '#000000';           
+	case '_rocks_m2_':
+		return '#bfbdc2';    
+	case '_vegetation_m2_':
+		return '#b2df43';           
+	case '_water_m2_':
+		return  '#6495ed';          
+	}        
 
+};
+
+const getColorForNDVILabel = ( label ) =>  {
+
+	switch ( label ){
+	case '- 0.0':
+		return '#eaeaea';           
+	case '0.0 - 0.1':
+		return '#ccc682';           
+	case '0.1 - 0.2':
+		return '#91bf51';           
+	case '_field_m2_':
+		return '#70a33f';           
+	case '0.2 - 0.3':
+		return '#4f892d';           
+	case '0.3 - 0.4':
+		return '#306d1c';           
+	case '0.4 - 0.5':
+		return '#0f540a';    
+	case '0.6 - ':
+		return '#004400';           
 	}
+};
 
-	const getColorForNDVILabel = ( label ) =>  {
-
-		switch ( label ){
-		case '- 0.0':
-			return '#eaeaea';           
-		case '0.0 - 0.1':
-			return '#ccc682';           
-		case '0.1 - 0.2':
-			return '#91bf51';           
-		case '_field_m2_':
-			return '#70a33f';           
-		case '0.2 - 0.3':
-			return '#4f892d';           
-		case '0.3 - 0.4':
-			return '#306d1c';           
-		case '0.4 - 0.5':
-			return '#0f540a';    
-		case '0.6 - ':
-			return '#004400';           
-	}
-}
-
-		const generateTraceForDataAndYear = ( data, label, years, i )  => {
+const generateTraceForDataAndYear = ( data, label, years, i )  => {
 
 
-			let trace = {
-				x: years,
-				y: [ data[ 0 ][ i ] / 10000, data[ 1 ][ i ] / 10000, data[ 2 ][ i ] / 10000 ],
-				type: 'scatter',
-				name: label,
-				line: {
-					color: getColorForNDVILabel( label )
-				}
+	let trace = {
+		x: years,
+		y: [ data[ 0 ][ i ] / 10000, data[ 1 ][ i ] / 10000, data[ 2 ][ i ] / 10000 ],
+		type: 'scatter',
+		name: label,
+		line: {
+			color: getColorForNDVILabel( label )
+		}
 
-			};  
+	};  
 
-			return trace;      
+	return trace;      
 		
 
-	}
+};

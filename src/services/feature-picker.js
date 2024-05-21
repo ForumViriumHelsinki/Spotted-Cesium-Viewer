@@ -140,17 +140,17 @@ export default class FeaturePicker {
 					this.districtService.flyCameraToDistrict( picked, 20000 );    
 					this.store.majorDistrict = picked.id.properties.tunnus;
 					this.store.majorDistrictName = picked.id.properties.nimi_fi._value;
-					await this.datasourceService.removeDataSourcesByNamePrefix( 'SubDistricts' );
 					await this.districtService.newDistrict( 'assets/data/HelsinkiDistrict.json', 'Districts' );
 					this.store.levelsVisited.push( 'MajorDistricts' );
 					this.handleGreenAreas();
 					this.districtService.setDistrictOutlineColor( );
 					this.elementsDisplayService.toggleReturnButtonVisibility( );
+					this.plotService.createPieChartForMajorDistrict( );
+					this.plotService.createHSYLineChart( picked.id.properties );
                  
 				}
     
 				if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vironniemi' ) {
-                
 					this.elementsDisplayService.setElementsDisplay( [ 'NDVI2023Switch', 'NDVI2023Label' ], 'inline-block' );
 					this.districtService.flyCameraToDistrict( picked, 10000 );  
 					this.store.district = picked.id.properties.tunnus;
@@ -160,8 +160,9 @@ export default class FeaturePicker {
 					this.handleGreenAreas();
 					this.districtService.setDistrictOutlineColor( );
 					this.elementsDisplayService.toggleReturnButtonVisibility( );
+					this.plotService.createPieChartForMajorDistrict( );
+					this.plotService.createHSYLineChart( picked.id.properties );
 					await  this.datasourceService.removeDataSourcesByNamePrefix( 'MajorDistricts' );
-					await  this.datasourceService.removeDataSourcesByNamePrefix( 'Districts' );
                     
 				}
     
@@ -173,12 +174,11 @@ export default class FeaturePicker {
 					this.handleGreenAreas();
 					this.districtService.setDistrictOutlineColor( );
 					this.elementsDisplayService.toggleReturnButtonVisibility( );
+					this.plotService.createPieChartForMajorDistrict( );
+					this.plotService.createHSYLineChart( picked.id.properties );					
 					await this.datasourceService.removeDataSourcesByNamePrefix( 'Districts' );
                     
 				}  
-
-				this.plotService.createPieChartForMajorDistrict( picked.id.properties.tunnus );
-				this.plotService.createHSYLineChart( picked.id.properties );
 
 				await this.datasourceService.removeDuplicateDataSources( );
 

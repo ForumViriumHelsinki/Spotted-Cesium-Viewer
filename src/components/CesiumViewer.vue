@@ -194,7 +194,7 @@ export default {
 
 				if ( store.districtsVisited.length ) {
 
-					plotService.createPieChartForMajorDistrict( store.districtsVisited[ store.districtsVisited.length - 1 ] );
+					plotService.createPieChartForMajorDistrict( );
 
 				}
 

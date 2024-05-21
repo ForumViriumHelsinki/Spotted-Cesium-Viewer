@@ -178,7 +178,7 @@ export default class Ndvi {
 		this.datasourceService.hideDataSourceByName( 'ndvi' );
 		const sliderValue = parseInt( document.getElementById( 'ndviSlider' ).value );
 		let date = '2018-06-14';
-		let ndviData = [[ 0, 0, 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ,0, 0 ], [ 0, 0, 0, 0, 0, 0, 0, 0 ]];
+		let ndviData = [ [ 0, 0, 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ,0, 0 ], [ 0, 0, 0, 0, 0, 0, 0, 0 ] ];
 
 		const datasource2018 = 	await this.datasourceService.getDataSourceByName( 'ndvi2018-06-14' );
 		const datasource2020 = await this.datasourceService.getDataSourceByName( 'ndvi2020-06-21' );
@@ -214,7 +214,7 @@ export default class Ndvi {
 		} 		
 
 		this.plotService.createNDVILineChart( ndviData );
-		this.plotService.createPieChartForMajorDistrict( this.store.districtsVisited[ this.store.districtsVisited.length - 1 ], date.substring( 0, 4 ) );
+		this.plotService.createPieChartForMajorDistrict( date.substring( 0, 4 ) );
     
 	}
 
@@ -383,11 +383,11 @@ export default class Ndvi {
 			entity.polygon.extrudedHeight = 1;
 			entity.polygon.material = this.setNDVIPolygonMaterialColor( entity, '_avgndvi' );
 
-})
+		} );
 
 
 
-}
+	}
 }
 
 const addNDVI = ( ndviData, entities, index ) => {
@@ -395,27 +395,27 @@ const addNDVI = ( ndviData, entities, index ) => {
 	entities.forEach( entity => {
 
 
-			const avgndvi = entity._properties._avgndvi._value;
-			const area_m2 = Number( entity._properties._area_m2._value );
+		const avgndvi = entity._properties._avgndvi._value;
+		const area_m2 = Number( entity._properties._area_m2._value );
 
-			if ( avgndvi <= 0 ) {
-				ndviData[ index ][ 0 ] = ndviData[ index ][ 0 ] + area_m2;
-			} else if ( avgndvi > 0.0 && avgndvi <= 0.1 ) {
-				ndviData[ index ][ 1 ] = ndviData[ index ][ 1 ] + area_m2;
-			} else if ( avgndvi > 0.1 && avgndvi <= 0.2 ) {
-				ndviData[ index ][ 2 ] = ndviData[ index ][ 2 ] + area_m2;
-			} else if ( avgndvi > 0.2 && avgndvi <= 0.3 ) {
-				ndviData[ index ][ 3 ] = ndviData[ index ][ 3 ] + area_m2;
-			} else if ( avgndvi > 0.3 && avgndvi <= 0.4 ) {
-				ndviData[ index ][ 4 ] = ndviData[ index ][ 4 ] + area_m2;
-			} else if ( avgndvi > 0.4 && avgndvi <= 0.5 ) {
-				ndviData[ index ][ 5 ] = ndviData[ index ][ 5 ] + area_m2;
-			} else if ( avgndvi > 0.5 && avgndvi <= 0.6 ) {
-				ndviData[ index ][ 6 ] = ndviData[ index ][ 6 ] + area_m2;
-			} else if ( avgndvi > 0.6 ) {
-				ndviData[ index ][ 7 ] = ndviData[ index ][ 7 ] + area_m2;
-			}
+		if ( avgndvi <= 0 ) {
+			ndviData[ index ][ 0 ] = ndviData[ index ][ 0 ] + area_m2;
+		} else if ( avgndvi > 0.0 && avgndvi <= 0.1 ) {
+			ndviData[ index ][ 1 ] = ndviData[ index ][ 1 ] + area_m2;
+		} else if ( avgndvi > 0.1 && avgndvi <= 0.2 ) {
+			ndviData[ index ][ 2 ] = ndviData[ index ][ 2 ] + area_m2;
+		} else if ( avgndvi > 0.2 && avgndvi <= 0.3 ) {
+			ndviData[ index ][ 3 ] = ndviData[ index ][ 3 ] + area_m2;
+		} else if ( avgndvi > 0.3 && avgndvi <= 0.4 ) {
+			ndviData[ index ][ 4 ] = ndviData[ index ][ 4 ] + area_m2;
+		} else if ( avgndvi > 0.4 && avgndvi <= 0.5 ) {
+			ndviData[ index ][ 5 ] = ndviData[ index ][ 5 ] + area_m2;
+		} else if ( avgndvi > 0.5 && avgndvi <= 0.6 ) {
+			ndviData[ index ][ 6 ] = ndviData[ index ][ 6 ] + area_m2;
+		} else if ( avgndvi > 0.6 ) {
+			ndviData[ index ][ 7 ] = ndviData[ index ][ 7 ] + area_m2;
+		}
 
-		} );
+	} );
 
-}
+};

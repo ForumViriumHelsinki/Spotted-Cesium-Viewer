@@ -1,10 +1,12 @@
 import * as Cesium from 'cesium';
 import Datasource from './datasource.js';
 import { useGlobalStore } from '../stores/global-store.js';
+import { useLandCoverStore } from '../stores/land-cover-store.js';
 
 export default class Distrct {
 	constructor() {
 		this.store = useGlobalStore();
+		this.landCoverStore = useLandCoverStore();
 		this.datasourceService = new Datasource();
 		this.viewer = this.store.cesiumViewer;
 	}
@@ -65,6 +67,21 @@ export default class Distrct {
 
 	}
 
+	findLandCoverData() {
+
+		const level = this.store.levelsVisited[ this.store.levelsVisited.length -1 ];
+
+		switch ( level ) {
+		case 'MajorDistricts': 
+			return this.landCoverStore.majorDistrictData;
+		case 'Districts': 
+			return this.landCoverStore.districtData;
+		case 'SubDistricts': 
+			return this.landCoverStore.subDistrictData;
+		}
+	
+	}
+
 	/**
  * Get total area of district properties by district data source name and district id and list of property keys
  * 
@@ -76,7 +93,7 @@ export default class Distrct {
 	getTotalAreaByNameAndIdAndPropertyKeys( id, propertyKeys ) {
     
 		// Find the data source for name
-		const districtDataSource = this.datasourceService.getDataSourceByName( this.store.levelsVisited[ this.store.levelsVisited.length - 1 ] );
+		const districtDataSource = this.findLandCoverData();
 
 		let totalArea = 0;
 
@@ -89,11 +106,11 @@ export default class Distrct {
 
 		const year = this.getYearFromSlider( );
 
-		for ( let i = 0; i < districtDataSource._entityCollection._entities._array.length; i++ ) {
+		for ( let i = 0; i < districtDataSource.length; i++ ) {
 
-			if ( Number( districtDataSource._entityCollection._entities._array[ i ]._properties._tunnus._value ) === Number( id ) ) {
+			if ( Number( districtDataSource[ i ]._properties._tunnus._value ) === Number( id ) ) {
 
-				const entity = districtDataSource._entityCollection._entities._array[ i ];
+				const entity = districtDataSource[ i ];
 	
 				propertyKeys.forEach( propertyKey => {
 
@@ -124,24 +141,22 @@ export default class Distrct {
  */
 	getTotalAreaByNameAndPropertyKeys( propertyKeys ) {
 		// Find the data source for name
-		const districtDataSource = this.datasourceService.getDataSourceByName( this.store.levelsVisited[ this.store.levelsVisited.length - 1 ] );
-
+		const districtDataSource = this.findLandCoverData();
 		let totalArea = 0;
 
-		// If the data source isn't found or propertyKeys is empty, return 0
-		if ( !districtDataSource || propertyKeys.length === 0 ) {
+		// If the data source isn't found, exit the function
+		if ( !districtDataSource ) {
 
 			return totalArea;
 
 		}
 
 		let idsDone = [];
-
 		const year = this.getYearFromSlider( );
 
-		for ( let i = 0; i < districtDataSource._entityCollection._entities._array.length; i++ ) {
+		for ( let i = 0; i < districtDataSource.length; i++ ) {
 
-			const entity = districtDataSource._entityCollection._entities._array[ i ];
+			const entity = districtDataSource[ i ];
 			const tunnusValue = entity._properties._tunnus._value;
 
 			if ( !idsDone.includes( tunnusValue ) ) {
@@ -256,6 +271,7 @@ export default class Distrct {
 					this.viewer.dataSources.add( dataSource );
 
 					const entities = dataSource.entities.values;
+					this.setLandCoverData( entities, name );
 					resolve( entities );
 				} )
 				.catch( ( error ) => {
@@ -264,6 +280,17 @@ export default class Distrct {
 				} );
 		} );
 	}
+
+	setLandCoverData( entities, name ) {
+
+		switch ( name ){
+		case 'MajorDistricts':
+			this.landCoverStore.setMajorDistrictData( entities ) ;    
+		case 'Districts':
+			this.landCoverStore.setDistrictData( entities ) ;         
+		case 'SubDistricts':
+			this.landCoverStore.setSubDistrictData( entities ) ;         
+		}	}
 
 	/**
  * Finds  if of district based on district name and level
