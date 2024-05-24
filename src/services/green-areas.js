@@ -17,6 +17,63 @@ export default class GreenAreas {
 		this.elementsDisplayService = new ElementsDisplay();
 	}
 
+
+	/**
+ * Loads district zone polygons with the given opacity
+ * 
+ * @param {number} opacity - The opacity of the polygons (range from 0 to 1)
+ */
+	async loadPlans() {
+
+		console.log( 'hi' );
+
+		return new Promise( ( resolve, reject ) => {
+			Cesium.GeoJsonDataSource.load( 'assets/data/kaava_valmisteilla_with_ndvi.geojson', {
+				stroke: Cesium.Color.BLACK,
+				fill: Cesium.Color.CRIMSON,
+				strokeWidth: 3,
+				clampToGround: false,
+			} )
+				.then( ( dataSource ) => {
+					dataSource.name = 'Plans';
+					this.viewer.dataSources.add( dataSource );
+					const entities = dataSource.entities.values;
+					this.setPopulationPressureEntities( entities );
+					this.camereToMiddleOfHelsinki();
+					this.plotService.createPopulationPressureScatterPlot( entities );
+					resolve( entities );
+				} )
+				.catch( ( error ) => {
+					console.log( error );
+					reject( error );
+				} );
+		} );
+	}
+
+	setPopulationPressureEntities( entities ) {
+
+		for ( let i = 0; i < entities.length; i++ ) {
+			let entity = entities[i];
+
+			if ( entity._properties[ '_ndvi_june2023' ]._value >= 0.3 ) {
+
+			    const color = this.ndviService.setNDVIPolygonMaterialColor( entity, '_ndvi_june2023' );
+			    // Set polygon color
+			    entity.polygon.material = color;
+			    entity.polygon.outline = true; // Optional: Set to false if no outline is desired
+			    entity.polygon.outlineColor = Cesium.Color.BLACK;
+				entity.show = true;
+				entity.polygon.extrudedHeight = 100 * ( entity._properties._weighted_population._value / entity._properties._area_m2._value );
+
+			} else {
+
+				entity.show = false;
+
+			}
+
+		}
+	}
+
 	/**
    * Asynchronously load GreenAreas data from an API endpoint based on major district id
    * 
@@ -97,6 +154,19 @@ export default class GreenAreas {
 			return null; // Handle error case or return accordingly
 		}
 
+	}
+
+	camereToMiddleOfHelsinki() {
+
+		this.viewer.camera.flyTo( {
+			destination: Cesium.Cartesian3.fromDegrees( 24.94, 60.055464, 11000 ),
+			orientation: {
+				heading: 0.0,
+				pitch: Cesium.Math.toRadians( -35.0 ),
+				roll: 0.0
+			},
+			duration: 3
+		} );
 	}
 
 	async hideOutsideGreenAreas( ) {

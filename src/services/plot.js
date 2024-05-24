@@ -709,6 +709,19 @@ export default class Plot {
 		} );
 	}
 
+	highlightEntityInCesiumPressure( parkName, entities, attribute ) {
+		for ( let i = 0; i < entities.length; i++ ) {
+			let entity = entities[i];
+			if ( entity._properties[ attribute ]._value === parkName ) {
+				// Apply highlighting, e.g., change color
+				entity.polygon.outlineColor = Cesium.Color.RED;
+			} else {
+
+				entity.polygon.outlineColor = Cesium.Color.BLACK; 
+			}
+		}
+	}
+
 	highlightEntityInCesium( parkName, greenAreaDataSource ) {
 		const entities = greenAreaDataSource.entities.values;
 		for ( let i = 0; i < entities.length; i++ ) {
@@ -897,6 +910,54 @@ export default class Plot {
 		Plotly.newPlot( 'chartContainer', data, layout );
 
 	}
+
+	/**
+ * Create current district green area scatterplot
+ *
+ */
+	createPopulationPressureScatterPlot( entities ) {
+
+		let plan_names = [];
+		let data = [ ];
+
+		entities.forEach( entity => {
+
+			if ( entity.show && entity._properties._weighted_population && entity._properties._ndvi_june2023._value > 0.5 && !plan_names.includes( entity._properties._plan_name._value ) ) {
+				plan_names.push( entity._properties._plan_name._value );
+
+				const plotData = {
+					x: [ entity._properties._weighted_population._value ],
+					y: [ entity._properties._ndvi_june2023._value ],
+					name: entity._properties._plan_name._value,
+					type: 'scatter',
+					mode: 'markers'
+				};
+	
+				data.push( plotData );
+			} 
+
+		} ); 
+			  
+		const layout = {
+			scattermode: 'group',
+			xaxis: {title: 'population' },
+			yaxis: {title: 'ndvi'},
+			showlegend: false,
+			title: 'Planned development population pressure ',
+		};
+		  
+
+		document.getElementById( 'plotPieContainer' ).style.visibility = 'visible';
+    
+
+		Plotly.newPlot( 'plotPieContainer', data, layout );
+
+
+		document.getElementById( 'plotPieContainer' ).on( 'plotly_click', function( data ){
+			let clickedParkName = data.points[0].data.name; // Retrieve the park name
+			this.highlightEntityInCesiumPressure( clickedParkName, entities, '_plan_name' );
+		} );
+	}	
 
 }
 

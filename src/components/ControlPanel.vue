@@ -43,7 +43,12 @@
     <option value="NDVI_OCTOBER">NDVI October</option>
   </select>
 
-<!-- showPrintSwitch-->
+<!-- showPlanSwitch-->
+<label class="switch" id = "showPlanSwitch" >
+  <input type="checkbox" id = "showPlanToggle" value = "showPlan" >
+  <span class="slider round"></span>
+</label>
+<label for="showPlanToggle" class="label" id = "showPlanLabel" >Planned areas</label>
 
 <!-- showGreenSwitch-->
 <label class="switch" id = "showGreenSwitch" >
@@ -243,6 +248,7 @@ export default {
 			document.getElementById( 'showNDVIToggle' ).addEventListener( 'change', this.showNDVIEvent );
 			document.getElementById( 'showPlotToggle' ).addEventListener( 'change', this.showPlotEvent );
 			document.getElementById( 'showTreeToggle' ).addEventListener( 'change', this.showTreeEvent );
+			document.getElementById( 'showPlanToggle' ).addEventListener( 'change', this.showPlanEvent );
 			//this.handleNDVIAreaSliders();
 
 		},
@@ -558,6 +564,27 @@ export default {
 		unlockSliderPoint( index ) {
 			const slider = document.getElementById( 'ndviSlider2023' );
 			slider.max = Math.max( index, slider.max ); // Ensure the slider's max is updated only if it's increasing
+		},
+
+
+		/**
+ * This function to show or hide green area entities on the map based on the toggle button state
+ *
+ */
+		async showPlanEvent() {
+
+			const showPlan = document.getElementById( 'showPlanToggle' ).checked;
+
+			if ( showPlan ) {
+
+				const greenAreasService = new GreenAreas();
+				await greenAreasService.loadPlans();
+
+			} else { 
+        
+				this.reset();
+
+			}
 		},
 
 		/**
