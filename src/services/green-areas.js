@@ -25,8 +25,6 @@ export default class GreenAreas {
  */
 	async loadPlans() {
 
-		console.log( 'hi' );
-
 		return new Promise( ( resolve, reject ) => {
 			Cesium.GeoJsonDataSource.load( 'assets/data/kaava_valmisteilla_with_ndvi.geojson', {
 				stroke: Cesium.Color.BLACK,
@@ -40,6 +38,7 @@ export default class GreenAreas {
 					const entities = dataSource.entities.values;
 					this.setPopulationPressureEntities( entities );
 					this.camereToMiddleOfHelsinki();
+					this.plotService.createPopulationScatterPlot( entities );
 					this.plotService.createPopulationPressureScatterPlot( entities );
 					resolve( entities );
 				} )

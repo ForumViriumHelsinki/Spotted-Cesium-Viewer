@@ -705,36 +705,10 @@ export default class Plot {
 
 		document.getElementById( 'plotPieContainer' ).on( 'plotly_click', function( data ){
 			let clickedParkName = data.points[0].data.name; // Retrieve the park name
-			this.highlightEntityInCesium( clickedParkName, greenAreaDataSource );
+			highlightEntityInCesium( clickedParkName, greenAreaDataSource.entities, '_puiston_nimi' );
 		} );
 	}
 
-	highlightEntityInCesiumPressure( parkName, entities, attribute ) {
-		for ( let i = 0; i < entities.length; i++ ) {
-			let entity = entities[i];
-			if ( entity._properties[ attribute ]._value === parkName ) {
-				// Apply highlighting, e.g., change color
-				entity.polygon.outlineColor = Cesium.Color.RED;
-			} else {
-
-				entity.polygon.outlineColor = Cesium.Color.BLACK; 
-			}
-		}
-	}
-
-	highlightEntityInCesium( parkName, greenAreaDataSource ) {
-		const entities = greenAreaDataSource.entities.values;
-		for ( let i = 0; i < entities.length; i++ ) {
-			let entity = entities[i];
-			if ( entity._properties._puiston_nimi._value === parkName ) {
-				// Apply highlighting, e.g., change color
-				entity.polygon.outlineColor = Cesium.Color.RED;
-			} else {
-
-				entity.polygon.outlineColor = Cesium.Color.BLACK; 
-			}
-		}
-	}
 
 	addNearbyPopulation( entity ) {
 		// Retrieve the slider value from the document
@@ -915,7 +889,7 @@ export default class Plot {
  * Create current district green area scatterplot
  *
  */
-	createPopulationPressureScatterPlot( entities ) {
+	createPopulationScatterPlot( entities ) {
 
 		let plan_names = [];
 		let data = [ ];
@@ -926,11 +900,13 @@ export default class Plot {
 				plan_names.push( entity._properties._plan_name._value );
 
 				const plotData = {
-					x: [ entity._properties._weighted_population._value ],
-					y: [ entity._properties._ndvi_june2023._value ],
+					x: [ entity._properties._weighted_population._value.toFixed( 3 ) ],
+					y: [ entity._properties._ndvi_june2023._value.toFixed( 3 ) ],
 					name: entity._properties._plan_name._value,
 					type: 'scatter',
-					mode: 'markers'
+					mode: 'markers',
+					hovertemplate: entity._properties._plan_name._value,
+					hoverlabel: { namelength: -1 } // Show full name in hover label
 				};
 	
 				data.push( plotData );
@@ -940,10 +916,10 @@ export default class Plot {
 			  
 		const layout = {
 			scattermode: 'group',
-			xaxis: {title: 'population' },
+			xaxis: {title: 'weighted population' },
 			yaxis: {title: 'ndvi'},
 			showlegend: false,
-			title: 'Planned development population pressure ',
+			title: 'Planned development, distance of population 800m',
 		};
 		  
 
@@ -955,7 +931,53 @@ export default class Plot {
 
 		document.getElementById( 'plotPieContainer' ).on( 'plotly_click', function( data ){
 			let clickedParkName = data.points[0].data.name; // Retrieve the park name
-			this.highlightEntityInCesiumPressure( clickedParkName, entities, '_plan_name' );
+			highlightEntityInCesium( clickedParkName, entities, '_plan_name' );
+		} );
+	}
+
+	createPopulationPressureScatterPlot( entities ) {
+
+		let plan_names = [];
+		let data = [ ];
+
+		entities.forEach( entity => {
+
+			if ( entity.show && entity._properties._weighted_population && entity._properties._ndvi_june2023._value > 0.5 && !plan_names.includes( entity._properties._plan_name._value ) ) {
+				plan_names.push( entity._properties._plan_name._value );
+
+				const plotData = {
+					x: [ ( entity._properties._weighted_population._value / entity._properties._area_m2._value ).toFixed( 3 ) ],
+					y: [ entity._properties._ndvi_june2023._value.toFixed( 3 ) ],
+					name: entity._properties._plan_name._value,
+					type: 'scatter',
+					mode: 'markers',
+					hovertemplate: entity._properties._plan_name._value,
+					hoverlabel: { namelength: -1 } // Show full name in hover label
+				};
+	
+				data.push( plotData );
+			} 
+
+		} ); 
+			  
+		const layout = {
+			scattermode: 'group',
+			xaxis: {title: 'weighted population / sqm2' },
+			yaxis: {title: 'ndvi'},
+			showlegend: false,
+			title: 'Planned development usage pressure ',
+		};
+		  
+
+		document.getElementById( 'plotContainer' ).style.visibility = 'visible';
+    
+
+		Plotly.newPlot( 'plotContainer', data, layout );
+
+
+		document.getElementById( 'plotContainer' ).on( 'plotly_click', function( data ){
+			let clickedParkName = data.points[0].data.name; // Retrieve the park name
+			highlightEntityInCesium( clickedParkName, entities, '_plan_name' );
 		} );
 	}	
 
@@ -979,6 +1001,19 @@ const generateTraceForLabelAndYear = ( properties, label, years ) => {
 		return trace;      
 	}
 
+};
+
+const highlightEntityInCesium = ( parkName, entities, attribute ) => {
+	for ( let i = 0; i < entities.length; i++ ) {
+		let entity = entities[i];
+		if ( entity._properties[ attribute ]._value === parkName ) {
+			// Apply highlighting, e.g., change color
+			entity.polygon.outlineColor = Cesium.Color.RED;
+		} else {
+
+			entity.polygon.outlineColor = Cesium.Color.BLACK; 
+		}
+	}
 };
 
 const generateTraceForTrees = ( properties, years ) => {
