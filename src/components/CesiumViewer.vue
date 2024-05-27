@@ -534,6 +534,21 @@ input[type=range]::-moz-range-track {
 	box-shadow: 3px 5px 5px black; 
 }
 
+#plotInhabitantContainer
+{
+	position: fixed;
+	top: 10.5%;
+	right: 0%;
+	width: 30%;
+	height: 40%; 
+	visibility: hidden;
+	
+	font-size: 12px;
+ 	
+	border: 1px solid black;
+	box-shadow: 3px 5px 5px black; 
+}
+
 #chartContainer
 {
 	position: fixed;

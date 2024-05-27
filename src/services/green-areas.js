@@ -38,8 +38,9 @@ export default class GreenAreas {
 					const entities = dataSource.entities.values;
 					this.setPopulationPressureEntities( entities );
 					this.camereToMiddleOfHelsinki();
-					this.plotService.createPopulationScatterPlot( entities );
+					this.plotService.createPopulationScatterPlot( entities, 'plans' );
 					this.plotService.createPopulationPressureScatterPlot( entities );
+					this.plotService.createVulnerablePopulationScatterPlot( entities, 'plans' );
 					resolve( entities );
 				} )
 				.catch( ( error ) => {
