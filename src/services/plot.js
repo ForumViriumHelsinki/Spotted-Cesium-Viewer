@@ -693,7 +693,7 @@ export default class Plot {
 			showlegend: false,
 			title: 'YLRE green areas population pressure ',
 		};
-		  
+
 
 		document.getElementById( 'plotPieContainer' ).style.visibility = 'visible';
 		document.getElementById( 'sliderContainer' ).style.visibility = 'visible';

@@ -50,6 +50,13 @@
 </label>
 <label for="showPlanToggle" class="label" id = "showPlanLabel" >Planned areas</label>
 
+<!-- showProtectedSwitch-->
+<label class="switch" id = "showProtectedSwitch" >
+  <input type="checkbox" id = "showProtectedToggle" value = "showProtected" >
+  <span class="slider round"></span>
+</label>
+<label for="showProtectedToggle" class="label" id = "showProtectedLabel" >Protected areas</label>
+
 <!-- showGreenSwitch-->
 <label class="switch" id = "showGreenSwitch" >
   <input type="checkbox" id = "showGreenToggle" value = "showGreen" >
@@ -249,6 +256,7 @@ export default {
 			document.getElementById( 'showPlotToggle' ).addEventListener( 'change', this.showPlotEvent );
 			document.getElementById( 'showTreeToggle' ).addEventListener( 'change', this.showTreeEvent );
 			document.getElementById( 'showPlanToggle' ).addEventListener( 'change', this.showPlanEvent );
+			document.getElementById( 'showProtectedToggle' ).addEventListener( 'change', this.showProtectedAreaEvent );
 			//this.handleNDVIAreaSliders();
 
 		},
@@ -566,6 +574,25 @@ export default {
 			slider.max = Math.max( index, slider.max ); // Ensure the slider's max is updated only if it's increasing
 		},
 
+		/**
+ * This function to show or hide green area entities on the map based on the toggle button state
+ *
+ */
+		async showProtectedAreaEvent() {
+
+			const showProtected = document.getElementById( 'showProtectedToggle' ).checked;
+
+			if ( showProtected ) {
+
+				const greenAreasService = new GreenAreas();
+				await greenAreasService.loadGreenAreas( 'https://geo.fvh.fi/spotted/data/suojelu.geojson' , '_max', '_area_m2', 'Protected Areas', '_nimi' );
+
+			} else { 
+        
+				this.reset();
+
+			}
+		},
 
 		/**
  * This function to show or hide green area entities on the map based on the toggle button state
