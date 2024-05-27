@@ -889,17 +889,19 @@ export default class Plot {
  * Create current district green area scatterplot
  *
  */
-	createVulnerablePopulationScatterPlot( entities, name ) {
+	createVulnerablePopulationScatterPlot( entities, name, ndviAttribute, areaAttribute, id ) {
 
 		let data = [ ];
-		let planNames = [];
+		let areaNames = [];
 
 		entities.forEach( entity => {
-			
-			if ( entity.show && entity._properties._ndvi_june2023._value >= 0.5  && !planNames.includes( entity._properties._plan_name._value ) ) {
 
-				planNames.push( entity._properties._plan_name._value ); // to avoid duplicates
-				addEntityForVulnerablePopulationPlot( data, entity, name );
+			const areaName = entity._properties[ id ]._value
+
+			if ( entity.show && entity._properties[ ndviAttribute ]._value >= 0.5 && entity._properties[ areaAttribute ]._value >= 100  && !areaNames.includes( areaName ) ) {
+
+				areaNames.push( areaName ); // to avoid duplicates
+				addEntityForVulnerablePopulationPlot( data, entity, name, areaName );
 
 			}
 
@@ -912,7 +914,7 @@ export default class Plot {
 
 		document.getElementById( 'plotInhabitantContainer' ).on( 'plotly_click', function( data ){
 			let clickedParkName = data.points[0].data.name; // Retrieve the park name
-			highlightEntityInCesium( clickedParkName, entities, '_plan_name' );
+			highlightEntityInCesium( clickedParkName, entities, id );
 		} );
 	}
 
@@ -920,17 +922,19 @@ export default class Plot {
  * Create current district green area scatterplot
  *
  */
-	createPopulationScatterPlot( entities, name  ) {
+	createPopulationScatterPlot( entities, name, ndviAttribute, areaAttribute, id ) {
 
 		let data = [ ];
-		let planNames = [];
+		let areaNames = [];
 
 		entities.forEach( entity => {
 
-			if ( entity.show && entity._properties._ndvi_june2023._value >= 0.5 && !planNames.includes( entity._properties._plan_name._value ) ) {
+			const areaName = entity._properties[ id ]._value
+
+			if ( entity.show && entity._properties[ ndviAttribute ]._value >= 0.5 && entity._properties[ areaAttribute ]._value >= 100 && !areaNames.includes( areaName ) ) {
 				
-				planNames.push( entity._properties._plan_name._value ); // to avoid duplicates
-				addEntityForPopulationPlot( data, entity, name );
+				areaNames.push( entity._properties[ id ]._value ); // to avoid duplicates
+				addEntityForPopulationPlot( data, entity, name, ndviAttribute, areaName );
 
 			} 
 
@@ -939,9 +943,9 @@ export default class Plot {
 		const layout = {
 			scattermode: 'group',
 			xaxis: {title: 'weighted population' },
-			yaxis: {title: 'ndvi'},
+			yaxis: {title: 'ndvi july 2022 max'},
 			showlegend: false,
-			title: 'Planned development, distance of population 800m',
+			title: name + ' , distance of population 800m',
 		};
 
 		if ( name == 'plans' ) {
@@ -955,27 +959,29 @@ export default class Plot {
 
 		document.getElementById( 'plotPieContainer' ).on( 'plotly_click', function( data ){
 			let clickedParkName = data.points[0].data.name; // Retrieve the park name
-			highlightEntityInCesium( clickedParkName, entities, '_plan_name' );
+			highlightEntityInCesium( clickedParkName, entities, id );
 		} );
 	}
 
-	createPopulationPressureScatterPlot( entities ) {
+	createPopulationPressureScatterPlot( entities, name, ndviAttribute, areaAttribute, id ) {
 
-		let plan_names = [];
+		let areaNames = [];
 		let data = [ ];
 
 		entities.forEach( entity => {
 
-			if ( entity.show && entity._properties._weighted_population && entity._properties._ndvi_june2023._value >= 0.5 && !plan_names.includes( entity._properties._plan_name._value ) ) {
-				plan_names.push( entity._properties._plan_name._value );
+			const areaName = entity._properties[ id ]._value
+
+			if ( entity.show && entity._properties._weighted_population && entity._properties[ ndviAttribute ]._value >= 0.5 && entity._properties[ areaAttribute ]._value >= 100 && !areaNames.includes( areaName ) ) {
+				areaNames.push( areaName );
 
 				const plotData = {
-					x: [ ( entity._properties._weighted_population._value / entity._properties._area_m2._value ).toFixed( 3 ) ],
-					y: [ entity._properties._ndvi_june2023._value.toFixed( 3 ) ],
-					name: entity._properties._plan_name._value,
+					x: [ ( entity._properties._weighted_population._value / entity._properties[ areaAttribute ]._value ).toFixed( 3 ) ],
+					y: [ entity._properties[ ndviAttribute ]._value.toFixed( 3 ) ],
+					name: areaName,
 					type: 'scatter',
 					mode: 'markers',
-					hovertemplate: entity._properties._plan_name._value,
+					hovertemplate: areaName,
 					hoverlabel: { namelength: -1 } // Show full name in hover label
 				};
 	
@@ -987,9 +993,9 @@ export default class Plot {
 		const layout = {
 			scattermode: 'group',
 			xaxis: {title: 'weighted population / sqm2' },
-			yaxis: {title: 'ndvi'},
+			yaxis: {title: 'ndvi july 2022 max'},
 			showlegend: false,
-			title: 'Planned development usage pressure (map visulation per area) ',
+			title: name + ' usage pressure (map visulation per area) ',
 		};
 		  
 
@@ -1001,7 +1007,7 @@ export default class Plot {
 
 		document.getElementById( 'plotContainer' ).on( 'plotly_click', function( data ){
 			let clickedParkName = data.points[0].data.name; // Retrieve the park name
-			highlightEntityInCesium( clickedParkName, entities, '_plan_name' );
+			highlightEntityInCesium( clickedParkName, entities, id );
 		} );
 	}	
 
@@ -1126,12 +1132,12 @@ const generateTraceForDataAndYear = ( data, label, years, i )  => {
 
 };
 
-const addEntityForVulnerablePopulationPlot = ( data, entity, name ) => {
+const addEntityForVulnerablePopulationPlot = ( data, entity, name, areaName ) => {
 
 	let x =  entity._properties._weighted_over69_population._value;
 	let y = entity._properties._weighted_under10_population._value;
 
-	if ( name == 'plans' ) {
+	if ( name == 'Planned Development' ) {
 		x =  entity._properties._over69_population._value;
 		y = entity._properties._under10_population._value;
 	}
@@ -1139,10 +1145,10 @@ const addEntityForVulnerablePopulationPlot = ( data, entity, name ) => {
 	const plotData = {
 		x: [ x.toFixed( 3 ) ],
 		y: [ y.toFixed( 3 ) ],
-		name: entity._properties._plan_name._value,
+		name: areaName,
 		type: 'scatter',
 		mode: 'markers',
-		hovertemplate: entity._properties._plan_name._value,
+		hovertemplate: areaName,
 		hoverlabel: { namelength: -1 } // Show full name in hover label
 	};
 
@@ -1156,11 +1162,11 @@ const createLayoutForVulnerablePopulationScatterPlot = ( name ) => {
 		xaxis: {title: 'weighted population under 10' },
 		yaxis: {title: 'weighted population over 69'},
 		showlegend: false,
-		title: 'Planned development, distance of population 800m',
+		title: name + ', distance of population 800m',
 	};
 
 
-	if ( name == 'plans' ) {
+	if ( name == 'Planned Development' ) {
 		layout.xaxis.title = 'population under 10';
 		layout.yaxis.title = 'population over 69';
 
@@ -1169,22 +1175,22 @@ const createLayoutForVulnerablePopulationScatterPlot = ( name ) => {
 	return layout;
 };
 
-const addEntityForPopulationPlot = ( data, entity, name ) => {
+const addEntityForPopulationPlot = ( data, entity, name, ndviAttribute, areaName ) => {
 
 	let x =  entity._properties._weighted_population._value;
-	let y = entity._properties._ndvi_june2023._value;
+	let y = entity._properties[ ndviAttribute ]._value;
 
-	if ( name == 'plans' ) {
+	if ( name == 'Planned Development' ) {
 		x =  entity._properties._total_population._value;
 	}
 
 	const plotData = {
 		x: [ x.toFixed( 3 ) ],
 		y: [ y.toFixed( 3 ) ],
-		name: entity._properties._plan_name._value,
+		name: areaName,
 		type: 'scatter',
 		mode: 'markers',
-		hovertemplate: entity._properties._plan_name._value,
+		hovertemplate: areaName,
 		hoverlabel: { namelength: -1 } // Show full name in hover label
 	};
 

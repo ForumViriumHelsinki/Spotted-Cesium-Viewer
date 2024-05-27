@@ -578,7 +578,7 @@ export default {
 			if ( showPlan ) {
 
 				const greenAreasService = new GreenAreas();
-				await greenAreasService.loadPlans();
+				await greenAreasService.loadGreenAreas( 'https://geo.fvh.fi/spotted/data/kaava.geojson' , '_max', '_area_m2', 'Planned Development', '_plan_name' );
 
 			} else { 
         
@@ -591,23 +591,14 @@ export default {
  * This function to show or hide green area entities on the map based on the toggle button state
  *
  */
-		showGreenEvent() {
+		async showGreenEvent() {
 
 			const showGreen = document.getElementById( 'showGreenToggle' ).checked;
 
 			if ( showGreen ) {
 
-				if ( this.store.fileUploaded ) {
-
-					this.elementsDisplayService.togglePlots( 'hidden' );
-					this.viewer.dataSources.removeAll();
-					const districtService = new District();
-					districtService.loadDistrictZones( 0.1, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
-
-				} 
-
 				const greenAreasService = new GreenAreas();
-				greenAreasService.loadGreenAreas();
+				await greenAreasService.loadGreenAreas( 'https://geo.fvh.fi/spotted/data/ylre.geojson' , '_max', '_viheralueen_pa', 'YLRE GreenAreas', '_puiston_nimi' );
 
 			} else { 
         

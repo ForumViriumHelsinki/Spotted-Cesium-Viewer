@@ -17,53 +17,29 @@ export default class GreenAreas {
 		this.elementsDisplayService = new ElementsDisplay();
 	}
 
+	setPopulationPressureEntitiesAndCreatePlots( entities, ndviAttribute, areaAttribute, name, id ) {
 
-	/**
- * Loads district zone polygons with the given opacity
- * 
- * @param {number} opacity - The opacity of the polygons (range from 0 to 1)
- */
-	async loadPlans() {
-
-		return new Promise( ( resolve, reject ) => {
-			Cesium.GeoJsonDataSource.load( 'assets/data/kaava_valmisteilla_with_ndvi.geojson', {
-				stroke: Cesium.Color.BLACK,
-				fill: Cesium.Color.CRIMSON,
-				strokeWidth: 3,
-				clampToGround: false,
-			} )
-				.then( ( dataSource ) => {
-					dataSource.name = 'Plans';
-					this.viewer.dataSources.add( dataSource );
-					const entities = dataSource.entities.values;
-					this.setPopulationPressureEntities( entities );
-					this.camereToMiddleOfHelsinki();
-					this.plotService.createPopulationScatterPlot( entities, 'plans' );
-					this.plotService.createPopulationPressureScatterPlot( entities );
-					this.plotService.createVulnerablePopulationScatterPlot( entities, 'plans' );
-					resolve( entities );
-				} )
-				.catch( ( error ) => {
-					console.log( error );
-					reject( error );
-				} );
-		} );
+		this.setPopulationPressureEntities( entities, ndviAttribute, areaAttribute );
+		this.camereToMiddleOfHelsinki();
+		this.plotService.createPopulationScatterPlot( entities, name, ndviAttribute, areaAttribute, id );
+		this.plotService.createPopulationPressureScatterPlot( entities, name, ndviAttribute, areaAttribute, id );
+		this.plotService.createVulnerablePopulationScatterPlot( entities, name, ndviAttribute, areaAttribute, id );	
 	}
 
-	setPopulationPressureEntities( entities ) {
+	setPopulationPressureEntities( entities, ndviAttribute, areaAttribute ) {
 
 		for ( let i = 0; i < entities.length; i++ ) {
 			let entity = entities[i];
 
-			if ( entity._properties[ '_ndvi_june2023' ]._value >= 0.3 ) {
+			if ( entity._properties[ ndviAttribute ]._value >= 0.5 && entity._properties[ areaAttribute ]._value >= 100 ) {
 
-			    const color = this.ndviService.setNDVIPolygonMaterialColor( entity, '_ndvi_june2023' );
+			    const color = this.ndviService.setNDVIPolygonMaterialColor( entity, ndviAttribute );
 			    // Set polygon color
 			    entity.polygon.material = color;
 			    entity.polygon.outline = true; // Optional: Set to false if no outline is desired
 			    entity.polygon.outlineColor = Cesium.Color.BLACK;
 				entity.show = true;
-				entity.polygon.extrudedHeight = 100 * ( entity._properties._weighted_population._value / entity._properties._area_m2._value );
+				entity.polygon.extrudedHeight = 100 * ( entity._properties._weighted_population._value / entity._properties[ areaAttribute ]._value );
 
 			} else {
 
@@ -78,11 +54,7 @@ export default class GreenAreas {
    * Asynchronously load GreenAreas data from an API endpoint based on major district id
    * 
    */
-	async loadGreenAreas( ) {
-
-  
-		// Construct the API endpoint URL
-	  let url = 'https://geo.fvh.fi/spotted/collections/ylre_green_areas/items?f=json&limit=2000';
+	async loadGreenAreas( url, ndviAttribute, areaAttribute, name, id ) {
   
 	  try {
   
@@ -92,12 +64,12 @@ export default class GreenAreas {
 		  if ( cachedValue ) {
   
 				console.log( 'found from cache' );
-				this.addGreenAreasDataSource( cachedValue );
+				this.addGreenAreasDataSource( cachedValue, ndviAttribute, areaAttribute, name, id );
   
 		  } else {
   
 			  // Otherwise, fetch the GreenAreas data from the API endpoint and add it to the local storage
-			  this.loadGreenAreasWithoutCache( url );
+			  this.loadGreenAreasWithoutCache( url, ndviAttribute, areaAttribute, name, id );
   
 		  }
 			
@@ -112,26 +84,9 @@ export default class GreenAreas {
    * 
    * @param { object } data GreenAreas data
    */
-	async addGreenAreasDataSource( data ) {
-
+	async addGreenAreasDataSource( data, ndviAttribute, areaAttribute, name, id ) {
 		let entities = await this.datasourceService.addDataSourceWithPolygonFix( data, 'GreenAreas' );
-
-		// Iterate over each entity in the data source and set its polygon material color based on the tree description
-		for ( let i = 0; i < entities.length; i++ ) {
-
-			let entity = entities[ i ];
-			entity.polygon.material = this.ndviService.setNDVIPolygonMaterialColor( entity, '_mean_ndvi' );
-            
-
-		}
-
-		if ( this.store.majorDistrictName ) {
-            
-			this.hideOutsideGreenAreas( );
-			this.plotService.createGreenAreaScatterPlot( );
-			this.extrudedGreenAreas( );
-
-		}
+		this.setPopulationPressureEntitiesAndCreatePlots( entities, ndviAttribute, areaAttribute, name, id );
         
 	}
   
@@ -140,14 +95,14 @@ export default class GreenAreas {
    * 
    * @param { String } url API endpoint's url
    */
-	async loadGreenAreasWithoutCache( url ) {
+	async loadGreenAreasWithoutCache( url, ndviAttribute, areaAttribute, name, id ) {
 		console.log( 'Not in cache! Loading: ' + url );
   
 		try {
 			const response = await fetch( url );
 			const data = await response.json();
 			this.cacheService.setCachedData( url, data );
-			this.addGreenAreasDataSource( data );
+			this.addGreenAreasDataSource( data, ndviAttribute, areaAttribute, name, id );
 	
 		} catch ( error ) {
 			console.error( 'Error loading green areas data:', error );
