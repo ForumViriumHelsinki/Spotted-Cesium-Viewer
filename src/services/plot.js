@@ -930,7 +930,7 @@ export default class Plot {
 			if ( entity.show && entity._properties._ndvi_june2023._value >= 0.5 && !planNames.includes( entity._properties._plan_name._value ) ) {
 				
 				planNames.push( entity._properties._plan_name._value ); // to avoid duplicates
-				addEntityForVulnerablePopulationPlot( data, entity, name );
+				addEntityForPopulationPlot( data, entity, name );
 
 			} 
 
