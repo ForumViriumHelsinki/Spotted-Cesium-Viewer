@@ -20,24 +20,6 @@ export const useGlobalStore = defineStore( 'global', {
 		ndviAreaDataSourceName: null,
 		fileUploaded: false
 	} ),
-	getters: {
-		getLocation: ( state ) => state.location,
-		getCesiumViewer: ( state ) => state.cesiumViewer,
-		getShowPlot: ( state ) => state.showPlot,
-		getPrint: ( state ) => state.print,        
-		getMajorDistrict: ( state ) => state.majorDistrict,
-		getDistrict: ( state ) => state.district, 
-		getDistrictName: ( state ) => state.districtName, 
-		getMajorDistrictName: ( state ) => state.majorDistrictName, 
-		getDistrictPopulation: ( state ) => state.districtPopulation, 
-		getDistrictArea: ( state ) => state.districtArea, 
-		getDistrictsVisited: ( state ) => state.districtsVisited, 
-		getLevelsVisited: ( state ) => state.levelsVisited, 
-		getCurrentDistrictName: ( state ) => state.currentDistrictName, 
-		getCurrentSubDistrictName: ( state ) => state.currentSubDistrictName, 
-		getNdviAreaDataSourceName: ( state ) => state.ndviAreaDataSourceName,
-		getFileUploaded: ( state ) => state.fileUploaded  
-	}, 
 	actions: {
 		setLocation( newLocation ) {
 			this.location = newLocation;

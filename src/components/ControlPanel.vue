@@ -147,6 +147,7 @@ import WMS from '../services/wms.js';
 import EventEmitter from '../services/event-emitter.js';
 import Plot from '../services/plot.js';
 import { useGlobalStore } from '../stores/global-store.js';
+import { usePopulationStore } from '../stores/population-store.js';
 import { eventBus } from '../services/event-emitter.js';
 import ElementsDisplay from '../services/elements-display.js';
 import Datasource from '../services/datasource.js';
@@ -155,7 +156,6 @@ import NdviArea from '../services/ndvi-area.js';
 import Ndvi from '../services/ndvi.js';
 import GreenAreas from '../services/green-areas.js';
 import Platform from '../services/platform.js';
-import District from '../services/district.js';
 import * as Cesium from 'cesium';
 
 export default {
@@ -584,8 +584,10 @@ export default {
 
 			if ( showProtected ) {
 
+				this.viewer.dataSources.removeAll();
 				const greenAreasService = new GreenAreas();
-				await greenAreasService.loadGreenAreas( 'https://geo.fvh.fi/spotted/data/suojelu.geojson' , '_max', '_area_m2', 'Protected Areas', '_nimi' );
+				setPopulationPressureAttributes( '_max', '_area_m2', 'Protected Areas', '_nimi' );
+				await greenAreasService.loadGreenAreas( 'https://geo.fvh.fi/spotted/data/suojelu.geojson' );
 
 			} else { 
         
@@ -604,8 +606,10 @@ export default {
 
 			if ( showPlan ) {
 
+				this.viewer.dataSources.removeAll();
 				const greenAreasService = new GreenAreas();
-				await greenAreasService.loadGreenAreas( 'https://geo.fvh.fi/spotted/data/kaava.geojson' , '_max', '_area_m2', 'Planned Development', '_plan_name' );
+				setPopulationPressureAttributes( '_max', '_area_m2', 'Planned Development', '_plan_name' );
+				await greenAreasService.loadGreenAreas( 'https://geo.fvh.fi/spotted/data/kaava.geojson' );
 
 			} else { 
         
@@ -624,8 +628,10 @@ export default {
 
 			if ( showGreen ) {
 
+				this.viewer.dataSources.removeAll();
 				const greenAreasService = new GreenAreas();
-				await greenAreasService.loadGreenAreas( 'https://geo.fvh.fi/spotted/data/ylre.geojson' , '_max', '_viheralueen_pa', 'YLRE GreenAreas', '_puiston_nimi' );
+				setPopulationPressureAttributes( '_max', '_viheralueen_pa', 'YLRE GreenAreas', '_puiston_nimi' );
+				await greenAreasService.loadGreenAreas( 'https://geo.fvh.fi/spotted/data/ylre.geojson' );
 
 			} else { 
         
@@ -925,6 +931,16 @@ export default {
 			}  
 		}   
 	},
+};
+
+const setPopulationPressureAttributes = (  ndviAttribute, areaAttribute, name, uniqueId  ) => {
+
+	const populationPressureStore = usePopulationStore();
+	populationPressureStore.setNdviAttribute( ndviAttribute );
+	populationPressureStore.setAreaAttribute( areaAttribute );
+	populationPressureStore.setName( name );
+	populationPressureStore.setUniqueId( uniqueId );
+
 };
 </script>
 

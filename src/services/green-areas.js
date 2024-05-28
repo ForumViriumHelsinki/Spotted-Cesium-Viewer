@@ -5,6 +5,7 @@ import NDVI from './ndvi.js';
 import Plot from './plot.js';
 import ElementsDisplay from './elements-display.js';
 import { useGlobalStore } from '../stores/global-store.js';
+import { usePopulationStore } from '../stores/population-store.js';
 
 export default class GreenAreas {
 	constructor( ) {
@@ -15,18 +16,31 @@ export default class GreenAreas {
 		this.ndviService = new NDVI();
 		this.plotService = new Plot();
 		this.elementsDisplayService = new ElementsDisplay();
+		this.populationPressureStore = usePopulationStore();
+
 	}
 
-	setPopulationPressureEntitiesAndCreatePlots( entities, ndviAttribute, areaAttribute, name, id ) {
-
-		this.setPopulationPressureEntities( entities, ndviAttribute, areaAttribute );
-		this.camereToMiddleOfHelsinki();
-		this.plotService.createPopulationScatterPlot( entities, name, ndviAttribute, areaAttribute, id );
-		this.plotService.createPopulationPressureScatterPlot( entities, name, ndviAttribute, areaAttribute, id );
-		this.plotService.createVulnerablePopulationScatterPlot( entities, name, ndviAttribute, areaAttribute, id );	
+	async handleGreenAreas() {
+		const greenAreaDataSource = await this.datasourceService.getDataSourceByName( 'GreenAreas' );
+		this.extrudedEntitiesAndCreatePlots( greenAreaDataSource.entities.values );
 	}
 
-	setPopulationPressureEntities( entities, ndviAttribute, areaAttribute ) {
+	extrudedEntitiesAndCreatePlots( entities ) {
+
+		const postfix = getWeightedPopulationAttributePostFix( );
+		const ndviAttribute = this.populationPressureStore.ndviAttribute;
+		const areaAttribute = this.populationPressureStore.areaAttribute;
+		extrudedEntities( entities, ndviAttribute, areaAttribute, postfix );
+		this.plotService.createPopulationScatterPlot( entities, postfix );
+		this.plotService.createPopulationPressureScatterPlot( entities, postfix );
+		this.plotService.createVulnerablePopulationScatterPlot( entities, postfix );
+
+	}
+
+
+	setPopulationPressureEntities( entities ) {
+		const ndviAttribute = this.populationPressureStore.ndviAttribute;
+		const areaAttribute = this.populationPressureStore.areaAttribute;
 
 		for ( let i = 0; i < entities.length; i++ ) {
 			let entity = entities[i];
@@ -39,14 +53,12 @@ export default class GreenAreas {
 			    entity.polygon.outline = true; // Optional: Set to false if no outline is desired
 			    entity.polygon.outlineColor = Cesium.Color.BLACK;
 				entity.show = true;
-				entity.polygon.extrudedHeight = 100 * ( entity._properties._weighted_population._value / entity._properties[ areaAttribute ]._value );
 
 			} else {
 
 				entity.show = false;
 
 			}
-
 		}
 	}
 
@@ -54,22 +66,22 @@ export default class GreenAreas {
    * Asynchronously load GreenAreas data from an API endpoint based on major district id
    * 
    */
-	async loadGreenAreas( url, ndviAttribute, areaAttribute, name, id ) {
+	async loadGreenAreas( url ) {
   
 	  try {
   
 		  // Attempt to retrieve the GreenAreas data from the local storage using the API endpoint URL as the key
-			const cachedValue = await this.cacheService.getCachedData( url );
+			const cachedValue = await this.cacheService.getCachedData( url + '1' );
 		   // If the GreenAreas data is already available in the local storage, add it to the Cesium map
 		  if ( cachedValue ) {
   
 				console.log( 'found from cache' );
-				this.addGreenAreasDataSource( cachedValue, ndviAttribute, areaAttribute, name, id );
+				this.addGreenAreasDataSource( cachedValue );
   
 		  } else {
   
 			  // Otherwise, fetch the GreenAreas data from the API endpoint and add it to the local storage
-			  this.loadGreenAreasWithoutCache( url, ndviAttribute, areaAttribute, name, id );
+			  this.loadGreenAreasWithoutCache( url );
   
 		  }
 			
@@ -84,9 +96,11 @@ export default class GreenAreas {
    * 
    * @param { object } data GreenAreas data
    */
-	async addGreenAreasDataSource( data, ndviAttribute, areaAttribute, name, id ) {
+	async addGreenAreasDataSource( data ) {
 		let entities = await this.datasourceService.addDataSourceWithPolygonFix( data, 'GreenAreas' );
-		this.setPopulationPressureEntitiesAndCreatePlots( entities, ndviAttribute, areaAttribute, name, id );
+		this.camereToMiddleOfHelsinki();
+		this.setPopulationPressureEntities( entities );
+		this.extrudedEntitiesAndCreatePlots( entities );
         
 	}
   
@@ -95,14 +109,14 @@ export default class GreenAreas {
    * 
    * @param { String } url API endpoint's url
    */
-	async loadGreenAreasWithoutCache( url, ndviAttribute, areaAttribute, name, id ) {
+	async loadGreenAreasWithoutCache( url ) {
 		console.log( 'Not in cache! Loading: ' + url );
   
 		try {
 			const response = await fetch( url );
 			const data = await response.json();
-			this.cacheService.setCachedData( url, data );
-			this.addGreenAreasDataSource( data, ndviAttribute, areaAttribute, name, id );
+			this.cacheService.setCachedData( url + '1', data );
+			this.addGreenAreasDataSource( data );
 	
 		} catch ( error ) {
 			console.error( 'Error loading green areas data:', error );
@@ -220,3 +234,27 @@ export default class GreenAreas {
 		}
 	}
 }
+
+const extrudedEntities = ( entities, ndviAttribute, areaAttribute, postfix ) => {
+	const weightedPopulationAttributeName = '_weighted_population' + postfix;
+
+	for ( let i = 0; i < entities.length; i++ ) {
+		let entity = entities[ i ];
+
+		if ( entity._properties[ ndviAttribute ]._value >= 0.5 && entity._properties[ areaAttribute ]._value >= 100 ) {
+
+			entity.polygon.extrudedHeight = 100 * ( entity._properties[ weightedPopulationAttributeName ]._value / entity._properties[ areaAttribute ]._value );
+
+		} else {
+
+			entity.show = false;
+
+		}
+	}
+};
+
+const getWeightedPopulationAttributePostFix = ( ) => {
+	const sliderValue = parseInt( document.getElementById( 'blueSlider' ).value );
+	const nameMap = { 0: '_300m', 1: '_800m', 2: '_2000m' };
+	return nameMap[ sliderValue ];
+};

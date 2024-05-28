@@ -142,7 +142,6 @@ export default class FeaturePicker {
 					this.store.majorDistrictName = picked.id.properties.nimi_fi._value;
 					await this.districtService.newDistrict( 'assets/data/HelsinkiDistrict.json', 'Districts' );
 					this.store.levelsVisited.push( 'MajorDistricts' );
-					this.handleGreenAreas();
 					this.districtService.setDistrictOutlineColor( );
 					this.elementsDisplayService.toggleReturnButtonVisibility( );
 					this.plotService.createPieChartForMajorDistrict( );
@@ -157,7 +156,6 @@ export default class FeaturePicker {
 					await this.districtService.newDistrict( 'assets/data/HelsinkiSubDistrict.json', 'SubDistricts' );
 					this.store.currentDistrictName = picked.id.properties.nimi_fi._value;
 					this.store.levelsVisited.push( 'Districts' );
-					this.handleGreenAreas();
 					this.districtService.setDistrictOutlineColor( );
 					this.elementsDisplayService.toggleReturnButtonVisibility( );
 					this.plotService.createPieChartForMajorDistrict( );
@@ -171,7 +169,6 @@ export default class FeaturePicker {
 					this.districtService.flyCameraToDistrict( picked, 5000 );    
 					this.store.levelsVisited.push( 'SubDistricts' );
 					this.store.currentSubDistrictName = picked.id.properties.nimi_fi._value;
-					this.handleGreenAreas();
 					this.districtService.setDistrictOutlineColor( );
 					this.elementsDisplayService.toggleReturnButtonVisibility( );
 					this.plotService.createPieChartForMajorDistrict( );
@@ -193,15 +190,5 @@ export default class FeaturePicker {
    
 		}
 
-	}
-
-	handleGreenAreas() {
-		if ( document.getElementById( 'showGreenToggle' ).checked ) {
-
-			this.greenAreasService.hideOutsideGreenAreas( );
-			this.plotService.createGreenAreaScatterPlot( );
-			this.greenAreasService.extrudedGreenAreas( );
-
-		} 
 	}
 }

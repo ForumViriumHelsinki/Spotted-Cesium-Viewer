@@ -4,6 +4,7 @@ import Cache from './cache.js';
 import { useGlobalStore } from '../stores/global-store.js';
 import ElementsDisplay from './elements-display.js';
 import Datasource from './datasource.js';
+import { usePopulationStore } from '../stores/population-store.js';
 
 export default class Plot {
 	constructor() {
@@ -13,6 +14,7 @@ export default class Plot {
 		this.cacheService = new Cache();
 		this.elementsDisplayService = new ElementsDisplay();
 		this.viewer = this.store.cesiumViewer;
+		this.populationPressureStore = usePopulationStore();
 	}
 
 	/**
@@ -889,19 +891,23 @@ export default class Plot {
  * Create current district green area scatterplot
  *
  */
-	createVulnerablePopulationScatterPlot( entities, name, ndviAttribute, areaAttribute, id ) {
+	createVulnerablePopulationScatterPlot( entities, postfix ) {
 
 		let data = [ ];
 		let areaNames = [];
+		const id = this.populationPressureStore.uniqueId;
+		const name = this.populationPressureStore.name;
+		const ndviAttribute = this.populationPressureStore.ndviAttribute;
+		const areaAttribute = this.populationPressureStore.areaAttribute;
 
 		entities.forEach( entity => {
 
-			const areaName = entity._properties[ id ]._value
+			const areaName = entity._properties[ id ]._value;
 
 			if ( entity.show && entity._properties[ ndviAttribute ]._value >= 0.5 && entity._properties[ areaAttribute ]._value >= 100  && !areaNames.includes( areaName ) ) {
 
 				areaNames.push( areaName ); // to avoid duplicates
-				addEntityForVulnerablePopulationPlot( data, entity, name, areaName );
+				addEntityForVulnerablePopulationPlot( data, entity, name, areaName, postfix );
 
 			}
 
@@ -922,19 +928,23 @@ export default class Plot {
  * Create current district green area scatterplot
  *
  */
-	createPopulationScatterPlot( entities, name, ndviAttribute, areaAttribute, id ) {
+	createPopulationScatterPlot( entities, postfix ) {
 
 		let data = [ ];
 		let areaNames = [];
+		const id = this.populationPressureStore.uniqueId;
+		const name = this.populationPressureStore.name;
+		const ndviAttribute = this.populationPressureStore.ndviAttribute;
+		const areaAttribute = this.populationPressureStore.areaAttribute;
 
 		entities.forEach( entity => {
 
-			const areaName = entity._properties[ id ]._value
+			const areaName = entity._properties[ id ]._value;
 
 			if ( entity.show && entity._properties[ ndviAttribute ]._value >= 0.5 && entity._properties[ areaAttribute ]._value >= 100 && !areaNames.includes( areaName ) ) {
 				
 				areaNames.push( entity._properties[ id ]._value ); // to avoid duplicates
-				addEntityForPopulationPlot( data, entity, name, ndviAttribute, areaName );
+				addEntityForPopulationPlot( data, entity, name, ndviAttribute, areaName, postfix );
 
 			} 
 
@@ -945,7 +955,7 @@ export default class Plot {
 			xaxis: {title: 'weighted population' },
 			yaxis: {title: 'ndvi july 2022 max'},
 			showlegend: false,
-			title: name + ' , distance of population 800m',
+			title: name + ', all population',
 		};
 
 		if ( name == 'plans' ) {
@@ -963,20 +973,24 @@ export default class Plot {
 		} );
 	}
 
-	createPopulationPressureScatterPlot( entities, name, ndviAttribute, areaAttribute, id ) {
+	createPopulationPressureScatterPlot( entities, postfix ) {
 
 		let areaNames = [];
 		let data = [ ];
+		const id = this.populationPressureStore.uniqueId;
+		const name = this.populationPressureStore.name;
+		const ndviAttribute = this.populationPressureStore.ndviAttribute;
+		const areaAttribute = this.populationPressureStore.areaAttribute;
 
 		entities.forEach( entity => {
 
-			const areaName = entity._properties[ id ]._value
+			const areaName = entity._properties[ id ]._value;
 
-			if ( entity.show && entity._properties._weighted_population && entity._properties[ ndviAttribute ]._value >= 0.5 && entity._properties[ areaAttribute ]._value >= 100 && !areaNames.includes( areaName ) ) {
+			if ( entity.show && entity._properties[ '_weighted_population' + postfix ] && entity._properties[ ndviAttribute ]._value >= 0.5 && entity._properties[ areaAttribute ]._value >= 100 && !areaNames.includes( areaName ) ) {
 				areaNames.push( areaName );
 
 				const plotData = {
-					x: [ ( entity._properties._weighted_population._value / entity._properties[ areaAttribute ]._value ).toFixed( 3 ) ],
+					x: [ ( entity._properties[ '_weighted_population' + postfix ]._value / entity._properties[ areaAttribute ]._value ).toFixed( 3 ) ],
 					y: [ entity._properties[ ndviAttribute ]._value.toFixed( 3 ) ],
 					name: areaName,
 					type: 'scatter',
@@ -995,15 +1009,13 @@ export default class Plot {
 			xaxis: {title: 'weighted population / sqm2' },
 			yaxis: {title: 'ndvi july 2022 max'},
 			showlegend: false,
-			title: name + ' usage pressure (map visulation per area) ',
+			title: name + ', usage pressure (map visulation per area) ',
 		};
 		  
-
+		document.getElementById( 'sliderContainer' ).style.visibility = 'visible';
 		document.getElementById( 'plotContainer' ).style.visibility = 'visible';
-    
 
 		Plotly.newPlot( 'plotContainer', data, layout );
-
 
 		document.getElementById( 'plotContainer' ).on( 'plotly_click', function( data ){
 			let clickedParkName = data.points[0].data.name; // Retrieve the park name
@@ -1132,14 +1144,14 @@ const generateTraceForDataAndYear = ( data, label, years, i )  => {
 
 };
 
-const addEntityForVulnerablePopulationPlot = ( data, entity, name, areaName ) => {
+const addEntityForVulnerablePopulationPlot = ( data, entity, name, areaName, postfix ) => {
 
-	let x =  entity._properties._weighted_over69_population._value;
-	let y = entity._properties._weighted_under10_population._value;
+	let x = entity._properties[ '_weighted_over69_population' + postfix ]._value;
+	let y = entity._properties[ '_weighted_under10_population' + postfix ]._value;
 
 	if ( name == 'Planned Development' ) {
-		x =  entity._properties._over69_population._value;
-		y = entity._properties._under10_population._value;
+		x = entity._properties[ '_over69_population' + postfix ]._value;
+		y = entity._properties[ '_under10_population' + postfix ]._value;
 	}
 
 	const plotData = {
@@ -1162,7 +1174,7 @@ const createLayoutForVulnerablePopulationScatterPlot = ( name ) => {
 		xaxis: {title: 'weighted population under 10' },
 		yaxis: {title: 'weighted population over 69'},
 		showlegend: false,
-		title: name + ', distance of population 800m',
+		title: name + ', vulnerable population',
 	};
 
 
@@ -1175,13 +1187,13 @@ const createLayoutForVulnerablePopulationScatterPlot = ( name ) => {
 	return layout;
 };
 
-const addEntityForPopulationPlot = ( data, entity, name, ndviAttribute, areaName ) => {
+const addEntityForPopulationPlot = ( data, entity, name, ndviAttribute, areaName, postfix ) => {
 
-	let x =  entity._properties._weighted_population._value;
+	let x = entity._properties[ '_weighted_population' + postfix ]._value;
 	let y = entity._properties[ ndviAttribute ]._value;
 
 	if ( name == 'Planned Development' ) {
-		x =  entity._properties._total_population._value;
+		x = entity._properties[ '_total_population' + postfix ]._value;
 	}
 
 	const plotData = {

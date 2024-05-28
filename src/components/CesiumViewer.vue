@@ -54,8 +54,8 @@
 </div>
 
 <div class="slider-container" id="sliderContainer" style = "visibility: hidden">
-  <input type="range" id="blueSlider" min="0" max="5" value="0">
-  <span id="sliderValue">distance from green area 0 km</span>
+  <input type="range" id="blueSlider" min="0" max="2" value="1">
+  <span id="sliderValue">distance from area 800 m</span>
 </div>
 </template>
 
@@ -71,6 +71,7 @@ import NDVI from '../services/ndvi.js';
 import Plot from '../services/plot.js'; 
 import NdviArea from '../services/ndvi-area.js';
 import EventEmitter from '../services/event-emitter.js';
+import GreenAreas from '../services/green-areas';
 
 export default {
 	data() {
@@ -122,6 +123,7 @@ export default {
 			// Load district zones & energy data availability tags
 			districtService.loadDistrictZones( 0.1, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
 			const featurepicker = new Featurepicker(  );
+			const greenAreas = new GreenAreas(  );
 
 			// Add click event listener to the viewer container
 			const cesiumContainer = document.getElementById( 'cesiumContainer' );
@@ -131,8 +133,11 @@ export default {
 
 
 			document.getElementById( 'blueSlider' ).addEventListener( 'input', function() {
-				document.getElementById( 'sliderValue' ).textContent = 'distance from green area ' + this.value + ' km';
-				featurepicker.handleGreenAreas( );
+				const distanceMap = { 0: 300, 1: 800, 2: 2000 };
+				const distance = distanceMap[this.value];
+
+				document.getElementById( 'sliderValue' ).textContent = `distance from area ${distance} m`;
+				greenAreas.handleGreenAreas( );
 			} );
 
 			const ndviService = new NDVI ();
