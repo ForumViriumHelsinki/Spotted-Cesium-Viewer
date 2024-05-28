@@ -1047,10 +1047,38 @@ const generateTraceForLabelAndYear = ( properties, label, years ) => {
 
 const highlightEntityInCesium = ( parkName, entities, attribute ) => {
 	for ( let i = 0; i < entities.length; i++ ) {
-		let entity = entities[i];
+		let entity = entities[ i ];
 		if ( entity._properties[ attribute ]._value === parkName ) {
 			// Apply highlighting, e.g., change color
 			entity.polygon.outlineColor = Cesium.Color.RED;
+
+			const center = Cesium.BoundingSphere.fromPoints(
+				entity.polygon.hierarchy.getValue().positions
+			).center;
+    
+			const distanceFromEntity = 5000;  // Desired distance from the center (in meters)
+
+			// Convert Cartesian3 center to Cartographic (longitude, latitude, height)
+			const cartographic = Cesium.Cartographic.fromCartesian( center );
+
+			// Use Cartographic coordinates in fromRadians
+			const destination = Cesium.Cartesian3.fromRadians(
+				cartographic.longitude,
+				cartographic.latitude - 0.001,
+				distanceFromEntity,  
+				Cesium.Ellipsoid.WGS84
+			);
+
+			const store = useGlobalStore();
+    
+			store.cesiumViewer.camera.flyTo( {
+				destination: destination,
+				orientation: {
+					heading: 0.0,
+					pitch: Cesium.Math.toRadians( -35.0 ),
+					roll: 0.0
+				},
+			} );
 		} else {
 
 			entity.polygon.outlineColor = Cesium.Color.BLACK; 
