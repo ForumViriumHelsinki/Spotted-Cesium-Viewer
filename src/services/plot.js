@@ -958,7 +958,7 @@ export default class Plot {
 			title: name + ', all population',
 		};
 
-		if ( name == 'plans' ) {
+		if ( name == 'Planned Development' ) {
 
 			layout.xaxis.title = 'population';
 

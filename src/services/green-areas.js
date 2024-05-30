@@ -30,7 +30,12 @@ export default class GreenAreas {
 		const postfix = getWeightedPopulationAttributePostFix( );
 		const ndviAttribute = this.populationPressureStore.ndviAttribute;
 		const areaAttribute = this.populationPressureStore.areaAttribute;
-		extrudedEntities( entities, ndviAttribute, areaAttribute, postfix );
+		let populationAttributeName = '_weighted_population';
+
+		if ( this.populationPressureStore.name == 'Planned Development') {
+			populationAttributeName = '_total_population';
+		}
+		extrudedEntities( entities, ndviAttribute, areaAttribute, populationAttributeName + postfix );
 		this.plotService.createPopulationScatterPlot( entities, postfix );
 		this.plotService.createPopulationPressureScatterPlot( entities, postfix );
 		this.plotService.createVulnerablePopulationScatterPlot( entities, postfix );
@@ -235,15 +240,14 @@ export default class GreenAreas {
 	}
 }
 
-const extrudedEntities = ( entities, ndviAttribute, areaAttribute, postfix ) => {
-	const weightedPopulationAttributeName = '_weighted_population' + postfix;
+const extrudedEntities = ( entities, ndviAttribute, areaAttribute, populationAttributeName ) => {	
 
 	for ( let i = 0; i < entities.length; i++ ) {
 		let entity = entities[ i ];
 
 		if ( entity._properties[ ndviAttribute ]._value >= 0.5 && entity._properties[ areaAttribute ]._value >= 100 ) {
 
-			entity.polygon.extrudedHeight = 100 * ( entity._properties[ weightedPopulationAttributeName ]._value / entity._properties[ areaAttribute ]._value );
+			entity.polygon.extrudedHeight =  entity._properties[ populationAttributeName ]._value / ( entity._properties[ areaAttribute ]._value / 100 );
 
 		} else {
 
