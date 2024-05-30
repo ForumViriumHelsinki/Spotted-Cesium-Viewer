@@ -587,6 +587,7 @@ export default {
 				this.viewer.dataSources.removeAll();
 				const greenAreasService = new GreenAreas();
 				setPopulationPressureAttributes( '_max', '_area_m2', 'Protected Areas', '_nimi' );
+				this.store.setLocation( 'pop_pressure' );
 				await greenAreasService.loadGreenAreas( 'https://geo.fvh.fi/spotted/data/suojelu.geojson' );
 
 			} else { 
@@ -609,6 +610,7 @@ export default {
 				this.viewer.dataSources.removeAll();
 				const greenAreasService = new GreenAreas();
 				setPopulationPressureAttributes( '_max', '_area_m2', 'Planned Development', '_plan_name' );
+				this.store.setLocation( 'pop_pressure' );
 				await greenAreasService.loadGreenAreas( 'https://geo.fvh.fi/spotted/data/kaava.geojson' );
 
 			} else { 
@@ -630,6 +632,7 @@ export default {
 
 				this.viewer.dataSources.removeAll();
 				const greenAreasService = new GreenAreas();
+				this.store.setLocation( 'pop_pressure' );
 				setPopulationPressureAttributes( '_max', '_viheralueen_pa', 'YLRE GreenAreas', '_puiston_nimi' );
 				await greenAreasService.loadGreenAreas( 'https://geo.fvh.fi/spotted/data/ylre.geojson' );
 

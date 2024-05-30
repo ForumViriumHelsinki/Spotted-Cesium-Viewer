@@ -72,20 +72,23 @@ export default class FeaturePicker {
 			let length = picked.id.properties.propertyNames.length;
 			for ( let i = 0; i < length; ++i ) {
 
-				if ( typeof picked.id.properties[ picked.id.properties.propertyNames[ i ] ]._value === 'number' ) {
+				if ( goodForPrint( picked.id.properties, i ) ) {
+					if ( typeof picked.id.properties[ picked.id.properties.propertyNames[ i ] ]._value === 'number' ) {
 
-					toPrint = toPrint + picked.id.properties.propertyNames[ i ] + ': ' + picked.id.properties[ picked.id.properties.propertyNames[ i ] ]._value.toFixed( 3 ) + '<br/>';
+						toPrint = toPrint + picked.id.properties.propertyNames[ i ] + ': ' + picked.id.properties[ picked.id.properties.propertyNames[ i ] ]._value.toFixed( 3 ) + '<br/>';
 
-				} else {
+					} else {
 
-					toPrint = toPrint + picked.id.properties.propertyNames[ i ] + ': ' + picked.id.properties[ picked.id.properties.propertyNames[ i ] ] + '<br/>';
+						toPrint = toPrint + picked.id.properties.propertyNames[ i ] + ': ' + picked.id.properties[ picked.id.properties.propertyNames[ i ] ] + '<br/>';
 
+					}
 				}
+
             
 			}
 		}
     
-		this.addToPrint( toPrint );
+		addToPrint( toPrint );
     
 	}
 
@@ -181,10 +184,10 @@ export default class FeaturePicker {
 
 			}
         
-			if ( document.getElementById( 'wmsNDVIToggle' ).checked ) {
+			if ( document.getElementById( 'wmsNDVIToggle' ).checked || this.store.location == 'pop_pressure' ) {
 
 				document.getElementById( 'printContainer' ).style.display = 'inline-block';
-				this.printCesiumEntity( picked );
+				printCesiumEntity( picked );
                 
 			}
    
@@ -192,3 +195,58 @@ export default class FeaturePicker {
 
 	}
 }
+
+const goodForPrint = ( properties, i ) => {
+
+	return !properties.propertyNames[ i ].includes( '_population' ) && !properties.propertyNames[ i ].includes( 'fid' ) && !properties.propertyNames[ i ].includes( '_id' ) && !properties.propertyNames[ i ].includes( 'value' ) && properties.propertyNames[ i ] != 'id' && properties[ properties.propertyNames[ i ] ]._value;
+
+};
+
+const addToPrint = ( toPrint ) => {
+
+	document.getElementById( 'printContainer' ).innerHTML = toPrint;
+	document.getElementById( 'printContainer' ).scroll( {
+		top: 1000,
+		behavior: 'smooth'
+	} );
+};  
+
+ 	/**
+ * Prints the properties of the picked Cesium entity
+ * 
+ * @param {Object} picked - The picked Cesium entity
+ */
+
+const printCesiumEntity = ( picked ) => {
+
+	document.getElementById( 'printContainer' ).scroll( {
+		top: 0,
+		behavior: 'instant'
+	} );
+    
+	let toPrint = '<u>Found following properties & values:</u><br/>';	
+
+	if ( picked.id.properties ) {
+
+		let length = picked.id.properties.propertyNames.length;
+		for ( let i = 0; i < length; ++i ) {
+
+			if ( goodForPrint( picked.id.properties, i ) ) {
+				if ( typeof picked.id.properties[ picked.id.properties.propertyNames[ i ] ]._value === 'number' ) {
+
+					toPrint = toPrint + picked.id.properties.propertyNames[ i ] + ': ' + picked.id.properties[ picked.id.properties.propertyNames[ i ] ]._value.toFixed( 3 ) + '<br/>';
+
+				} else {
+
+					toPrint = toPrint + picked.id.properties.propertyNames[ i ] + ': ' + picked.id.properties[ picked.id.properties.propertyNames[ i ] ] + '<br/>';
+
+				}
+			}
+
+            
+		}
+	}
+    
+	addToPrint( toPrint );
+    
+};

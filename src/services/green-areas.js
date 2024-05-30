@@ -32,7 +32,7 @@ export default class GreenAreas {
 		const areaAttribute = this.populationPressureStore.areaAttribute;
 		let populationAttributeName = '_weighted_population';
 
-		if ( this.populationPressureStore.name == 'Planned Development') {
+		if ( this.populationPressureStore.name == 'Planned Development' ) {
 			populationAttributeName = '_total_population';
 		}
 		extrudedEntities( entities, ndviAttribute, areaAttribute, populationAttributeName + postfix );
