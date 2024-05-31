@@ -23,29 +23,12 @@ export default class FeaturePicker {
  */
 	processClick( event ) {
 
-		if ( !document.getElementById( 'wmsNDVIToggle' ).checked ||  document.getElementById( 'YLREToggle' ).checked || document.getElementById( 'SubDistrictNDVIToggle' ).checked || document.getElementById( 'PopulationGridToggle' ).checked || document.getElementById( 'TreeRegistryToggle' ).checked  ) {
+		if ( !this.store.location != 'pop_pressure' ||  !this.store.location != 'ndvi_areas' ) {
 
-    
+    		document.getElementById( 'uploadButton' ).style.visibility = 'hidden';
 			document.getElementById( 'plotSelect' ).value = 'Helsinki';
-			const elements = [
-				'showPlotSwitch',
-				'showPlotLabel',
-				'showNDVISwitch',
-				'showNDVILabel', 
-				'showTreesSwitch',
-				'showTreesLabel'            
-
-			];
-
-			if ( !document.getElementById( 'showGreenToggle' ).checked ) {
-
-				this.elementsDisplayService.setElementsDisplay( elements, 'inline-block' );
-				this.elementsDisplayService.setElementsDisplay( [
-					'showGreenLabel',
-					'showGreenSwitch'          
-				], 'none' );
-
-			} 
+			this.elementsDisplayService.districtElementsDisplay( 'inline-block' );
+			this.elementsDisplayService.setActivatePPElementsDisplay( 'none' );
 
 			console.log( 'Clicked at ' + String( event.x ) + ', ' + String( event.y ) );
 			this.pickEntity( new Cesium.Cartesian2( event.x, event.y ) );
@@ -118,8 +101,7 @@ export default class FeaturePicker {
 		document.getElementById( 'showNDVIToggle' ).disabled = false;
 		document.getElementById( 'NDVI2023Toggle' ).disabled = false;
 
-		document.getElementById( 'wmsNDVISwitch' ).style.display = 'none';
-		document.getElementById( 'wmsNDVILabel' ).style.display = 'none';
+		this.elementsDisplayService.setAreasNDVIElementsDisplay( 'none' );
     
 		if ( picked ) {
 
@@ -153,7 +135,7 @@ export default class FeaturePicker {
 				}
     
 				if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Vironniemi' ) {
-					this.elementsDisplayService.setElementsDisplay( [ 'NDVI2023Switch', 'NDVI2023Label' ], 'inline-block' );
+					this.elementsDisplayService.setNDVI2023ElementsDisplay( 'inline-block' );
 					this.districtService.flyCameraToDistrict( picked, 10000 );  
 					this.store.district = picked.id.properties.tunnus;
 					await this.districtService.newDistrict( 'assets/data/HelsinkiSubDistrict.json', 'SubDistricts' );
@@ -184,7 +166,7 @@ export default class FeaturePicker {
 
 			}
         
-			if ( document.getElementById( 'wmsNDVIToggle' ).checked || this.store.location == 'pop_pressure' ) {
+			if ( document.getElementById( 'areasNDVIToggle' ).checked || this.store.location == 'pop_pressure' ) {
 
 				document.getElementById( 'printContainer' ).style.display = 'inline-block';
 				printCesiumEntity( picked );

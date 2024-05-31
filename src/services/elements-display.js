@@ -5,6 +5,54 @@ export default class ElementsDisplay {
 		this.store = useGlobalStore();
 	}
 
+	districtElementsDisplay( display ) {
+
+		setElementsDisplay( districtElements, display );
+
+	}	
+
+	setTreeElementsDisplay( display ) {
+
+		setElementsDisplay( treeElements, display );
+
+	}
+
+	setPlotElementsDisplay( display ) {
+
+		setElementsDisplay( plotElements, display );
+
+	}
+
+	setNDVIElementsDisplay( display ) {
+
+		setElementsDisplay( ndviElements, display );
+
+	}
+
+	setPopulationPressureElementsDisplay( display ) {
+
+		setElementsDisplay( populationPressureElements, display );
+
+	}
+
+	setActivatePPElementsDisplay( display ) {
+
+		setElementsDisplay( activePPElements, display );
+
+	}
+
+	setNDVI2023ElementsDisplay( display ) {
+
+		setElementsDisplay( ndvi2023Elements, display );
+
+	}
+
+	setAreasNDVIElementsDisplay( display ) {
+
+		setElementsDisplay( areasNDVIElements, display );
+
+	}		
+
 	/**
  * Changes the visibility of label elements 
  */
@@ -56,7 +104,7 @@ export default class ElementsDisplay {
 
 		}
 
-		if ( visibility == 'hidden' || areAnySwitchesOn() ) {
+		if ( visibility == 'hidden' || document.getElementById( 'showTreeToggle' ).checked ) {
 
 			document.getElementById( 'plotInhabitantContainer' ).style.visibility = visibility;
 			document.getElementById( 'plotContainer' ).style.visibility = visibility;
@@ -73,7 +121,7 @@ export default class ElementsDisplay {
 
 		}
 
-		if ( document.getElementById( 'wmsNDVIToggle' ).checked ) {
+		if ( document.getElementById( 'areasNDVIToggle' ).checked ) {
 
 			document.getElementById( 'ndviAreaContainer' ).style.visibility = visibility;
 			document.getElementById( 'ndviAreaValue' ).style.visibility = visibility;
@@ -108,20 +156,6 @@ export default class ElementsDisplay {
 		document.getElementById( 'showTreeToggle' ).disabled = isDisabled;
 	}
 
-	/**
- * Changes the display of land cover elements when user switches between land cover and ndvi view
- */
- 	setElementsDisplay( elements, display ) {
-
-    	elements.forEach( ( elementId ) => {
-        	const element = document.getElementById( elementId );
-        	if ( element ) {
-
-            	element.style.display = display;
-        
-        	}
-    	} );
-	}	
 
 	/**
  * Function to toggle the visibility of the "Return" button
@@ -168,24 +202,24 @@ export default class ElementsDisplay {
 		document.getElementById( 'showNDVIToggle' ).checked = false;
 		document.getElementById( 'NDVI2023Toggle' ).checked = false;
 		document.getElementById( 'showGreenToggle' ).checked = false;
-		document.getElementById( 'wmsNDVIToggle' ).checked = false;
+		document.getElementById( 'areasNDVIToggle' ).checked = false;
 		document.getElementById( 'SubDistrictNDVIToggle' ).checked = false;
 		document.getElementById( 'TreeRegistryToggle' ).checked = false;
 		document.getElementById( 'PopulationGridToggle' ).checked = false;
 		document.getElementById( 'YLREToggle' ).checked = false;
 
 		this.setElementDisabledState( true );
-		this.setElementsDisplay( elements, 'none' );
+		setElementsDisplay( elements, 'none' );
 
 		const elements2 = [
 			'showPlotSwitch',
 			'showPlotLabel',
-			'wmsNDVISwitch',
-			'wmsNDVILabel',
+			'areasNDVISwitch',
+			'areasNDVILabel',
 			'showGreenSwitch',
 			'showGreenLabel'
 		];
-		this.setElementsDisplay( elements2, 'inline-block' );
+		setElementsDisplay( elements2, 'inline-block' );
 
 		document.getElementById( 'showNDVIToggle' ).disabled = true;
 		document.getElementById( 'NDVI2023Toggle' ).disabled = true;
@@ -208,3 +242,65 @@ export default class ElementsDisplay {
 
 	}	
 }
+
+const setElementsDisplay = ( elements, display ) => {
+
+
+	elements.forEach( ( elementId ) => {
+		const element = document.getElementById( elementId );
+        	if ( element ) {
+
+            	element.style.display = display;
+        
+        	}
+	} );
+
+};
+
+const treeElements = [
+	'showTreesSwitch',
+	'showTreesLabel'
+];
+
+const plotElements = [
+	'showPlotSwitch',
+	'showPlotLabel'
+];
+
+const ndviElements = [
+	'showNDVISwitch',
+	'showNDVILabel'
+];
+
+const ndvi2023Elements = [
+	'NDVI2023Switch', 
+	'NDVI2023Label'
+];
+
+const populationPressureElements = [
+	'showPlanSwitch',
+	'showPlanLabel',
+	'showGreenSwitch',
+	'showGreenLabel',
+	'showProtectedSwitch',
+	'showProtectedLabel'				
+];
+
+const districtElements = [
+	'showPlotSwitch',
+	'showPlotLabel',
+	'showNDVISwitch',
+	'showNDVILabel', 
+	'showTreesSwitch',
+	'showTreesLabel'            
+];
+
+const activePPElements = [
+	'activatePopulationPressureSwitch',
+	'activatePopulationPressureLabel'           
+];
+
+const areasNDVIElements = [
+	'areasNDVISwitch',
+	'areasNDVILabel'           
+];

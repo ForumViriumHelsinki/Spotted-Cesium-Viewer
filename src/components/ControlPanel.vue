@@ -3,7 +3,7 @@
 
     <div id="UIButtonContainer">
 	    <!-- Rest of your UI elements -->
-    <button class="uiButton" @click="triggerFileUpload" style="display: block; margin: 10px auto;">
+    <button class="uiButton" id='uploadButton' @click="triggerFileUpload" style="display: block; margin: 10px auto;">
       Upload GeoJSON Dataset
     </button>
     <input type="file" id="fileUpload" accept=".json,.geojson" style="display: none;" @change="handleFileUpload">
@@ -43,26 +43,33 @@
     <option value="NDVI_OCTOBER">NDVI October</option>
   </select>
 
-<!-- showPlanSwitch-->
-<label class="switch" id = "showPlanSwitch" >
-  <input type="checkbox" id = "showPlanToggle" value = "showPlan" >
+<!-- activatePopulationPressureSwitch-->
+<label class="switch" id = "activatePopulationPressureSwitch" >
+  <input type="checkbox" id = "activatePopulationPressureToggle" value = "activatePopulationPressure" >
   <span class="slider round"></span>
 </label>
-<label for="showPlanToggle" class="label" id = "showPlanLabel" >Planned areas</label>
+<label for="activatePopulationPressureToggle" class="label" id = "activatePopulationPressureLabel" >Population pressure</label>
+
+<!-- showPlanSwitch-->
+<label class="switch" id = "showPlanSwitch" style = "display: none">
+  <input type="checkbox" id = "showPlanToggle" value = "showPlan">
+  <span class="slider round"></span>
+</label>
+<label for="showPlanToggle" class="label" id = "showPlanLabel" style = "display: none">Planned areas</label>
 
 <!-- showProtectedSwitch-->
-<label class="switch" id = "showProtectedSwitch" >
+<label class="switch" id = "showProtectedSwitch" style = "display: none">
   <input type="checkbox" id = "showProtectedToggle" value = "showProtected" >
   <span class="slider round"></span>
 </label>
-<label for="showProtectedToggle" class="label" id = "showProtectedLabel" >Protected areas</label>
+<label for="showProtectedToggle" class="label" id = "showProtectedLabel" style = "display: none">Protected areas</label>
 
 <!-- showGreenSwitch-->
-<label class="switch" id = "showGreenSwitch" >
+<label class="switch" id = "showGreenSwitch" style = "display: none">
   <input type="checkbox" id = "showGreenToggle" value = "showGreen" >
   <span class="slider round"></span>
 </label>
-<label for="showGreenToggle" class="label" id = "showGreenLabel" >YLRE green areas</label>
+<label for="showGreenToggle" class="label" id = "showGreenLabel" style = "display: none">YLRE green areas</label>
 
 
 <!-- showPlotSwitch-->
@@ -121,12 +128,12 @@
 </label>
 <label for="showTreeToggle" class="label" id = "showTreesLabel" style = "display: none">Tree areas</label>
 
-<!-- NDVI WMS-->
-<label class="switch" id = "wmsNDVISwitch" >
-  <input type="checkbox" id = "wmsNDVIToggle" value = "wmsNDVI" >
+<!-- NDVI Areas-->
+<label class="switch" id = "areasNDVISwitch" >
+  <input type="checkbox" id = "areasNDVIToggle" value = "areasNDVI" >
   <span class="slider round"></span>
 </label>
-<label for="wmsNDVIToggle" class="label" id = "wmsNDVILabel" >NDVI areas</label>
+<label for="areasNDVIToggle" class="label" id = "areasNDVILabel" >NDVI areas</label>
 
 <!--  showLandCover-->
 <label class="switch" id = "landCoverSwitch">
@@ -249,7 +256,7 @@ export default {
 			document.getElementById( 'SubDistrictNDVIToggle' ).addEventListener( 'change', this.subDistrictNDVIEvent );
 			document.getElementById( 'YLREToggle' ).addEventListener( 'change', this.ylreEvent );
 			document.getElementById( 'TreeRegistryToggle' ).addEventListener( 'change', this.treeRegistryEvent );
-			document.getElementById( 'wmsNDVIToggle' ).addEventListener( 'change', this.wmsNDVIEvent );
+			document.getElementById( 'areasNDVIToggle' ).addEventListener( 'change', this.wmsNDVIEvent );
 			document.getElementById( 'NDVI2023Toggle' ).addEventListener( 'change', this.ndvi2023 );
 			document.getElementById( 'showGreenToggle' ).addEventListener( 'change', this.showGreenEvent );
 			document.getElementById( 'showNDVIToggle' ).addEventListener( 'change', this.showNDVIEvent );
@@ -257,16 +264,39 @@ export default {
 			document.getElementById( 'showTreeToggle' ).addEventListener( 'change', this.showTreeEvent );
 			document.getElementById( 'showPlanToggle' ).addEventListener( 'change', this.showPlanEvent );
 			document.getElementById( 'showProtectedToggle' ).addEventListener( 'change', this.showProtectedAreaEvent );
-			//this.handleNDVIAreaSliders();
+			document.getElementById( 'activatePopulationPressureToggle' ).addEventListener( 'change', this.activatePopulationPressureEvent );
 
 		},
 
+		activatePopulationPressureEvent() {
+
+			const checked = document.getElementById( 'activatePopulationPressureToggle' ).checked;
+
+			if ( checked ) {
+
+				this.elementsDisplayService.setPopulationPressureElementsDisplay( 'inline-block' );
+				this.elementsDisplayService.setActivatePPElementsDisplay( 'none' );
+				this.elementsDisplayService.setAreasNDVIElementsDisplay( 'none' );
+				this.viewer.dataSources.removeAll();
+				this.store.setLocation( 'pop_pressure' );
+				document.getElementById( 'uploadButton' ).style.visibility = 'hidden';
+
+			} else {
+                
+				this.reset();
+
+			}
+
+
+
+		},		
+
 		getLandCoverEvent() {
 
-			const landcover = document.getElementById( 'landCoverToggle' ).checked;
+			const checked = document.getElementById( 'landCoverToggle' ).checked;
 			const wmsService = new WMS();
 
-			if ( landcover ) {
+			if ( checked ) {
 
 				this.viewer.imageryLayers.removeAll();
 
@@ -292,9 +322,9 @@ export default {
  */
 		populationGridEvent() {
 
-			const populationGrid = document.getElementById( 'PopulationGridToggle' ).checked;
+			const checked = document.getElementById( 'PopulationGridToggle' ).checked;
 
-			if ( populationGrid ) {
+			if ( checked ) {
 
 				if ( !this.datasourceService.dataSourceWithNameExists( 'PopulationGrid' ) ) {
 
@@ -359,9 +389,9 @@ export default {
  */
 		async ylreEvent() {
 
-			const ylre = document.getElementById( 'YLREToggle' ).checked;
+			const checked = document.getElementById( 'YLREToggle' ).checked;
 
-			if ( ylre ) {
+			if ( checked ) {
 
 				if ( !this.datasourceService.dataSourceWithNameExists( 'YLRE' ) ) {
 
@@ -399,9 +429,9 @@ export default {
  */
 		async treeRegistryEvent() {
 
-			const treeRegistry = document.getElementById( 'TreeRegistryToggle' ).checked;
+			const checked = document.getElementById( 'TreeRegistryToggle' ).checked;
 
-			if ( treeRegistry ) {
+			if ( checked ) {
 
 				if ( !this.datasourceService.dataSourceWithNameExists( 'TreeRegistry' ) ) {
 
@@ -433,9 +463,13 @@ export default {
  */
 		wmsNDVIEvent() {
 
-			const wmsNDVI = document.getElementById( 'wmsNDVIToggle' ).checked;
+			const checked = document.getElementById( 'areasNDVIToggle' ).checked;
 
-			if ( wmsNDVI ) {
+			if ( checked ) {
+
+				this.store.setLocation( 'ndvi_areas' );
+				this.elementsDisplayService.setActivatePPElementsDisplay( 'none' );
+				document.getElementById( 'uploadButton' ).style.visibility = 'hidden';
 
 				if ( this.store.fileUploaded ) {
 
@@ -449,14 +483,12 @@ export default {
 				}
 
 
-				document.getElementById( 'wmsNDVISwitch' ).style.display = 'none';
-				document.getElementById( 'wmsNDVILabel' ).style.display = 'none';
+				this.elementsDisplayService.setAreasNDVIElementsDisplay( 'none' );
+				this.elementsDisplayService.setTreeElementsDisplay( 'inline-block' );
 				document.getElementById( 'showGreenSwitch' ).style.display = 'none';
 				document.getElementById( 'showGreenLabel' ).style.display = 'none';
 				document.getElementById( 'YLRESwitch' ).style.display = 'inline-block';
 				document.getElementById( 'YLRELabel' ).style.display = 'inline-block';
-				document.getElementById( 'TreeRegistrySwitch' ).style.display = 'inline-block';
-				document.getElementById( 'TreeRegistryLabel' ).style.display = 'inline-block';
 				document.getElementById( 'SubDistrictNDVISwitch' ).style.display = 'inline-block';
 				document.getElementById( 'SubDistrictNDVILabel' ).style.display = 'inline-block';
 				document.getElementById( 'PopulationGridSwitch' ).style.display = 'inline-block';
@@ -515,16 +547,11 @@ export default {
  */
 		async ndvi2023() {
 
-			const NDVI2023 = document.getElementById( 'NDVI2023Toggle' ).checked;
+			const checked = document.getElementById( 'NDVI2023Toggle' ).checked;
 
-			const elements = [
-				'showTreesSwitch',
-				'showTreesLabel'
-			];
+			if ( checked ) {
 
-			if ( NDVI2023 ) {
-
-				this.elementsDisplayService.setElementsDisplay( elements, 'none' );
+				this.elementsDisplayService.setTreeElementsDisplay( 'none' );
 				document.getElementById( 'showNDVIToggle' ).disabled = true;
 				document.getElementById( 'plotPieContainer' ).style.visibility = 'hidden';
 				document.getElementById( 'sliderContainer' ).style.visibility = 'hidden';
@@ -550,7 +577,7 @@ export default {
 				document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
 				await this.datasourceService.hideDataSourceByName( 'ndvi' );
 				await this.datasourceService.removeDataSourcesByNamePrefix( 'ndvi' );
-				this.elementsDisplayService.setElementsDisplay( elements, 'inline-block' );
+				this.elementsDisplayService.setTreeElementsDisplay( 'inline-block' );
 
 			}
 
@@ -580,19 +607,18 @@ export default {
  */
 		async showProtectedAreaEvent() {
 
-			const showProtected = document.getElementById( 'showProtectedToggle' ).checked;
+			const checked = document.getElementById( 'showProtectedToggle' ).checked;
 
-			if ( showProtected ) {
+			if ( checked ) {
 
-				this.viewer.dataSources.removeAll();
 				const greenAreasService = new GreenAreas();
 				setPopulationPressureAttributes( '_max', '_area_m2', 'Protected Areas', '_nimi' );
-				this.store.setLocation( 'pop_pressure' );
 				await greenAreasService.loadGreenAreas( 'https://geo.fvh.fi/spotted/data/suojelu.geojson' );
 
 			} else { 
         
-				this.reset();
+				this.datasourceService.removeDataSourcesByNamePrefix( 'GreenAreas' );
+				hideAllPlotsAndSliders();
 
 			}
 		},
@@ -603,19 +629,18 @@ export default {
  */
 		async showPlanEvent() {
 
-			const showPlan = document.getElementById( 'showPlanToggle' ).checked;
+			const checked = document.getElementById( 'showPlanToggle' ).checked;
 
-			if ( showPlan ) {
+			if ( checked ) {
 
-				this.viewer.dataSources.removeAll();
 				const greenAreasService = new GreenAreas();
 				setPopulationPressureAttributes( '_max', '_area_m2', 'Planned Development', '_plan_name' );
-				this.store.setLocation( 'pop_pressure' );
 				await greenAreasService.loadGreenAreas( 'https://geo.fvh.fi/spotted/data/kaava.geojson' );
 
 			} else { 
         
-				this.reset();
+				this.datasourceService.removeDataSourcesByNamePrefix( 'GreenAreas' );
+				hideAllPlotsAndSliders();
 
 			}
 		},
@@ -626,20 +651,18 @@ export default {
  */
 		async showGreenEvent() {
 
-			const showGreen = document.getElementById( 'showGreenToggle' ).checked;
+			const checked = document.getElementById( 'showGreenToggle' ).checked;
 
-			if ( showGreen ) {
+			if ( checked ) {
 
-				this.viewer.dataSources.removeAll();
 				const greenAreasService = new GreenAreas();
-				this.store.setLocation( 'pop_pressure' );
 				setPopulationPressureAttributes( '_max', '_viheralueen_pa', 'YLRE GreenAreas', '_puiston_nimi' );
 				await greenAreasService.loadGreenAreas( 'https://geo.fvh.fi/spotted/data/ylre.geojson' );
 
-			} else { 
-        
-				this.reset();
+			} else {
 
+				this.datasourceService.removeDataSourcesByNamePrefix( 'GreenAreas' );
+				hideAllPlotsAndSliders();
 			}
 
 		},
@@ -650,19 +673,14 @@ export default {
  */
 		async showNDVIEvent() {
 			// Get the state of the showNDVI toggle button
-			const showNDVI = document.getElementById( 'showNDVIToggle' ).checked;
+			const checked = document.getElementById( 'showNDVIToggle' ).checked;
 
 			// Get the labels for colors
 			const labels = document.querySelectorAll( '.color-label.active' );
 
-			const elements = [
-				'showTreesSwitch',
-				'showTreesLabel'
-			];
-
 			// Rest of your showNDVIEvent function code
 
-			if ( showNDVI ) {
+			if ( checked ) {
 
 				document.getElementById( 'NDVI2023Toggle' ).disabled = true;
 
@@ -671,7 +689,7 @@ export default {
 					label.style.display = 'block';
 				} );
 
-				this.elementsDisplayService.setElementsDisplay( elements, 'none' );
+				this.elementsDisplayService.setTreeElementsDisplay( 'none' );
 				this.elementsDisplayService.setElementDisabledState( true );
 
 				if ( this.store.majorDistrict && !this.datasourceService.dataSourceWithNameExists( 'ndvi2018-06-14' ) ) {
@@ -694,65 +712,13 @@ export default {
 				} );
 
 
-				this.elementsDisplayService.setElementsDisplay( elements, 'inline-block' );
+				this.elementsDisplayService.setTreeElementsDisplay( 'inline-block' );
 				document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
 				document.getElementById( 'ndviSliderContainer' ).style.visibility = 'hidden';
 				this.elementsDisplayService.setElementDisabledState( false );
 				this.datasourceService.hideDataSourceByName( 'ndvi' );
 
 			}
-		},
-
-
-
-		/**
- * This function returns only if all hsy land cover
- */
-		statusOfHSYToggles( ) {
-
-			if ( !document.getElementById( 'showTreeToggle' ).checked ) {
-
-				return false;
-			}
-    
-			return true;
-		},
-
-
-		/**
- * This function to shows all datasources to user.
- *
- */
-		showAllDataSources( ) {
-
-			// Set the show property of all data sources to true to show the entities
-			this.viewer.dataSources._dataSources.forEach( function( dataSource ) {
-
-				dataSource.show = true;
-
-			} );  
-		},
-
-		/**
- * This function is called when the Object details button is clicked
- *
- */
-		printEvent( ) {
-
-			console.log( 'Set the print to: ' + String( document.getElementById( 'printToggle' ).checked ) );
-			const print = document.getElementById( 'printToggle' ).checked;
-
-			// If print is not selected, hide the print container, search container, georeference container, and search button
-			if ( !print ) {
-
-				document.getElementById( 'printContainer' ).style.visibility = 'hidden';
-
-			} else { // Otherwise, make the print container visible
-
-				document.getElementById( 'printContainer' ).style.visibility = 'visible';
-
-			}
-
 		},
 
 		/**
@@ -762,18 +728,14 @@ export default {
 		showPlotEvent( ) {
 
 			// Get the value of the "Show Plot" toggle button
-			const showPlots = document.getElementById( 'showPlotToggle' ).checked;
+			const checked = document.getElementById( 'showPlotToggle' ).checked;
     
 			// Hide the plot and its controls if the toggle button is unchecked
-			if ( !showPlots ) {
+			if ( !checked ) {
 
 				this.store.showPlot = false;
 				this.elementsDisplayService.togglePlots( 'hidden' );
-				const elements = [
-        			'showPlotSwitch',
-        			'showPlotLabel'
-    			];
-				this.elementsDisplayService.setElementsDisplay( elements, 'none' );
+				this.elementsDisplayService.setPlotElementsDisplay( 'none' );
 
 			}
 
@@ -785,20 +747,15 @@ export default {
  */
 		showTreeEvent( ) {
 
-			const elements = [
-				'showNDVISwitch',
-				'showNDVILabel'
-			];
-
 			// Get the current state of the toggle button for showing nature areas.
-			const showTree = document.getElementById( 'showTreeToggle' ).checked;
+			const checked = document.getElementById( 'showTreeToggle' ).checked;
 
 			this.plotService.createVegetationBarPlotPerInhabitant( this.store.districtsVisited[ this.store.districtsVisited.length - 1 ] );
 
-			if ( showTree ) {
+			if ( checked ) {
 
 				document.getElementById( 'showNDVIToggle' ).disabled = true;
-				this.elementsDisplayService.setElementsDisplay( elements, 'none' );
+				this.elementsDisplayService.setNDVIElementsDisplay( 'none' );
 
 				if ( this.store.majorDistrict && !this.datasourceService.dataSourceWithNameExists( 'Trees' ) ) {
 
@@ -814,34 +771,15 @@ export default {
 				document.getElementById( 'showNDVIToggle' ).disabled = false;
 				this.datasourceService.hideDataSourceByName( 'Trees' );
 
-				if ( !this.areAnySwitchesOn() ) {
+				if ( !document.getElementById( 'showTreeToggle' ).checked ) {
 
-					this.elementsDisplayService.setElementsDisplay( elements, 'inline-block' );
+					this.elementsDisplayService.setNDVIElementsDisplay( 'inline-block' );
 					this.elementsDisplayService.toggleLandCoverBarPlots( 'hidden' );
 
 				}
 
 			}
 
-		},
-
-		areAnySwitchesOn() {
-			// List of switch IDs to check
-			const switchIds = [
-				'showTreeToggle'
-			];
-
-			// Loop through the switch IDs and check if any are on
-			for ( const switchId of switchIds ) {
-				const switchElement = document.getElementById( switchId );
-				if ( switchElement && switchElement.checked ) {
-
-					return true; // At least one switch is on, so return true
-				}
-
-			}
-
-			return false; // No switches are on, so return false
 		},
 
 		handleNDVIAreaSliders() {
@@ -945,6 +883,16 @@ const setPopulationPressureAttributes = (  ndviAttribute, areaAttribute, name, u
 	populationPressureStore.setUniqueId( uniqueId );
 
 };
+
+const hideAllPlotsAndSliders = ( ) => {
+
+	document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
+	document.getElementById( 'plotPieContainer' ).style.visibility = 'hidden';
+	document.getElementById( 'plotInhabitantContainer' ).style.visibility = 'hidden';
+	document.getElementById( 'sliderContainer' ).style.visibility = 'hidden';
+
+};
+
 </script>
 
 <style>
