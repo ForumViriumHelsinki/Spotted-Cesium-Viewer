@@ -275,7 +275,7 @@ export default {
 			if ( checked ) {
 
 				this.elementsDisplayService.setPopulationPressureElementsDisplay( 'inline-block' );
-				this.elementsDisplayService.setActivatePPElementsDisplay( 'none' );
+				this.elementsDisplayService.setPopulationPressureElementsDisplay( 'none' );
 				this.elementsDisplayService.setAreasNDVIElementsDisplay( 'none' );
 				this.viewer.dataSources.removeAll();
 				this.store.setLocation( 'pop_pressure' );
@@ -468,7 +468,7 @@ export default {
 			if ( checked ) {
 
 				this.store.setLocation( 'ndvi_areas' );
-				this.elementsDisplayService.setActivatePPElementsDisplay( 'none' );
+				this.elementsDisplayService.setPopulationPressureElementsDisplay( 'none' );
 				document.getElementById( 'uploadButton' ).style.visibility = 'hidden';
 
 				if ( this.store.fileUploaded ) {
@@ -482,43 +482,10 @@ export default {
 
 				}
 
-
 				this.elementsDisplayService.setAreasNDVIElementsDisplay( 'none' );
-				this.elementsDisplayService.setTreeElementsDisplay( 'inline-block' );
-				document.getElementById( 'showGreenSwitch' ).style.display = 'none';
-				document.getElementById( 'showGreenLabel' ).style.display = 'none';
-				document.getElementById( 'YLRESwitch' ).style.display = 'inline-block';
-				document.getElementById( 'YLRELabel' ).style.display = 'inline-block';
-				document.getElementById( 'SubDistrictNDVISwitch' ).style.display = 'inline-block';
-				document.getElementById( 'SubDistrictNDVILabel' ).style.display = 'inline-block';
-				document.getElementById( 'PopulationGridSwitch' ).style.display = 'inline-block';
-				document.getElementById( 'PopulationGridLabel' ).style.display = 'inline-block';
+				this.elementsDisplayService.setAreasNDVIChildElementsDisplay( 'inline-block' );
 
-				//    toggleLayerSelectAndActivateNDVI();
-
-			} else { 
-
-				// showHelsinkiWMSAndActivateDefaultLayer();
-				this.datasourceServic.showDataSourceByName( 'MajorDistricts' );
-
-
-				document.getElementById( 'showGreenSwitch' ).style.display = 'inline-block';
-				document.getElementById( 'showGreenLabel' ).style.display = 'inline-block';
-				document.getElementById( 'YLRESwitch' ).style.display = 'none';
-				document.getElementById( 'YLRELabel' ).style.display = 'none';
-				document.getElementById( 'TreeRegistrySwitch' ).style.display = 'none';
-				document.getElementById( 'TreeRegistryLabel' ).style.display = 'none';
-				document.getElementById( 'SubDistrictNDVISwitch' ).style.display = 'none';
-				document.getElementById( 'SubDistrictNDVILabel' ).style.display = 'none';
-				document.getElementById( 'printContainer' ).style.display = 'none';
-				document.getElementById( 'PopulationGridSwitch' ).style.display = 'none';
-				document.getElementById( 'PopulationGridLabel' ).style.display = 'none';  
-				this.datasourceServic.hideDataSourceByName( 'YLRE' );  
-				this.datasourceServic.hideDataSourceByName( 'TreeRegistry' );
-				this.datasourceServic.hideDataSourceByName( 'PopulationGrid' );
-				this.datasourceServic.hideDataSourceByName( 'SubDistrictNDVI' );
-
-			}
+			} 
 		},
 
 		toggleLayerSelectAndActivateNDVI() {

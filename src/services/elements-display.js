@@ -29,13 +29,13 @@ export default class ElementsDisplay {
 
 	}
 
-	setPopulationPressureElementsDisplay( display ) {
+	setPopulationPressureChildElementsDisplay( display ) {
 
 		setElementsDisplay( populationPressureElements, display );
 
 	}
 
-	setActivatePPElementsDisplay( display ) {
+	setPopulationPressureElementsDisplay( display ) {
 
 		setElementsDisplay( activePPElements, display );
 
@@ -50,6 +50,12 @@ export default class ElementsDisplay {
 	setAreasNDVIElementsDisplay( display ) {
 
 		setElementsDisplay( areasNDVIElements, display );
+
+	}	
+
+	setAreasNDVIChildElementsDisplay( display ) {
+
+		setElementsDisplay( areasNDVIChildElements, display );
 
 	}		
 
@@ -303,4 +309,15 @@ const activePPElements = [
 const areasNDVIElements = [
 	'areasNDVISwitch',
 	'areasNDVILabel'           
+];
+
+const areasNDVIChildElements = [
+	'YLRESwitch',
+	'YLRELabel', 
+	'TreeRegistrySwitch',
+	'TreeRegistryLabel',	
+	'SubDistrictNDVISwitch',
+	'SubDistrictNDVILabel',
+	'PopulationGridSwitch', 
+	'PopulationGridLabel',         
 ];

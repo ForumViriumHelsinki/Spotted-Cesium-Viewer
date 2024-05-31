@@ -28,7 +28,7 @@ export default class FeaturePicker {
     		document.getElementById( 'uploadButton' ).style.visibility = 'hidden';
 			document.getElementById( 'plotSelect' ).value = 'Helsinki';
 			this.elementsDisplayService.districtElementsDisplay( 'inline-block' );
-			this.elementsDisplayService.setActivatePPElementsDisplay( 'none' );
+			this.elementsDisplayService.setPopulationPressureElementsDisplay( 'none' );
 
 			console.log( 'Clicked at ' + String( event.x ) + ', ' + String( event.y ) );
 			this.pickEntity( new Cesium.Cartesian2( event.x, event.y ) );
