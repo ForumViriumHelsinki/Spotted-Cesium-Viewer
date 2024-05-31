@@ -326,6 +326,8 @@ export default {
 
 			if ( checked ) {
 
+				this.store.ndviAreaDataSourceName  = 'PopulationGrid';
+
 				if ( !this.datasourceService.dataSourceWithNameExists( 'PopulationGrid' ) ) {
 
 					this.ndviAreaService.addFeaturesWithNDVI( 'https://geo.fvh.fi/spotted/data/hki_populationgrid_with_ndvi.geojson', 'PopulationGrid', true );
@@ -339,7 +341,6 @@ export default {
 
 				document.getElementById( 'ndviAreaContainer' ).style.display = 'inline-block';
 				document.getElementById( 'ndviAreaContainer' ).style.visibility = 'visible';
-				this.store.ndviAreaDataSourceName  = 'PopulationGrid';
         
 			} else {
 
@@ -360,6 +361,8 @@ export default {
 
 			if ( subDistrictNDVI ) {
 
+				this.store.ndviAreaDataSourceName = 'SubDistrictNDVI';
+
 				if ( !this.datasourceService.dataSourceWithNameExists( 'SubDistrictNDVI' ) ) {
 
 					this.ndviAreaService.addFeaturesWithNDVI( 'https://geo.fvh.fi/spotted/data/HelsinkiSubDistrict.geojson', 'SubDistrictNDVI', false );
@@ -373,7 +376,6 @@ export default {
 
 				document.getElementById( 'ndviAreaContainer' ).style.display = 'inline-block';
 				document.getElementById( 'ndviAreaContainer' ).style.visibility = 'visible';
-				this.store.ndviAreaDataSourceName = 'SubDistrictNDVI';
         
 			} else {
 
@@ -393,6 +395,8 @@ export default {
 
 			if ( checked ) {
 
+				this.store.ndviAreaDataSourceName = 'YLRE';
+
 				if ( !this.datasourceService.dataSourceWithNameExists( 'YLRE' ) ) {
 
 					await this.ndviAreaService.addFeaturesWithNDVI( 'https://geo.fvh.fi/spotted/data/ylre_viheralue_with_ndvi.geojson', 'YLRE', true );
@@ -405,7 +409,6 @@ export default {
 
 				document.getElementById( 'ndviYlreContainer' ).style.display = 'inline-block';
 				document.getElementById( 'ndviYlreContainer' ).style.visibility = 'visible';
-				this.store.ndviAreaDataSourceName = 'YLRE';
 				let dataSource = await this.datasourceService.getDataSourceByName( this.store.ndviAreaDataSourceName );
 				if ( dataSource ) {
             
@@ -433,6 +436,8 @@ export default {
 
 			if ( checked ) {
 
+				this.store.ndviAreaDataSourceName = 'TreeRegistry';
+
 				if ( !this.datasourceService.dataSourceWithNameExists( 'TreeRegistry' ) ) {
 
 					await this.ndviAreaService.addFeaturesWithNDVI( 'https://geo.fvh.fi/spotted/data/Puurekisteri_piste_with_ndvi.geojson', 'TreeRegistry', false );
@@ -446,7 +451,6 @@ export default {
 
 				document.getElementById( 'ndviAreaContainer' ).style.display = 'inline-block';
 				document.getElementById( 'ndviAreaContainer' ).style.visibility = 'visible';
-				this.store.ndviAreaDataSourceName = 'TreeRegistry';
         
 			} else {
 
