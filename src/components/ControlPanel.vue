@@ -221,19 +221,27 @@ export default {
 
 			this.setCamera();
 
-			if ( fileName.includes( 'urbangreenindex' ) ) {
-				this.platformService.addPlatformFeaturesWithNDVI( data, 'Spotted Platform Green Index' );
-			}
+			if ( !fileName.includes( 'spotted-helsinki-urban' ) ) {
 
-			if ( fileName.includes( 'urbanheatvulnerability' ) ) {
-				this.platformService.addPlatformFeaturesWithHeat( data, 'Spotted Platform Heat Risk' );
-			}
+				alert( 'The uploaded data must be from Spotted Platform!' );
 
-			if ( fileName.includes( 'urbanheatexposure' ) ) {
-				this.platformService.addPlatformFeaturesWithHeat( data, 'Spotted Platform Heat Exposure' );
-			}
+			} else {
 
-			this.store.fileUploaded = true;
+				if ( fileName.includes( 'urbangreenindex' ) ) {
+					this.platformService.addPlatformFeaturesWithNDVI( data, 'Spotted Platform Green Index' );
+				}
+
+				if ( fileName.includes( 'urbanheatvulnerability' ) ) {
+					this.platformService.addPlatformFeaturesWithHeat( data, 'Spotted Platform Heat Risk' );
+				}
+
+				if ( fileName.includes( 'urbanheatexposure' ) ) {
+					this.platformService.addPlatformFeaturesWithHeat( data, 'Spotted Platform Heat Exposure' );
+				}
+
+				this.store.fileUploaded = true;
+
+			}
 
 
 		},
@@ -274,9 +282,8 @@ export default {
 
 			if ( checked ) {
 
-				this.elementsDisplayService.setPopulationPressureElementsDisplay( 'inline-block' );
 				this.elementsDisplayService.setPopulationPressureElementsDisplay( 'none' );
-				this.elementsDisplayService.setAreasNDVIElementsDisplay( 'none' );
+				this.elementsDisplayService.setPopulationPressureChildElementsDisplay( 'inline-block' );
 				this.viewer.dataSources.removeAll();
 				this.store.setLocation( 'pop_pressure' );
 				document.getElementById( 'uploadButton' ).style.visibility = 'hidden';

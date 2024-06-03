@@ -973,7 +973,7 @@ export default class Plot {
 		} );
 	}
 
-	createPopulationPressureScatterPlot( entities, postfix ) {
+	createPopulationPressureScatterPlot( entities, populationAttributeName ) {
 
 		let areaNames = [];
 		let data = [ ];
@@ -986,11 +986,11 @@ export default class Plot {
 
 			const areaName = entity._properties[ id ]._value;
 
-			if ( entity.show && entity._properties[ '_weighted_population' + postfix ] && entity._properties[ ndviAttribute ]._value >= 0.5 && entity._properties[ areaAttribute ]._value >= 100 && !areaNames.includes( areaName ) ) {
+			if ( entity.show && entity._properties[ populationAttributeName ] && entity._properties[ ndviAttribute ]._value >= 0.5 && entity._properties[ areaAttribute ]._value >= 100 && !areaNames.includes( areaName ) ) {
 				areaNames.push( areaName );
 
 				const plotData = {
-					x: [ ( entity._properties[ '_weighted_population' + postfix ]._value / entity._properties[ areaAttribute ]._value ).toFixed( 3 ) ],
+					x: [ ( entity._properties[ populationAttributeName ]._value / entity._properties[ areaAttribute ]._value ).toFixed( 3 ) ],
 					y: [ entity._properties[ ndviAttribute ]._value.toFixed( 3 ) ],
 					name: areaName,
 					type: 'scatter',
@@ -1011,6 +1011,12 @@ export default class Plot {
 			showlegend: false,
 			title: name + ', usage pressure (map visulation per area) ',
 		};
+
+		if ( name == 'Planned Development' ) {
+
+			layout.xaxis.title = 'population';
+
+		}
 		  
 		document.getElementById( 'sliderContainer' ).style.visibility = 'visible';
 		document.getElementById( 'plotContainer' ).style.visibility = 'visible';

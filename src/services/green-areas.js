@@ -37,7 +37,7 @@ export default class GreenAreas {
 		}
 		extrudedEntities( entities, ndviAttribute, areaAttribute, populationAttributeName + postfix );
 		this.plotService.createPopulationScatterPlot( entities, postfix );
-		this.plotService.createPopulationPressureScatterPlot( entities, postfix );
+		this.plotService.createPopulationPressureScatterPlot( entities, populationAttributeName + postfix );
 		this.plotService.createVulnerablePopulationScatterPlot( entities, postfix );
 
 	}
