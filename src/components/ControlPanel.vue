@@ -143,6 +143,13 @@
 <label for="landCoverToggle" class="label" id="landCoverLabel">HSY land cover</label>
 
 
+<!-- loadBuildingSwitch-->
+<label class="switch" id = "buildingSwitch" style = "display: none">
+  <input type="checkbox" id = "buildingToggle" value = "buildings" >
+  <span class="slider round"></span>
+</label>
+<label for="buildingToggle" class="label" id = "buildingLabel" style = "display: none">Buildings Urban Heat Exposure</label>
+
 </div>
 
 
@@ -161,6 +168,7 @@ import Datasource from '../services/datasource.js';
 import Tree from '../services/tree.js';
 import NdviArea from '../services/ndvi-area.js';
 import Ndvi from '../services/ndvi.js';
+import Building from '../services/building.js';
 import GreenAreas from '../services/green-areas.js';
 import Platform from '../services/platform.js';
 import * as Cesium from 'cesium';
@@ -273,8 +281,35 @@ export default {
 			document.getElementById( 'showPlanToggle' ).addEventListener( 'change', this.showPlanEvent );
 			document.getElementById( 'showProtectedToggle' ).addEventListener( 'change', this.showProtectedAreaEvent );
 			document.getElementById( 'activatePopulationPressureToggle' ).addEventListener( 'change', this.activatePopulationPressureEvent );
-
+			document.getElementById( 'buildingToggle' ).addEventListener( 'change', this.loadBuildings );
 		},
+
+		async loadBuildings() {
+
+			const checked = document.getElementById( 'buildingToggle' ).checked;
+
+			if ( checked ) {
+
+				const greenAreasService = new GreenAreas();
+				greenAreasService.switchTo3DView( );
+				const buildingService = new Building();
+				this.store.location = 'building';
+				await buildingService.loadBuilding( );
+				this.datasourceService.hideDataSourceByName( 'Districts' );
+				this.elementsDisplayService.togglePlots( 'hidden' );
+				this.elementsDisplayService.setTreeElementsDisplay( 'none' );
+				this.elementsDisplayService.setNDVIElementsDisplay( 'none' );
+				this.elementsDisplayService.setNDVI2023ElementsDisplay( 'none' );
+
+			} else {
+                
+				this.reset();
+
+			}
+
+
+
+		},			
 
 		activatePopulationPressureEvent() {
 

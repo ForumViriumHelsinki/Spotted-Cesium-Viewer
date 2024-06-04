@@ -57,7 +57,13 @@ export default class ElementsDisplay {
 
 		setElementsDisplay( areasNDVIChildElements, display );
 
-	}		
+	}
+
+	setBuildingDisplay( display ) {
+
+		setElementsDisplay( buildingElements, display );
+
+	}				
 
 	/**
  * Changes the visibility of label elements 
@@ -320,4 +326,9 @@ const areasNDVIChildElements = [
 	'SubDistrictNDVILabel',
 	'PopulationGridSwitch', 
 	'PopulationGridLabel',         
+];
+
+const buildingElements = [
+	'buildingSwitch',
+	'buildingLabel'       
 ];

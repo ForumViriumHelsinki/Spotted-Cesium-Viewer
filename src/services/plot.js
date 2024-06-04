@@ -17,6 +17,33 @@ export default class Plot {
 		this.populationPressureStore = usePopulationStore();
 	}
 
+	createUrbanHeatHistogram( urbanHeatData ) {
+
+	if ( urbanHeatData.length > 0 ) {
+
+		let trace = {
+			x: urbanHeatData,
+			type: 'histogram',
+			name: 'average heat exposure to building',
+			marker: {
+				color: 'orange',
+			},
+		};
+	
+	
+		document.getElementById( "plotContainer" ).style.visibility = 'visible';
+	
+		let layout = { 
+			title: 'Heat exposure to buildings in ' + this.store.districtName,
+			bargap: 0.05, 
+		};
+	
+		Plotly.newPlot( 'plotContainer', [ trace ], layout );
+
+	}
+
+}
+
 	/**
  * Calls all other diagram functions
  *

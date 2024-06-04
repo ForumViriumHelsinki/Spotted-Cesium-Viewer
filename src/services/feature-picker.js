@@ -128,6 +128,7 @@ export default class FeaturePicker {
 
 				if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Eteläinen' ) {
 
+					this.elementsDisplayService.setBuildingDisplay( 'inline-block' );
 					this.districtService.flyCameraToDistrict( picked, 20000 );    
 					this.store.majorDistrict = picked.id.properties.tunnus;
 					this.store.majorDistrictName = picked.id.properties.nimi_fi._value;
