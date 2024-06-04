@@ -300,6 +300,8 @@ export default {
 				this.elementsDisplayService.setTreeElementsDisplay( 'none' );
 				this.elementsDisplayService.setNDVIElementsDisplay( 'none' );
 				this.elementsDisplayService.setNDVI2023ElementsDisplay( 'none' );
+				this.elementsDisplayService.setPlotElementsDisplay( 'none' );
+				this.datasourceService.hideDataSourceByName( 'MajorDistricts' );
 
 			} else {
                 
