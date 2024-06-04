@@ -46,7 +46,7 @@ export default class Ndviarea {
     	let entities = await this.datasourceService.addDataSourceWithPolygonFix( data, name );
 		this.store.ndviAreaDataSourceName = name;
 		this.setColorAndLabelForPlatformGreenEntities( entities );
-		this.dataForHistogram( entities, 'value' );
+		this.dataForHistogram( entities, 'max' );
 	}
 
 	async addPlatformFeaturesWithHeat( data, name ) {
@@ -54,7 +54,7 @@ export default class Ndviarea {
     	let entities = await this.datasourceService.addDataSourceWithPolygonFix( data, name );
 		this.store.ndviAreaDataSourceName = name;
 		this.setColorAndLabelForPlatformHeatEntities( entities );
-		this.dataForHistogram( entities, 'value' );
+		this.dataForHistogram( entities, 'max' );
 	}
 
 
@@ -63,9 +63,9 @@ export default class Ndviarea {
 		for ( let i = 0; i < entities.length; i++ ) {
 			let entity = entities[i];
 
-			if ( entity._properties[ 'value' ] ) {
+			if ( entity._properties[ 'max' ] ) {
 
-			    const color = this.ndviService.setNDVIPolygonMaterialColor( entity, 'value' );
+			    const color = this.ndviService.setNDVIPolygonMaterialColor( entity, 'max' );
 			    // Set polygon color
 			    entity.polygon.material = color;
 			    entity.polygon.outline = true; // Optional: Set to false if no outline is desired
@@ -80,9 +80,9 @@ export default class Ndviarea {
 		for ( let i = 0; i < entities.length; i++ ) {
 			let entity = entities[i];
 
-			if ( entity._properties[ 'value' ] ) {
+			if ( entity._properties[ 'max' ] ) {
 
-			    const color = new Cesium.Color( 1, 1 - entity._properties._value._value, 0, entity._properties._value._value );
+			    const color = new Cesium.Color( 1, 1 - entity._properties._max._value, 0, entity._properties._max._value );
 			    // Set polygon color
 			    entity.polygon.material = color;
 			    entity.polygon.outline = true; // Optional: Set to false if no outline is desired
@@ -104,6 +104,6 @@ export default class Ndviarea {
     	let entities = await this.datasourceService.addDataSourceWithPolygonFix( data, name );
 		this.store.ndviAreaDataSourceName = name;
 		this.setColorAndLabelForPlatformHeatEntities( entities );
-		this.dataForHistogram( entities, 'value' );
+		this.dataForHistogram( entities, 'max' );
 	}	
 }

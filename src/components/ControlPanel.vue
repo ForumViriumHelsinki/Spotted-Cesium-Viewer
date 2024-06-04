@@ -864,6 +864,7 @@ const setPopulationPressureAttributes = (  ndviAttribute, areaAttribute, name, u
 
 const hideAllPlotsAndSliders = ( ) => {
 
+	document.getElementById( 'printContainer' ).style.visibility = 'hidden';
 	document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
 	document.getElementById( 'plotPieContainer' ).style.visibility = 'hidden';
 	document.getElementById( 'plotInhabitantContainer' ).style.visibility = 'hidden';

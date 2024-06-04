@@ -23,17 +23,33 @@ export default class FeaturePicker {
  */
 	processClick( event ) {
 
-		if ( !this.store.location != 'pop_pressure' ||  !this.store.location != 'ndvi_areas' ) {
+		if ( this.store.location != 'pop_pressure' && this.store.location != 'ndvi_areas' && !this.store.fileUploaded  ) {
 
-    		document.getElementById( 'uploadButton' ).style.visibility = 'hidden';
 			document.getElementById( 'plotSelect' ).value = 'Helsinki';
 			this.elementsDisplayService.districtElementsDisplay( 'inline-block' );
 			this.elementsDisplayService.setPopulationPressureElementsDisplay( 'none' );
 
-			console.log( 'Clicked at ' + String( event.x ) + ', ' + String( event.y ) );
-			this.pickEntity( new Cesium.Cartesian2( event.x, event.y ) );
+		} else {
+
+			if ( !document.getElementById( 'showNDVIToggle' ).checked || !document.getElementById( 'NDVI2023Toggle' ).checked ) {
+
+				this.elementsDisplayService.setElementDisabledState( false );
+
+			} else {
+
+				this.elementsDisplayService.setElementDisabledState( true );
+
+			}
+		}
+
+		if ( !this.store.fileUploaded ) {
+
+			document.getElementById( 'uploadButton' ).style.visibility = 'hidden';
 
 		}
+
+		console.log( 'Clicked at ' + String( event.x ) + ', ' + String( event.y ) );
+		this.pickEntity( new Cesium.Cartesian2( event.x, event.y ) );
 
 	}
 
@@ -104,16 +120,6 @@ export default class FeaturePicker {
 		this.elementsDisplayService.setAreasNDVIElementsDisplay( 'none' );
     
 		if ( picked ) {
-
-			if ( !document.getElementById( 'showNDVIToggle' ).checked || !document.getElementById( 'NDVI2023Toggle' ).checked ) {
-
-				this.elementsDisplayService.setElementDisabledState( false );
-
-			} else {
-
-				this.elementsDisplayService.setElementDisabledState( true );
-
-			}
 
 			document.getElementById( 'showPlotToggle' ).checked = true;
 			this.districtService.setDistrictVariables( picked.id.properties );
@@ -200,6 +206,8 @@ const addToPrint = ( toPrint ) => {
  */
 
 const printCesiumEntity = ( picked ) => {
+
+	document.getElementById( 'printContainer' ).style.visibility = 'visible';
 
 	document.getElementById( 'printContainer' ).scroll( {
 		top: 0,
