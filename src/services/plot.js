@@ -34,7 +34,7 @@ export default class Plot {
 		document.getElementById( "plotContainer" ).style.visibility = 'visible';
 	
 		let layout = { 
-			title: 'July 2023 Maximum Heat Exposure for Buildings in the ' + this.store.districtName + ' Major District',
+			title: 'July 2023 Max Heat Exposure for Buildings in the ' + this.store.districtName + ' District',
 			bargap: 0.05, 
 		};
 	
