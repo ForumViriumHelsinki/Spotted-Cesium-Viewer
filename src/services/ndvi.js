@@ -188,7 +188,8 @@ export default class Ndvi {
 
 		if ( sliderValue === 0 ) {
 
-			this.colorAndShow( datasource2018.entities.values, );
+			datasource2018.show = true;	
+			this.colorAndShow( datasource2018.entities.values );
 			this.plotService.createNDVIBarPlot( ndviData[ 0 ], date );
 
 		}
@@ -197,7 +198,8 @@ export default class Ndvi {
 
 		if ( sliderValue === 1 ) {
 
-			this.colorAndShow( datasource2020.entities.values, );
+			datasource2020.show = true;	
+			this.colorAndShow( datasource2020.entities.values );
 			date = '2020-06-21';
 			this.plotService.createNDVIBarPlot( ndviData[ 1 ], date );
 
@@ -207,7 +209,8 @@ export default class Ndvi {
 
 		if ( sliderValue === 2 ) {
 
-			this.colorAndShow( datasource2022.entities.values, );
+			datasource2022.show = true;	
+			this.colorAndShow( datasource2022.entities.values );
 			date = '2022-06-26';
 			this.plotService.createNDVIBarPlot( ndviData[ 2 ], date );
 

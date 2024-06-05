@@ -597,20 +597,6 @@ export default class Plot {
 			}
 		};
 
-		//Test plotting
-		if ( this.store.showPlot ) {
-
-			if ( document.getElementById( 'showNDVIToggle' ).checked ) {
-
-				document.getElementById( 'ndviSliderContainer' ).style.visibility = 'visible';
-
-			}
-
-			document.getElementById( 'plotContainer' ).style.visibility = 'visible';
-			this.elementsDisplayService.toggleLabels( 'visible' );
-
-		}
-
 		Plotly.newPlot( 'plotContainer', data, layout );
 
 	}
@@ -827,6 +813,11 @@ export default class Plot {
 		let title = { text: 'NDVI in ' + this.store.districtName + ' at ' + date };
 
 		if ( this.store.ndviAreaDataSourceName ) {
+
+			if ( !date ) {
+
+				date = '07-2023';
+			}
         
 			title = { text: 'NDVI for ' + this.store.ndviAreaDataSourceName + ' at ' + date };
 
@@ -875,7 +866,6 @@ export default class Plot {
 			title: 'NDVI changes in ' + this.store.districtName,
 		};
 
-		document.getElementById( 'ndviChartContainer' ).style.visibility = 'visible';   
 		Plotly.newPlot( 'ndviChartContainer', traces, layout );
 
 	}	

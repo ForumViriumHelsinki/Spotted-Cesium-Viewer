@@ -154,11 +154,25 @@ export default class ElementsDisplay {
 
 		const plotContainer = document.getElementById( 'plotPieContainer' );
 		const selectContainer = document.getElementById( 'selectContainer' );
+		const chartContainer = document.getElementById( 'chartContainer' );
     
 		plotContainer.style.visibility = isVisible ? 'visible' : 'hidden';
 		selectContainer.style.visibility = isVisible ? 'visible' : 'hidden';
+		chartContainer.style.visibility = isVisible ? 'visible' : 'hidden';
 
 	}
+
+	/**
+ * Set the visibility status of the ndvi chart and select element.
+ * 
+ */
+	setNDVIVisibility( visibility ) {
+
+		document.getElementById( 'plotContainer' ).style.visibility = visibility;
+		document.getElementById( 'ndviSliderContainer' ).style.visibility = visibility;
+		document.getElementById( 'ndviChartContainer' ).style.visibility = visibility;   
+
+	}	
 	/**
  * Set the disabled state of specified elements.
  * 

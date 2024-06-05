@@ -568,9 +568,7 @@ export default {
 
 				this.elementsDisplayService.setTreeElementsDisplay( 'none' );
 				document.getElementById( 'showNDVIToggle' ).disabled = true;
-				document.getElementById( 'plotPieContainer' ).style.visibility = 'hidden';
-				document.getElementById( 'sliderContainer' ).style.visibility = 'hidden';
-				document.getElementById( 'plotSelect' ).style.visibility = 'hidden';
+				this.elementsDisplayService.setPieChartVisibility( false );
 				await this.ndviService.loadNDVI( '2023-01-27' );
 				await this.ndviService.loadNDVI( '2023-02-26' );
 				const slider = document.getElementById( 'ndviSlider2023' );
@@ -582,6 +580,7 @@ export default {
 
 				}
 
+				document.getElementById( 'plotContainer' ).style.visibility = 'visible';
 				this.loadRemainingNDVIDataSequentially( );
 
 			} else { 
@@ -603,7 +602,7 @@ export default {
 			for ( let i = 0; i < dates.length; i++ ) {
 				try {
 					await this.ndviService.loadNDVI( dates[i] );
-					this.unlockSliderPoint( i + 2 ); // Assuming the first two points are already loaded
+					unlockSliderPoint( i + 2 ); // Assuming the first two points are already loaded
 				} catch ( error ) {
 					console.error( `Failed to load NDVI data for ${dates[i]}:`, error );
 					// Handle the error, possibly retry or skip to the next
@@ -611,10 +610,6 @@ export default {
 			}
 		},
 
-		unlockSliderPoint( index ) {
-			const slider = document.getElementById( 'ndviSlider2023' );
-			slider.max = Math.max( index, slider.max ); // Ensure the slider's max is updated only if it's increasing
-		},
 
 		/**
  * This function to show or hide green area entities on the map based on the toggle button state
@@ -711,11 +706,15 @@ export default {
 
 					await this.ndviService.loadNDVI( '2018-06-14' );
 
+
 				} else {
 
 					this.ndviService.updateNDVIDataSources( );
 
 				}
+
+				this.elementsDisplayService.setNDVIVisibility( 'visible' );
+				this.elementsDisplayService.toggleLabels( 'visible' );
 
 			} else {
 
@@ -728,8 +727,7 @@ export default {
 
 
 				this.elementsDisplayService.setTreeElementsDisplay( 'inline-block' );
-				document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
-				document.getElementById( 'ndviSliderContainer' ).style.visibility = 'hidden';
+				this.elementsDisplayService.setNDVIVisibility( 'hidden' );
 				this.elementsDisplayService.setElementDisabledState( false );
 				this.datasourceService.hideDataSourceByName( 'ndvi' );
 
@@ -887,6 +885,11 @@ export default {
 			}  
 		}   
 	},
+};
+
+const unlockSliderPoint = ( index ) => {
+	const slider = document.getElementById( 'ndviSlider2023' );
+	slider.max = Math.max( index, slider.max ); // Ensure the slider's max is updated only if it's increasing
 };
 
 const setPopulationPressureAttributes = (  ndviAttribute, areaAttribute, name, uniqueId  ) => {
