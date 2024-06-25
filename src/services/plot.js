@@ -970,7 +970,7 @@ export default class Plot {
 		const layout = {
 			scattermode: 'group',
 			xaxis: {title: 'weighted population' },
-			yaxis: {title: 'ndvi july 2022 max'},
+			yaxis: {title: 'ndvi july 2023 max'},
 			showlegend: false,
 			title: name + ', all population',
 		};
@@ -1024,7 +1024,7 @@ export default class Plot {
 		const layout = {
 			scattermode: 'group',
 			xaxis: {title: 'weighted population / sqm2' },
-			yaxis: {title: 'ndvi july 2022 max'},
+			yaxis: {title: 'ndvi july 2023 max'},
 			showlegend: false,
 			title: name + ', usage pressure (map visulation per area) ',
 		};
