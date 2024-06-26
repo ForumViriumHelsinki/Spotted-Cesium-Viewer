@@ -1,5 +1,6 @@
 <template>
   <div id="cesiumContainer"></div>
+  <div id="ndviLegend"></div>
      <div id="plotContainer">
   </div>
      <div id="ndviChartContainer">
@@ -57,6 +58,7 @@
   <input type="range" id="blueSlider" min="0" max="2" value="1">
   <span id="sliderValue">distance from area 800 m</span>
 </div>
+
 </template>
 
 <script>
@@ -616,5 +618,22 @@ input[type=range]::-moz-range-track {
     top: 1px;
     left: 360px;
     visibility: hidden;
+}
+
+/* Basic legend styling */
+#ndviLegend {
+  position: fixed;
+  top: 20px;       /* Position at the top */
+  left: 20px;      /* Position at the left */
+  padding: 10px;
+  border-radius: 5px;
+}
+.swatch {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.swatch span {
+  margin-left: 10px;
 }
 </style>

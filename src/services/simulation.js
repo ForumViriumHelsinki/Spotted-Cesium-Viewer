@@ -19,36 +19,19 @@ export default class Simulations {
     this.currentPropertyIndex = 0;
   }
 
-  setNDVIPolygonMaterialColor(entity, property) {
-    const avgndvi = Number(entity.properties[property].getValue());
-
-    const colorMap = {
-      0: Cesium.Color.fromBytes(234, 234, 234),    // #eaeaea
-      0.1: Cesium.Color.fromBytes(204, 198, 130),  // #ccc682
-      0.2: Cesium.Color.fromBytes(145, 191, 81),   // #91bf51
-      0.3: Cesium.Color.fromBytes(112, 163, 63),   // #70a33f
-      0.4: Cesium.Color.fromBytes(79, 137, 45),    // #4f892d
-      0.5: Cesium.Color.fromBytes(48, 109, 28),    // #306d1c
-      0.6: Cesium.Color.fromBytes(15, 84, 10),     // #0f540a
-      Infinity: Cesium.Color.fromBytes(0, 68, 0),   // #004400
-    };
-
-    for (let threshold in colorMap) {
-      if (avgndvi <= threshold) {
-        return colorMap[threshold];
-      }
-    }
-  }
 
   updateSimulation() {
     const property = this.ndviProperties[this.currentPropertyIndex];
+    this.updateLegend( property );  // Update the legend with the current month
     this.entities.forEach((entity) => {
-      entity.polygon.material = this.setNDVIPolygonMaterialColor(entity, property);
+        const avgndvi = Number( entity._properties[ property ]._value );
+        entity.polygon.material = setNDVIPolygonMaterialColor(avgndvi);
     });
     this.currentPropertyIndex = (this.currentPropertyIndex + 1) % this.ndviProperties.length;
   }
 
   async startSimulation() { 
+    this.createLegend(); 
     const geoJson = await Cesium.GeoJsonDataSource.load(
       "https://geo.fvh.fi/spotted/data/HelsinkiSubDistrict.geojson"
     );
@@ -61,7 +44,64 @@ export default class Simulations {
     });
     this.viewer.dataSources.add(geoJson);
     this.entities = geoJson.entities.values;
-    
     setInterval(this.updateSimulation.bind(this), 1000); // Update every second, bound to class instance
   }
+
+    createLegend() {
+    this.legendContainer = document.createElement('div');
+    this.legendContainer.id = 'ndviLegend';
+    this.legendContainer.classList.add('legend');
+    this.updateLegend( this.ndviProperties[ 0 ] );
+
+    this.viewer.container.appendChild(this.legendContainer);
+  }
+
+updateLegend(currentProperty) {
+    this.legendContainer.innerHTML = ""; 
+
+    const thresholds = [-0.1, 0.01, 0.11, 0.21, 0.31, 0.41, 0.51, 0.61]; 
+    const labels = [ '-0.5 - 0', '0 - 0.1', '0.1 - 0.2', '0.2 - 0.3', '0.3 - 0.4', '0.4 - 0.5', '0.5 - 0.6', ' 0.6 - 1' ]
+
+    for ( let i = 0; i < thresholds.length; i++ ) {
+
+        const color = setNDVIPolygonMaterialColor( thresholds[ i ] ); // Fixed call to setNDVIPolygonMaterialColor
+        const label = labels[ i ];
+
+        const swatch = document.createElement('div');
+        swatch.classList.add('swatch');
+        swatch.style.backgroundColor = color.toCssColorString();
+        const text = document.createElement('span');
+        text.textContent = label;
+        swatch.appendChild(text);
+        this.legendContainer.appendChild(swatch);
+
+    }
+
+
+    // Add current month to the legend
+    const monthLabel = document.createElement('div');
+    monthLabel.textContent = currentProperty.replace('ndvi_', '').toUpperCase();
+    this.legendContainer.appendChild(monthLabel);
+}
+}
+
+const setNDVIPolygonMaterialColor = ( avgndvi ) => {
+
+		if ( avgndvi <= 0 ) {
+			return Cesium.Color.fromBytes( 234, 234, 234 ); // #eaeaea
+		} else if ( avgndvi > 0.0 && avgndvi <= 0.1 ) {
+			return Cesium.Color.fromBytes( 204, 198, 130 ); // #ccc682
+		} else if ( avgndvi > 0.1 && avgndvi <= 0.2 ) {
+			return Cesium.Color.fromBytes( 145, 191, 81 ); // #91bf51
+		} else if ( avgndvi > 0.2 && avgndvi <= 0.3 ) {
+			return Cesium.Color.fromBytes( 112, 163, 63 ); // #70a33f
+		} else if ( avgndvi > 0.3 && avgndvi <= 0.4 ) {
+			return Cesium.Color.fromBytes( 79, 137, 45 ); // #4f892d
+		} else if ( avgndvi > 0.4 && avgndvi <= 0.5 ) {
+			return Cesium.Color.fromBytes( 48, 109, 28 ); // #306d1c
+		} else if ( avgndvi > 0.5 && avgndvi <= 0.6 ) {
+			return Cesium.Color.fromBytes( 15, 84, 10 ); // #0f540a
+		} else if ( avgndvi > 0.6 ) {
+			return Cesium.Color.fromBytes( 0, 68, 0 ); // #004400
+		}
 }
