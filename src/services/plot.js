@@ -788,22 +788,23 @@ export default class Plot {
  */
 	createNDVIHistogram( ndviData, date ) {
 
-		let markerColor = 'green';
+		let data = null;
+		let colors = ['#ccc682', '#91bf51', '#70a33f', '#4f892d', '#306d1c', '#0f540a', '#004400', '#004400', '#004400', '#004400' ];
 
 		if ( this.store.ndviAreaDataSourceName.includes( 'Heat' ) ) {
 
-			markerColor =  'orange';
+			colors =  'orange';
 
 		}
 
-		let data = {
+		data = {
 			x: ndviData,
 			type: 'histogram',
 			marker: {
-				color: markerColor,
+				color: colors,
 			},
 			xbins: {
-				start: -0.1,
+				start: -1,
 				end: 1,
 				size: 0.1
 			}
