@@ -1,5 +1,5 @@
 <template>
-  <div id="controlPanelContainer">
+  <div v-if="showControlPanel" id="controlPanelContainer">
 
     <div id="UIButtonContainer">
 	    <!-- Rest of your UI elements -->
@@ -142,13 +142,19 @@
 </label>
 <label for="landCoverToggle" class="label" id="landCoverLabel">HSY land cover</label>
 
-
 <!-- loadBuildingSwitch-->
 <label class="switch" id = "buildingSwitch" style = "display: none">
   <input type="checkbox" id = "buildingToggle" value = "buildings" >
   <span class="slider round"></span>
 </label>
 <label for="buildingToggle" class="label" id = "buildingLabel" style = "display: none">Buildings Urban Heat Exposure</label>
+
+<!--  simulation-->
+<label class="switch" id = "simulationSwitch">
+  <input type="checkbox" id="simulationToggle" value="simulation" >
+  <span class="slider round"></span>
+</label>
+<label for="simulationToggle" class="label" id="simulationLabel">Simulations</label>
 
 </div>
 
@@ -171,6 +177,7 @@ import Ndvi from '../services/ndvi.js';
 import Building from '../services/building.js';
 import GreenAreas from '../services/green-areas.js';
 import Platform from '../services/platform.js';
+import Simulation from '../services/simulation.js'
 import * as Cesium from 'cesium';
 
 export default {
@@ -179,6 +186,7 @@ export default {
 			viewer: null,
 			treeService: null,
 			plotService: null,
+			showControlPanel: true,
 		};
 	},
 	mounted() {
@@ -282,8 +290,29 @@ export default {
 			document.getElementById( 'showProtectedToggle' ).addEventListener( 'change', this.showProtectedAreaEvent );
 			document.getElementById( 'activatePopulationPressureToggle' ).addEventListener( 'change', this.activatePopulationPressureEvent );
 			document.getElementById( 'buildingToggle' ).addEventListener( 'change', this.loadBuildings );
+			document.getElementById( 'simulationToggle' ).addEventListener( 'change', this.activateSimulations );
 		},
 
+		async activateSimulations() {
+
+			const checked = document.getElementById( 'simulationToggle' ).checked;
+
+			if ( checked ) {
+
+				const simulationService = new Simulation();
+				this.showControlPanel = false;
+				this.viewer.dataSources.removeAll();
+				simulationService.startSimulation( );
+
+			} else {
+                
+				this.reset();
+
+			}
+
+
+
+		},
 		async loadBuildings() {
 
 			const checked = document.getElementById( 'buildingToggle' ).checked;
