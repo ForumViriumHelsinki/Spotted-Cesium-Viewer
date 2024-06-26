@@ -625,15 +625,20 @@ input[type=range]::-moz-range-track {
   position: fixed;
   top: 20px;       /* Position at the top */
   left: 20px;      /* Position at the left */
-  padding: 10px;
-  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 1); 
+  border-radius: 6px;
+  border: 2px solid black; /* Add a black outline */
 }
 .swatch {
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 .swatch span {
   margin-left: 10px;
+  margin-right: 10px;
 }
 </style>

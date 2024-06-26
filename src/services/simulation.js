@@ -47,14 +47,14 @@ export default class Simulations {
     setInterval(this.updateSimulation.bind(this), 1000); // Update every second, bound to class instance
   }
 
-    createLegend() {
+createLegend() {
     this.legendContainer = document.createElement('div');
     this.legendContainer.id = 'ndviLegend';
     this.legendContainer.classList.add('legend');
     this.updateLegend( this.ndviProperties[ 0 ] );
 
-    this.viewer.container.appendChild(this.legendContainer);
-  }
+    this.viewer.container.appendChild( this.legendContainer );
+}
 
 updateLegend(currentProperty) {
     this.legendContainer.innerHTML = ""; 
@@ -72,15 +72,19 @@ updateLegend(currentProperty) {
         swatch.style.backgroundColor = color.toCssColorString();
         const text = document.createElement('span');
         text.textContent = label;
-        swatch.appendChild(text);
-        this.legendContainer.appendChild(swatch);
+        swatch.appendChild( text );
+        this.legendContainer.appendChild( swatch );
 
     }
 
 
     // Add current month to the legend
     const monthLabel = document.createElement('div');
-    monthLabel.textContent = currentProperty.replace('ndvi_', '').toUpperCase();
+    const monthString = currentProperty.replace('ndvi_', ''); // Remove the "ndvi_" prefix
+
+    // Capitalize the first letter and add a space before the year
+    monthLabel.textContent = monthString.charAt(0).toUpperCase() + monthString.slice(1).replace(/\d/, ' $&'); 
+
     this.legendContainer.appendChild(monthLabel);
 }
 }
