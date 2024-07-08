@@ -54,11 +54,6 @@
     <span id="ndviYlreValue">June 2023</span>
 </div>
 
-<div class="slider-container" id="sliderContainer" style = "visibility: hidden">
-  <input type="range" id="blueSlider" min="0" max="2" value="1">
-  <span id="sliderValue">distance from area 800 m</span>
-</div>
-
 </template>
 
 <script>
@@ -134,14 +129,6 @@ export default {
 			} );
 
 
-			document.getElementById( 'blueSlider' ).addEventListener( 'input', function() {
-				const distanceMap = { 0: 300, 1: 800, 2: 2000 };
-				const distance = distanceMap[this.value];
-
-				document.getElementById( 'sliderValue' ).textContent = `distance from area ${distance} m`;
-				greenAreas.handleGreenAreas( );
-			} );
-
 			const ndviService = new NDVI ();
 			const ndviAreaService = new NdviArea ();
 
@@ -184,18 +171,10 @@ export default {
 		addSelectorEventListeners(  ) {
 
 			// Get references to all toggle inputs
-			const layerSelect = document.getElementById( 'layerSelect' );
 			const plotSelect = document.getElementById( 'plotSelect' );
 
 			const store = useGlobalStore();
 			const plotService = new Plot();
-			const wmsService = new WMS();
-
-		
-			// Listen for changes in the layer selection
-			layerSelect.addEventListener( 'change', function () {
-				wmsService.resetWMS( );
-			} );	
 
 			plotSelect.addEventListener( 'change', function () {
 
@@ -388,20 +367,6 @@ input:checked + .slider:before {
     padding: 5px;
     border-radius: 5px;
 	font-size: 12px;
-}
-
-#sliderContainer {
-    visibility: hidden;
-}
-
-.slider-container {
-    position: fixed;
-    top: 53.5%; /* Below #greenAreaContainer */
-    left: 8%; /* Align with the right edge of #greenAreaContainer */
-    transform: translateX(-25%); /* Adjust to make width half of #greenAreaContainer */
-    width: 25%; /* Half the width of #greenAreaContainer */
-    padding: 20px;
-    text-align: center;
 }
 
 

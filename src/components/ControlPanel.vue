@@ -12,24 +12,18 @@
     </div>
 
   <!-- Selects WMS layer -->
-<select id="layerSelect"  style = "float:left;">
-  <option value="avoindata:Opaskartta_Helsinki" selected>Opaskartta</option>
-  <option value="avoindata:Ortoilmakuva">Ortoilmakuva</option>
-  <option value="avoindata:Ortoilmakuva_2022_5cm">Ortoilmakuva 2022</option>
-  <option value="avoindata:Ortoilmakuva_2021_5cm">Ortoilmakuva 2021</option>
-  <option value="avoindata:Ortoilmakuva_2020">Ortoilmakuva_2020</option>
-  <option value="avoindata:Ortoilmakuva_2018">Ortoilmakuva_2018</option>
-  <option value="avoindata:Ortoilmakuva_2016">Ortoilmakuva_2016</option>
-  <option value="avoindata:Ortoilmakuva_2014">Ortoilmakuva_2014</option>
-  <option value="avoindata:Kantakartta">Kantakartta</option>
-  <option value="avoindata:Kiinteistokartta">Kiinteistokartta</option>
-  <option value="avoindata:Karttasarja_PKS">Karttasarja PKS</option>
-  <option value="avoindata:Vaaravariortoilmakuva_2022_5cm">Vääräväriortoilmakuva</option>
-  <option value="avoindata:Ajantasa_asemakaava">Asemakaava</option>
-  <option value="avoindata:Kaavahakemisto">Kaavahakemisto</option>
-  <option value="avoindata:Rakennukset_alue_rekisteritiedot">Rakennukset alue rekisteritiedot</option>
-  <option value="avoindata:Tavoitteellinen_viher_ja_virkistysverkosto_VISTRA">Tavoitteellinen viher- ja virkistysverkosto</option>
-</select>
+    <v-select
+	  class="smaller-select" 
+      id="layerSelect"
+      v-model="selectedLayer"
+      :items="layerOptions"
+      item-title="text"
+      item-value="value"
+      label="Select Background Map"
+      variant="outlined"
+      style="float: left;"
+      @update:modelValue="onLayerSelectChange" 
+    ></v-select>
 
   <!-- Selects WMS layer -->
   <select id="NDVISelect" style = "display: none">
@@ -186,6 +180,25 @@ export default {
 			treeService: null,
 			plotService: null,
 			showControlPanel: true,
+			selectedLayer: 'avoindata:Opaskartta_Helsinki', // Default selected layer
+    		layerOptions: [
+      			{ text: 'Opaskartta', value: 'avoindata:Opaskartta_Helsinki' },
+      			{ text: 'Ortoilmakuva', value: 'avoindata:Ortoilmakuva' },
+      			{ text: 'Ortoilmakuva 2022', value: 'avoindata:Ortoilmakuva_2022_5cm' },
+      			{ text: 'Ortoilmakuva 2021', value: 'avoindata:Ortoilmakuva_2021_5cm' },
+      			{ text: 'Ortoilmakuva 2020', value: 'avoindata:Ortoilmakuva_2020' },
+      			{ text: 'Ortoilmakuva 2018', value: 'avoindata:Ortoilmakuva_2018' },
+      			{ text: 'Ortoilmakuva 2016', value: 'avoindata:Ortoilmakuva_2016' },
+      { text: 'Ortoilmakuva 2014', value: 'avoindata:Ortoilmakuva_2014' },
+      { text: 'Kantakartta', value: 'avoindata:Kantakartta' },
+      { text: 'Kiinteistokartta', value: 'avoindata:Kiinteistokartta' },
+      { text: 'Karttasarja PKS', value: 'avoindata:Karttasarja_PKS' },
+      { text: 'Vääräväriortoilmakuva', value: 'avoindata:Vaaravariortoilmakuva_2022_5cm' },
+      { text: 'Asemakaava', value: 'avoindata:Ajantasa_asemakaava' },
+      { text: 'Kaavahakemisto', value: 'avoindata:Kaavahakemisto' },
+      { text: 'Rakennukset alue rekisteritiedot', value: 'avoindata:Rakennukset_alue_rekisteritiedot' },
+      { text: 'Tavoitteellinen viher- ja virkistysverkosto', value: 'avoindata:Tavoitteellinen_viher_ja_virkistysverkosto_VISTRA' },
+    ],
 		};
 	},
 	mounted() {
@@ -209,6 +222,12 @@ export default {
 		reset(){
 			location.reload();
 		},
+		onLayerSelectChange() {
+			this.$nextTick(() => {
+				const wmsService = new WMS();
+				wmsService.resetWMS( );
+			});
+    	},
 		triggerFileUpload() {
 			document.getElementById( 'fileUpload' ).click(); // Trigger hidden file input
 		},
@@ -649,9 +668,8 @@ export default {
 
 			if ( checked ) {
 
-				const greenAreasService = new GreenAreas();
 				setPopulationPressureAttributes( '_max', '_area_m2', 'Protected Areas', '_nimi' );
-				await greenAreasService.loadGreenAreas( 'https://geo.fvh.fi/spotted/data/suojelu.geojson' );
+        eventBus.$emit('loadGreenAreas', 'https://geo.fvh.fi/spotted/data/suojelu.geojson'); 
 
 			} else { 
         
@@ -671,9 +689,8 @@ export default {
 
 			if ( checked ) {
 
-				const greenAreasService = new GreenAreas();
 				setPopulationPressureAttributes( '_max', '_area_m2', 'Planned Development', '_plan_name' );
-				await greenAreasService.loadGreenAreas( 'https://geo.fvh.fi/spotted/data/kaava.geojson' );
+        eventBus.$emit('loadGreenAreas', 'https://geo.fvh.fi/spotted/data/kaava.geojson'); 
 
 			} else { 
         
@@ -693,9 +710,8 @@ export default {
 
 			if ( checked ) {
 
-				const greenAreasService = new GreenAreas();
 				setPopulationPressureAttributes( '_max', '_viheralueen_pa', 'YLRE GreenAreas', '_puiston_nimi' );
-				await greenAreasService.loadGreenAreas( 'https://geo.fvh.fi/spotted/data/ylre.geojson' );
+        eventBus.$emit('loadGreenAreas', 'https://geo.fvh.fi/spotted/data/ylre.geojson'); 
 
 			} else {
 
@@ -1026,5 +1042,12 @@ const hideAllPlotsAndSliders = ( ) => {
   width: 0;
   height: 0;
 }
+
+/* Global Styles for v-select */
+.v-select {
+  height: 24px !important;   /* Smaller height */
+  width: 240px !important;   /* Smaller height */
+}
+
 
 </style>

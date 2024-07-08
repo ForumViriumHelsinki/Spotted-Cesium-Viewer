@@ -4,6 +4,7 @@
   <CesiumViewer />
   <PrintBox />
   <ControlPanel />
+  <PopulationPressure />
 
   <!-- Add Logo -->		
 	<div class="logoHolder">	
@@ -18,6 +19,7 @@
 import CesiumViewer from './components/CesiumViewer.vue';
 import PrintBox from './components/PrintBox.vue';
 import ControlPanel from './components/ControlPanel.vue';
+import PopulationPressure from './components/PopulationPressure.vue';
 
 
 </script>
