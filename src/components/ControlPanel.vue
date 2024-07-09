@@ -421,23 +421,24 @@ export default {
 
 				if ( !this.datasourceService.dataSourceWithNameExists( 'PopulationGrid' ) ) {
 
-					this.ndviAreaService.addFeaturesWithNDVI( 'https://geo.fvh.fi/spotted/data/hki_populationgrid_with_ndvi.geojson', 'PopulationGrid', true );
+                eventBus.$emit('loadNdviAreaData', {
+                    url: 'https://geo.fvh.fi/spotted/data/hki_populationgrid_with_ndvi.geojson',
+                    dataSourceName: 'PopulationGrid',
+                    isPolygon: true
+                });
 
 				} else {
 
-					document.getElementById( 'plotContainer' ).style.visibility = 'visible';
+					this.elementsDisplayService.toggleNDVIArea( 'visible' );
 					this.datasourceService.showDataSourceByName( 'PopulationGrid' );
 
 				}
 
-				document.getElementById( 'ndviAreaContainer' ).style.display = 'inline-block';
-				document.getElementById( 'ndviAreaContainer' ).style.visibility = 'visible';
         
 			} else {
 
 				this.datasourceService.hideDataSourceByName( 'PopulationGrid' );
-				document.getElementById( 'ndviAreaContainer' ).style.display = 'none';
-				document.getElementById( 'plotContainer' ).style.visibility = 'hidden';        
+				this.elementsDisplayService.toggleNDVIArea( 'hidden' );
 
 			}
 		},
@@ -456,23 +457,24 @@ export default {
 
 				if ( !this.datasourceService.dataSourceWithNameExists( 'SubDistrictNDVI' ) ) {
 
-					this.ndviAreaService.addFeaturesWithNDVI( 'https://geo.fvh.fi/spotted/data/HelsinkiSubDistrict.geojson', 'SubDistrictNDVI', false );
+                	eventBus.$emit('loadNdviAreaData', {
+                    	url: 'https://geo.fvh.fi/spotted/data/HelsinkiSubDistrict.geojson',
+                    	dataSourceName: 'SubDistrictNDVI',
+                    	isPolygon: true
+                	});					
 
 				} else {
 
-					document.getElementById( 'plotContainer' ).style.visibility = 'visible';
+					this.elementsDisplayService.toggleNDVIArea( 'visible' );
 					this.datasourceService.showDataSourceByName( 'SubDistrictNDVI' );
 
 				}
 
-				document.getElementById( 'ndviAreaContainer' ).style.display = 'inline-block';
-				document.getElementById( 'ndviAreaContainer' ).style.visibility = 'visible';
         
 			} else {
 
 				this.datasourceService.hideDataSourceByName( 'SubDistrictNDVI' );
-				document.getElementById( 'ndviAreaContainer' ).style.display = 'none';
-				document.getElementById( 'plotContainer' ).style.visibility = 'hidden'; 
+				this.elementsDisplayService.toggleNDVIArea( 'hidden' );
 			}
 		},
 
@@ -490,16 +492,20 @@ export default {
 
 				if ( !this.datasourceService.dataSourceWithNameExists( 'YLRE' ) ) {
 
-					await this.ndviAreaService.addFeaturesWithNDVI( 'https://geo.fvh.fi/spotted/data/ylre_viheralue_with_ndvi.geojson', 'YLRE', true );
+					eventBus.$emit('loadYlreAnnualData', {
+                    	url: 'https://geo.fvh.fi/spotted/data/ylre_viheralue_with_ndvi.geojson',
+                    	dataSourceName: 'YLRE',
+                    	isPolygon: true
+                	});	
 
 				} else {
 
 					this.datasourceService.showDataSourceByName( 'YLRE' );
+					document.getElementById( 'ndviYlreContainer' ).style.visibility = 'visible';
+					document.getElementById( 'plotContainer' ).style.visibility = 'visible';
 
 				}
 
-				document.getElementById( 'ndviYlreContainer' ).style.display = 'inline-block';
-				document.getElementById( 'ndviYlreContainer' ).style.visibility = 'visible';
 				let dataSource = await this.datasourceService.getDataSourceByName( this.store.ndviAreaDataSourceName );
 				if ( dataSource ) {
             
@@ -510,7 +516,7 @@ export default {
 			} else {
 
 				this.datasourceService.hideDataSourceByName( 'YLRE' );
-				document.getElementById( 'ndviYlreContainer' ).style.display = 'none';
+				document.getElementById( 'ndviYlreContainer' ).style.visibility = 'hidden';
 				document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
 
 			}
@@ -531,23 +537,23 @@ export default {
 
 				if ( !this.datasourceService.dataSourceWithNameExists( 'TreeRegistry' ) ) {
 
-					await this.ndviAreaService.addFeaturesWithNDVI( 'https://geo.fvh.fi/spotted/data/Puurekisteri_piste_with_ndvi.geojson', 'TreeRegistry', false );
+					eventBus.$emit('loadNdviAreaData', {
+                    	url: 'https://geo.fvh.fi/spotted/data/Puurekisteri_piste_with_ndvi.geojson',
+                    	dataSourceName: 'TreeRegistry',
+                    	isPolygon: false
+                	});
 
 				} else {
 
 					this.datasourceService.showDataSourceByName( 'TreeRegistry' );
-					document.getElementById( 'plotContainer' ).style.visibility = 'visible';
+					this.elementsDisplayService.toggleNDVIArea( 'visible' );
 
 				}
-
-				document.getElementById( 'ndviAreaContainer' ).style.display = 'inline-block';
-				document.getElementById( 'ndviAreaContainer' ).style.visibility = 'visible';
         
 			} else {
 
 				this.datasourceService.hideDataSourceByName( 'TreeRegistry' );
-				document.getElementById( 'ndviAreaContainer' ).style.display = 'none';
-				document.getElementById( 'plotContainer' ).style.visibility = 'hidden';       
+				this.elementsDisplayService.toggleNDVIArea( 'hidden' );
 
 			}
 		},
@@ -858,7 +864,6 @@ export default {
 					this.datasourceService.hideDataSourceByName( 'TreeRegistry' );
 					this.datasourceService.hideDataSourceByName( 'PopulationGrid' );
 					this.datasourceService.hideDataSourceByName( 'SubDistrictNDVI' );
-					document.getElementById( 'ndviAreaContainer' ).style.display = 'none';
 					document.getElementById( 'ndviYlre' ).value = 8;
 					document.getElementById( 'ndviYlreValue' ).innerHTML = 'June 2023';
 					let dataSource = await this.datasourceService.getDataSourceByName( 'YLRE' );
@@ -918,7 +923,6 @@ export default {
 
 		async ndviAreaUpdate() {
 
-			document.getElementById( 'ndviYlreContainer' ).style.display = 'none';
 			document.getElementById( 'ndviArea' ).value = 3;
 			document.getElementById( 'ndviAreaValue' ).innerHTML = 'June 2023';
 			let dataSource = await this.datasourceService.getDataSourceByName( 'SubDistrictNDVI' );

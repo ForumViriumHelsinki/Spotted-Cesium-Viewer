@@ -63,6 +63,13 @@ export default class ElementsDisplay {
 
 		setElementsDisplay( buildingElements, display );
 
+	}
+
+	toggleNDVIArea( display ) {
+
+		document.getElementById( 'ndviAreaContainer' ).style.visibility = display;
+		document.getElementById( 'plotContainer' ).style.visibility = display;
+
 	}				
 
 	/**
@@ -135,9 +142,6 @@ export default class ElementsDisplay {
 
 		if ( document.getElementById( 'areasNDVIToggle' ).checked ) {
 
-			document.getElementById( 'ndviAreaContainer' ).style.visibility = visibility;
-			document.getElementById( 'ndviAreaValue' ).style.visibility = visibility;
-			document.getElementById( 'ndviArea' ).style.visibility = visibility;
         
 			Array.from( document.getElementById( 'ndviYlreContainer' ).children ).forEach( el => el.style.visibility = 'hidden' );
 
@@ -257,7 +261,6 @@ export default class ElementsDisplay {
 		document.getElementById( 'greenAreaContainer' ).style.visibility = 'hidden';
 		document.getElementById( 'ndviSliderContainer' ).style.visibility = 'hidden';
 		document.getElementById( 'ndviSliderContainer2023' ).style.visibility = 'hidden';
-		document.getElementById( 'ndviAreaContainer' ).style.visibility = 'hidden';
 		document.getElementById( 'ndviYlreContainer' ).style.visibility = 'hidden';
 
 		//    setPrintVisible( );

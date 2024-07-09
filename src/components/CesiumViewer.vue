@@ -37,21 +37,9 @@
   <span id="ndviSliderValue">NDVI</span>
 </div>
 
-<div class="ndviArea-container" id="ndviAreaContainer" style = "visibility: hidden">
-  <input type="range" id="ndviArea" min="0" max="7" value="3">
-  <div class="slider-ticks-container"></div> <!-- Container for tick marks -->
-    <span id="ndviAreaValue">June 2023</span>
-</div>
-
 <div class="ndviSlider-container2023" id="ndviSliderContainer2023" style = "visibility: hidden">
   <input type="range" id="ndviSlider2023" min="0" max="11" value="0">
   <div class="slider-ticks-container"></div> <!-- Container for tick marks -->
-</div>
-
-<div class="ndviYlre-container" id="ndviYlreContainer" style = "visibility: hidden">
-  <input type="range" id="ndviYlre" min="0" max="8" value="8">
-  <div class="slider-ticks-container"></div> <!-- Container for tick marks -->
-    <span id="ndviYlreValue">June 2023</span>
 </div>
 
 </template>
@@ -140,14 +128,6 @@ export default {
 
 			document.getElementById( 'ndviSlider2023' ).addEventListener( 'input', function() {
 				ndviService.updateNDVIDataSources2023( );
-			} );
-
-			document.getElementById( 'ndviArea' ).addEventListener( 'input', function() {
-				ndviAreaService.updateNDVIAreaDataSources( );
-			} );
-
-			document.getElementById( 'ndviYlre' ).addEventListener( 'input', function() {
-				ndviAreaService.updateNDVIYlreDataSources( );
 			} );
 
 			const elementsDisplayService = new ElementsDisplay ();
@@ -463,32 +443,6 @@ input[type=range]::-moz-range-track {
     transform: translateX(-50%);
     font-size: 10px;
     color: #000;
-}
-
-#ndviAreaContainer {
-    visibility: hidden;
-}
-
-.ndviArea-container {
-    position: fixed;
-    top: 33%; 
-    left: 5%; 
-    width: 20%;
-    padding: 20px;
-    text-align: center;
-}
-
-#ndviYlreContainer {
-    visibility: hidden;
-}
-
-.ndviYlre-container {
-    position: fixed;
-    top: 33%; 
-    left: 5%; 
-    width: 20%;
-    padding: 20px;
-    text-align: center;
 }
 
 #plotContainer

@@ -59,9 +59,6 @@ export default {
 </script>
 
 <style>
-#sliderContainer {
-    visibility: hidden;
-}
 
 .slider-container {
   position: fixed;
