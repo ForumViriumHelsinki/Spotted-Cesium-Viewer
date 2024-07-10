@@ -7,6 +7,9 @@
   <PopulationPressure />
   <NdviArea />
   <YlreAnnual />
+  <MonthlyNDVI />
+  <DistrictNDVI />
+  <PieChart />
 
   <!-- Add Logo -->		
 	<div class="logoHolder">	
@@ -24,5 +27,8 @@ import ControlPanel from './components/ControlPanel.vue';
 import PopulationPressure from './components/PopulationPressure.vue';
 import NdviArea from './components/NdviArea.vue';
 import YlreAnnual from './components/YlreAnnual.vue';
+import MonthlyNDVI from './components/MonthlyNDVI.vue';
+import DistrictNDVI from './components/DistrictNDVI.vue';
+import PieChart from './components/PieChart.vue';
 
 </script>

@@ -73,21 +73,6 @@ export default class ElementsDisplay {
 	}				
 
 	/**
- * Changes the visibility of label elements 
- */
-	toggleLabels( visibility ) {
-
-		document.getElementById( 'white-label' ).style.visibility = visibility;
-		document.getElementById( 'yellow-label' ).style.visibility = visibility;
-		document.getElementById( 'yellowgreen-label' ).style.visibility = visibility;
-		document.getElementById( 'lightgreen-label' ).style.visibility = visibility;
-		document.getElementById( 'green-label' ).style.visibility = visibility;
-		document.getElementById( 'ldarkgreen-label' ).style.visibility = visibility;
-		document.getElementById( 'darkgreen-label' ).style.visibility = visibility;
-		document.getElementById( 'vdarkgreen-label' ).style.visibility = visibility;
-	} 
-
-	/**
  * Change visibility of hsy landcover bar plots
  * 
  * */
@@ -110,12 +95,6 @@ export default class ElementsDisplay {
 		document.getElementById( 'ndviChartContainer' ).style.visibility = visibility;
 		document.getElementById( 'selectContainer' ).style.visibility = visibility;
 
-		if ( document.getElementById( 'showNDVIToggle' ).checked || document.getElementById( 'NDVI2023Toggle' ).checked || visibility == 'hidden' ) {
-
-			this.toggleLabels( visibility );
-
-		}
-
 		if ( document.getElementById( 'showGreenToggle' ).checked || visibility == 'hidden' ) {
         
 			document.getElementById( 'greenAreaContainer' ).style.visibility = visibility;
@@ -134,7 +113,6 @@ export default class ElementsDisplay {
 		if ( document.getElementById( 'showNDVIToggle' ).checked || document.getElementById( 'NDVI2023Toggle' ).checked ) {
 
 			document.getElementById( 'plotContainer' ).style.visibility = visibility;
-			document.getElementById( 'ndviSliderContainer' ).style.visibility = visibility;
 			document.getElementById( 'ndviSlider' ).style.visibility = visibility;
 			document.getElementById( 'ndviSliderValue' ).style.visibility = visibility;
 
@@ -157,12 +135,7 @@ export default class ElementsDisplay {
 	setPieChartVisibility( isVisible ) {
 
 		const plotContainer = document.getElementById( 'plotPieContainer' );
-		const selectContainer = document.getElementById( 'selectContainer' );
-		const chartContainer = document.getElementById( 'chartContainer' );
-    
 		plotContainer.style.visibility = isVisible ? 'visible' : 'hidden';
-		selectContainer.style.visibility = isVisible ? 'visible' : 'hidden';
-		chartContainer.style.visibility = isVisible ? 'visible' : 'hidden';
 
 	}
 
@@ -173,8 +146,7 @@ export default class ElementsDisplay {
 	setNDVIVisibility( visibility ) {
 
 		document.getElementById( 'plotContainer' ).style.visibility = visibility;
-		document.getElementById( 'ndviSliderContainer' ).style.visibility = visibility;
-		document.getElementById( 'ndviChartContainer' ).style.visibility = visibility;   
+		document.getElementById( 'ndviSliderContainer' ).style.visibility = visibility;   
 
 	}	
 	/**
@@ -259,8 +231,6 @@ export default class ElementsDisplay {
 		document.getElementById( 'selectContainer' ).style.visibility = 'hidden';
 		document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
 		document.getElementById( 'greenAreaContainer' ).style.visibility = 'hidden';
-		document.getElementById( 'ndviSliderContainer' ).style.visibility = 'hidden';
-		document.getElementById( 'ndviSliderContainer2023' ).style.visibility = 'hidden';
 		document.getElementById( 'ndviYlreContainer' ).style.visibility = 'hidden';
 
 		//    setPrintVisible( );

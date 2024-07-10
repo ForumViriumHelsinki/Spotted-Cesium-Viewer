@@ -93,28 +93,15 @@ export default class Ndvi {
 
 		if ( date === '2022-06-26' ) {
 
-			this.updateNDVIDataSources();
+			this.updateNDVIDataSources( 0 );
 
 		} 
 	
 		if ( date === '2023-01-27' ) {
 
-			this.updateNDVIDataSources2023();
+			this.updateNDVIDataSources2023( 0 );
 
 		}
-        
-		if ( date.substring( 0, 4 ) === '2020' || date.substring( 0, 4 ) === '2022' ) {
-
-			document.getElementById( 'ndviSliderContainer' ).style.visibility = 'visible';
-
-		}
-
-		if ( date !== '2023-01-27' && date.substring( 0, 4 ) === '2023' )  {
-
-			document.getElementById( 'ndviSliderContainer2023' ).style.visibility = 'visible';
-
-		}
-
 
 	}
 
@@ -174,9 +161,8 @@ export default class Ndvi {
 * This function hides and shows ndvi datasources based on ndviSliderValue value
 * 
 */
-	async updateNDVIDataSources( ) {
+	async updateNDVIDataSources( sliderValue ) {
 		this.datasourceService.hideDataSourceByName( 'ndvi' );
-		const sliderValue = parseInt( document.getElementById( 'ndviSlider' ).value );
 		let date = '2018-06-14';
 		let ndviData = [ [ 0, 0, 0, 0, 0, 0, 0, 0 ], [ 0, 0, 0, 0, 0, 0 ,0, 0 ], [ 0, 0, 0, 0, 0, 0, 0, 0 ] ];
 
@@ -217,7 +203,8 @@ export default class Ndvi {
 		} 		
 
 		this.plotService.createNDVILineChart( ndviData );
-		this.plotService.createPieChartForMajorDistrict( date.substring( 0, 4 ) );
+		const selectValue = document.getElementById( 'plotSelect' ).value;
+		this.plotService.createPieChartForMajorDistrict( selectValue, date.substring( 0, 4 ) );
     
 	}
 
@@ -226,9 +213,8 @@ export default class Ndvi {
 * This function hides and shows ndvi datasources based on ndviSliderValue value
 * 
 */
-	updateNDVIDataSources2023( ) {
+	updateNDVIDataSources2023( sliderValue ) {
 		this.datasourceService.hideDataSourceByName( 'ndvi' );
-		const sliderValue = parseInt( document.getElementById( 'ndviSlider2023' ).value );
 		let dataSource = null;
 		let date = '2023-01-27';
 		let ndviData = [ 0, 0, 0, 0, 0, 0, 0, 0 ];
@@ -347,7 +333,7 @@ export default class Ndvi {
 
 		} );
 
-		this.addTickMarksAndLabels( 'ndviSlider2023', 'slider-ticks-container', 13 );
+		//this.addTickMarksAndLabels( 'ndviSlider2023', 'slider-ticks-container', 13 );
 
 		this.plotService.createNDVIBarPlot( ndviData, date );    
 	}

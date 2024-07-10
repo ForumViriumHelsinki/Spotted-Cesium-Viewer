@@ -52,7 +52,13 @@ export default class Distrct {
 
 	getYearFromSlider( ) {
 
-		const sliderValue = parseInt( document.getElementById( 'ndviSlider' ).value );
+		let sliderValue = 0;
+
+		if ( document.getElementById( 'ndviSlider' ) ) {
+			
+			sliderValue = parseInt( document.getElementById( 'ndviSlider' ).value );	
+
+		} 
 
 		switch ( sliderValue ) {
 		case 0: 

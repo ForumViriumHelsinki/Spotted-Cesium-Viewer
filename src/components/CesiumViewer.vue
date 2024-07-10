@@ -10,37 +10,10 @@
   <div id="printContainer"  style = "display: none">
     <i></i>
     </div>
-        <!-- Labels for colors -->
-        <label class="color-label white-label active" style = "display: none" id = "white-label"> -1 - 0</label>
-        <label class="color-label yellow-label active" style = "display: none" id = "yellow-label">0 - 0.1</label>
-        <label class="color-label yellowgreen-label active" style = "display: none" id = "yellowgreen-label">0.1 - 0.2</label>
-        <label class="color-label lightgreen-label active" style = "display: none" id = "lightgreen-label">0.2 - 0.3</label>
-        <label class="color-label green-label active" style = "display: none" id = "green-label">0.3 - 0.4</label>
-        <label class="color-label ldarkgreen-label active" style = "display: none" id = "ldarkgreen-label">0.4 - 0.5</label>
-        <label class="color-label darkgreen-label active" style = "display: none" id = "darkgreen-label">0.5 - 0.6</label>
-        <label class="color-label vdarkgreen-label active" style = "display: none" id = "vdarkgreen-label">0.6 - 1</label>
   <div id="plotInhabitantContainer">
   </div>
   <div id="greenAreaContainer">
   </div>  
-  <div id="plotPieContainer" style = "visibility: hidden">
-    <div id="selectContainer">
-        <select id="plotSelect">
-            <option value="Helsinki">Helsinki</option>
-        </select>
-    </div>
-    <!-- Other content of the plot container -->
-</div>
-
-<div class="ndviSlider-container" id="ndviSliderContainer" style = "visibility: hidden">
-  <input type="range" id="ndviSlider" min="0" max="2" value="0">
-  <span id="ndviSliderValue">NDVI</span>
-</div>
-
-<div class="ndviSlider-container2023" id="ndviSliderContainer2023" style = "visibility: hidden">
-  <input type="range" id="ndviSlider2023" min="0" max="11" value="0">
-  <div class="slider-ticks-container"></div> <!-- Container for tick marks -->
-</div>
 
 </template>
 
@@ -52,11 +25,7 @@ import Featurepicker from '../services/feature-picker.js';
 import WMS from '../services/wms.js'; 
 import { useGlobalStore } from '../stores/global-store.js';
 import ElementsDisplay from '../services/elements-display.js'; 
-import NDVI from '../services/ndvi.js';
-import Plot from '../services/plot.js'; 
-import NdviArea from '../services/ndvi-area.js';
 import EventEmitter from '../services/event-emitter.js';
-import GreenAreas from '../services/green-areas';
 
 export default {
 	data() {
@@ -108,26 +77,11 @@ export default {
 			// Load district zones & energy data availability tags
 			districtService.loadDistrictZones( 0.1, 'assets/data/HelsinkiMajorDistrict.json', 'MajorDistricts' );
 			const featurepicker = new Featurepicker(  );
-			const greenAreas = new GreenAreas(  );
 
 			// Add click event listener to the viewer container
 			const cesiumContainer = document.getElementById( 'cesiumContainer' );
 			cesiumContainer.addEventListener( 'click', function( event ) { 
 				featurepicker.processClick( event ); // Assuming processClick is defined later
-			} );
-
-
-			const ndviService = new NDVI ();
-			const ndviAreaService = new NdviArea ();
-
-
-			document.getElementById( 'ndviSlider' ).addEventListener( 'input', function() {
-				document.getElementById( 'ndviSliderValue' ).textContent = 'ndvi';
-				ndviService.updateNDVIDataSources( );
-			} );
-
-			document.getElementById( 'ndviSlider2023' ).addEventListener( 'input', function() {
-				ndviService.updateNDVIDataSources2023( );
 			} );
 
 			const elementsDisplayService = new ElementsDisplay ();
@@ -137,35 +91,8 @@ export default {
 
 			this.$nextTick( () => {
 				this.eventEmitterService.emitControlPanelEvent( );
-				this.addSelectorEventListeners( );
 			} );
 
-		},
-
-
-		/**
- * 
- * A function for adding layer and plot select event listner.
- * 
- */
-		addSelectorEventListeners(  ) {
-
-			// Get references to all toggle inputs
-			const plotSelect = document.getElementById( 'plotSelect' );
-
-			const store = useGlobalStore();
-			const plotService = new Plot();
-
-			plotSelect.addEventListener( 'change', function () {
-
-				if ( store.districtsVisited.length ) {
-
-					plotService.createPieChartForMajorDistrict( );
-
-				}
-
-			} );	
-            
 		},
 
 		addAttribution() {
@@ -235,214 +162,6 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
-}
-
-/* White label */
-.white-label {
-	position: fixed;
-	top: 37%;
-	left: 0.5%;
-	width: 3%;
-	height: 2%; 
-    background-color: #eaeaea;
-    color: white; /* Set text color to white or a color that contrasts well */
-    padding: 5px;
-    border-radius: 5px;
-	font-size: 12px;
-}
-
-/* Yellow label */
-.yellow-label {
-	position: fixed;
-	top: 37%;
-	left: 4.5%;
-	width: 3%;
-	height: 2%; 
-    background-color: #ccc682;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-	font-size: 12px;
-}
-
-/* Yellow label */
-.yellowgreen-label {
-	position: fixed;
-	top: 37%;
-	left: 8.5%;
-	width: 3%;
-	height: 2%;
-    background-color: #91bf51;
-    color: black; /* Adjust text color for better visibility */
-    padding: 5px;
-    border-radius: 5px;	
-	font-size: 12px;
-}
-
-/* Yellowgreen label */
-.lightgreen-label {
-	position: fixed;
-	top: 37%;
-	left: 12.5%;
-	width: 3%;
-	height: 2%;
-    background-color: #70a33f;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-	font-size: 12px;
-}
-
-/* Green label */
-.green-label {
-	position: fixed;	
-	top: 37%;
-	left: 16.5%;
-	width: 3%;
-	height: 2%;  
-    background-color: #4f892d;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-	font-size: 12px;
-}
-
-/* Light Dark Green label */
-.ldarkgreen-label {
-	position: fixed;	
-	top: 37%;
-	left: 20.5%;
-	width: 3%;
-	height: 2%;  
-    background-color: #306d1c;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-	font-size: 12px;
-}
-
-/* Dark Green label */
-.darkgreen-label {
-	position: fixed;	
-	top: 37%;
-	left: 24.5%;
-	width: 3%;
-	height: 2%;  
-    background-color: #0f540a;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-	font-size: 12px;
-}
-
-/* Very Dark Green label */
-.vdarkgreen-label {
-	position: fixed;	
-	top: 37%;
-	left: 28.5%;
-	width: 3%;
-	height: 2%;  
-    background-color: #004400;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-	font-size: 12px;
-}
-
-
-#ndviSliderContainer {
-    visibility: hidden;
-}
-
-.ndviSlider-container {
-    position: fixed;
-    top: 40%; 
-    left: 5%; 
-    width: 15%;
-    padding: 20px;
-    text-align: center;
-}
-
-#ndviSliderContainer2023 {
-    visibility: hidden;
-}
-
-.ndviSlider-container2023 {
-    position: fixed;
-    top: 33%; 
-    left: 5%; 
-    width: 20%;
-    padding: 20px;
-    text-align: center;
-}
-
-
-input[type=range] {
-    -webkit-appearance: none; /* Override default appearance */
-    width: 100%;
-    margin: 10px 0;
-    background: #ddd; /* Background of the slider track */
-    border-radius: 10px; /* Rounded corners for the track */
-    height: 10px; /* Height of the slider track */
-}
-
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 25px;
-    height: 25px;
-    background: blue;
-    border-radius: 50%; /* Fully rounded corners for the thumb */
-    cursor: pointer;
-}
-
-input[type=range]::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    background: blue;
-    border-radius: 50%; /* Fully rounded corners for the thumb */
-    cursor: pointer;
-}
-
-input[type=range]::-moz-range-track {
-    background: #ddd;
-    border-radius: 10px; /* Rounded corners for the track */
-    height: 10px; /* Height of the slider track */
-}
-
-.slider-ticks-container {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    width: 100%;
-    height: 2px; /* Height of the tick marks container */
-    background-color: transparent; /* Optional: change if you want a background */
-    margin-top: -0px; /* Adjust the position to align with the slider */
-}
-
-.slider-ticks-container::before,
-.slider-ticks-container::after,
-.slider-tick {
-    position: absolute;
-    height: 20px; /* Adjust if necessary */
-    width: 2px;
-    background-color: #000;
-    top: -20px; /* Moves tick marks up towards the slider */
-}
-
-.slider-ticks-container::before {
-    left: 0;
-}
-
-.slider-ticks-container::after {
-    right: 0;
-}
-
-.slider-label {
-    position: absolute;
-    top: -5px; /* Moves labels up closer to the slider, adjust as necessary */
-    transform: translateX(-50%);
-    font-size: 10px;
-    color: #000;
 }
 
 #plotContainer
@@ -516,27 +235,6 @@ input[type=range]::-moz-range-track {
  	
 	border: 1px solid black;
 	box-shadow: 3px 5px 5px black; 
-}
-
-#plotPieContainer
-{
-	position: fixed;
-	top: 50%;
-	left: 0%;
-	width: 31.25%;
-	height: 45%; 
-	visibility: hidden;
-	
-	font-size: 12px;
-	border: 1px solid black;
-	box-shadow: 3px 5px 5px black;  
-}
-
-#selectContainer {
-    position: absolute;
-    top: 1px;
-    left: 360px;
-    visibility: hidden;
 }
 
 /* Basic legend styling */

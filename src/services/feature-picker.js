@@ -5,6 +5,7 @@ import ElementsDisplay from './elements-display.js';
 import District from './district.js';
 import { useGlobalStore } from '../stores/global-store.js';
 import GreenAreas from './green-areas.js';
+import { eventBus } from './event-emitter.js';
 
 export default class FeaturePicker {
 	constructor( ) {
@@ -25,7 +26,6 @@ export default class FeaturePicker {
 
 		if ( this.store.location != 'pop_pressure' && this.store.location != 'ndvi_areas' && !this.store.fileUploaded  ) {
 
-			document.getElementById( 'plotSelect' ).value = 'Helsinki';
 			this.elementsDisplayService.districtElementsDisplay( 'inline-block' );
 			this.elementsDisplayService.setPopulationPressureElementsDisplay( 'none' );
 
@@ -128,6 +128,7 @@ export default class FeaturePicker {
 
 				if ( picked.id.entityCollection._entities._array[ 0 ]._properties._nimi_fi._value === 'Eteläinen' ) {
 
+					eventBus.$emit('createPieChart');
 					this.elementsDisplayService.setBuildingDisplay( 'inline-block' );
 					this.districtService.flyCameraToDistrict( picked, 20000 );    
 					this.store.majorDistrict = picked.id.properties.tunnus;
@@ -136,7 +137,7 @@ export default class FeaturePicker {
 					this.store.levelsVisited.push( 'MajorDistricts' );
 					this.districtService.setDistrictOutlineColor( );
 					this.elementsDisplayService.toggleReturnButtonVisibility( );
-					this.plotService.createPieChartForMajorDistrict( );
+					this.plotService.createPieChartForMajorDistrict( 'Helsinki' );
 					this.plotService.createHSYLineChart( picked.id.properties );
                  
 				}
@@ -148,9 +149,10 @@ export default class FeaturePicker {
 					await this.districtService.newDistrict( 'assets/data/HelsinkiSubDistrict.json', 'SubDistricts' );
 					this.store.currentDistrictName = picked.id.properties.nimi_fi._value;
 					this.store.levelsVisited.push( 'Districts' );
+					eventBus.$emit('createPieChart');
 					this.districtService.setDistrictOutlineColor( );
 					this.elementsDisplayService.toggleReturnButtonVisibility( );
-					this.plotService.createPieChartForMajorDistrict( );
+					this.plotService.createPieChartForMajorDistrict( 'Helsinki' );
 					this.plotService.createHSYLineChart( picked.id.properties );
 					await  this.datasourceService.removeDataSourcesByNamePrefix( 'MajorDistricts' );
                     
@@ -160,10 +162,11 @@ export default class FeaturePicker {
 
 					this.districtService.flyCameraToDistrict( picked, 5000 );    
 					this.store.levelsVisited.push( 'SubDistricts' );
+					eventBus.$emit('createPieChart');
 					this.store.currentSubDistrictName = picked.id.properties.nimi_fi._value;
 					this.districtService.setDistrictOutlineColor( );
 					this.elementsDisplayService.toggleReturnButtonVisibility( );
-					this.plotService.createPieChartForMajorDistrict( );
+					this.plotService.createPieChartForMajorDistrict( 'Helsinki' );
 					this.plotService.createHSYLineChart( picked.id.properties );					
 					await this.datasourceService.removeDataSourcesByNamePrefix( 'Districts' );
                     

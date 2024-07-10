@@ -5,6 +5,7 @@ import { useGlobalStore } from '../stores/global-store.js';
 import ElementsDisplay from './elements-display.js';
 import Datasource from './datasource.js';
 import { usePopulationStore } from '../stores/population-store.js';
+import { useLandCoverStore } from '../stores/land-cover-store.js';
 
 export default class Plot {
 	constructor() {
@@ -15,6 +16,7 @@ export default class Plot {
 		this.elementsDisplayService = new ElementsDisplay();
 		this.viewer = this.store.cesiumViewer;
 		this.populationPressureStore = usePopulationStore();
+		this.landCoverStore = useLandCoverStore();	
 	}
 
 	createUrbanHeatHistogram( urbanHeatData ) {
@@ -44,18 +46,6 @@ export default class Plot {
 
 }
 
-	/**
- * Calls all other diagram functions
- *
- * @param { object } district  district code
- */
-	createDiagrams( district ) {
-
-		this.createPieChartForMajorDistrict( );
-		//createVegetationBarPlot( district );
-		this.createVegetationBarPlotPerInhabitant( district );
-
-	}
 
 	/**
  * Check if the selected option in the 'plotSelect' <select> element is not equal to 'Helsinki'.
@@ -84,7 +74,7 @@ export default class Plot {
  *
  * @param { string } year
  */
-	createPieChartForMajorDistrict( year ) {
+	createPieChartForMajorDistrict( selectedDistrict, year ) {
 
 		if ( !document.getElementById( 'showGreenToggle' ).checked ) {
 
@@ -98,11 +88,9 @@ export default class Plot {
 			let firstData = this.getLandDataForMajorDistrict( this.store.districtsVisited[ this.store.districtsVisited.length - 1 ] );
 			let secondData = this.getLandDataForCity( );
 			let secondDataName = 'Helsinki';
-    
-			if ( this.isNotHelsinkiSelected( ) ) {
-    
-				const selectedDistrict = document.getElementById( 'plotSelect' ).value;
-    
+
+			if ( selectedDistrict !== 'Helsinki' ) {
+        
 				let otherDistrict = this.districtService.findDistrictIdByName( selectedDistrict );
 				secondData = this.getLandDataForMajorDistrict( otherDistrict );
 				secondDataName = selectedDistrict;
@@ -137,7 +125,11 @@ export default class Plot {
 			} ];
           
 			const layout = {
-				title: 'Landcover comparison in ' + yearLabel,
+				title: {
+    				text: 'Landcover comparison in ' + yearLabel,
+    				x: 0.05,      // Set the x position to 0 (left)
+    				xanchor: 'left'  // Anchor the title to the left
+  				},
 				annotations: [
 					{
 						font: {
@@ -164,18 +156,38 @@ export default class Plot {
 				grid: { rows: 1, columns: 2 }
 			};
     
-			if ( this.store.showPlot ) {
-    
-				this.elementsDisplayService.setPieChartVisibility( 'visible' );
-				this.populateSelectFromGeoJSON( this.store.levelsVisited[ this.store.levelsVisited.length - 1 ], 'plotSelect', document.getElementById( 'plotSelect' ).value );
-    
-			}
-    
 			Plotly.newPlot( 'plotPieContainer', data, layout );
 
 		}
 
 	}
+
+	populateSelectFromStore(selectElementId, currentValue) {
+  document.getElementById(selectElementId).style.visibility = 'visible';
+  const selectElement = document.getElementById(selectElementId);
+
+  // Get district names from the store
+  const districtNames = this.landCoverStore.districtNames; 
+
+  // Clear existing options first
+  this.removeOptionsExceptFirst(selectElement); 
+
+  // Populate the select element with options
+  for (const nimiFi of districtNames) {
+    const optionElement = document.createElement('option');
+    optionElement.value = nimiFi;
+    optionElement.textContent = nimiFi;
+    selectElement.appendChild(optionElement);
+  }
+
+  // Set the default value if it exists
+  if (currentValue && districtNames.includes(currentValue)) {
+    selectElement.value = currentValue;
+  } else {
+    // Default to the first option if currentValue is not valid
+    selectElement.value = districtNames[0]; 
+  }
+}
 
 	/**
  * Populate a <select> element with options based on the 'nimi_fi' attribute of a GeoJSON data source.

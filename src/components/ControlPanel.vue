@@ -624,24 +624,16 @@ export default {
 				this.elementsDisplayService.setPieChartVisibility( false );
 				await this.ndviService.loadNDVI( '2023-01-27' );
 				await this.ndviService.loadNDVI( '2023-02-26' );
-				const slider = document.getElementById( 'ndviSlider2023' );
-				slider.max = Math.max( 1, 11 );
-
-				if ( document.getElementById( 'showPlotToggle' ).checked ) {
-            
-					document.getElementById( 'ndviSliderContainer2023' ).style.display = 'inline-block';
-
-				}
-
+				eventBus.$emit('activate2023NDVISlider'); 
 				document.getElementById( 'plotContainer' ).style.visibility = 'visible';
 				this.loadRemainingNDVIDataSequentially( );
 
 			} else { 
 
-				// updateNDVIDataSources2023( );
-				document.getElementById( 'showNDVIToggle' ).disabled = false;
-				document.getElementById( 'ndviSliderContainer2023' ).style.display = 'none';
 				document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
+				document.getElementById( 'ndviSliderContainer2023' ).style.visibility = 'hidden';
+				this.elementsDisplayService.setPieChartVisibility( true );
+				document.getElementById( 'showNDVIToggle' ).disabled = false;
 				await this.datasourceService.hideDataSourceByName( 'ndvi' );
 				await this.datasourceService.removeDataSourcesByNamePrefix( 'ndvi' );
 				this.elementsDisplayService.setTreeElementsDisplay( 'inline-block' );
@@ -655,7 +647,6 @@ export default {
 			for ( let i = 0; i < dates.length; i++ ) {
 				try {
 					await this.ndviService.loadNDVI( dates[i] );
-					unlockSliderPoint( i + 2 ); // Assuming the first two points are already loaded
 				} catch ( error ) {
 					console.error( `Failed to load NDVI data for ${dates[i]}:`, error );
 					// Handle the error, possibly retry or skip to the next
@@ -675,7 +666,7 @@ export default {
 			if ( checked ) {
 
 				setPopulationPressureAttributes( '_max', '_area_m2', 'Protected Areas', '_nimi' );
-        eventBus.$emit('loadGreenAreas', 'https://geo.fvh.fi/spotted/data/suojelu.geojson'); 
+        		eventBus.$emit('loadGreenAreas', 'https://geo.fvh.fi/spotted/data/suojelu.geojson'); 
 
 			} else { 
         
@@ -755,11 +746,11 @@ export default {
 				if ( this.store.majorDistrict && !this.datasourceService.dataSourceWithNameExists( 'ndvi2018-06-14' ) ) {
 
 					await this.ndviService.loadNDVI( '2018-06-14' );
-
+					eventBus.$emit('activateDistrictNDVI'); 
 
 				} else {
 
-					this.ndviService.updateNDVIDataSources( );
+					this.ndviService.updateNDVIDataSources( 0 );
 
 				}
 
@@ -933,11 +924,6 @@ export default {
 			}  
 		}   
 	},
-};
-
-const unlockSliderPoint = ( index ) => {
-	const slider = document.getElementById( 'ndviSlider2023' );
-	slider.max = Math.max( index, slider.max ); // Ensure the slider's max is updated only if it's increasing
 };
 
 const setPopulationPressureAttributes = (  ndviAttribute, areaAttribute, name, uniqueId  ) => {

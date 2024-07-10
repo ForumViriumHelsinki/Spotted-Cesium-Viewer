@@ -5,6 +5,7 @@ export const useLandCoverStore = defineStore( 'land-cover', {
 		majorDistrictData: null,
 		districtData: null,
 		subDistrictData: null,
+		districtNames: [ ],
 	} ),
 	actions: {
 		setMajorDistrictData( data ) {
@@ -15,6 +16,9 @@ export const useLandCoverStore = defineStore( 'land-cover', {
 		},
 		setSubDistrictData( data ) {
 			this.subDistrictData = data;
+		},
+		setDistrictNames( data ) {
+			this.districtNames = data;
 		},
 	},
 } );
