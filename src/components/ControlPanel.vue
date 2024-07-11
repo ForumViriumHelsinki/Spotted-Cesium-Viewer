@@ -8,8 +8,10 @@
     </button>
     <input type="file" id="fileUpload" accept=".json,.geojson" style="display: none;" @change="handleFileUpload">
       <p class="uiReturnButton" id="returnButton" onClick="prevLevel()" style="color: black;">Previous district</p>
-      <p class="uiButton" @click="reset" style="color: red; float:right; cursor: pointer;">Reset</p>
-    </div>
+      <v-btn icon size="small" @click="reset">
+        <v-icon>mdi-restart</v-icon>
+      </v-btn>
+	</div>
 
   <!-- Selects WMS layer -->
     <v-select
