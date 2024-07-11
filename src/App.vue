@@ -2,14 +2,8 @@
 
 <div id="canvasScalerDiv">
   <CesiumViewer />
-  <PrintBox />
   <ControlPanel />
-  <PopulationPressure />
-  <NdviArea />
-  <YlreAnnual />
-  <MonthlyNDVI />
-  <DistrictNDVI />
-  <PieChart />
+  <SatelliteViewer />
 
   <!-- Add Logo -->		
 	<div class="logoHolder">	
@@ -22,13 +16,7 @@
 
 <script setup>
 import CesiumViewer from './components/CesiumViewer.vue';
-import PrintBox from './components/PrintBox.vue';
 import ControlPanel from './components/ControlPanel.vue';
-import PopulationPressure from './components/PopulationPressure.vue';
-import NdviArea from './components/NdviArea.vue';
-import YlreAnnual from './components/YlreAnnual.vue';
-import MonthlyNDVI from './components/MonthlyNDVI.vue';
-import DistrictNDVI from './components/DistrictNDVI.vue';
-import PieChart from './components/PieChart.vue';
+import SatelliteViewer from './components/SatelliteViewer.vue';
 
 </script>

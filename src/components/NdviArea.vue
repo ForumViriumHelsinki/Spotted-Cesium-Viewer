@@ -56,6 +56,7 @@ export default {
     width: 20%;
     padding: 20px;
     text-align: center;
+    z-index: 1000;
 }
 
 </style>

@@ -68,6 +68,7 @@ export default {
   width: 25%; 
   padding: 20px;
   text-align: center;
+  z-index: 1000;
 }
 
 /* Style the slider label */

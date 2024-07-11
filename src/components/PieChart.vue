@@ -112,6 +112,7 @@ export default {
 	border: 1px solid black;
 	box-shadow: 3px 5px 5px black;  
     background-color: white;
+    z-index: 1000;
 }
 
 .custom-select {  /* Target the v-select using a custom class */

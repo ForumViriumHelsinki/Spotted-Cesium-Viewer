@@ -10,6 +10,7 @@
     "lint": "eslint . --ext .js,.vue"
   },
   "dependencies": {
+    "ol": "^9.2.4",
     "path": "^0.12.7",
     "pinia": "^2.1.7",
     "url": "^0.11.3",

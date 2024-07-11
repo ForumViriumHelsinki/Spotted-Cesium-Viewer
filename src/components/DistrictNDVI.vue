@@ -57,6 +57,7 @@ export default {
   width: 15%;
   padding: 20px;
   text-align: center;
+  z-index: 1000;
 }
 
 /* Add Vuetify Slider Custom Styles as needed */

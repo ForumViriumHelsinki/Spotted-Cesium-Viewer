@@ -150,6 +150,12 @@
 </label>
 <label for="simulationToggle" class="label" id="simulationLabel">Simulations</label>
 
+<!--  satellite-->
+<label class="switch" id = "satelliteSwitch">
+  <input type="checkbox" id="satelliteToggle" value="satellite" >
+  <span class="slider round"></span>
+</label>
+<label for="satelliteToggle" class="label" id="satelliteLabel">Satellite viewer</label>
 </div>
 
 </template>
@@ -309,6 +315,28 @@ export default {
 			document.getElementById( 'activatePopulationPressureToggle' ).addEventListener( 'change', this.activatePopulationPressureEvent );
 			document.getElementById( 'buildingToggle' ).addEventListener( 'change', this.loadBuildings );
 			document.getElementById( 'simulationToggle' ).addEventListener( 'change', this.activateSimulations );
+			document.getElementById( 'satelliteToggle' ).addEventListener( 'change', this.activateSatellite );
+
+		},
+
+		async activateSatellite() {
+
+			const checked = document.getElementById( 'satelliteToggle' ).checked;
+
+			if ( checked ) {
+
+				console.log("before");
+
+            	eventBus.$emit('activateSatelliteViewer');
+
+			    this.showControlPanel = false; // Hide the ControlPanel
+                this.viewer.dataSources.removeAll(); // Remove Cesium data sources
+                this.viewer.destroy(); // Destroy the Cesium Viewer
+                this.viewer = null; // Set the viewer reference to null
+				console.log("after");
+
+			} 
+
 		},
 
 		async activateSimulations() {
@@ -755,7 +783,6 @@ export default {
 				}
 
 				this.elementsDisplayService.setNDVIVisibility( 'visible' );
-				this.elementsDisplayService.toggleLabels( 'visible' );
 
 			} else {
 
@@ -940,7 +967,7 @@ const hideAllPlotsAndSliders = ( ) => {
 
 	document.getElementById( 'printContainer' ).style.visibility = 'hidden';
 	document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
-	document.getElementById( 'plotPieContainer' ).style.visibility = 'hidden';
+	document.getElementById( 'plotPopContainer' ).style.visibility = 'hidden';
 	document.getElementById( 'plotInhabitantContainer' ).style.visibility = 'hidden';
 	document.getElementById( 'sliderContainer' ).style.visibility = 'hidden';
 

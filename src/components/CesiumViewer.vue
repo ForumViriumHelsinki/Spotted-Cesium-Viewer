@@ -1,7 +1,16 @@
 <template>
   <div id="cesiumContainer"></div>
+    <PrintBox />
+  <PopulationPressure />
+  <NdviArea />
+  <YlreAnnual />
+  <MonthlyNDVI />
+  <DistrictNDVI />
+  <PieChart />
   <div id="ndviLegend"></div>
      <div id="plotContainer">
+  </div>
+       <div id="plotPopContainer">
   </div>
      <div id="ndviChartContainer">
   </div>  
@@ -26,6 +35,13 @@ import WMS from '../services/wms.js';
 import { useGlobalStore } from '../stores/global-store.js';
 import ElementsDisplay from '../services/elements-display.js'; 
 import EventEmitter from '../services/event-emitter.js';
+import PopulationPressure from './PopulationPressure.vue';
+import NdviArea from './NdviArea.vue';
+import YlreAnnual from './YlreAnnual.vue';
+import MonthlyNDVI from './MonthlyNDVI.vue';
+import DistrictNDVI from './DistrictNDVI.vue';
+import PieChart from './PieChart.vue';
+import PrintBox from './PrintBox.vue';
 
 export default {
 	data() {
@@ -40,6 +56,15 @@ export default {
 		this.wmsService = new WMS();
 		this.initViewer();
 	}, 
+	components: {
+   		PrintBox,
+  		PopulationPressure,
+  		NdviArea,
+  		YlreAnnual,
+  		MonthlyNDVI,
+  		DistrictNDVI,
+  		PieChart,
+	}, 	
 	methods: {
 		initViewer() {
 
@@ -257,5 +282,20 @@ input:checked + .slider:before {
 .swatch span {
   margin-left: 10px;
   margin-right: 10px;
+}
+
+#plotPopContainer
+{
+	position: fixed;
+	top: 50%;
+	left: 0%;
+	width: 31.25%;
+	height: 45%; 
+	visibility: hidden;
+	
+	font-size: 12px;
+	border: 1px solid black;
+	box-shadow: 3px 5px 5px black;  
+    background-color: white;
 }
 </style>

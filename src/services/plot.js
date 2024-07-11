@@ -288,7 +288,6 @@ export default class Plot {
 		if ( this.store.showPlot ) {
 
 			document.getElementById( 'plotContainer' ).style.visibility = 'visible';
-			this.elementsDisplayService.toggleLabels( 'hidden' );
 
 		}
 
@@ -722,15 +721,15 @@ export default class Plot {
 		};
 
 
-		document.getElementById( 'plotPieContainer' ).style.visibility = 'visible';
+		document.getElementById( 'plotPopContainer' ).style.visibility = 'visible';
 		document.getElementById( 'sliderContainer' ).style.visibility = 'visible';
 		document.getElementById( 'selectContainer' ).style.visibility = 'hidden';
     
 
-		Plotly.newPlot( 'plotPieContainer', data, layout );
+		Plotly.newPlot( 'plotPopContainer', data, layout );
 
 
-		document.getElementById( 'plotPieContainer' ).on( 'plotly_click', function( data ){
+		document.getElementById( 'plotPopContainer' ).on( 'plotly_click', function( data ){
 			let clickedParkName = data.points[0].data.name; // Retrieve the park name
 			highlightEntityInCesium( clickedParkName, greenAreaDataSource.entities, '_puiston_nimi' );
 		} );
@@ -842,9 +841,7 @@ export default class Plot {
 		};
 	
 
-		document.getElementById( 'plotContainer' ).style.visibility = 'visible';
-		this.elementsDisplayService.toggleLabels( 'visible' );
-    
+		document.getElementById( 'plotContainer' ).style.visibility = 'visible';    
 
 		Plotly.newPlot( 'plotContainer', [ data ], layout );
 
@@ -994,10 +991,10 @@ export default class Plot {
 
 		}
 		  
-		document.getElementById( 'plotPieContainer' ).style.visibility = 'visible';
-		Plotly.newPlot( 'plotPieContainer', data, layout );
+		document.getElementById( 'plotPopContainer' ).style.visibility = 'visible';
+		Plotly.newPlot( 'plotPopContainer', data, layout );
 
-		document.getElementById( 'plotPieContainer' ).on( 'plotly_click', function( data ){
+		document.getElementById( 'plotPopContainer' ).on( 'plotly_click', function( data ){
 			let clickedParkName = data.points[0].data.name; // Retrieve the park name
 			highlightEntityInCesium( clickedParkName, entities, id );
 		} );
