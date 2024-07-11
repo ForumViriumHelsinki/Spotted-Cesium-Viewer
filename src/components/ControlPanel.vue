@@ -221,9 +221,11 @@ export default {
 		this.platformService = new Platform();
 
 	},
-	beforeUnmount() {
-		this.unsubscribe();
-	},    
+  	beforeUnmount() {
+    	if (this.unsubscribe && typeof this.unsubscribe === 'function') {
+      		this.unsubscribe();
+    	}
+  	},   
 	methods: {
 		reset(){
 			location.reload();
@@ -325,15 +327,12 @@ export default {
 
 			if ( checked ) {
 
-				console.log("before");
-
-            	eventBus.$emit('activateSatelliteViewer');
-
+				this.store.setActiveViewer('OpenLayers');
 			    this.showControlPanel = false; // Hide the ControlPanel
                 this.viewer.dataSources.removeAll(); // Remove Cesium data sources
                 this.viewer.destroy(); // Destroy the Cesium Viewer
                 this.viewer = null; // Set the viewer reference to null
-				console.log("after");
+				
 
 			} 
 

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 
 export const useGlobalStore = defineStore( 'global', {
 	state: () => ( {
+		activeViewer: 'Cesium',
 		location: 'start',
 		cesiumViewer: null,
 		showPlot: true,
@@ -21,6 +22,9 @@ export const useGlobalStore = defineStore( 'global', {
 		fileUploaded: false
 	} ),
 	actions: {
+		setActiveViewer( newViewer ) {
+			this.activeViewer = newViewer;
+		},
 		setLocation( newLocation ) {
 			this.location = newLocation;
 		},

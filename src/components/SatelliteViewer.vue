@@ -1,51 +1,45 @@
 <template>
-  <div id="map" class="map"></div>
+
+    <div id="map" class="map"></div>
 </template>
 
-<script>
-import { ref, onMounted } from 'vue';
+<script setup>
+import { onMounted } from 'vue';
 import GeoTIFF from 'ol/source/GeoTIFF.js';
 import Map from 'ol/Map.js';
 import TileLayer from 'ol/layer/WebGLTile.js';
-import { eventBus } from '../services/event-emitter.js';
 
-export default {
-  setup() {
-    const map = ref(null);
+// ... other imports
 
-    const initializeMap = async () => {
-      console.log("eventworks");
-      const source = new GeoTIFF({
-        sources: [
-          {
-            url: '/assets/images/2023-08-15_Sentinel-2_L2A_NDVI.tiff' 
-          },
-        ],
-      });
+onMounted(() => {
+        const source = new GeoTIFF({
+          sources: [
+            {
+              url: '/assets/images/2023-08-15_Sentinel-2_L2A_NDVI.tiff',
+              min: 0,
+              max: 1
+            },
+          ],
+          convertToRGB: true,  // Convert to RGB
+          normalize: true      // Normalize the data
+        });
 
-      map.value = new Map({
-        target: 'map',
-        layers: [
-          new TileLayer({
-            source: source,
-          }),
-        ],
-        view: source.getView(),
-      });
-    };
-    onMounted(() => {
-      eventBus.$on('activateSatelliteViewer', initializeMap);
-    });
+  const map = new Map({
+    target: 'map',
+    layers: [
+      new TileLayer({
+        source: source,
+      }),
+    ],
+    view: source.getView(),
 
-    return { map };
-  },
-};
+  });
+});
 </script>
 
 <style>
 .map {
   width: 100%;
-  height: 100%;
-  display: none; /* Initially hidden */
+  height: 1000px;
 }
 </style>
