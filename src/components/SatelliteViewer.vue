@@ -83,7 +83,6 @@ const initializeMap = (imagePath) => {
     ],
     view: source.getView(),
   });
-
 };
 
 onMounted(() => {

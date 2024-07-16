@@ -930,8 +930,9 @@ export default class Plot {
 		entities.forEach( entity => {
 
 			const areaName = entity._properties[ id ]._value;
+			let area = entity._properties[ areaAttribute ]._value * ( areaAttribute === 'fme_ala' ? 10000 : 1 );
 
-			if ( entity.show && entity._properties[ ndviAttribute ]._value >= 0.5 && entity._properties[ areaAttribute ]._value >= 100  && !areaNames.includes( areaName ) ) {
+			if ( entity.show && entity._properties[ ndviAttribute ]._value >= 0.5 && area >= 100  && !areaNames.includes( areaName ) ) {
 
 				areaNames.push( areaName ); // to avoid duplicates
 				addEntityForVulnerablePopulationPlot( data, entity, name, areaName, postfix );
@@ -967,8 +968,9 @@ export default class Plot {
 		entities.forEach( entity => {
 
 			const areaName = entity._properties[ id ]._value;
+			let area = entity._properties[ areaAttribute ]._value * ( areaAttribute === 'fme_ala' ? 10000 : 1 );
 
-			if ( entity.show && entity._properties[ ndviAttribute ]._value >= 0.5 && entity._properties[ areaAttribute ]._value >= 100 && !areaNames.includes( areaName ) ) {
+			if ( entity.show && entity._properties[ ndviAttribute ]._value  >= 0.5 && area >= 100 && !areaNames.includes( areaName ) ) {
 				
 				areaNames.push( entity._properties[ id ]._value ); // to avoid duplicates
 				addEntityForPopulationPlot( data, entity, name, ndviAttribute, areaName, postfix );
@@ -1012,8 +1014,9 @@ export default class Plot {
 		entities.forEach( entity => {
 
 			const areaName = entity._properties[ id ]._value;
+			let area = entity._properties[ areaAttribute ]._value * ( areaAttribute === 'fme_ala' ? 10000 : 1 );
 
-			if ( entity.show && entity._properties[ populationAttributeName ] && entity._properties[ ndviAttribute ]._value >= 0.5 && entity._properties[ areaAttribute ]._value >= 100 && !areaNames.includes( areaName ) ) {
+			if ( entity.show && entity._properties[ populationAttributeName ] && entity._properties[ ndviAttribute ]._value >= 0.5 && area >= 100 && !areaNames.includes( areaName ) ) {
 				areaNames.push( areaName );
 
 				const plotData = {

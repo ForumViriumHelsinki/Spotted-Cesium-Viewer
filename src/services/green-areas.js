@@ -49,8 +49,9 @@ export default class GreenAreas {
 
 		for ( let i = 0; i < entities.length; i++ ) {
 			let entity = entities[i];
+			let area = entity._properties[ areaAttribute ]._value * ( areaAttribute === 'fme_ala' ? 10000 : 1 );
 
-			if ( entity._properties[ ndviAttribute ]._value >= 0.5 && entity._properties[ areaAttribute ]._value >= 100 ) {
+			if ( entity._properties[ ndviAttribute ]._value >= 0.5 && area >= 100 ) {
 
 			    const color = this.ndviService.setNDVIPolygonMaterialColor( entity, ndviAttribute );
 			    // Set polygon color
@@ -245,9 +246,11 @@ const extrudedEntities = ( entities, ndviAttribute, areaAttribute, populationAtt
 	for ( let i = 0; i < entities.length; i++ ) {
 		let entity = entities[ i ];
 
-		if ( entity._properties[ ndviAttribute ]._value >= 0.5 && entity._properties[ areaAttribute ]._value >= 100 ) {
+		let area = entity._properties[ areaAttribute ]._value * ( areaAttribute === 'fme_ala' ? 10000 : 1 );
 
-			entity.polygon.extrudedHeight =  entity._properties[ populationAttributeName ]._value / ( entity._properties[ areaAttribute ]._value / 100 );
+		if ( entity._properties[ ndviAttribute ]._value >= 0.5 && area >= 100 ) {
+
+			entity.polygon.extrudedHeight =  entity._properties[ populationAttributeName ]._value / ( area / 100 );
 
 		} else {
 

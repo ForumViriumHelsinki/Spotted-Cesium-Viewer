@@ -282,7 +282,9 @@ const populationPressureElements = [
 	'showGreenSwitch',
 	'showGreenLabel',
 	'showProtectedSwitch',
-	'showProtectedLabel'				
+	'showProtectedLabel',
+	'showForestedAreasSwitch',
+	'showForestedAreasLabel'				
 ];
 
 const districtElements = [

@@ -67,6 +67,12 @@
 </label>
 <label for="showGreenToggle" class="label" id = "showGreenLabel" style = "display: none">YLRE green areas</label>
 
+<!-- showForestedAreasSwitch-->
+<label class="switch" id = "showForestedAreasSwitch" style = "display: none">
+  <input type="checkbox" id = "showForestedAreasToggle" value = "showForestedAreas" >
+  <span class="slider round"></span>
+</label>
+<label for="showForestedAreasToggle" class="label" id = "showForestedAreasLabel" style = "display: none">Forested areas</label>
 
 <!-- showPlotSwitch-->
 <label class="switch" id = "showPlotSwitch" style = "display: none">
@@ -276,7 +282,7 @@ export default {
 				}
 
 				if ( fileName.includes( 'urbanheatvulnerability' ) ) {
-					this.platformService.addPlatformFeaturesWithHeat( data, 'Spotted Platform Heat Risk' );
+					this.platformService.addPlatformFeaturesWiƒthHeat( data, 'Spotted Platform Heat Risk' );
 				}
 
 				if ( fileName.includes( 'urbanheatexposure' ) ) {
@@ -320,7 +326,7 @@ export default {
 			document.getElementById( 'buildingToggle' ).addEventListener( 'change', this.loadBuildings );
 			document.getElementById( 'simulationToggle' ).addEventListener( 'change', this.activateSimulations );
 			document.getElementById( 'satelliteToggle' ).addEventListener( 'change', this.activateSatellite );
-
+			document.getElementById( 'showForestedAreasToggle' ).addEventListener( 'change', this.showForestedAreasEvent );
 		},
 
 		async activateSatellite() {
@@ -685,7 +691,7 @@ export default {
 
 
 		/**
- * This function to show or hide green area entities on the map based on the toggle button state
+ * This function to show or hide protedected area entities on the map based on the toggle button state
  *
  */
 		async showProtectedAreaEvent() {
@@ -706,7 +712,7 @@ export default {
 		},
 
 		/**
- * This function to show or hide green area entities on the map based on the toggle button state
+ * This function to show or hide planned area entities on the map based on the toggle button state
  *
  */
 		async showPlanEvent() {
@@ -724,6 +730,27 @@ export default {
 				hideAllPlotsAndSliders();
 
 			}
+		},		
+
+		/**
+ * This function to show or hide forested area entities on the map based on the toggle button state
+ *
+ */
+		async showForestedAreasEvent() {
+
+			const checked = document.getElementById( 'showForestedAreasToggle' ).checked;
+
+			if ( checked ) {
+
+				setPopulationPressureAttributes( '_max', 'fme_ala', 'Forested Areas', '_kuvioid' );
+       	 		eventBus.$emit('loadGreenAreas', 'https://geo.fvh.fi/spotted/data/luonnonhoito.geojson'); 
+
+			} else { 
+        
+				this.datasourceService.removeDataSourcesByNamePrefix( 'Forested Areas' );
+				hideAllPlotsAndSliders();
+
+			}
 		},
 
 		/**
@@ -737,7 +764,7 @@ export default {
 			if ( checked ) {
 
 				setPopulationPressureAttributes( '_max', '_viheralueen_pa', 'YLRE GreenAreas', '_puiston_nimi' );
-        eventBus.$emit('loadGreenAreas', 'https://geo.fvh.fi/spotted/data/ylre.geojson'); 
+        		eventBus.$emit('loadGreenAreas', 'https://geo.fvh.fi/spotted/data/ylre.geojson'); 
 
 			} else {
 
@@ -955,6 +982,12 @@ export default {
 };
 
 const setPopulationPressureAttributes = (  ndviAttribute, areaAttribute, name, uniqueId  ) => {
+
+	if ( name === 'Forested Areas' ) { 
+
+		areaAttribute * 100000;
+
+	}
 
 	const populationPressureStore = usePopulationStore();
 	populationPressureStore.setNdviAttribute( ndviAttribute );
