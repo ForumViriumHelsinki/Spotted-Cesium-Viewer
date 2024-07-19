@@ -74,6 +74,13 @@
 </label>
 <label for="showForestedAreasToggle" class="label" id = "showForestedAreasLabel" style = "display: none">Forested areas</label>
 
+<!-- showForestedAreas1mSwitch-->
+<label class="switch" id = "showForestedAreas1mSwitch" style = "display: none">
+  <input type="checkbox" id = "showForestedAreas1mToggle" value = "showForestedAreas1m" >
+  <span class="slider round"></span>
+</label>
+<label for="showForestedAreas1mToggle" class="label" id = "showForestedAreas1mLabel" style = "display: none">Forested areas 1m</label>
+
 <!-- showPlotSwitch-->
 <label class="switch" id = "showPlotSwitch" style = "display: none">
   <input type="checkbox" id = "showPlotToggle" value = "showPlot" >
@@ -327,6 +334,7 @@ export default {
 			document.getElementById( 'simulationToggle' ).addEventListener( 'change', this.activateSimulations );
 			document.getElementById( 'satelliteToggle' ).addEventListener( 'change', this.activateSatellite );
 			document.getElementById( 'showForestedAreasToggle' ).addEventListener( 'change', this.showForestedAreasEvent );
+			document.getElementById( 'showForestedAreas1mToggle' ).addEventListener( 'change', this.showForestedAreas1mEvent );
 		},
 
 		async activateSatellite() {
@@ -730,7 +738,28 @@ export default {
 				hideAllPlotsAndSliders();
 
 			}
-		},		
+		},	
+
+		/**
+ * This function to show or hide forested area entities on the map based on the toggle button state
+ *
+ */
+		async showForestedAreas1mEvent() {
+
+			const checked = document.getElementById( 'showForestedAreas1mToggle' ).checked;
+
+			if ( checked ) {
+
+				setPopulationPressureAttributes( '_ndvi_1m', 'fme_ala', 'Forested Areas 1m', '_kuvioid' );
+       	 		eventBus.$emit('loadGreenAreas', 'https://geo.fvh.fi/spotted/data/luonnonhoito_1m.geojson'); 
+
+			} else { 
+        
+				this.datasourceService.removeDataSourcesByNamePrefix( 'GreenAreas' );
+				hideAllPlotsAndSliders();
+
+			}
+		},			
 
 		/**
  * This function to show or hide forested area entities on the map based on the toggle button state
@@ -747,7 +776,7 @@ export default {
 
 			} else { 
         
-				this.datasourceService.removeDataSourcesByNamePrefix( 'Forested Areas' );
+				this.datasourceService.removeDataSourcesByNamePrefix( 'GreenAreas' );
 				hideAllPlotsAndSliders();
 
 			}

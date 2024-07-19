@@ -133,15 +133,20 @@ export default class GreenAreas {
 
 	camereToMiddleOfHelsinki() {
 
-		this.viewer.camera.flyTo( {
-			destination: Cesium.Cartesian3.fromDegrees( 24.94, 60.055464, 11000 ),
-			orientation: {
-				heading: 0.0,
-				pitch: Cesium.Math.toRadians( -35.0 ),
-				roll: 0.0
-			},
-			duration: 3
-		} );
+		const destination = this.populationPressureStore.ndviAttribute === '_ndvi_1m'
+    		? Cesium.Cartesian3.fromDegrees(25.04, 60.16064, 3000)
+    		: Cesium.Cartesian3.fromDegrees(24.94, 60.055464, 11000);
+
+		this.viewer.camera.flyTo({
+    		destination,
+    		orientation: {
+        		heading: 0.0,
+        		pitch: Cesium.Math.toRadians(-35.0),
+        		roll: 0.0
+    		},
+    		duration: 3
+		});
+
 	}
 
 	async hideOutsideGreenAreas( ) {
