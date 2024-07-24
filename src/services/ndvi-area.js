@@ -90,29 +90,29 @@ export default class Ndviarea {
 
 		if ( sliderValue === 5 ) {
 
-			this.setColorAndLabelForPolygonEntities( entities, 'ndvi_june2020' );
-			this.dataForHistogram( entities, 'ndvi_june2020', 'June 2020', this.store.ndviAreaDataSourceName );
+			this.setColorAndLabelForPolygonEntities( entities, 'ndvi_july2020' );
+			this.dataForHistogram( entities, 'ndvi_july2020', 'July 2020', this.store.ndviAreaDataSourceName );
 
 		}
 
 		if ( sliderValue === 6 ) {
 
-			this.setColorAndLabelForPolygonEntities( entities, 'ndvi_june2021' );
-			this.dataForHistogram( entities, 'ndvi_june2021', 'June 2021', this.store.ndviAreaDataSourceName );
+			this.setColorAndLabelForPolygonEntities( entities, 'ndvi_july2021' );
+			this.dataForHistogram( entities, 'ndvi_july2021', 'July 2021', this.store.ndviAreaDataSourceName );
 
 		}
 
 		if ( sliderValue === 7 ) {
 
-			this.setColorAndLabelForPolygonEntities( entities, 'ndvi_june2022' );
-			this.dataForHistogram( entities, 'ndvi_june2022', 'June 2022', this.store.ndviAreaDataSourceName );
+			this.setColorAndLabelForPolygonEntities( entities, 'ndvi_july2022' );
+			this.dataForHistogram( entities, 'ndvi_july2022', 'July 2022', this.store.ndviAreaDataSourceName );
 
 		}
 
 		if ( sliderValue === 8 ) {
 
-			this.setColorAndLabelForPolygonEntities( entities, 'ndvi_june2023' );
-			this.dataForHistogram( entities, 'ndvi_june2023', 'June 2023', this.store.ndviAreaDataSourceName );
+			this.setColorAndLabelForPolygonEntities( entities, 'ndvi_july2023' );
+			this.dataForHistogram( entities, 'ndvi_july2022', 'July 2023', this.store.ndviAreaDataSourceName );
 
 		}
 
