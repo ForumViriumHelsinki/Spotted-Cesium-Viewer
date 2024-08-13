@@ -53,6 +53,12 @@ export default class ElementsDisplay {
 
 	}	
 
+	setSRNDVIElementsDisplay( display ) {
+
+		setElementsDisplay( SRNDVIElements, display );
+
+	}		
+
 	setAreasNDVIChildElementsDisplay( display ) {
 
 		setElementsDisplay( areasNDVIChildElements, display );
@@ -306,6 +312,11 @@ const activePPElements = [
 const areasNDVIElements = [
 	'areasNDVISwitch',
 	'areasNDVILabel'           
+];
+
+const SRNDVIElements = [
+	'SRSwitch',
+	'SRLabel'
 ];
 
 const areasNDVIChildElements = [

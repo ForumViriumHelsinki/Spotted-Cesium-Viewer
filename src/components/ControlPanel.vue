@@ -144,6 +144,13 @@
 </label>
 <label for="areasNDVIToggle" class="label" id = "areasNDVILabel" >NDVI areas</label>
 
+<!-- SR-->
+<label class="switch" id = "SRSwitch" >
+  <input type="checkbox" id = "SRToggle" value = "SR" >
+  <span class="slider round"></span>
+</label>
+<label for="SRToggle" class="label" id = "SRLabel" >1m res NDVI Areas</label>
+
 <!--  showLandCover-->
 <label class="switch" id = "landCoverSwitch">
   <input type="checkbox" id="landCoverToggle" value="getLandCover" >
@@ -335,6 +342,7 @@ export default {
 			document.getElementById( 'satelliteToggle' ).addEventListener( 'change', this.activateSatellite );
 			document.getElementById( 'showForestedAreasToggle' ).addEventListener( 'change', this.showForestedAreasEvent );
 			document.getElementById( 'showForestedAreas1mToggle' ).addEventListener( 'change', this.showForestedAreas1mEvent );
+			document.getElementById( 'SRToggle' ).addEventListener( 'change', this.srToggleEvent );
 		},
 
 		async activateSatellite() {
@@ -740,13 +748,49 @@ export default {
 			}
 		},	
 
+
+		/**
+ * This function to show or hide forested area entities on the map based on the toggle button state
+ *
+ */
+		async srToggleEvent() {
+
+			const checked = document.getElementById( 'srToggle' ).checked;
+
+			if ( checked ) {
+
+				this.store.ndviAreaDataSourceName = 'SR';
+
+				if ( !this.datasourceService.dataSourceWithNameExists( 'SR' ) ) {
+
+                	eventBus.$emit('loadNdviAreaData', {
+                    	url: 'https://geo.fvh.fi/spotted/data/HelsinkiSubDistrict.geojson',
+                    	dataSourceName: 'SR',
+                    	isPolygon: true
+                	});					
+
+				} else {
+
+					this.elementsDisplayService.toggleNDVIArea( 'visible' );
+					this.datasourceService.showDataSourceByName( 'SR' );
+
+				}
+
+        
+			} else {
+
+				this.datasourceService.hideDataSourceByName( 'SubDistrictSR' );
+				this.elementsDisplayService.toggleNDVIArea( 'hidden' );
+			}
+		},		
+
 		/**
  * This function to show or hide forested area entities on the map based on the toggle button state
  *
  */
 		async showForestedAreas1mEvent() {
 
-			const checked = document.getElementById( 'showForestedAreas1mToggle' ).checked;
+			const checked = document.getElementById( 'SRToggle' ).checked;
 
 			if ( checked ) {
 
