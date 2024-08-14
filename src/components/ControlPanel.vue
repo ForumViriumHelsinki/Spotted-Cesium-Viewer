@@ -755,32 +755,41 @@ export default {
  */
 		async srToggleEvent() {
 
-			const checked = document.getElementById( 'srToggle' ).checked;
+			const checked = document.getElementById( 'SRToggle' ).checked;
 
 			if ( checked ) {
 
+
+				this.elementsDisplayService.setPopulationPressureElementsDisplay( 'none' );
+				this.elementsDisplayService.setAreasNDVIElementsDisplay( 'none' );
+
 				this.store.ndviAreaDataSourceName = 'SR';
+				this.datasourceService.hideDataSourceByName( 'MajorDistricts' );
 
-				if ( !this.datasourceService.dataSourceWithNameExists( 'SR' ) ) {
+				if ( this.datasourceService.dataSourceWithNameExists( 'SR' ) ) {
 
-                	eventBus.$emit('loadNdviAreaData', {
-                    	url: 'https://geo.fvh.fi/spotted/data/HelsinkiSubDistrict.geojson',
-                    	dataSourceName: 'SR',
-                    	isPolygon: true
-                	});					
+					const dataSource = await this.datasourceService.getDataSourceByName( 'SR' );
+					console.log(dataSource)
+
+					this.datasourceService.showDataSourceByName( 'SR' );
+					eventBus.$emit('createNdvi1mChart', {
+                    	entities: dataSource._entityCollection._entities._array
+                	});		
 
 				} else {
 
-					this.elementsDisplayService.toggleNDVIArea( 'visible' );
-					this.datasourceService.showDataSourceByName( 'SR' );
+					eventBus.$emit('loadSRNdviAreaData', {
+                    	url: 'https://geo.fvh.fi/spotted/data/hki_subdistricts_sr.geojson',
+                    	dataSourceName: 'SR',
+                    	isPolygon: true
+                	});	
 
-				}
-
+				}           
         
 			} else {
 
-				this.datasourceService.hideDataSourceByName( 'SubDistrictSR' );
-				this.elementsDisplayService.toggleNDVIArea( 'hidden' );
+				this.reset();
+
 			}
 		},		
 
@@ -790,7 +799,7 @@ export default {
  */
 		async showForestedAreas1mEvent() {
 
-			const checked = document.getElementById( 'SRToggle' ).checked;
+			const checked = document.getElementById( 'showForestedAreas1mToggle' ).checked;
 
 			if ( checked ) {
 

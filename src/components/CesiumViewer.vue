@@ -1,12 +1,13 @@
 <template>
   <div id="cesiumContainer"></div>
     <PrintBox />
-  <PopulationPressure />
-  <NdviArea />
-  <YlreAnnual />
-  <MonthlyNDVI />
-  <DistrictNDVI />
-  <PieChart />
+  	<PopulationPressure />
+  	<NdviArea />
+  	<YlreAnnual />
+  	<MonthlyNDVI />
+  	<DistrictNDVI />
+  	<PieChart />
+  	<Ndvi1mRes />
   <div id="ndviLegend"></div>
      <div id="plotContainer">
   </div>
@@ -42,6 +43,7 @@ import MonthlyNDVI from './MonthlyNDVI.vue';
 import DistrictNDVI from './DistrictNDVI.vue';
 import PieChart from './PieChart.vue';
 import PrintBox from './PrintBox.vue';
+import Ndvi1mRes from './Ndvi1mRes.vue';
 
 export default {
 	data() {
@@ -64,6 +66,7 @@ export default {
   		MonthlyNDVI,
   		DistrictNDVI,
   		PieChart,
+		Ndvi1mRes
 	}, 	
 	methods: {
 		initViewer() {

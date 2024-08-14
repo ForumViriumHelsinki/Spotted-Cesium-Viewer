@@ -176,7 +176,7 @@ export default class FeaturePicker {
 
 			}
         
-			if ( document.getElementById( 'areasNDVIToggle' ).checked || this.store.location == 'pop_pressure' ) {
+			if ( document.getElementById( 'areasNDVIToggle' ).checked || this.store.location == 'pop_pressure' || this.store.ndviAreaDataSourceName == 'SR' ) {
 
 				document.getElementById( 'printContainer' ).style.display = 'inline-block';
 				printCesiumEntity( picked );
