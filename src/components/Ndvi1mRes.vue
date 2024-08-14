@@ -4,15 +4,6 @@
     <v-card-text>
       <div id="plotArea" class="ndvi-plot"></div>
     </v-card-text>
-
-    <v-card-actions>
-      <v-select
-        v-model="selectedResolution"
-        :items="resolutionOptions"
-        label="Select Resolution"
-        variant="outlined"
-      ></v-select>
-    </v-card-actions>
   </v-card>
 </template>
 
@@ -29,22 +20,30 @@ export default {
   setup() {
     const store = useGlobalStore();
     const showComponent = ref(false);
-    const selectedResolution = ref('10m');
-    const resolutionOptions = [
-      { text: '10m Resolution', value: '10m' },
-      { text: '1m Resolution', value: '1m' },
-    ];
     const datasourceService = new Datasource();
     const cacheService = new Cache();
 
     const createOrUpdateNDVIChart = (entities) => {
   nextTick(() => {
+
+
+        // Filter out duplicate entities based on _id
+    const uniqueEntities = [];
+    const seenIds = new Set();
+
+    for (const entity of entities) {
+      if (!seenIds.has(entity._properties._id._value)) {
+        uniqueEntities.push(entity);
+        seenIds.add(entity._properties._id._value);
+      }
+    }
+
     // Extract NDVI data based on selected resolution
-    const ndviNRData = entities.map(entity => entity.properties.ndvi_nr?._value || 0);
-    const ndviSRData = entities.map(entity => entity.properties.ndvi_sr?._value || 0);
+    const ndviNRData = uniqueEntities.map(entity => entity.properties.ndvi_nr?._value || 0);
+    const ndviSRData = uniqueEntities.map(entity => entity.properties.ndvi_sr?._value || 0);
 
     // Define the NDVI thresholds
-    const thresholds = [-1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 1];
+    const thresholds = [-1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6];
 
     // Calculate the counts for each threshold range for NR (Normal Resolution)
     const nrCounts = thresholds.map((threshold, index) => {
@@ -115,13 +114,35 @@ export default {
 
     // Render the chart in the specified container
     Plotly.newPlot('plotArea', [nrTrace, srTrace], layout);
-  });
-};
+       // Add click event listener
+        document.getElementById('plotArea').on('plotly_click', function(data) {
+            const clickedLabel = data.points[0].x;
+            const thresholdRange = clickedLabel.split(' - ').map(parseFloat);
+            const sRorNR = data.points[0].data.name; 
+            const upperThreshold = thresholdRange[0] === -1 ? 0 : thresholdRange[1];
+
+            uniqueEntities.forEach(entity => {
+
+                const ndviValue = sRorNR.includes('1m') 
+                    ? entity.properties.ndvi_sr?._value || 0 
+                    : entity.properties.ndvi_nr?._value || 0; 
+
+                if (ndviValue >= thresholdRange[0] && (upperThreshold === undefined || ndviValue < upperThreshold)) {
+			        //Highlight for clicking...
+
+			        let oldMaterial = entity.polygon.material;
+			        entity.polygon.material = new Cesium.Color( 1, 0.5, 0.5, 0.8 );
+			        setTimeout( () => { entity.polygon.material = oldMaterial; }, 5000 );
+
+                } 
+            });
+        });
+      });
+    };
 
     const loadSRAreas = async (url, name) => {
       try {
-        let cachedValue = null;
-       // const cachedValue = await cacheService.getCachedData(url);
+        const cachedValue = await cacheService.getCachedData(url);
         if (cachedValue) {
           console.log('Super resolution areas found from cache');
           addSRAreasDataSource(cachedValue);
@@ -184,32 +205,17 @@ export default {
         }
     }
 
-    // Watch for changes in the selected resolution or showNDVI switch
-    watch([selectedResolution, () => store.showNDVI], ([newResolution, showNDVI]) => {
-      if (showNDVI) { 
-        createOrUpdateNDVIChart();
-      }
-    });
-
     // Event listener to show/hide the component and create the chart initially
     eventBus.$on('loadSRNdviAreaData', (payload) => {
       showComponent.value = true;
-      const { url, dataSourceName, isPolygon } = payload;
+      const { url, dataSourceName } = payload;
       loadSRAreas( url, dataSourceName );
       createOrUpdateNDVIChart();
 
     });
 
-    eventBus.$on('createNdvi1mChart', (payload) => {
-        showComponent.value = true;
-        const { entities } = payload;
-        createOrUpdateNDVIChart( entities );
-    });
-
     return {
       showComponent,
-      selectedResolution,
-      resolutionOptions,
       createOrUpdateNDVIChart,
       store,
       datasourceService,
@@ -227,8 +233,8 @@ export default {
 /* Container Styling */
 .ndvi-1m-res-container {
   position: fixed;
-  top: 10%; /* Adjust as needed */
-  right: 1px; /* Adjust as needed */
+  top: 15%; /* Adjust as needed */
+  left: 1px; /* Adjust as needed */
   width: 31.25%; 
   height: 40%; 
   font-size: smaller;

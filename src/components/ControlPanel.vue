@@ -765,26 +765,11 @@ export default {
 
 				this.store.ndviAreaDataSourceName = 'SR';
 				this.datasourceService.hideDataSourceByName( 'MajorDistricts' );
-
-				if ( this.datasourceService.dataSourceWithNameExists( 'SR' ) ) {
-
-					const dataSource = await this.datasourceService.getDataSourceByName( 'SR' );
-					console.log(dataSource)
-
-					this.datasourceService.showDataSourceByName( 'SR' );
-					eventBus.$emit('createNdvi1mChart', {
-                    	entities: dataSource._entityCollection._entities._array
-                	});		
-
-				} else {
-
-					eventBus.$emit('loadSRNdviAreaData', {
-                    	url: 'https://geo.fvh.fi/spotted/data/hki_subdistricts_sr.geojson',
-                    	dataSourceName: 'SR',
-                    	isPolygon: true
-                	});	
-
-				}           
+				
+				eventBus.$emit('loadSRNdviAreaData', {
+                    url: 'https://geo.fvh.fi/spotted/data/hki_subdistricts_sr.geojson',
+                    dataSourceName: 'SR'
+                });	       
         
 			} else {
 
