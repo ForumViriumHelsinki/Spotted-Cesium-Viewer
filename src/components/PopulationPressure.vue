@@ -11,7 +11,7 @@
         {{ distanceLabels[value] }}
       </template>
     </v-slider>
-    <span id="sliderValue">distance from area 800 m</span>
+    <span id="sliderValue">Distance from area 800 m</span>
   </div>
 </template>
 
@@ -38,7 +38,7 @@ export default {
     });
 
     const updateSliderLabel = (value) => {
-      document.getElementById('sliderValue').textContent = `distance from area ${distanceLabels[value]}`;
+      document.getElementById('sliderValue').textContent = `Distance from area ${distanceLabels[value]}`;
     };
 
     // Event listener for 'loadGreenAreas'
@@ -74,7 +74,7 @@ export default {
 /* Style the slider label */
 .slider-container #sliderValue {
   position: relative;    
-  top: -100px; /* Move the label up by 100px */
+  top: -32px; /* Move the label up by 100px */
   display: block; /* Ensure it takes up full width */
 }
 </style>
