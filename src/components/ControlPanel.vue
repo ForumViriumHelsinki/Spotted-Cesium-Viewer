@@ -292,15 +292,15 @@ export default {
 			} else {
 
 				if ( fileName.includes( 'urbangreenindex' ) ) {
-					this.platformService.addPlatformFeaturesWithNDVI( data, 'Urban Green Index', fileName );
+					this.platformService.addPlatformFeaturesWithNDVI( data, 'Green Index', fileName );
 				}
 
 				if ( fileName.includes( 'urbanheatwaverisk' ) ) {
-					this.platformService.addPlatformFeaturesWithRisk( data, 'Urban Heat Risk', fileName );
+					this.platformService.addPlatformFeaturesWithRisk( data, 'Heat Risk', fileName );
 				}
 
 				if ( fileName.includes( 'urbanheatexposure' ) ) {
-					this.platformService.addPlatformFeaturesWithHeat( data, 'Urban Heat Exposure', fileName );
+					this.platformService.addPlatformFeaturesWithHeat( data, 'Heat Exposure', fileName );
 				}
 
 				this.store.fileUploaded = true;

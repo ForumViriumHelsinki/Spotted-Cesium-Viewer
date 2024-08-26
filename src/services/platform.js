@@ -35,19 +35,19 @@ export default class Ndviarea {
 
 		const plotService = new Plot();
 
-		if ( name === 'Urban Green Index' ) {
+		if ( name === 'Green Index' ) {
 
 			plotService.createPlatformNDVIChart( propertyValuesList, parseFileName( fileName ) );
 
 		} 
 		
-		if ( name === 'Urban Heat Risk' ) {
+		if ( name === 'Heat Risk' ) {
 
 			plotService.createPlatformRiskBarChart( propertyValuesList, parseFileName( fileName ) );
 
 		}		
 		
-		if ( name === 'Urban Heat Exposure' ) {
+		if ( name === 'Heat Exposure' ) {
 
 			plotService.createPlatformHeatExposureChart( propertyValuesList, parseFileName( fileName ) );
 
