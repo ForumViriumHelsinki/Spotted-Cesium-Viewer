@@ -103,7 +103,7 @@ export default class ElementsDisplay {
 		if ( document.getElementById( 'showGreenToggle' ).checked || visibility == 'hidden' ) {
         
 			document.getElementById( 'greenAreaContainer' ).style.visibility = visibility;
-			document.getElementById( 'sliderContainer' ).style.visibility = visibility;
+		//	document.getElementById( 'sliderContainer' ).style.visibility = visibility;
 
 		}
 

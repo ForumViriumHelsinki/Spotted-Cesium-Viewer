@@ -98,8 +98,9 @@ export default class Building {
 
     	let entities = await this.datasourceService.addDataSourceWithPolygonFix( data, 'buildings' );
         let urbanHeatData = [ ];
-setColorAndLabelForHeatEntities( entities, urbanHeatData );
-this.plotService.createUrbanHeatHistogram( urbanHeatData );
+		setColorAndLabelForHeatEntities( entities, urbanHeatData );
+		this.plotService.createUrbanHeatBarChart( urbanHeatData );
+
 	}
 
 }

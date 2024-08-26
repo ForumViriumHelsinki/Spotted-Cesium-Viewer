@@ -35,15 +35,24 @@ export default class Ndviarea {
 
 		const plotService = new Plot();
 
+		if ( name === 'Urban Green Index' ) {
+
+			plotService.createPlatformNDVIChart( propertyValuesList, parseFileName( fileName ) );
+
+		} 
+		
 		if ( name === 'Urban Heat Risk' ) {
 
 			plotService.createPlatformRiskBarChart( propertyValuesList, parseFileName( fileName ) );
 
-		} else {
+		}		
+		
+		if ( name === 'Urban Heat Exposure' ) {
 
-			plotService.createNDVIHistogram( propertyValuesList );
+			plotService.createPlatformHeatExposureChart( propertyValuesList, parseFileName( fileName ) );
 
-		}
+		}		
+
 	}
 
 	/**
@@ -64,7 +73,7 @@ export default class Ndviarea {
 
     	let entities = await this.datasourceService.addDataSourceWithPolygonFix( data, name );
 		this.store.ndviAreaDataSourceName = name;
-		this.setColorAndLabelForPlatformHeatEntities( entities );
+		setColorAndLabelForPlatformHeatEntities( entities );
 		this.dataForHistogram( entities, fileName, name );
 	}
 
@@ -72,7 +81,7 @@ export default class Ndviarea {
 
     	let entities = await this.datasourceService.addDataSourceWithPolygonFix( data, name );
 		this.store.ndviAreaDataSourceName = name;
-		this.setColorAndLabelForPlatformRiskEntities( entities );
+		setColorAndLabelForPlatformRiskEntities( entities );
 		this.dataForHistogram( entities, fileName, name );
 	}
 
@@ -82,35 +91,24 @@ export default class Ndviarea {
 		for ( let i = 0; i < entities.length; i++ ) {
 			let entity = entities[i];
 
+			let color;
+
 			if ( entity._properties[ 'max' ] ) {
 
-			    const color = this.ndviService.setNDVIPolygonMaterialColor( entity, 'max' );
-			    // Set polygon color
-			    entity.polygon.material = color;
-			    entity.polygon.outline = true; // Optional: Set to false if no outline is desired
-			    entity.polygon.outlineColor = Cesium.Color.BLACK;
+			    color = this.ndviService.setNDVIPolygonMaterialColor( entity, 'max' );
+
+			} else {
+
+			    color = Cesium.Color.WHITE.withAlpha(0.8);
 
 			}
+
+			entity.polygon.material = color;
+			entity.polygon.outline = true; // Optional: Set to false if no outline is desired
+			entity.polygon.outlineColor = Cesium.Color.BLACK;
 
 		}
 	}
-
-	setColorAndLabelForPlatformHeatEntities( entities ) {
-		for ( let i = 0; i < entities.length; i++ ) {
-			let entity = entities[i];
-
-			if ( entity._properties[ 'max' ] ) {
-
-			    const color = new Cesium.Color( 1, 1 - entity._properties._max._value, 0, entity._properties._max._value );
-			    // Set polygon color
-			    entity.polygon.material = color;
-			    entity.polygon.outline = true; // Optional: Set to false if no outline is desired
-			    entity.polygon.outlineColor = Cesium.Color.BLACK;
-
-			}
-
-		}
-	}	
 
 	setColorAndLabelForPlatformRiskEntities( entities ) {
 		for ( let i = 0; i < entities.length; i++ ) {
@@ -126,6 +124,52 @@ export default class Ndviarea {
 	}	
 		
 }
+
+const setColorAndLabelForPlatformRiskEntities = ( entities ) => {
+	for ( let i = 0; i < entities.length; i++ ) {
+		let entity = entities[i];
+			
+		const color = getColorForIndex( entity._properties._max._value );
+			    // Set polygon color
+		entity.polygon.material = color;
+		entity.polygon.outline = true; // Optional: Set to false if no outline is desired
+		entity.polygon.outlineColor = Cesium.Color.BLACK;
+
+	}
+}
+
+// Function to set color and label for heat entities
+const setColorAndLabelForPlatformHeatEntities = ( entities  ) => {
+    for (let i = 0; i < entities.length; i++) {
+        let entity = entities[i];
+
+        if (entity._properties['max'] ) {
+            // Assuming your index is in the range [0, 1]
+            const index = entity._properties._max._value;
+            // Calculate the alpha based on absolute values
+            const alpha = 2 * Math.abs(index - 0.5);
+
+            // Color mapping
+            let color;
+            if (index <= 0.5) {
+                color = new Cesium.Color(0, 1 - alpha, 1, alpha);
+            } else {
+                color = new Cesium.Color(1, 1 - alpha, 0, alpha);
+            }
+
+            // Set polygon color
+            entity.polygon.material = color;
+            entity.polygon.outline = true;
+            entity.polygon.outlineColor = Cesium.Color.BLACK;
+            entity.billboard = undefined; // Remove any billboard icon
+
+        } else {
+
+            entity.polygon.material = Cesium.Color.fromCssColorString('#bd0026').withAlpha(0.8);
+
+        }
+    }
+};
 
 // Function to determine the color based on the index value
 const getColorForIndex = (indexValue) => {

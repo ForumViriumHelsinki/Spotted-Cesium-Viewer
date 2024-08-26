@@ -19,7 +19,7 @@ export default class Plot {
 		this.landCoverStore = useLandCoverStore();	
 	}
 
-	createUrbanHeatHistogram( urbanHeatData ) {
+	createUrbanHeatBarChart( urbanHeatData ) {
 
 	if ( urbanHeatData.length > 0 ) {
 
@@ -881,6 +881,160 @@ export default class Plot {
 	}
 
 		/**
+ * Creates bar chart for platform data
+ *
+ * @param { object } data data of a distrct 
+ * @param { object } nameData name related data
+ */
+	createPlatformNDVIChart( data, nameData ) {
+    // Define the bins and corresponding colors
+    const bins = [
+        { label: "Missing Data", count: 0, color: '#eaeaea' }, // White for missing data
+        { label: "0.00-0.10", count: 0, color: '#ccc682' },  // #ccc682
+        { label: "0.10-0.20", count: 0, color: '#91bf51' },  // #91bf51
+        { label: "0.20-0.30", count: 0, color: '#70a33f' },  // #70a33f
+        { label: "0.30-0.40", count: 0, color: '#4f892d' },  // #4f892d
+        { label: "0.40-0.50", count: 0, color: '#306d1c' },  // #306d1c
+        { label: "0.50-0.60", count: 0, color: '#0f540a' },  // #0f540a
+        { label: "0.60-1.00", count: 0, color: '#004400' }   // #004400
+    ];
+
+    // Iterate over the data and count values in each bin
+    data.forEach(value => {
+        if (value === -1) {
+            bins[0].count += 1;  // Missing data bin
+        } else if (value >= 0 && value <= 0.1) {
+            bins[1].count += 1;
+        } else if (value > 0.1 && value <= 0.2) {
+            bins[2].count += 1;
+        } else if (value > 0.2 && value <= 0.3) {
+            bins[3].count += 1;
+        } else if (value > 0.3 && value <= 0.4) {
+            bins[4].count += 1;
+        } else if (value > 0.4 && value <= 0.5) {
+            bins[5].count += 1;
+        } else if (value > 0.5 && value <= 0.6) {
+            bins[6].count += 1;
+        } else if (value > 0.6) {
+            bins[7].count += 1;
+        }
+    });
+
+    // Prepare data for Plotly
+    const xValues = bins.map(bin => bin.label);  // X-axis labels (bin labels)
+    const yValues = bins.map(bin => bin.count);  // Y-axis values (counts)
+    const barColors = bins.map(bin => bin.color); // Colors for each bar
+
+    const plotData = {
+        x: xValues,        // X-axis labels (bin labels)
+        y: yValues,        // Y-axis values (counts)
+        type: 'bar',       // Bar chart
+        marker: {
+            color: barColors  // Colors for each bar
+        }
+    };
+
+    // Chart title with dataset name and date
+    const title = { text: this.store.ndviAreaDataSourceName + ' (' + nameData.datasetName + ' dataset), ' + parseDateToMonthYear( nameData.date ) };
+
+  	// Layout configuration
+    const layout = { 
+        title: title,
+        bargap: 0.1,
+        xaxis: {
+            title: 'Green Index Ranges',
+        },
+        yaxis: {
+            title: 'Quantity of Areas',
+        },
+    };
+
+    // Make the chart visible and plot it using Plotly
+    document.getElementById('plotContainer').style.visibility = 'visible';    
+    Plotly.newPlot('plotContainer', [plotData], layout);
+
+
+	}
+
+			/**
+ * Creates bar chart for platform data
+ *
+ * @param { object } data data of a distrct 
+ * @param { object } nameData name related data
+ */
+createPlatformHeatExposureChart(data, nameData) {
+    // Define the number of bins for heat exposure and an extra bin for missing data (-1)
+    const numberOfBins = 20;
+    const binSize = 1 / numberOfBins;
+    
+    // Initialize bins and colors arrays
+    let bins = Array(numberOfBins).fill(0); // Array to hold the count of data in each bin
+    let colors = []; // Array to hold the colors for each bin
+    let missingDataCount = 0; // Count for missing data (-1)
+
+    // Fill the bins with counts
+    data.forEach(value => {
+        if (value === -1) {
+            missingDataCount++; // Handle missing data (-1)
+        } else {
+            let binIndex = Math.min(Math.floor(value / binSize), numberOfBins - 1); // Ensure index is within bounds
+            bins[binIndex]++;
+        }
+    });
+
+    // Generate colors for each bin based on the midpoint of the bin range
+    for (let i = 0; i < numberOfBins; i++) {
+        const midpoint = (i + 0.5) * binSize; // Midpoint of the bin
+        const alpha = 2 * Math.abs(midpoint - 0.5); // Alpha based on distance from 0.5
+        
+        let color;
+        if (midpoint <= 0.5) {
+            color = `rgba(0, ${255 * (1 - alpha)}, 255, ${alpha})`; // Blue to white gradient
+        } else {
+            color = `rgba(255, ${255 * (1 - alpha)}, 0, ${alpha})`; // White to red gradient
+        }
+        colors.push(color); // Add the color for this bin
+    }
+
+    // Add the color for missing data (-1) as white
+    colors.unshift('#eaeaea');
+    
+    // Prepare data for Plotly, including the missing data count as the first bin
+    const xValues = ['Missing Data'].concat(bins.map((_, i) => `${(i * binSize).toFixed(2)}-${((i + 1) * binSize).toFixed(2)}`)); // X-axis labels
+    const yValues = [missingDataCount].concat(bins); // Y-axis values (including missing data)
+    const barColors = ['#eaeaea'].concat(colors); // Colors for each bar (including missing data)
+
+    const plotData = {
+        x: xValues,        // X-axis labels (bin labels)
+        y: yValues,        // Y-axis values (counts)
+        type: 'bar',       // Bar chart
+        marker: {
+            color: barColors  // Colors for each bar
+        }
+    };
+
+    // Chart title with dataset name and date
+    const title = { text: this.store.ndviAreaDataSourceName + ' (' + nameData.datasetName + ' dataset), ' + parseDateToMonthYear(nameData.date) };
+
+    // Layout configuration
+    const layout = { 
+        title: title,
+        bargap: 0.1,
+        xaxis: {
+            title: 'Heat Exposure Ranges',
+        },
+        yaxis: {
+            title: 'Quantity of Areas',
+        },
+    };
+
+    // Make the chart visible and plot it using Plotly
+    document.getElementById('plotContainer').style.visibility = 'visible';    
+    Plotly.newPlot('plotContainer', [plotData], layout);
+}
+
+
+		/**
  * Creates  histogram for a picked district
  *
  */
@@ -927,7 +1081,7 @@ const bins = [
     };
 
     // Chart title with dataset name and date
-    const title = { text: this.store.ndviAreaDataSourceName + ' (' + nameData.datasetName + ' dataset) for ' + parseDateToMonthYear( nameData.date ) };
+    const title = { text: this.store.ndviAreaDataSourceName + ' (' + nameData.datasetName + ' dataset), ' + parseDateToMonthYear( nameData.date ) };
 
     // Layout configuration
     const layout = { 
