@@ -880,6 +880,67 @@ export default class Plot {
 
 	}
 
+		/**
+ * Creates  histogram for a picked district
+ *
+ */
+	createPlatformRiskBarChart( platformData, nameData ) {
+
+const bins = [
+        { label: "Missing Data", count: 0, color: '#ffffff' }, // White for missing data
+        { label: "0.00-0.20", count: 0, color: '#ffffcc' },  // Light yellow
+        { label: "0.20-0.40", count: 0, color: '#ffeda0' },  // Light orange
+        { label: "0.40-0.60", count: 0, color: '#feb24c' },  // Orange
+        { label: "0.60-0.80", count: 0, color: '#f03b20' },  // Dark orange-red
+        { label: "0.80-1.00", count: 0, color: '#bd0026' }   // Dark red
+    ];
+
+    // Iterate over the platformData and count values in each bin
+    platformData.forEach(value => {
+        if (value === -1) {
+            bins[0].count += 1;  // Missing data bin
+        } else if (value >= 0 && value < 0.2) {
+            bins[1].count += 1;
+        } else if (value >= 0.2 && value < 0.4) {
+            bins[2].count += 1;
+        } else if (value >= 0.4 && value < 0.6) {
+            bins[3].count += 1;
+        } else if (value >= 0.6 && value < 0.8) {
+            bins[4].count += 1;
+        } else if (value >= 0.8 && value <= 1) {
+            bins[5].count += 1;
+        }
+    });
+
+    // Prepare data for Plotly
+    const xValues = bins.map(bin => bin.label);  // X-axis labels (bin labels)
+    const yValues = bins.map(bin => bin.count);  // Y-axis values (counts)
+    const barColors = bins.map(bin => bin.color); // Colors for each bar
+
+    const data = {
+        x: xValues,        // X-axis labels (bin labels)
+        y: yValues,        // Y-axis values (counts)
+        type: 'bar',       // Bar chart
+        marker: {
+            color: barColors  // Colors for each bar
+        }
+    };
+
+    // Chart title with dataset name and date
+    const title = { text: this.store.ndviAreaDataSourceName + ' ( ' + nameData.datasetName + ' dataset) for ' + parseDateToMonthYear( nameData.date ) };
+
+    // Layout configuration
+    const layout = { 
+        title: title,
+        bargap: 0.1,
+    };
+
+    // Make the chart visible and plot it using Plotly
+    document.getElementById('plotContainer').style.visibility = 'visible';    
+    Plotly.newPlot('plotContainer', [data], layout);
+
+	}
+
 	/**
  * Creates HSY line chart for a picked district
  *
@@ -1304,6 +1365,37 @@ const addEntityForPopulationPlot = ( data, entity, name, ndviAttribute, areaName
 
 	data.push( plotData );
 
+};
+
+const parseDateToMonthYear = (dateString) => {
+    // Extract the first date (e.g., "01072024") from the date string "01072024_31072024"
+    const startDate = dateString.split('_')[0];
+
+    // Extract the month and year
+    const month = startDate.substring(2, 4); // "07"
+    const year = startDate.substring(4, 8);  // "2024"
+
+    // Create a mapping of month numbers to month names
+    const monthNames = {
+        "01": "January",
+        "02": "February",
+        "03": "March",
+        "04": "April",
+        "05": "May",
+        "06": "June",
+        "07": "July",
+        "08": "August",
+        "09": "September",
+        "10": "October",
+        "11": "November",
+        "12": "December"
+    };
+
+    // Get the month name from the month number
+    const monthName = monthNames[month];
+
+    // Return the formatted string "Month Year"
+    return `${monthName} ${year}`;
 };
 
 const createLayoutForPopulationScatterPlot = ( name ) => {

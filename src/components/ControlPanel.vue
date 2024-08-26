@@ -292,21 +292,20 @@ export default {
 			} else {
 
 				if ( fileName.includes( 'urbangreenindex' ) ) {
-					this.platformService.addPlatformFeaturesWithNDVI( data, 'Spotted Platform Green Index' );
+					this.platformService.addPlatformFeaturesWithNDVI( data, 'Urban Green Index', fileName );
 				}
 
-				if ( fileName.includes( 'urbanheatvulnerability' ) ) {
-					this.platformService.addPlatformFeaturesWiƒthHeat( data, 'Spotted Platform Heat Risk' );
+				if ( fileName.includes( 'urbanheatwaverisk' ) ) {
+					this.platformService.addPlatformFeaturesWithRisk( data, 'Urban Heat Risk', fileName );
 				}
 
 				if ( fileName.includes( 'urbanheatexposure' ) ) {
-					this.platformService.addPlatformFeaturesWithHeat( data, 'Spotted Platform Heat Exposure' );
+					this.platformService.addPlatformFeaturesWithHeat( data, 'Urban Heat Exposure', fileName );
 				}
 
 				this.store.fileUploaded = true;
 
 			}
-
 
 		},
 		setCamera() {

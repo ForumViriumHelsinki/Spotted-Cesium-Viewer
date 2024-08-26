@@ -99,7 +99,6 @@ export default class ElementsDisplay {
 		document.getElementById( 'plotPieContainer' ).style.visibility = visibility;
 		document.getElementById( 'chartContainer' ).style.visibility = visibility;
 		document.getElementById( 'ndviChartContainer' ).style.visibility = visibility;
-		document.getElementById( 'selectContainer' ).style.visibility = visibility;
 
 		if ( document.getElementById( 'showGreenToggle' ).checked || visibility == 'hidden' ) {
         
@@ -234,13 +233,12 @@ export default class ElementsDisplay {
 
 		//	document.getElementById( "printToggle" ).checked = true;
 		document.getElementById( 'returnButton' ).style.visibility = 'hidden';
-		document.getElementById( 'selectContainer' ).style.visibility = 'hidden';
 		document.getElementById( 'plotContainer' ).style.visibility = 'hidden';
 		document.getElementById( 'greenAreaContainer' ).style.visibility = 'hidden';
-		document.getElementById( 'ndviYlreContainer' ).style.visibility = 'hidden';
+		//document.getElementById( 'ndviYlreContainer' ).style.visibility = 'hidden';
 
 		//    setPrintVisible( );
-		this.togglePlots( 'hidden' );    
+	//	this.togglePlots( 'hidden' );    
 
   	this.store.showPlot = true;
 		this.store.print = true;
