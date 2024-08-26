@@ -23,25 +23,58 @@ export default class Plot {
 
 	if ( urbanHeatData.length > 0 ) {
 
-		let trace = {
-			x: urbanHeatData,
-			type: 'histogram',
-			name: 'average heat exposure to building',
-			marker: {
-				color: 'orange',
-			},
-		};
-	
-	
-		document.getElementById( "plotContainer" ).style.visibility = 'visible';
-	
-		let layout = { 
-			title: 'July 2023 Max Heat Exposure for Buildings in the ' + this.store.districtName + ' District',
-			bargap: 0.05, 
-		};
-	
-		Plotly.newPlot( 'plotContainer', [ trace ], layout );
+    // Define the number of bins
+    const numberOfBins = 20;
+    const binSize = 1 / numberOfBins;
+    
+    // Initialize bins and colors arrays
+    let bins = Array(numberOfBins).fill(0); // Array to hold the count of data in each bin
+    let colors = []; // Array to hold the colors for each bin
 
+    // Fill the bins with counts
+    urbanHeatData.forEach(index => {
+        let binIndex = Math.min(Math.floor(index / binSize), numberOfBins - 1); // Ensure index is within bounds
+        bins[binIndex]++;
+    });
+
+    // Generate colors for each bin based on the midpoint of the bin range
+    for (let i = 0; i < numberOfBins; i++) {
+        const midpoint = (i + 0.5) * binSize; // Midpoint of the bin
+        const alpha = 2 * Math.abs(midpoint - 0.5); // Alpha based on distance from 0.5
+        
+        let color;
+        if (midpoint <= 0.5) {
+            color = `rgba(0, ${255 * (1 - alpha)}, 255, ${alpha})`; // Blue to white gradient
+        } else {
+            color = `rgba(255, ${255 * (1 - alpha)}, 0, ${alpha})`; // White to red gradient
+        }
+        colors.push(color); // Add the color for this bin
+    }
+
+    // Create the bar plot with Plotly
+    let trace = {
+        x: bins.map((_, i) => `${(i * binSize).toFixed(2)}-${((i + 1) * binSize).toFixed(2)}`), // Label the bins
+        y: bins, // Bin counts
+        type: 'bar',
+        marker: {
+            color: colors, // Use the colors array
+        },
+    };
+
+    let layout = { 
+        title: 'July 2023 Max Heat Exposure for Buildings',
+        bargap: 0.05,
+        xaxis: {
+            title: 'Heat Exposure Ranges',
+        },
+        yaxis: {
+            title: 'Number of Buildings',
+        },
+    };
+		document.getElementById( "plotContainer" ).style.visibility = 'visible';
+
+    Plotly.newPlot('plotContainer', [trace], layout);
+	
 	}
 
 }
@@ -723,7 +756,6 @@ export default class Plot {
 
 		document.getElementById( 'plotPopContainer' ).style.visibility = 'visible';
 		document.getElementById( 'sliderContainer' ).style.visibility = 'visible';
-		document.getElementById( 'selectContainer' ).style.visibility = 'hidden';
     
 
 		Plotly.newPlot( 'plotPopContainer', data, layout );

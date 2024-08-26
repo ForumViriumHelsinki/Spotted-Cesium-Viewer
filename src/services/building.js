@@ -98,36 +98,49 @@ export default class Building {
 
     	let entities = await this.datasourceService.addDataSourceWithPolygonFix( data, 'buildings' );
         let urbanHeatData = [ ];
-		setColorAndLabelForHeatEntities( entities, urbanHeatData );
-        this.plotService.createUrbanHeatHistogram( urbanHeatData );
+setColorAndLabelForHeatEntities( entities, urbanHeatData );
+this.plotService.createUrbanHeatHistogram( urbanHeatData );
 	}
 
 }
 
-const setColorAndLabelForHeatEntities = (  entities, urbanHeatData ) => {
-		for ( let i = 0; i < entities.length; i++ ) {
-			let entity = entities[i];
+// Function to set color and label for heat entities
+const setColorAndLabelForHeatEntities = (entities, urbanHeatData ) => {
+    for (let i = 0; i < entities.length; i++) {
+        let entity = entities[i];
 
-			if ( entity._properties[ 'max' ] && entity.polygon) {
+        if (entity._properties['max'] && entity.polygon) {
+            // Assuming your index is in the range [0, 1]
+            const index = entity._properties._max._value;
+            // Calculate the alpha based on absolute values
+            const alpha = 2 * Math.abs(index - 0.5);
 
-			    const color = new Cesium.Color( 1, 1 - entity._properties._max._value, 0, entity._properties._max._value );
-                urbanHeatData.push( entity._properties._max._value );
-			    // Set polygon color
-			    entity.polygon.material = color;
-			    entity.polygon.outline = true; // Optional: Set to false if no outline is desired
-			    entity.polygon.outlineColor = Cesium.Color.BLACK;
-                entity.billboard = undefined; // Remove any billboard icon
-
-                extrudedEntities( entity );
-
-			} else {
-
-                entity.show = false;
-
+            // Color mapping
+            let color;
+            if (index <= 0.5) {
+                color = new Cesium.Color(0, 1 - alpha, 1, alpha);
+            } else {
+                color = new Cesium.Color(1, 1 - alpha, 0, alpha);
             }
 
-		}
-}
+            urbanHeatData.push(index);
+
+            // Set polygon color
+            entity.polygon.material = color;
+            entity.polygon.outline = true;
+            entity.polygon.outlineColor = Cesium.Color.BLACK;
+            entity.billboard = undefined; // Remove any billboard icon
+
+            extrudedEntities(entity);
+        } else {
+            entity.show = false;
+        }
+    }
+
+	    // Sort urbanHeatData in ascending order
+    urbanHeatData.sort((a, b) => a - b);
+};
+
 
 const extrudedEntities = ( entity ) => {
 
