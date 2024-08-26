@@ -927,12 +927,18 @@ const bins = [
     };
 
     // Chart title with dataset name and date
-    const title = { text: this.store.ndviAreaDataSourceName + ' ( ' + nameData.datasetName + ' dataset) for ' + parseDateToMonthYear( nameData.date ) };
+    const title = { text: this.store.ndviAreaDataSourceName + ' (' + nameData.datasetName + ' dataset) for ' + parseDateToMonthYear( nameData.date ) };
 
     // Layout configuration
     const layout = { 
         title: title,
         bargap: 0.1,
+        xaxis: {
+            title: 'Heat Risk Ranges',
+        },
+        yaxis: {
+            title: 'Quantity of Areas',
+        },
     };
 
     // Make the chart visible and plot it using Plotly
