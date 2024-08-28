@@ -178,6 +178,13 @@
   <span class="slider round"></span>
 </label>
 <label for="satelliteToggle" class="label" id="satelliteLabel">Satellite viewer</label>
+
+<!--  heatMap -->
+<label class="switch" id = "heatMapSwitch">
+  <input type="checkbox" id="heatMapToggle" value="heatMap" >
+  <span class="slider round"></span>
+</label>
+<label for="heatMapToggle" class="label" id="heatMapLabel">Töölö Heat Map</label>
 </div>
 
 </template>
@@ -342,6 +349,23 @@ export default {
 			document.getElementById( 'showForestedAreasToggle' ).addEventListener( 'change', this.showForestedAreasEvent );
 			document.getElementById( 'showForestedAreas1mToggle' ).addEventListener( 'change', this.showForestedAreas1mEvent );
 			document.getElementById( 'SRToggle' ).addEventListener( 'change', this.srToggleEvent );
+			document.getElementById( 'heatMapToggle' ).addEventListener( 'change', this.activateHeatMapEvent );
+		},
+
+		async activateHeatMapEvent() {
+
+			const checked = document.getElementById( 'heatMapToggle' ).checked;
+
+			if ( checked ) {
+
+				this.store.setActiveViewer('OpenLayersHeat');
+			    this.showControlPanel = false; // Hide the ControlPanel
+                this.viewer.dataSources.removeAll(); // Remove Cesium data sources
+                this.viewer.destroy(); // Destroy the Cesium Viewer
+                this.viewer = null; // Set the viewer reference to null
+				
+			} 
+
 		},
 
 		async activateSatellite() {
@@ -350,7 +374,7 @@ export default {
 
 			if ( checked ) {
 
-				this.store.setActiveViewer('OpenLayers');
+				this.store.setActiveViewer('OpenLayersSatellite');
 			    this.showControlPanel = false; // Hide the ControlPanel
                 this.viewer.dataSources.removeAll(); // Remove Cesium data sources
                 this.viewer.destroy(); // Destroy the Cesium Viewer
