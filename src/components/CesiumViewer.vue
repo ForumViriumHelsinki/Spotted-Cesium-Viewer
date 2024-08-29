@@ -128,9 +128,11 @@ export default {
 			const hriCredit = new Cesium.Credit( '<a href="https://hri.fi/data/fi/dataset" target="_blank"><img src="assets/images/hero_logo_50x25.png" title="assets/images/Helsinki Region Infoshare"/></a>' );
     		const hsyCredit = new Cesium.Credit( '<a href="https://www.hsy.fi/en/air-quality-and-climate/geographic-information/open-geographic-information-interfaces/" target="_blank"><img src="assets/images/hsy-logo_41x25px.png" title="Helsingin Seudun Ympäristöpalvelut"/></a>' );
     		const sentinelHubCredit = new Cesium.Credit( '<a href="https://www.sentinel-hub.com/index.html" target="_blank"><img src="assets/images/sentinel_hub_small.png" title="Sentinel Hub"/></a>' );
+    		const spottedPlatformCredit = new Cesium.Credit( '<a href="https://portal.cef-spotted.eu/pages/home" target="_blank"><img src="assets/images/spotted_logo.png" title="Spotted Platform"/></a>' );			
 			this.store.cesiumViewer.creditDisplay.addStaticCredit( hriCredit );
 			this.store.cesiumViewer.creditDisplay.addStaticCredit( hsyCredit );
 			this.store.cesiumViewer.creditDisplay.addStaticCredit( sentinelHubCredit );
+			this.store.cesiumViewer.creditDisplay.addStaticCredit( spottedPlatformCredit );
 
 		},
  
