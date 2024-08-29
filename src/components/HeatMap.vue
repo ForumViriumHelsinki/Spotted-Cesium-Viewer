@@ -1,13 +1,20 @@
 <template>
   <v-container>
-    <div id="map" class="map"></div>
-
+    <v-btn 
+      icon 
+      size="small" 
+      @click="reset" 
+      class="reset-button"
+    >
+      <v-icon>mdi-restart</v-icon>
+    </v-btn>
     <!-- PlotlyChart Component -->
-    <PlotlyChart 
-      :selectedMetric="selectedMetric" 
-      :selectedYear="selectedYear" 
-      :data="chartData" 
-    />
+    <div id="plotly-chart-container">
+      <PlotlyChart />
+    </div>
+
+    <!-- Map Component -->
+    <div id="map" class="map"></div>
 
     <!-- Slider and controls at the bottom -->
     <v-row class="bottom-controls">
@@ -16,7 +23,6 @@
           v-model="selectedMetric"
           :items="metrics"
           label="Select Metric"
-          @change="updateVisualization"
           hide-details
         ></v-select>
       </v-col>
@@ -27,7 +33,6 @@
           :max="2024"
           step="1"
           label="Select Year"
-          @change="updateVisualization"
           hide-details
         ></v-slider>
         <!-- Display the currently selected year -->
@@ -39,7 +44,7 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue';
-import { eventBus } from '../services/event-emitter.js';
+import { useHeatMapStore } from '../stores/heat-map-store'; // Import the Pinia store
 import Map from 'ol/Map.js';
 import TileLayer from 'ol/layer/Tile.js';
 import XYZ from 'ol/source/XYZ.js';
@@ -57,9 +62,14 @@ const selectedMetric = ref('Heat Exposure');
 const selectedYear = ref(2024);
 const chartData = ref([]); // Data for the Plotly chart
 
+const store = useHeatMapStore(); // Use the Pinia store
+
 let map = null;
 let vectorLayer = null;
 
+const reset = () => {
+  location.reload(); // Reload the page to reset the state
+};
 // Function to initialize the map
 const initializeMap = () => {
   map = new Map({
@@ -88,11 +98,11 @@ const loadGeoJsonLayer = () => {
     map.removeLayer(vectorLayer);
   }
 
-  const geoJsonData = 'assets/data/Spotted-Kivela-Buildings.json'; // Replace with actual GeoJSON file path or URL
+  const geoJsonData = store.heatMapData;
+  if (!geoJsonData) return; // Exit if no data is available
 
   const vectorSource = new VectorSource({
-    format: new GeoJSON(),
-    url: geoJsonData,
+    features: new GeoJSON().readFeatures(geoJsonData, { featureProjection: 'EPSG:3857' }),
   });
 
   vectorLayer = new VectorLayer({
@@ -135,29 +145,52 @@ const loadGeoJsonLayer = () => {
 
 // Watcher to update the map and chart data whenever selectedMetric or selectedYear changes
 watch([selectedMetric, selectedYear], () => {
-  loadGeoJsonLayer();
-  updateChartData();
+    store.setSelectedMetric( selectedMetric.value );
+    store.setSelectedYear( selectedYear.value );
+    loadGeoJsonLayer();
 });
 
-// Function to update the chart data (you'll need to replace this with actual data extraction logic)
-const updateChartData = () => {
-  // Replace with actual data extraction logic for the chart
-  chartData.value = [/* Your GeoJSON data for the selected metric and year */];
-};
 
 // Initialize the map when the component is mounted
 onMounted(() => {
-  setTimeout(() => {
+  store.fetchHeatMapData().then(() => {
     initializeMap();
     loadGeoJsonLayer();
-  }, 10);
+  });
 });
 </script>
 
 <style scoped>
+
+/* Create a grid container */
+.v-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Four columns grid */
+  grid-template-rows: repeat(4, 1fr); /* Four rows grid */
+  height: 100vh; /* Full viewport height */
+}
+
+/* Reset Button positioning */
+.reset-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 20; /* Ensure it stays on top */
+}
+
+/* Position the Plotly chart at column 2, row 2 */
+#plotly-chart-container {
+  grid-column: 1; 
+  grid-row: 1; 
+  z-index: 10; /* Ensure it stays on top */
+}
+
+/* Ensure map takes the full space available */
 .map {
-  height: 600px;
+  grid-column: 1 / -1; /* Span all columns */
+  grid-row: 1 / -1; /* Span all rows */
   width: 100%;
+  height: 600px;
   position: relative;
 }
 
