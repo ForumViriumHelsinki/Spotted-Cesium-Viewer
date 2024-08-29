@@ -185,7 +185,15 @@
   <span class="slider round"></span>
 </label>
 <label for="heatMapToggle" class="label" id="heatMapLabel">Töölö Heat Map</label>
+
+<!--  heatBlocks -->
+<label class="switch" id = "heatBlockSwitch">
+  <input type="checkbox" id="heatBlockToggle" value="heatBlock" >
+  <span class="slider round"></span>
+</label>
+<label for="heatBlockToggle" class="label" id="heatBlockLabel">Helsinki Blocks Heat</label>
 </div>
+
 
 </template>
 
@@ -196,6 +204,7 @@ import EventEmitter from '../services/event-emitter.js';
 import Plot from '../services/plot.js';
 import { useGlobalStore } from '../stores/global-store.js';
 import { usePopulationStore } from '../stores/population-store.js';
+import { useHeatMapStore } from '../stores/heat-map-store.js';
 import { eventBus } from '../services/event-emitter.js';
 import ElementsDisplay from '../services/elements-display.js';
 import Datasource from '../services/datasource.js';
@@ -239,6 +248,7 @@ export default {
 	mounted() {
 		this.unsubscribe = eventBus.$on( 'initControlPanel', this.addEventListeners );
 		this.store = useGlobalStore();
+		this.heatMapStore = useHeatMapStore();
 		this.viewer = this.store.cesiumViewer;
 		this.eventEmitterService = new EventEmitter();
 		this.plotService = new Plot();
@@ -350,6 +360,25 @@ export default {
 			document.getElementById( 'showForestedAreas1mToggle' ).addEventListener( 'change', this.showForestedAreas1mEvent );
 			document.getElementById( 'SRToggle' ).addEventListener( 'change', this.srToggleEvent );
 			document.getElementById( 'heatMapToggle' ).addEventListener( 'change', this.activateHeatMapEvent );
+			document.getElementById( 'heatBlockToggle' ).addEventListener( 'change', this.activateHeatBlockEvent );
+		},
+
+		async activateHeatBlockEvent() {
+
+			const checked = document.getElementById( 'heatBlockToggle' ).checked;
+
+			if ( checked ) {
+				this.heatMapStore.setUrl('assets/data/hki_blocks.json');
+				this.heatMapStore.setCenter([25.095831, 60.197559]);
+				this.heatMapStore.setZoom(12);
+				this.store.setActiveViewer('OpenLayersHeat');
+			    this.showControlPanel = false; // Hide the ControlPanel
+                this.viewer.dataSources.removeAll(); // Remove Cesium data sources
+                this.viewer.destroy(); // Destroy the Cesium Viewer
+                this.viewer = null; // Set the viewer reference to null
+				
+			}
+
 		},
 
 		async activateHeatMapEvent() {
@@ -357,7 +386,9 @@ export default {
 			const checked = document.getElementById( 'heatMapToggle' ).checked;
 
 			if ( checked ) {
-
+				this.heatMapStore.setUrl('assets/data/Spotted-Kivela-Buildings.json');
+				this.heatMapStore.setCenter([24.916831, 60.177559]);
+				this.heatMapStore.setZoom(14);
 				this.store.setActiveViewer('OpenLayersHeat');
 			    this.showControlPanel = false; // Hide the ControlPanel
                 this.viewer.dataSources.removeAll(); // Remove Cesium data sources

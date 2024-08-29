@@ -90,8 +90,8 @@ const initializeMap = () => {
       }),
     ],
     view: new View({
-      center: fromLonLat([24.916831, 60.177559]),
-      zoom: 14,
+      center: fromLonLat(store.center),
+      zoom: store.zoom,
     }),
   });
 };
@@ -157,7 +157,8 @@ watch([selectedMetric, selectedYear], () => {
 
 // Initialize the map when the component is mounted
 onMounted(() => {
-  store.fetchHeatMapData().then(() => {
+  console.log(store.url)
+  store.fetchHeatMapData( store.url ).then(() => {
     initializeMap();
     loadGeoJsonLayer();
   });
