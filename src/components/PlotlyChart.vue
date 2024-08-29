@@ -149,5 +149,6 @@ onMounted(() => {
 #plotly-chart {
   height: 300px; /* Adjust as needed */
   width: 400px;
-}
+	border: 1px solid black;
+	box-shadow: 3px 5px 5px black; }
 </style>

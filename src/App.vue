@@ -7,12 +7,12 @@
     </div>
     </transition>
     <transition name="fade">
-    <div id="ol" v-if="activeViewer === 'OpenLayersSatellite'">
+    <div v-if="activeViewer === 'OpenLayersSatellite'">
       <SatelliteViewer />
     </div>
     </transition>
     <transition name="fade">
-    <div id="ol" v-if="activeViewer === 'OpenLayersHeat'">
+    <div v-if="activeViewer === 'OpenLayersHeat'">
       <HeatMap />
     </div>
     </transition>

@@ -18,7 +18,7 @@
 
     <!-- Slider and controls at the bottom -->
     <v-row class="bottom-controls">
-      <v-col cols="2">
+      <v-col cols="1">
         <v-select
           v-model="selectedMetric"
           :items="metrics"
@@ -26,7 +26,7 @@
           hide-details
         ></v-select>
       </v-col>
-      <v-col cols="8" class="slider-container">
+      <v-col cols="4" class="slider-container">
         <v-slider
           v-model="selectedYear"
           :min="2020"
@@ -36,8 +36,12 @@
           hide-details
         ></v-slider>
         <!-- Display the currently selected year -->
-        <span class="selected-year">{{ selectedYear }}</span>
+        <span class="selected-year">July {{ selectedYear }} Median</span>
       </v-col>
+      <v-col cols="6" class="source-note">
+        Satellite source data by 
+        <a href="https://portal.cef-spotted.eu/pages/home" target="_blank">Spotted Platform</a>
+      </v-col>      
     </v-row>
   </v-container>
 </template>
@@ -165,8 +169,8 @@ onMounted(() => {
 /* Create a grid container */
 .v-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Four columns grid */
-  grid-template-rows: repeat(4, 1fr); /* Four rows grid */
+  grid-template-columns: repeat(5, 1fr); /* Four columns grid */
+  grid-template-rows: repeat(5, 1fr); /* Four rows grid */
   height: 100vh; /* Full viewport height */
 }
 
@@ -189,16 +193,16 @@ onMounted(() => {
 .map {
   grid-column: 1 / -1; /* Span all columns */
   grid-row: 1 / -1; /* Span all rows */
-  width: 100%;
-  height: 600px;
+  width: 200vh;
+  height: 100vh;
   position: relative;
 }
 
 .bottom-controls {
   position: absolute;
-  bottom: 65px;
-  left: 55px;
-  width: 95%;
+  bottom: 15px;
+  left: 80px;
+  width: 100%;
   background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
   padding: 10px;
   border-radius: 5px;
@@ -218,5 +222,11 @@ onMounted(() => {
   font-weight: bold;
   min-width: 40px; /* Prevent wrapping */
   text-align: center; /* Center the year text */
+}
+
+/* Position source note above the select dropdown */
+.source-note {
+  font-size: 0.75rem; /* Small font size */
+  color: #000000; /* Black text color */
 }
 </style>
