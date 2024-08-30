@@ -47,118 +47,166 @@ export default {
       });
     };
 
-    const createOrUpdateNDVIChart = (entities) => {
-      nextTick(() => {
-        // Filter out duplicate entities based on _id
-        const uniqueEntities = [];
-        const seenIds = new Set();
+const createOrUpdateNDVIChart = (entities) => {
+  nextTick(() => {
+    // Filter out duplicate entities based on _id
+    const uniqueEntities = [];
+    const seenIds = new Set();
 
-        for (const entity of entities) {
-          if (!seenIds.has(entity._properties._id._value)) {
-            uniqueEntities.push(entity);
-            seenIds.add(entity._properties._id._value);
-          }
-        }
+    for (const entity of entities) {
+      if (!seenIds.has(entity._properties._id._value)) {
+        uniqueEntities.push(entity);
+        seenIds.add(entity._properties._id._value);
+      }
+    }
 
-        // Extract NDVI data based on selected resolution
-        const ndviNRData = uniqueEntities.map(entity => entity.properties.ndvi_nr?._value || 0);
-        const ndviSRData = uniqueEntities.map(entity => entity.properties.ndvi_sr?._value || 0);
+    // Extract NDVI data based on selected resolution
+    const ndviNRData = uniqueEntities.map(entity => entity.properties.ndvi_nr?._value || 0);
+    const ndviSRData = uniqueEntities.map(entity => entity.properties.ndvi_sr?._value || 0);
 
-        // Define the NDVI thresholds
-        const thresholds = [-1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6];
+    // Define the NDVI thresholds and corresponding colors
+    const thresholds = [-1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6];
+    const colors = [
+      '#eaeaea', // NDVI <= 0
+      '#ccc682', // 0 < NDVI <= 0.1
+      '#91bf51', // 0.1 < NDVI <= 0.2
+      '#70a33f', // 0.2 < NDVI <= 0.3
+      '#4f892d', // 0.3 < NDVI <= 0.4
+      '#306d1c', // 0.4 < NDVI <= 0.5
+      '#0f540a', // 0.5 < NDVI <= 0.6
+      '#004400'  // NDVI > 0.6
+    ];
 
-        // Calculate the counts for each threshold range for NR (Normal Resolution)
-        const nrCounts = thresholds.map((threshold, index) => {
-          const nextThreshold = thresholds[index + 1];
-          const count = ndviNRData.filter(value => value >= threshold && (nextThreshold === undefined || value < nextThreshold)).length;
-          const label = nextThreshold ? `${threshold.toFixed(1)} - ${nextThreshold.toFixed(1)}` : `${threshold.toFixed(1)}+`;
-          return { label, count };
-        });
+    // Calculate the counts for each threshold range for NR (Normal Resolution)
+    const nrCounts = thresholds.map((threshold, index) => {
+      const nextThreshold = thresholds[index + 1];
+      const count = ndviNRData.filter(value => value >= threshold && (nextThreshold === undefined || value < nextThreshold)).length;
+      const label = nextThreshold ? `${threshold.toFixed(1)} - ${nextThreshold.toFixed(1)}` : `${threshold.toFixed(1)}+`;
+      return { label, count, color: colors[index] };
+    });
 
-        // Calculate the counts for each threshold range for SR (Super Resolution)
-        const srCounts = thresholds.map((threshold, index) => {
-          const nextThreshold = thresholds[index + 1];
-          const count = ndviSRData.filter(value => value >= threshold && (nextThreshold === undefined || value < nextThreshold)).length;
-          const label = nextThreshold ? `${threshold.toFixed(1)} - ${nextThreshold.toFixed(1)}` : `${threshold.toFixed(1)}+`;
-          return { label, count };
-        });
+    // Calculate the counts for each threshold range for SR (Super Resolution)
+    const srCounts = thresholds.map((threshold, index) => {
+      const nextThreshold = thresholds[index + 1];
+      const count = ndviSRData.filter(value => value >= threshold && (nextThreshold === undefined || value < nextThreshold)).length;
+      const label = nextThreshold ? `${threshold.toFixed(1)} - ${nextThreshold.toFixed(1)}` : `${threshold.toFixed(1)}+`;
+      return { label, count, color: colors[index] };
+    });
 
-        // Create the Plotly bar chart data
-        const nrTrace = {
-          x: nrCounts.map(item => item.label),
-          y: nrCounts.map(item => item.count),
-          type: 'bar',
-          name: '10m res',
-          marker: {
-            color: 'orange'
-          }
-        };
-
-        const srTrace = {
-          x: srCounts.map(item => item.label),
-          y: srCounts.map(item => item.count),
-          type: 'bar',
-          name: '1m res',
-          marker: {
-            color: 'blue'
-          }
-        };
-
-        // Create the layout for the chart
-        const layout = {
-          title: 'NDVI Distribution (NR vs. SR)',
-          yaxis: {
-            title: 'Number of Areas'
-          },
-          barmode: 'group', // Group the bars for each range
-          autosize: true,
-          height: 200, // Increase chart height
-          margin: {
-            l: 50,  // Adjust left margin
-            r: 50,  // Adjust right margin
-            b: 50,  // Adjust bottom margin
-            t: 50   // Adjust top margin
-          },
-          legend: {
-            x: 1,    // Position the legend to the right
-            y: 1,    // Align it to the top
-            xanchor: 'left',
-            yanchor: 'top',
-            font: {
-              size: 10  // Reduce the legend font size
-            },
-            orientation: 'v' // Vertical legend
-          }
-        };
-
-        // Render the chart in the specified container
-        Plotly.newPlot('plotArea', [nrTrace, srTrace], layout);
-
-        // Add click event listener
-        document.getElementById('plotArea').on('plotly_click', function (data) {
-          const clickedLabel = data.points[0].x;
-          const thresholdRange = clickedLabel.split(' - ').map(parseFloat);
-          const sRorNR = data.points[0].data.name;
-          const upperThreshold = thresholdRange[0] === -1 ? 0 : thresholdRange[1];
-
-          uniqueEntities.forEach(entity => {
-            const ndviValue = sRorNR.includes('1m')
-              ? entity.properties.ndvi_sr?._value || 0
-              : entity.properties.ndvi_nr?._value || 0;
-
-            if (ndviValue >= thresholdRange[0] && (upperThreshold === undefined || ndviValue < upperThreshold)) {
-              // Highlight for clicking...
-              let oldMaterial = entity.polygon.material;
-              entity.polygon.material = new Cesium.Color(1, 0.5, 0.5, 0.8);
-              setTimeout(() => { entity.polygon.material = oldMaterial; }, 5000);
-            }
-          });
-        });
-
-        // Update entity colors based on the selected resolution
-        updateEntityColors(uniqueEntities, selectedResolution.value);
-      });
+    // Create the Plotly bar chart data
+    const nrTrace = {
+      x: nrCounts.map(item => item.label),
+      y: nrCounts.map(item => item.count),
+      type: 'bar',
+      name: '10m res',
+      marker: {
+        color: 'orange'
+      }
     };
+
+    const srTrace = {
+      x: srCounts.map(item => item.label),
+      y: srCounts.map(item => item.count),
+      type: 'bar',
+      name: '1m res',
+      marker: {
+        color: 'blue'
+      }
+    };
+
+    // Create the layout for the chart with color bands
+    const layout = {
+      title: 'NDVI Distribution (NR vs. SR)',
+      yaxis: {
+        title: 'Number of Areas'
+      },
+      xaxis: {
+        tickfont: {
+          size: 8 // Adjust this size as needed
+        }
+      },      
+      barmode: 'group', // Group the bars for each range
+      autosize: true,
+      height: 220, // Chart height
+      margin: {
+        l: 50,  // Left margin
+        r: 50,  // Right margin
+        b: 50,  // Bottom margin
+        t: 50   // Top margin
+      },
+      legend: {
+        x: 1,    // Position the legend to the right
+        y: 1,    // Align it to the top
+        xanchor: 'left',
+        yanchor: 'top',
+        font: {
+          size: 10  // Reduce the legend font size
+        },
+        orientation: 'v' // Vertical legend
+      },
+      shapes: thresholds.map((threshold, index) => {
+        const xStart = index - 0.5; // Start x position
+        const xEnd = index + 0.5;   // End x position
+        const color = colors[index];
+        return {
+          type: 'rect',
+          x0: xStart,
+          x1: xEnd,
+          y0: 0,
+          y1: 1,
+          xref: 'x',
+          yref: 'paper',
+          fillcolor: color,
+          line: {
+            width: 0
+          },
+          opacity: 0.3
+        };
+      }),
+      annotations: thresholds.map((threshold, index) => ({
+        x: index,       // Adjust x position for annotations
+        y: 1.05,        // Position above the chart
+        xref: 'x',
+        yref: 'paper',
+        showarrow: false,
+        text: `${threshold.toFixed(1)}+`,
+        font: {
+          color: colors[index],
+          size: 10
+        },
+        bgcolor: colors[index],
+        bordercolor: colors[index]
+      }))
+    };
+
+    // Render the chart in the specified container
+    Plotly.newPlot('plotArea', [nrTrace, srTrace], layout);
+
+    // Add click event listener
+    document.getElementById('plotArea').on('plotly_click', function (data) {
+      const clickedLabel = data.points[0].x;
+      const thresholdRange = clickedLabel.split(' - ').map(parseFloat);
+      const sRorNR = data.points[0].data.name;
+      const upperThreshold = thresholdRange[0] === -1 ? 0 : thresholdRange[1];
+
+      uniqueEntities.forEach(entity => {
+        const ndviValue = sRorNR.includes('1m')
+          ? entity.properties.ndvi_sr?._value || 0
+          : entity.properties.ndvi_nr?._value || 0;
+
+        if (ndviValue >= thresholdRange[0] && (upperThreshold === undefined || ndviValue < upperThreshold)) {
+          // Highlight for clicking...
+          let oldMaterial = entity.polygon.material;
+          entity.polygon.material = new Cesium.Color(1, 0.5, 0.5, 0.8);
+          setTimeout(() => { entity.polygon.material = oldMaterial; }, 5000);
+        }
+      });
+    });
+
+    // Update entity colors based on the selected resolution
+    updateEntityColors(uniqueEntities, selectedResolution.value);
+  });
+};
 
     const loadSRAreas = async (url, name) => {
       try {
