@@ -165,7 +165,7 @@ const createOrUpdateNDVIChart = (entities) => {
       }),
       annotations: thresholds.map((threshold, index) => ({
         x: index,       // Adjust x position for annotations
-        y: 1.05,        // Position above the chart
+        y: 1.1,        // Position above the chart
         xref: 'x',
         yref: 'paper',
         showarrow: false,
