@@ -172,7 +172,7 @@ const createOrUpdateNDVIChart = (entities) => {
         text: `${threshold.toFixed(1)}+`,
         font: {
           color: colors[index],
-          size: 10
+          size: 11
         },
         bgcolor: colors[index],
         bordercolor: colors[index]
