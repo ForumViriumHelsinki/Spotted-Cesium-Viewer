@@ -64,7 +64,6 @@ import PlotlyChart from './PlotlyChart.vue'; // Import the PlotlyChart component
 const metrics = ['Heat Exposure', 'Heat Risk'];
 const selectedMetric = ref('Heat Exposure');
 const selectedYear = ref(2024);
-const chartData = ref([]); // Data for the Plotly chart
 
 const store = useHeatMapStore(); // Use the Pinia store
 

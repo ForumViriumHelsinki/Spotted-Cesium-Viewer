@@ -19,9 +19,13 @@ export const useGlobalStore = defineStore( 'global', {
 		currentDistrictName: null,
 		currentSubDistrictName: null,
 		ndviAreaDataSourceName: null,
-		fileUploaded: false
+		fileUploaded: false,
+		entities: null,
 	} ),
 	actions: {
+		setEntities( entities ) {
+			this.entities = entities;
+		},
 		setActiveViewer( newViewer ) {
 			this.activeViewer = newViewer;
 		},

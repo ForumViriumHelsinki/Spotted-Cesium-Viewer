@@ -29,13 +29,14 @@ const createHeatExposureChart = (data) => {
 
   for (let i = 0; i < numberOfBins; i++) {
     const midpoint = (i + 0.5) * binSize;
-    const alpha = 2 * Math.abs(midpoint - 0.5);
-    
+    const r = 2 * Math.abs(midpoint - 0.5);
+    const a = 0.8;
+
     let color;
     if (midpoint <= 0.5) {
-      color = `rgba(0, ${255 * (1 - alpha)}, 255, ${alpha})`;
+      color = `rgba(0, ${255 * (1 - r)}, 255, ${a})`;
     } else {
-      color = `rgba(255, ${255 * (1 - alpha)}, 0, ${alpha})`;
+      color = `rgba(255, ${255 * (1 - r)}, 0, ${a})`;
     }
     colors.push(color);
   }
