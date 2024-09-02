@@ -831,51 +831,50 @@ export default class Plot {
  */
 	createNDVIHistogram( ndviData, date ) {
 
-		let data = null;
-		let colors = ['#ccc682', '#91bf51', '#70a33f', '#4f892d', '#306d1c', '#0f540a', '#004400', '#004400', '#004400', '#004400' ];
+    let data = null;
+    let colors = ['#ccc682', '#91bf51', '#70a33f', '#4f892d', '#306d1c', '#0f540a', '#004400', '#004400', '#004400', '#004400' ];
 
-		if ( this.store.ndviAreaDataSourceName.includes( 'Heat' ) ) {
+    if ( this.store.ndviAreaDataSourceName.includes( 'Heat' ) ) {
+        colors = 'orange';
+    }
 
-			colors =  'orange';
+    data = {
+        x: ndviData,
+        type: 'histogram',
+        marker: {
+            color: colors,
+        },
+        xbins: {
+            start: -1,
+            end: 1,
+            size: 0.1
+        }
+    };
 
-		}
+    let titleText = 'NDVI in ' + this.store.districtName + ' at ' + date;
 
-		data = {
-			x: ndviData,
-			type: 'histogram',
-			marker: {
-				color: colors,
-			},
-			xbins: {
-				start: -1,
-				end: 1,
-				size: 0.1
-			}
-		};
-	
+    if ( this.store.ndviAreaDataSourceName ) {
+        if ( !date ) {
+            date = '07-2023';
+        }
 
-		let title = { text: 'NDVI in ' + this.store.districtName + ' at ' + date };
+        titleText = 'NDVI for ' + this.store.ndviAreaDataSourceName + ' at ' + date;
 
-		if ( this.store.ndviAreaDataSourceName ) {
+        // Add "Median" to the title if ndviAreaDataSourceName is 'YLRE' and date is one of the specified dates
+        const specificDates = ['July 2024', 'July 2023', 'July 2022', 'July 2021', 'July 2020'];
+        if ( this.store.ndviAreaDataSourceName === 'YLRE' && specificDates.includes(date) ) {
+            titleText = 'Median ' + titleText;
+        }
+    }
 
-			if ( !date ) {
+    let layout = { 
+        title: { text: titleText },
+        bargap: 0.1, 
+    };
 
-				date = '07-2023';
-			}
-        
-			title = { text: 'NDVI for ' + this.store.ndviAreaDataSourceName + ' at ' + date };
+    document.getElementById( 'plotContainer' ).style.visibility = 'visible';    
 
-		}
-	
-		let layout = { 
-			title: title,
-			bargap: 0.1, 
-		};
-	
-
-		document.getElementById( 'plotContainer' ).style.visibility = 'visible';    
-
-		Plotly.newPlot( 'plotContainer', [ data ], layout );
+    Plotly.newPlot( 'plotContainer', [ data ], layout );
 
 
 	}

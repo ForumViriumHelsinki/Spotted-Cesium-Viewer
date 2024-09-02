@@ -26,7 +26,9 @@
           hide-details
         ></v-select>
       </v-col>
-      <v-col cols="4" class="slider-container">
+
+      <!-- Conditionally render the slider based on the selected metric -->
+      <v-col cols="4" class="slider-container" v-if="showSlider">
         <v-slider
           v-model="selectedYear"
           :min="2020"
@@ -38,6 +40,7 @@
         <!-- Display the currently selected year -->
         <span class="selected-year">July {{ selectedYear }} Median</span>
       </v-col>
+
       <v-col cols="6" class="source-note">
         Satellite source data by 
         <a href="https://portal.cef-spotted.eu/pages/home" target="_blank">Spotted Platform</a>
@@ -47,7 +50,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { useHeatMapStore } from '../stores/heat-map-store'; // Import the Pinia store
 import Map from 'ol/Map.js';
 import TileLayer from 'ol/layer/Tile.js';
@@ -61,7 +64,7 @@ import { Fill, Stroke, Style } from 'ol/style';
 import PlotlyChart from './PlotlyChart.vue'; // Import the PlotlyChart component
 
 // Metrics options for selection
-const metrics = ['Heat Exposure', 'Heat Risk'];
+const metrics = ['Heat Exposure', 'Heat Risk', 'Heat Vulnerability', 'Vulnerability Extended'];
 const selectedMetric = ref('Heat Exposure');
 const selectedYear = ref(2024);
 
@@ -73,6 +76,7 @@ let vectorLayer = null;
 const reset = () => {
   location.reload(); // Reload the page to reset the state
 };
+
 // Function to initialize the map
 const initializeMap = () => {
   map = new Map({
@@ -111,29 +115,42 @@ const loadGeoJsonLayer = () => {
   vectorLayer = new VectorLayer({
     source: vectorSource,
     style: function (feature) {
-      const metric = selectedMetric.value === 'Heat Exposure' ? '_e_' : '_r_';
-      const yearValue = selectedYear.value;
-      const attribute = `mean${metric}${yearValue}`;
-
-      const value = feature.get(attribute);
+      let attribute;
+      let value;
       let color;
 
-      if (selectedMetric.value === 'Heat Exposure') {
-        // Heat Exposure Color Mapping
-        const r = 2 * Math.abs(value - 0.5);
-        const a = 0.8;
-        if (value <= 0.5) {
-          color = `rgba(0, ${255 * (1 - r)}, 255, ${a})`; // Blueish color
+      // Handle different metrics
+      if (selectedMetric.value === 'Heat Exposure' || selectedMetric.value === 'Heat Risk') {
+        const metric = selectedMetric.value === 'Heat Exposure' ? '_e_' : '_r_';
+        const yearValue = selectedYear.value;
+        attribute = `mean${metric}${yearValue}`;
+        value = feature.get(attribute);
+
+        if (selectedMetric.value === 'Heat Exposure') {
+          // Heat Exposure Color Mapping
+          const r = 2 * Math.abs(value - 0.5);
+          const a = 0.8;
+          if (value <= 0.5) {
+            color = `rgba(0, ${255 * (1 - r)}, 255, ${a})`; // Blueish color
+          } else {
+            color = `rgba(255, ${255 * (1 - r)}, 0, ${a})`; // Reddish color
+          }
         } else {
-          color = `rgba(255, ${255 * (1 - r)}, 0, ${a})`; // Reddish color
+          // Heat Risk Color Mapping (different shades of red)
+          if (value < 0.2) color = 'rgba(255,255,204,0.8)';
+          else if (value < 0.4) color = 'rgba(254,237,160,0.8)';
+          else if (value < 0.6) color = 'rgba(253,141,60,0.8)';
+          else if (value < 0.8) color = 'rgba(227,26,28,0.8)';
+          else color = 'rgba(177,0,38,0.8)';
         }
-      } else {
-        // Heat Risk Color Mapping (different shades of red)
-        if (value < 0.2) color = 'rgba(255,255,204,0.8)';
-        else if (value < 0.4) color = 'rgba(254,237,160,0.8)';
-        else if (value < 0.6) color = 'rgba(253,141,60,0.8)';
-        else if (value < 0.8) color = 'rgba(227,26,28,0.8)';
-        else color = 'rgba(177,0,38,0.8)';
+      } else if (selectedMetric.value === 'Heat Vulnerability') {
+        attribute = 'heat_vul_index_6_75';
+        value = feature.get(attribute);
+        color = getVulnerabilityColor(value);
+      } else if (selectedMetric.value === 'Vulnerability Extended') {
+        attribute = 'heat_vul_index_9_70';
+        value = feature.get(attribute);
+        color = getVulnerabilityColor(value);
       }
 
       return new Style({
@@ -146,18 +163,31 @@ const loadGeoJsonLayer = () => {
   map.addLayer(vectorLayer);
 };
 
+// Function to get color based on vulnerability index value
+const getVulnerabilityColor = (value) => {
+  if (value < 0.2) return 'rgba(255,255,204,0.8)';
+  else if (value < 0.4) return 'rgba(254,237,160,0.8)';
+  else if (value < 0.6) return 'rgba(253,141,60,0.8)';
+  else if (value < 0.8) return 'rgba(227,26,28,0.8)';
+  else return 'rgba(177,0,38,0.8)';
+};
+
 // Watcher to update the map and chart data whenever selectedMetric or selectedYear changes
 watch([selectedMetric, selectedYear], () => {
-    store.setSelectedMetric( selectedMetric.value );
-    store.setSelectedYear( selectedYear.value );
-    loadGeoJsonLayer();
+  store.setSelectedMetric(selectedMetric.value);
+  store.setSelectedYear(selectedYear.value);
+  loadGeoJsonLayer();
 });
 
+// Compute whether to show the slider based on the selected metric
+const showSlider = computed(() => {
+  return selectedMetric.value !== 'Heat Vulnerability' && selectedMetric.value !== 'Vulnerability Extended';
+});
 
 // Initialize the map when the component is mounted
 onMounted(() => {
   console.log(store.url)
-  store.fetchHeatMapData( store.url ).then(() => {
+  store.fetchHeatMapData(store.url).then(() => {
     initializeMap();
     loadGeoJsonLayer();
   });

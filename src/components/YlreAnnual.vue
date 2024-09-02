@@ -4,7 +4,7 @@
       v-model="sliderValue"
       id="ndviYlre"
       :min="0"
-      :max="8"
+      :max="9"
       :step="1"
       tick-labels
     >
@@ -19,7 +19,7 @@ import { eventBus } from '../services/event-emitter.js';
 
 export default {
   setup() {
-    const sliderValue = ref(8); // Default to June 2023 (index 8)
+    const sliderValue = ref(9); // Default to June 2024 (index 8)
     const showSlider = ref(false);
 
     watch(() => sliderValue.value, (newValue) => {
@@ -30,7 +30,7 @@ export default {
     eventBus.$on('loadYlreAnnualData', (payload) => {
       const { url, dataSourceName, isPolygon } = payload;
       const ndviAreaService = new NdviArea();
-      ndviAreaService.addFeaturesWithNDVI(url, dataSourceName, isPolygon);
+      ndviAreaService.addFeaturesWithNDVI(url, dataSourceName, isPolygon, 'ndvi_july2024', 'July 2024');
       showSlider.value = true; // Show the slider
     });
 

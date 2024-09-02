@@ -34,7 +34,7 @@ export default {
     eventBus.$on('loadNdviAreaData', (payload) => {
       const { url, dataSourceName, isPolygon } = payload;
       const ndviAreaService = new NdviArea();
-      ndviAreaService.addFeaturesWithNDVI(url, dataSourceName, isPolygon);
+      ndviAreaService.addFeaturesWithNDVI(url, dataSourceName, isPolygon, 'ndvi_june2023', 'June 2023' );
       showSlider.value = true; // Show the slider
     });
 

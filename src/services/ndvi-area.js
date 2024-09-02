@@ -112,9 +112,16 @@ export default class Ndviarea {
 		if ( sliderValue === 8 ) {
 
 			this.setColorAndLabelForPolygonEntities( entities, 'ndvi_july2023' );
-			this.dataForHistogram( entities, 'ndvi_july2022', 'July 2023', this.store.ndviAreaDataSourceName );
+			this.dataForHistogram( entities, 'ndvi_july2023', 'July 2023', this.store.ndviAreaDataSourceName );
 
 		}
+
+		if ( sliderValue === 9 ) {
+
+			this.setColorAndLabelForPolygonEntities( entities, 'ndvi_july2024' );
+			this.dataForHistogram( entities, 'ndvi_july2024', 'July 2024', this.store.ndviAreaDataSourceName );
+
+		}		
 
 	}
 
@@ -256,21 +263,21 @@ export default class Ndviarea {
    * @param { Number } name name of the datasource
    * @param { Boolean } isPolygon tells if feature is polygon
    */
-	async addFeaturesWithNDVI( data, name, isPolygon ) {
+	async addFeaturesWithNDVI( data, name, isPolygon, att, title ) {
 
     	let entities = await this.datasourceService.addDataSourceWithPolygonFix( data, name );
 
 		if ( isPolygon || name === 'SubDistrictNDVI' ) {
 
-			this.setColorAndLabelForPolygonEntities( entities, 'ndvi_june2023' );
+			this.setColorAndLabelForPolygonEntities( entities, att );
 
 		} else {
 
-			this.setColorAndLabelForPointEntities( entities, 'ndvi_june2023' );
+			this.setColorAndLabelForPointEntities( entities, att );
 
 		}
 
-		this.dataForHistogram( entities, 'ndvi_june2023', 'June 2023', this.store.ndviAreaDataSourceName );
+		this.dataForHistogram( entities, att, title, this.store.ndviAreaDataSourceName );
 	}
 
 	setColorAndLabelForPointEntities( entities, attributeName ) {

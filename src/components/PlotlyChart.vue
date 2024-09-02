@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted, computed } from 'vue';
 import { useHeatMapStore } from '../stores/heat-map-store'; // Import the Pinia store
 
 const chartContainer = ref(null); // Reference to the chart container
@@ -115,18 +115,75 @@ const createHeatRiskChart = (data) => {
   Plotly.newPlot(chartContainer.value, [plotData], layout);
 };
 
+// Function to create vulnerability bar chart
+const createVulnerabilityChart = (data, metric) => {
+  const bins = [
+    { label: "Missing Data", count: 0, color: '#ffffff' },
+    { label: "0.00-0.20", count: 0, color: '#ffffcc' },
+    { label: "0.20-0.40", count: 0, color: '#ffeda0' },
+    { label: "0.40-0.60", count: 0, color: '#feb24c' },
+    { label: "0.60-0.80", count: 0, color: '#f03b20' },
+    { label: "0.80-1.00", count: 0, color: '#bd0026' }
+  ];
+
+  data.forEach(value => {
+    if (value === -1) {
+      bins[0].count++;
+    } else if (value >= 0 && value < 0.2) {
+      bins[1].count++;
+    } else if (value >= 0.2 && value < 0.4) {
+      bins[2].count++;
+    } else if (value >= 0.4 && value < 0.6) {
+      bins[3].count++;
+    } else if (value >= 0.6 && value < 0.8) {
+      bins[4].count++;
+    } else if (value >= 0.8 && value <= 1) {
+      bins[5].count++;
+    }
+  });
+
+  const xValues = bins.map(bin => bin.label);
+  const yValues = bins.map(bin => bin.count);
+  const barColors = bins.map(bin => bin.color);
+
+  const plotData = {
+    x: xValues,
+    y: yValues,
+    type: 'bar',
+    marker: {
+      color: barColors
+    }
+  };
+
+  const layout = {
+    title: `Vulnerability Distribution (${metric})`,
+    bargap: 0.1,
+    xaxis: { title: 'Vulnerability Ranges' },
+    yaxis: { title: 'Quantity of Areas' }
+  };
+
+  Plotly.newPlot(chartContainer.value, [plotData], layout);
+};
+
 // Watch store changes to update the chart
 watch(
   () => [store.heatMapData, store.selectedMetric, store.selectedYear],
   () => {
     if (!store.heatMapData) return;
 
-    const data = store.heatMapData.features.map(feature => feature.properties[`mean${store.selectedMetric === 'Heat Exposure' ? '_e_' : '_r_'}${store.selectedYear}`] || -1);
-    
+    let data;
     if (store.selectedMetric === 'Heat Exposure') {
+      data = store.heatMapData.features.map(feature => feature.properties[`mean_e_${store.selectedYear}`] || -1);
       createHeatExposureChart(data);
-    } else {
+    } else if (store.selectedMetric === 'Heat Risk') {
+      data = store.heatMapData.features.map(feature => feature.properties[`mean_r_${store.selectedYear}`] || -1);
       createHeatRiskChart(data);
+    } else if (store.selectedMetric === 'Heat Vulnerability') {
+      data = store.heatMapData.features.map(feature => feature.properties['heat_vul_index_6_75'] || -1);
+      createVulnerabilityChart(data, 'Heat Vulnerability');
+    } else if (store.selectedMetric === 'Vulnerability Extended') {
+      data = store.heatMapData.features.map(feature => feature.properties['heat_vul_index_9_70'] || -1);
+      createVulnerabilityChart(data, 'Vulnerability Extended');
     }
   },
   { immediate: true } // Ensure chart is updated immediately upon component mount
@@ -135,12 +192,19 @@ watch(
 onMounted(() => {
   // Initial chart update
   if (store.heatMapData) {
-    const data = store.heatMapData.features.map(feature => feature.properties[`mean${store.selectedMetric === 'Heat Exposure' ? '_e_' : '_r_'}${store.selectedYear}`] || -1);
-    
+    let data;
     if (store.selectedMetric === 'Heat Exposure') {
+      data = store.heatMapData.features.map(feature => feature.properties[`mean_e_${store.selectedYear}`] || -1);
       createHeatExposureChart(data);
-    } else {
+    } else if (store.selectedMetric === 'Heat Risk') {
+      data = store.heatMapData.features.map(feature => feature.properties[`mean_r_${store.selectedYear}`] || -1);
       createHeatRiskChart(data);
+    } else if (store.selectedMetric === 'Heat Vulnerability') {
+      data = store.heatMapData.features.map(feature => feature.properties['heat_vul_index_6_75'] || -1);
+      createVulnerabilityChart(data, 'Heat Vulnerability');
+    } else if (store.selectedMetric === 'Vulnerability Extended') {
+      data = store.heatMapData.features.map(feature => feature.properties['heat_vul_index_9_70'] || -1);
+      createVulnerabilityChart(data, 'Vulnerability Extended');
     }
   }
 });

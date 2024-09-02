@@ -107,7 +107,7 @@
   <input type="checkbox" id = "YLREToggle" value = "YLRE">
   <span class="slider round"></span>
 </label>
-<label for="YLREToggle" class="label" id = "YLRELabel" style = "display: none">YLRE green areas 2015-2023</label>
+<label for="YLREToggle" class="label" id = "YLRELabel" style = "display: none">YLRE green areas 2015-2024</label>
 
 <!-- TreeRegistrySwitch-->
 <label class="switch"  id = "TreeRegistrySwitch" style = "display: none">

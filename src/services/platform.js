@@ -37,7 +37,11 @@ export default class Ndviarea {
 
 		if ( name === 'Green Index' ) {
 
-			plotService.createPlatformNDVIChart( propertyValuesList, parseFileName( fileName ) );
+    		// Divide every value in propertyValuesList by 100
+    		const updatedPropertyValuesList = propertyValuesList.map(value => value / 100);
+
+    		plotService.createPlatformNDVIChart( updatedPropertyValuesList, parseFileName( fileName ) );
+
 
 		} 
 		
