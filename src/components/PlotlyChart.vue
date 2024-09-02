@@ -58,7 +58,7 @@ const createHeatExposureChart = (data) => {
   const layout = {
     title: 'Heat Exposure Distribution',
     bargap: 0.1,
-    xaxis: { title: 'Heat Exposure Ranges' },
+    xaxis: { title: 'Heat Exposure Index' },
     yaxis: { title: 'Quantity of Areas' }
   };
 
@@ -108,7 +108,7 @@ const createHeatRiskChart = (data) => {
   const layout = {
     title: 'Heat Risk Distribution',
     bargap: 0.1,
-    xaxis: { title: 'Heat Risk Ranges' },
+    xaxis: { title: 'Heat Risk Index' },
     yaxis: { title: 'Quantity of Areas' }
   };
 
@@ -156,9 +156,9 @@ const createVulnerabilityChart = (data, metric) => {
   };
 
   const layout = {
-    title: `Vulnerability Distribution (${metric})`,
+    title: `Vulnerable population (${metric})`,
     bargap: 0.1,
-    xaxis: { title: 'Vulnerability Ranges' },
+    xaxis: { title: 'Vulnerability Index' },
     yaxis: { title: 'Quantity of Areas' }
   };
 
@@ -178,12 +178,12 @@ watch(
     } else if (store.selectedMetric === 'Heat Risk') {
       data = store.heatMapData.features.map(feature => feature.properties[`mean_r_${store.selectedYear}`] || -1);
       createHeatRiskChart(data);
-    } else if (store.selectedMetric === 'Heat Vulnerability') {
+    } else if (store.selectedMetric === 'Vulnerability, ages 0-6 and 75+') {
       data = store.heatMapData.features.map(feature => feature.properties['heat_vul_index_6_75'] || -1);
-      createVulnerabilityChart(data, 'Heat Vulnerability');
-    } else if (store.selectedMetric === 'Vulnerability Extended') {
+      createVulnerabilityChart(data, 'Ages 0-6 and 75+');
+    } else if (store.selectedMetric === 'Vulnerability, ages 0-9 and 70+') {
       data = store.heatMapData.features.map(feature => feature.properties['heat_vul_index_9_70'] || -1);
-      createVulnerabilityChart(data, 'Vulnerability Extended');
+      createVulnerabilityChart(data, 'Ages 0-9 and 70+');
     }
   },
   { immediate: true } // Ensure chart is updated immediately upon component mount
@@ -199,12 +199,12 @@ onMounted(() => {
     } else if (store.selectedMetric === 'Heat Risk') {
       data = store.heatMapData.features.map(feature => feature.properties[`mean_r_${store.selectedYear}`] || -1);
       createHeatRiskChart(data);
-    } else if (store.selectedMetric === 'Heat Vulnerability') {
+    } else if (store.selectedMetric === 'Vulnerability, ages 0-6 and 75+') {
       data = store.heatMapData.features.map(feature => feature.properties['heat_vul_index_6_75'] || -1);
-      createVulnerabilityChart(data, 'Heat Vulnerability');
-    } else if (store.selectedMetric === 'Vulnerability Extended') {
+      createVulnerabilityChart(data, 'Ages 0-6 and 75+');
+    } else if (store.selectedMetric === 'Vulnerability, ages 0-9 and 70+') {
       data = store.heatMapData.features.map(feature => feature.properties['heat_vul_index_9_70'] || -1);
-      createVulnerabilityChart(data, 'Vulnerability Extended');
+      createVulnerabilityChart(data, 'Ages 0-9 and 70+');
     }
   }
 });

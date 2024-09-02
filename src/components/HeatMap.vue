@@ -64,7 +64,7 @@ import { Fill, Stroke, Style } from 'ol/style';
 import PlotlyChart from './PlotlyChart.vue'; // Import the PlotlyChart component
 
 // Metrics options for selection
-const metrics = ['Heat Exposure', 'Heat Risk', 'Heat Vulnerability', 'Vulnerability Extended'];
+const metrics = ['Heat Exposure', 'Heat Risk', 'Vulnerability, ages 0-6 and 75+', 'Vulnerability, ages 0-9 and 70+'];
 const selectedMetric = ref('Heat Exposure');
 const selectedYear = ref(2024);
 
@@ -143,11 +143,11 @@ const loadGeoJsonLayer = () => {
           else if (value < 0.8) color = 'rgba(227,26,28,0.8)';
           else color = 'rgba(177,0,38,0.8)';
         }
-      } else if (selectedMetric.value === 'Heat Vulnerability') {
+      } else if (selectedMetric.value === 'Vulnerability, ages 0-6 and 75+') {
         attribute = 'heat_vul_index_6_75';
         value = feature.get(attribute);
         color = getVulnerabilityColor(value);
-      } else if (selectedMetric.value === 'Vulnerability Extended') {
+      } else if (selectedMetric.value === 'Vulnerability, ages 0-9 and 70+') {
         attribute = 'heat_vul_index_9_70';
         value = feature.get(attribute);
         color = getVulnerabilityColor(value);
@@ -181,7 +181,7 @@ watch([selectedMetric, selectedYear], () => {
 
 // Compute whether to show the slider based on the selected metric
 const showSlider = computed(() => {
-  return selectedMetric.value !== 'Heat Vulnerability' && selectedMetric.value !== 'Vulnerability Extended';
+  return selectedMetric.value !== 'Vulnerability, ages 0-6 and 75+' && selectedMetric.value !== 'Vulnerability, ages 0-9 and 70+';
 });
 
 // Initialize the map when the component is mounted
