@@ -41,10 +41,20 @@
         <span class="selected-year">July {{ selectedYear }} Median</span>
       </v-col>
 
-      <v-col cols="6" class="source-note">
+      <v-col cols="6" class="source-note" v-if="selectedMetric === 'Heat Exposure' || selectedMetric === 'Heat Risk'">
         Satellite source data by 
         <a href="https://portal.cef-spotted.eu/pages/home" target="_blank">Spotted Platform</a>
-      </v-col>      
+      </v-col>
+
+      <v-col cols="6" class="source-note" v-if="selectedMetric === 'Vulnerability, ages 0-6 and 75+'">
+        Population source data by 
+      <a href="https://stat.fi/index_en.html" target="_blank">Statistics Finland</a>
+      </v-col>     
+
+      <v-col cols="6" class="source-note" v-if="selectedMetric === 'Vulnerability, ages 0-9 and 70+'">
+        Population source data by 
+      <a href="https://www.hsy.fi/en/" target="_blank">HSY</a>
+      </v-col>
     </v-row>
   </v-container>
 </template>
