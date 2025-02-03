@@ -37,21 +37,21 @@ let map; // Variable to hold the map instance
 
 const selectedSatellite = ref('TMS_MAY_2024'); // Default selected satellite image
 const satelliteOptions = [
-  { text: 'June 14, 2018', value: 'https://geo.fvh.fi/spotted/data/sentinel_images/2018-06-14_Sentinel-2_L2A_NDVI.tiff' }, 
-  { text: 'June 21, 2020', value: 'https://geo.fvh.fi/spotted/data/sentinel_images/2020-06-21_Sentinel-2_L2A_NDVI.tiff' },
-  { text: 'June 26, 2022', value: 'https://geo.fvh.fi/spotted/data/sentinel_images/2022-06-26_Sentinel-2_L2A_NDVI.tiff' },
-  { text: 'January 27, 2023', value: 'https://geo.fvh.fi/spotted/data/sentinel_images/2023-01-27_Sentinel-2_L2A_NDVI.tiff' },
-  { text: 'February 26, 2023', value: 'https://geo.fvh.fi/spotted/data/sentinel_images/2023-02-26_Sentinel-2_L2A_NDVI.tiff' },
-  { text: 'March 15, 2023', value: 'https://geo.fvh.fi/spotted/data/sentinel_images/2023-03-15_Sentinel-2_L2A_NDVI.tiff' },
-  { text: 'April 22, 2023', value: 'https://geo.fvh.fi/spotted/data/sentinel_images/2023-04-22_Sentinel-2_L2A_NDVI.tiff' },
-  { text: 'May 24, 2023', value: 'https://geo.fvh.fi/spotted/data/sentinel_images/2023-05-24_Sentinel-2_L2A_NDVI.tiff' },
-  { text: 'June 23, 2023', value: 'https://geo.fvh.fi/spotted/data/sentinel_images/2023-06-23_Sentinel-2_L2A_NDVI.tiff' },
-  { text: 'July 13, 2023', value: 'https://geo.fvh.fi/spotted/data/sentinel_images/2023-07-13_Sentinel-2_L2A_NDVI.tiff' },
-  { text: 'August 15, 2023', value: 'https://geo.fvh.fi/spotted/data/sentinel_images/2023-08-15_Sentinel-2_L2A_NDVI.tiff' },
-  { text: 'September 14, 2023', value: 'https://geo.fvh.fi/spotted/data/sentinel_images/2023-09-14_Sentinel-2_L2A_NDVI.tiff' },
-  { text: 'October 29, 2023', value: 'https://geo.fvh.fi/spotted/data/sentinel_images/2023-10-29_Sentinel-2_L2A_NDVI.tiff' },
-  { text: 'November 25, 2023', value: 'https://geo.fvh.fi/spotted/data/sentinel_images/2023-11-25_Sentinel-2_L2A_NDVI.tiff' },
-  { text: 'December 28, 2023', value: 'https://geo.fvh.fi/spotted/data/sentinel_images/2023-12-28_Sentinel-2_L2A_NDVI.tiff' },
+  { text: 'June 14, 2018', value: 'https://storage.googleapis.com/med-iren/sentinel_images/2018-06-14_Sentinel-2_L2A_NDVI.tiff' }, 
+  { text: 'June 21, 2020', value: 'https://storage.googleapis.com/med-iren/sentinel_images/sentinel_images/2020-06-21_Sentinel-2_L2A_NDVI.tiff' },
+  { text: 'June 26, 2022', value: 'https://storage.googleapis.com/med-iren/sentinel_images/2022-06-26_Sentinel-2_L2A_NDVI.tiff' },
+  { text: 'January 27, 2023', value: 'https://storage.googleapis.com/med-iren/sentinel_images/2023-01-27_Sentinel-2_L2A_NDVI.tiff' },
+  { text: 'February 26, 2023', value: 'https://storage.googleapis.com/med-iren/sentinel_images/2023-02-26_Sentinel-2_L2A_NDVI.tiff' },
+  { text: 'March 15, 2023', value: 'https://storage.googleapis.com/med-iren/sentinel_images/2023-03-15_Sentinel-2_L2A_NDVI.tiff' },
+  { text: 'April 22, 2023', value: 'https://storage.googleapis.com/med-iren/sentinel_images/2023-04-22_Sentinel-2_L2A_NDVI.tiff' },
+  { text: 'May 24, 2023', value: 'https://storage.googleapis.com/med-iren/sentinel_images/2023-05-24_Sentinel-2_L2A_NDVI.tiff' },
+  { text: 'June 23, 2023', value: 'https://storage.googleapis.com/med-iren/sentinel_images/2023-06-23_Sentinel-2_L2A_NDVI.tiff' },
+  { text: 'July 13, 2023', value: 'https://storage.googleapis.com/med-iren/sentinel_images/2023-07-13_Sentinel-2_L2A_NDVI.tiff' },
+  { text: 'August 15, 2023', value: 'https://storage.googleapis.com/med-iren/sentinel_images/2023-08-15_Sentinel-2_L2A_NDVI.tiff' },
+  { text: 'September 14, 2023', value: 'https://storage.googleapis.com/med-iren/sentinel_images/2023-09-14_Sentinel-2_L2A_NDVI.tiff' },
+  { text: 'October 29, 2023', value: 'https://storage.googleapis.com/med-iren/sentinel_images/2023-10-29_Sentinel-2_L2A_NDVI.tiff' },
+  { text: 'November 25, 2023', value: 'https://storage.googleapis.com/med-iren/sentinel_images/2023-11-25_Sentinel-2_L2A_NDVI.tiff' },
+  { text: 'December 28, 2023', value: 'https://storage.googleapis.com/med-iren/sentinel_images/2023-12-28_Sentinel-2_L2A_NDVI.tiff' },
   { text: 'May 28, 2024 1m resolution', value: 'TMS_MAY_2024' }, // New TMS option
 ];
 

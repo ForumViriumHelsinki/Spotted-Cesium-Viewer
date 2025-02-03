@@ -33,7 +33,7 @@ export default class Simulations {
   async startSimulation() { 
     this.createLegend(); 
     const geoJson = await Cesium.GeoJsonDataSource.load(
-      "https://geo.fvh.fi/spotted/data/HelsinkiSubDistrict.geojson"
+      "https://storage.googleapis.com/med-iren/ui/HelsinkiSubDistrict.geojson"
     );
         // Set outline color to black for all entities
     geoJson.entities.values.forEach(entity => {
