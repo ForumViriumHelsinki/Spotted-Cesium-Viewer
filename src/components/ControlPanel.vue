@@ -527,7 +527,7 @@ export default {
 				if ( !this.datasourceService.dataSourceWithNameExists( 'PopulationGrid' ) ) {
 
                 eventBus.$emit('loadNdviAreaData', {
-                    url: 'https://storage.googleapis.com/med-iren/ui/hki_populationgrid_with_ndvi.geojson',
+                    url: 'http://localhost:3003/google/proxy?url=https://storage.googleapis.com/med-iren/ui/hki_populationgrid_with_ndvi.geojson',
                     dataSourceName: 'PopulationGrid',
                     isPolygon: true
                 });
@@ -563,7 +563,7 @@ export default {
 				if ( !this.datasourceService.dataSourceWithNameExists( 'SubDistrictNDVI' ) ) {
 
                 	eventBus.$emit('loadNdviAreaData', {
-                    	url: 'https://storage.googleapis.com/med-iren/ui/HelsinkiSubDistrict.geojson',
+                    	url: 'http://localhost:3003/google/proxy?url=https://storage.googleapis.com/med-iren/ui/HelsinkiSubDistrict.geojson',
                     	dataSourceName: 'SubDistrictNDVI',
                     	isPolygon: true
                 	});					
@@ -598,7 +598,7 @@ export default {
 				if ( !this.datasourceService.dataSourceWithNameExists( 'YLRE' ) ) {
 
 					eventBus.$emit('loadYlreAnnualData', {
-                    	url: 'https://storage.googleapis.com/med-iren/ui/ylre_viheralue_with_ndvi.geojson',
+                    	url: 'http://localhost:3003/google/proxy?url=https://storage.googleapis.com/med-iren/ui/ylre_viheralue_with_ndvi.geojson',
                     	dataSourceName: 'YLRE',
                     	isPolygon: true
                 	});	
@@ -643,7 +643,7 @@ export default {
 				if ( !this.datasourceService.dataSourceWithNameExists( 'TreeRegistry' ) ) {
 
 					eventBus.$emit('loadNdviAreaData', {
-                    	url: 'https://storage.googleapis.com/med-iren/ui/Puurekisteri_piste_with_ndvi.geojson',
+                    	url: 'http://localhost:3003/google/proxy?url=https://storage.googleapis.com/med-iren/ui/Puurekisteri_piste_with_ndvi.geojson',
                     	dataSourceName: 'TreeRegistry',
                     	isPolygon: false
                 	});
@@ -771,7 +771,7 @@ export default {
 			if ( checked ) {
 
 				setPopulationPressureAttributes( '_max', '_area_m2', 'Protected Areas', '_nimi' );
-        		eventBus.$emit('loadGreenAreas', 'https://storage.googleapis.com/med-iren/ui/suojelu.geojson'); 
+        		eventBus.$emit('loadGreenAreas', 'http://localhost:3003/google/proxy?url=https://storage.googleapis.com/med-iren/ui/suojelu.geojson'); 
 
 			} else { 
         
@@ -792,7 +792,7 @@ export default {
 			if ( checked ) {
 
 				setPopulationPressureAttributes( '_max', '_area_m2', 'Planned Development', '_plan_name' );
-        		eventBus.$emit('loadGreenAreas', 'https://storage.googleapis.com/med-iren/ui/kaava.geojson'); 
+        		eventBus.$emit('loadGreenAreas', 'http://localhost:3003/google/proxy?url=https://storage.googleapis.com/med-iren/ui/kaava.geojson'); 
 
 			} else { 
         
@@ -821,7 +821,7 @@ export default {
 				this.datasourceService.hideDataSourceByName( 'MajorDistricts' );
 				
 				eventBus.$emit('loadSRNdviAreaData', {
-                    url: 'https://storage.googleapis.com/med-iren/ui/hki_subdistricts_sr.geojson',
+                    url: 'http://localhost:3003/google/proxy?url=https://storage.googleapis.com/med-iren/ui/hki_subdistricts_sr.geojson',
                     dataSourceName: 'SR'
                 });	       
         
@@ -843,7 +843,7 @@ export default {
 			if ( checked ) {
 
 				setPopulationPressureAttributes( '_ndvi_1m', 'fme_ala', 'Forested Areas 1m', '_kuvioid' );
-       	 		eventBus.$emit('loadGreenAreas', 'https://storage.googleapis.com/med-iren/ui/luonnonhoito_1m.geojson'); 
+       	 		eventBus.$emit('loadGreenAreas', 'http://localhost:3003/google/proxy?url=https://storage.googleapis.com/med-iren/ui/luonnonhoito_1m.geojson'); 
 
 			} else { 
         
@@ -864,7 +864,7 @@ export default {
 			if ( checked ) {
 
 				setPopulationPressureAttributes( '_max', 'fme_ala', 'Forested Areas', '_kuvioid' );
-       	 		eventBus.$emit('loadGreenAreas', 'https://storage.googleapis.com/med-iren/ui/luonnonhoito.geojson'); 
+       	 		eventBus.$emit('loadGreenAreas', 'http://localhost:3003/google/proxy?url=https://storage.googleapis.com/med-iren/ui/luonnonhoito.geojson'); 
 
 			} else { 
         
@@ -885,7 +885,7 @@ export default {
 			if ( checked ) {
 
 				setPopulationPressureAttributes( '_max', '_viheralueen_pa', 'YLRE GreenAreas', '_puiston_nimi' );
-        		eventBus.$emit('loadGreenAreas', 'https://storage.googleapis.com/med-iren/ui/ylre.geojson'); 
+        		eventBus.$emit('loadGreenAreas', 'http://localhost:3003/google/proxy?url=https://storage.googleapis.com/med-iren/ui/ylre.geojson'); 
 
 			} else {
 

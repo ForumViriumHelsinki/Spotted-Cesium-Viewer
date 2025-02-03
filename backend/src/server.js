@@ -14,6 +14,24 @@ app.use( bodyParser.urlencoded( { extended: true, limit: '200mb' } ) );
 // Connect to Redis
 const redis = new Redis( { host: 'spotted-redis', port: 6379 } );
 
+// New Google Cloud Storage Proxy Endpoint
+app.get('/google/proxy', async (req, res) => {
+    const fileUrl = req.query.url; // URL sent as a query parameter
+    if (!fileUrl) {
+        return res.status(400).json({ error: 'Missing URL parameter' });
+    }
+
+    try {
+        const response = await axios.get(fileUrl, { responseType: 'arraybuffer' });
+        res.type(response.headers['content-type']);
+        res.status(response.status);
+        res.send(response.data);
+    } catch (error) {
+        console.error('Google Cloud proxy request failed:', error);
+        res.status(500).json({ error: 'Failed to fetch requested resource' });
+    }
+});
+
 // Existing cache endpoints
 app.get( '/spotted-api/cache/get', async ( req, res ) => {
 	const key = req.query.key;
