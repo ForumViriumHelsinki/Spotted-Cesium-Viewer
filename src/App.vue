@@ -21,10 +21,14 @@
       <MedirenScatter />
     </div>
     </transition>    
-    <div class="logoHolder">
-      <img src="/public/assets/images/spotted_logo.png" id="logoSpotted" alt="Spotted" />
+    <div class="logoHolder" v-if="activeViewer === 'mediren'">
+      <img src="/public/assets/images/MED-IREN-final_grey-on-blue_horizontal-200x0-c-default.png" id="logoSpotted" alt="Spotted" />
       <img src="/public/assets/images/fvh-1_musta.png" id="logoFVH" alt="Forum Virium Helsinki" />
     </div>
+    <div class="logoHolder" v-if="activeViewer !== 'mediren'">
+      <img src="/public/assets/images/spotted_logo.png" id="logoSpotted" alt="Spotted" />
+      <img src="/public/assets/images/fvh-1_musta.png" id="logoFVH" alt="Forum Virium Helsinki" />
+    </div>    
   </div>
 </template>
 
