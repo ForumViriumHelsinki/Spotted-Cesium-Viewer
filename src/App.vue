@@ -16,6 +16,11 @@
       <HeatMap />
     </div>
     </transition>
+    <transition name="fade">
+    <div v-if="activeViewer === 'mediren'">
+      <MedirenScatter />
+    </div>
+    </transition>    
     <div class="logoHolder">
       <img src="/public/assets/images/spotted_logo.png" id="logoSpotted" alt="Spotted" />
       <img src="/public/assets/images/fvh-1_musta.png" id="logoFVH" alt="Forum Virium Helsinki" />
@@ -30,6 +35,7 @@ import CesiumViewer from './components/CesiumViewer.vue';
 import ControlPanel from './components/ControlPanel.vue';
 import SatelliteViewer from './components/SatelliteViewer.vue';
 import HeatMap from './components/HeatMap.vue';
+import MedirenScatter from './components/MedirenScatter.vue';
 
 const globalStore = useGlobalStore();
 const activeViewer = computed(() => globalStore.activeViewer);

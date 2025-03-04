@@ -192,6 +192,20 @@
   <span class="slider round"></span>
 </label>
 <label for="heatBlockToggle" class="label" id="heatBlockLabel">Helsinki Blocks Heat</label>
+
+<!--  eldery -->
+<label class="switch" id = "elderySwitch">
+  <input type="checkbox" id="elderyToggle" value="eldery" >
+  <span class="slider round"></span>
+</label>
+<label for="elderyToggle" class="label" id="elderyLabel">Eldery</label>
+
+<!--  daycare -->
+<label class="switch" id = "daycareSwitch">
+  <input type="checkbox" id="daycareToggle" value="daycare" >
+  <span class="slider round"></span>
+</label>
+<label for="daycareToggle" class="label" id="daycareLabel">Daycares</label>
 </div>
 
 
@@ -361,6 +375,44 @@ export default {
 			document.getElementById( 'SRToggle' ).addEventListener( 'change', this.srToggleEvent );
 			document.getElementById( 'heatMapToggle' ).addEventListener( 'change', this.activateHeatMapEvent );
 			document.getElementById( 'heatBlockToggle' ).addEventListener( 'change', this.activateHeatBlockEvent );
+			document.getElementById( 'daycareToggle' ).addEventListener( 'change', this.activateDaycareEvent );
+			document.getElementById( 'elderyToggle' ).addEventListener( 'change', this.activateElderyEvent );
+		},
+
+		async activateDaycareEvent() {
+
+			const checked = document.getElementById( 'daycareToggle' ).checked;
+
+			if ( checked ) {
+				this.heatMapStore.setUrl('assets/data/c_kayttark_231_buffered_with_avg.json');
+				this.heatMapStore.setCenter([25.036831, 60.207559]);
+				this.heatMapStore.setZoom(12);
+				this.store.setActiveViewer('mediren');
+			    this.showControlPanel = false; // Hide the ControlPanel
+                this.viewer.dataSources.removeAll(); // Remove Cesium data sources
+                this.viewer.destroy(); // Destroy the Cesium Viewer
+                this.viewer = null; // Set the viewer reference to null
+				
+			}
+
+		},
+
+		async activateElderyEvent() {
+
+			const checked = document.getElementById( 'elderyToggle' ).checked;
+
+			if ( checked ) {
+				this.heatMapStore.setUrl('assets/data/ymp_iak_area_buffered_with_avg.json');
+				this.heatMapStore.setCenter([25.036831, 60.207559]);
+				this.heatMapStore.setZoom(12);
+				this.store.setActiveViewer('mediren');
+			    this.showControlPanel = false; // Hide the ControlPanel
+                this.viewer.dataSources.removeAll(); // Remove Cesium data sources
+                this.viewer.destroy(); // Destroy the Cesium Viewer
+                this.viewer = null; // Set the viewer reference to null
+				
+			}
+
 		},
 
 		async activateHeatBlockEvent() {
