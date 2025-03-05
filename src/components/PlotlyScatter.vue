@@ -75,7 +75,7 @@ onMounted(() => {
 
 <style scoped>
 .plotly-chart {
-  width: 100%;
+  width: 400px;
   height: 400px;
 }
 </style>

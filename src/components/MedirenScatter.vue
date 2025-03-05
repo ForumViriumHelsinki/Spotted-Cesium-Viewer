@@ -26,36 +26,42 @@
 
 
     <!-- Bottom Controls: Select and Slider -->
-    <v-row class="bottom-controls">
-      <v-col cols="5" class="select-container" >
+    <div class="bottom-controls">
+       <div class="select-container" >
         <v-select
           v-model="selectedMetric"
           :items="metrics"
+          density="compact"
           label="Select Metric"
           hide-details
         ></v-select>
-      </v-col>
+       </div>
 
-      <!-- Slider for Dates -->
-      <v-col cols="4" class="slider-container" >
-        <v-slider
-          v-model="selectedDate"
-          :min="0"
-          :max="2"
-          step="1"
-          label="Select Date"
-          hide-details
-        ></v-slider>
-        <span class="selected-year">{{ dates[selectedDate] }}</span>
-      </v-col>
+      <!-- Radio Buttons for Year Selection -->
+      <div class="radio-container">
+        <v-radio-group v-model="selectedDate" inline>
+          <v-radio v-for="(year, index) in dates" :key="year" :label="year" :value="index"></v-radio>
+        </v-radio-group>
+      </div>
 
+<div class="select2-container">
+  <v-select
+    v-model="selectedFacility"
+    :items="facilities"
+    density="compact"
+    item-title="text"
+    item-value="value"
+    label="Select Facility"
+    hide-details
+  ></v-select>
+</div>
       <!-- Source Notes -->
       <v-col cols="6" class="source-note">
         Source data from 
-        <a v-if="selectedMetric === 'NDVI'" href="https://some-ndvi-source.com" target="_blank">NDVI Sentinel</a>
-        <a v-if="selectedMetric === 'Heat Exposure'" href="https://some-heat-source.com" target="_blank">Heat Exposure Landsat</a>
+        <a v-if="selectedMetric === 'NDVI'" href="https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/ndvi/" target="_blank">NDVI Sentinel</a>
+        <a v-if="selectedMetric === 'Heat Exposure'" href="https://custom-scripts.sentinel-hub.com/custom-scripts/landsat-8/thermal/" target="_blank">Heat Exposure Landsat</a>
       </v-col>
-    </v-row>
+    </div>
   </v-container>
 </template>
 
@@ -78,8 +84,13 @@ import PlotlyScatter from './PlotlyScatter.vue';
 const metrics = ['NDVI', 'Heat Exposure'];
 const dates = ['2020', '2022', '2024'];
 const selectedMetric = ref('NDVI');
-const selectedDate = ref(0); // Default to the first date (2020)
+const selectedDate = ref(2); // Default to the first date (2024)
 const scatterColors = ref([]);
+const facilities = [
+  { text: 'Nursing Homes', value: 'assets/data/ymp_iak_area_buffered_with_avg.json' },
+  { text: 'Daycares', value: 'assets/data/c_kayttark_231_buffered_with_avg.json' },
+];
+const selectedFacility = ref(facilities[0].value);
 
 const store = useHeatMapStore(); // Pinia store for managing heatmap data
 
@@ -215,8 +226,6 @@ const loadGeoJsonLayer = () => {
         color = getNDVIColor(value);
       }
 
-      console.log("color", color)
-
       return new Style({
         fill: new Fill({ color: color }),
         stroke: new Stroke({ color: 'black', width: 1 }),
@@ -273,11 +282,31 @@ const updatePlotlyData = () => {
 };
 
 // Watcher to update map and chart when metric or date changes
-watch([selectedMetric, selectedDate], () => {
+watch([selectedMetric, selectedDate, selectedFacility], async () => {
+  store.setUrl(selectedFacility.value);  
+  const response = await fetch(selectedFacility.value);
+  const data = await response.json();
+  store.setHeatMapData(data);
   store.setSelectedMetric(selectedMetric.value);
   store.setSelectedYear(selectedDate.value);
   loadGeoJsonLayer();
   updatePlotlyData();
+});
+
+watch(selectedDate, () => {
+  if (!map) return;
+
+  // Define new WMS parameters based on the selected year
+  const updatedParams = {
+    LAYERS: `asuminen_ja_maankaytto:maanpeite_rakennus_${dates[selectedDate.value]},asuminen_ja_maankaytto:maanpeite_avokalliot_${dates[selectedDate.value]},asuminen_ja_maankaytto:maanpeite_merialue_${dates[selectedDate.value]},asuminen_ja_maankaytto:maanpeite_muu_avoin_matala_kasvillisuus_${dates[selectedDate.value]},asuminen_ja_maankaytto:maanpeite_muu_vetta_lapaisematon_pinta_${dates[selectedDate.value]},asuminen_ja_maankaytto:maanpeite_paallystamaton_tie_${dates[selectedDate.value]},asuminen_ja_maankaytto:maanpeite_paallystetty_tie_${dates[selectedDate.value]},asuminen_ja_maankaytto:maanpeite_paljas_maa_${dates[selectedDate.value]},asuminen_ja_maankaytto:maanpeite_pellot_${dates[selectedDate.value]},asuminen_ja_maankaytto:maanpeite_puusto_10_15m_${dates[selectedDate.value]},asuminen_ja_maankaytto:maanpeite_puusto_15_20m_${dates[selectedDate.value]},asuminen_ja_maankaytto:maanpeite_puusto_2_10m_${dates[selectedDate.value]},asuminen_ja_maankaytto:maanpeite_puusto_yli20m_${dates[selectedDate.value]},asuminen_ja_maankaytto:maanpeite_vesi_${dates[selectedDate.value]}`,
+  };
+
+  // Find the WMS layer and update parameters
+  map.getLayers().forEach(layer => {
+    if (layer.getSource() instanceof TileWMS) {
+      layer.getSource().updateParams(updatedParams);
+    }
+  });
 });
 
 // Initialize map when component is mounted
@@ -313,6 +342,8 @@ onMounted(() => {
 #plotly-chart-container {
   grid-column: 1; 
   grid-row: 1; 
+  width: 400px;
+  height: 400px;
   z-index: 10; /* Ensure it stays on top */
 }
 
@@ -327,8 +358,9 @@ onMounted(() => {
 
 .bottom-controls {
   position: absolute;
-  bottom: 15px;
-  left: 80px;
+  bottom: -10px;
+  left: 0px;
+  height: 80px;
   width: 100%;
   background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
   padding: 10px;
@@ -343,16 +375,15 @@ onMounted(() => {
 }
 
 .select-container {
-  position: relative;
-  bottom: 15px;
-  left: 280px;
+  position: absolute;
+  bottom: 35px;
+  left: 325px;
 }
 
-.slider-container {
-  position: relative;
-  display: flex;
-  align-items: center; /* Align items horizontally */
-  margin-left: 10px; /* Reduce the gap between select and slider */
+.select2-container {
+  position: absolute;
+  bottom: 35px;
+  left: 80px;
 }
 
 .selected-year {
@@ -364,8 +395,18 @@ onMounted(() => {
 
 /* Position source note above the select dropdown */
 .source-note {
+  position: absolute;
+  bottom: 15px;
+  left: 650px;
   font-size: 0.75rem; /* Small font size */
   color: #000000; /* Black text color */
+}
+
+.radio-container {
+  position: absolute;
+  bottom: -5px;
+  left: 600px;
+  z-index: 1000;
 }
 
 .map-tooltip {
