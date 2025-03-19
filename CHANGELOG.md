@@ -5,6 +5,7 @@
 
 ### Features
 
+* container build workflow ([#4](https://github.com/ForumViriumHelsinki/Spotted-Cesium-Viewer/issues/4)) ([746e200](https://github.com/ForumViriumHelsinki/Spotted-Cesium-Viewer/commit/746e200ee44094dece84793de7c3ddf60c3710b3))
 * setup release please ([370ec08](https://github.com/ForumViriumHelsinki/Spotted-Cesium-Viewer/commit/370ec08fd743ccc0c4e8dad33eab2c15fb286122))
 * setup release please ([97bfa9b](https://github.com/ForumViriumHelsinki/Spotted-Cesium-Viewer/commit/97bfa9b1a1ea210c7b404bcdf2765dcb2113dfaf))
 
