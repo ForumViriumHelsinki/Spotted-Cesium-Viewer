@@ -1,0 +1,9 @@
+{
+  "packages": {
+    ".": {
+      "release-type": "simple",
+      "package-name": "spotted-cesium-viewer"
+    }
+  },
+  "plugins": ["node-workspace"]
+}
