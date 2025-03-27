@@ -9,9 +9,14 @@
       <v-icon>mdi-restart</v-icon>
     </v-btn>
 
+        <!-- Landcover Chart (Top Right) -->
+    <div class="landcover-chart-container">
+      <MedirenLandcover :landcoverData="Object.values(landcoverData)" :selectedYear="dates[selectedDate]" />
+    </div>
+
     <!-- Plotly Chart -->
     <div id="plotly-chart-container">
-<PlotlyScatter 
+<NDVIHeatChart 
   :xData="scatterX" 
   :yData="scatterY" 
   :colors="scatterColors"  
@@ -78,7 +83,8 @@ import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import GeoJSON from 'ol/format/GeoJSON';
 import { Fill, Stroke, Style } from 'ol/style';
-import PlotlyScatter from './PlotlyScatter.vue';
+import NDVIHeatChart from './NDVIHeatChart.vue';
+import MedirenLandcover from './MedirenLandcover.vue';
 
 // Define metrics and dates for the controls
 const metrics = ['NDVI', 'Heat Exposure'];
@@ -98,6 +104,8 @@ let map = null;
 let vectorLayer = null;
 const scatterX = ref([]); // NDVI values for Plotly
 const scatterY = ref([]); // Heat Exposure values for Plotly
+
+const landcoverData = ref({});
 
 // Reset function for the button
 const reset = () => {
@@ -171,14 +179,30 @@ const showTooltip = (event) => {
   const tooltip = document.getElementById('map-tooltip'); // Move inside function
   if (!tooltip || !vectorLayer) return;
 
+
   const features = map.getFeaturesAtPixel(event.pixel);
   if (features.length > 0) {
-    const feature = features[0]; 
+    const feature = features[0];
     const properties = feature.getProperties();
     const streetName = properties['katunimi_suomi'] || 'Unknown';
     const addressNum = properties['osoitenumero'] || 'N/A';
+    const trees = ( ( properties[ `tree10_m2_${ dates[ selectedDate.value ] }`] + properties[ `tree15_m2_${ dates[ selectedDate.value ] }` ]
+                  + properties[ `tree20_m2_${ dates[ selectedDate.value ] }` ] + properties[ `tree2_m2_${ dates[ selectedDate.value ] }` ] 
+                  ) / properties[ 'area_m2' ] );
+    
+    const water = ( ( properties[ `water_m2_${ dates[ selectedDate.value ] }`] + properties[ `sea_m2_${ dates[ selectedDate.value ] }` ] ) / properties[ 'area_m2' ] );
+    const vegetation = ( ( properties[ `vegetation_m2_${ dates[ selectedDate.value ] }`] + properties[ `field_m2_${ dates[ selectedDate.value ] }` ] ) / properties[ 'area_m2' ] );
 
-    tooltip.innerHTML = `<strong>${streetName}</strong> ${addressNum}`;
+    // Retrieve NDVI and Heat Exposure values based on selected date
+    const ndviValue = properties[`ndvi_${dates[selectedDate.value]}-06`].toFixed( 2 ) || 'N/A';
+    const heatExposureValue = properties[`heatexposure_${dates[selectedDate.value]}-06`].toFixed( 2 ) || 'N/A';
+
+    tooltip.innerHTML = `<strong>${streetName}</strong> ${addressNum}<br> 
+                         <strong>NDVI:</strong> ${ndviValue}<br>
+                         <strong>Heat Exposure:</strong> ${heatExposureValue}<br>
+                         <strong>Trees:</strong> ${( trees * 100 ).toFixed( 2 )} %<br>
+                         <strong>Water:</strong> ${( water * 100 ).toFixed( 2 )} %<br>
+                         <strong>Vegetation:</strong> ${( vegetation  * 100 ).toFixed( 2 )} %<br>`;
     tooltip.style.display = 'block';
     tooltip.style.left = event.pixel[0] + 80 + 'px';
     tooltip.style.top = event.pixel[1] + 'px';
@@ -281,6 +305,29 @@ const updatePlotlyData = () => {
   scatterColors.value = colors; // Make sure this updates reactively
 };
 
+const updateLandCoverData = () => {
+  const landCoverTypes = ["vegetation", "field", "tree10", "tree15", "tree2", "tree20", "water", "sea"];
+  landcoverData.value = [];
+  const selectedYearStr = dates[selectedDate.value]; // Ensure it's like "2024"
+
+  // Loop through each feature and sum up the land cover areas
+  store.heatMapData.features.forEach(feature => {
+    const landCoverData = {}; // Object to store summed-up areas
+    const streetName = feature.properties[ 'katunimi_suomi' ] || 'Unknown';
+    const addressNum = feature.properties[ 'osoitenumero' ] || 'N/A';
+    landCoverData[ 'address' ] = streetName +' ' + addressNum;
+    landCoverData[ 'area' ] = feature.properties[ 'area_m2' ];
+    landCoverTypes.forEach(type => {
+      const key = `${type}_m2_${selectedYearStr}`;
+      if (feature.properties[key] !== undefined) {
+        landCoverData[type] = feature.properties[key]; // Sum areas
+      }
+    });
+    landcoverData.value.push( landCoverData );
+  });
+
+};
+
 // Watcher to update map and chart when metric or date changes
 watch([selectedMetric, selectedDate, selectedFacility], async () => {
   store.setUrl(selectedFacility.value);  
@@ -291,6 +338,7 @@ watch([selectedMetric, selectedDate, selectedFacility], async () => {
   store.setSelectedYear(selectedDate.value);
   loadGeoJsonLayer();
   updatePlotlyData();
+  updateLandCoverData();
 });
 
 watch(selectedDate, () => {
@@ -311,12 +359,16 @@ watch(selectedDate, () => {
 
 // Initialize map when component is mounted
 onMounted(() => {
+  store.setUrl('assets/data/ymp_iak_area_buffered_with_avg.json');
+	store.setCenter([24.96, 60.207559]);
+	store.setZoom(12);
   store.fetchHeatMapData(store.url).then(() => {
     initializeMap();
     store.setSelectedMetric(selectedMetric.value);
     store.setSelectedYear(selectedDate.value);
     loadGeoJsonLayer();
     updatePlotlyData();
+    updateLandCoverData();
   });
 });
 </script>
@@ -419,5 +471,16 @@ onMounted(() => {
   pointer-events: none;
   display: none;
   white-space: nowrap;
+}
+
+.landcover-chart-container {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  height: 720px;
+  width: 420px;
+  z-index: 10;
+  	border: 1px solid black;
+	box-shadow: 3px 5px 5px black;  
 }
 </style>

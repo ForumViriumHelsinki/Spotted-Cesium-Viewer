@@ -193,13 +193,6 @@
 </label>
 <label for="heatBlockToggle" class="label" id="heatBlockLabel">Helsinki Blocks Heat</label>
 
-<!--  mediren -->
-<label class="switch" id = "medirenSwitch">
-  <input type="checkbox" id="medirenToggle" value="mediren" >
-  <span class="slider round"></span>
-</label>
-<label for="medirenToggle" class="label" id="medirenLabel">Med-iren</label>
-
 </div>
 
 
@@ -369,25 +362,6 @@ export default {
 			document.getElementById( 'SRToggle' ).addEventListener( 'change', this.srToggleEvent );
 			document.getElementById( 'heatMapToggle' ).addEventListener( 'change', this.activateHeatMapEvent );
 			document.getElementById( 'heatBlockToggle' ).addEventListener( 'change', this.activateHeatBlockEvent );
-			document.getElementById( 'medirenToggle' ).addEventListener( 'change', this.activateMedirenEvent );
-		},
-
-		async activateMedirenEvent() {
-
-			const checked = document.getElementById( 'medirenToggle' ).checked;
-
-			if ( checked ) {
-				this.heatMapStore.setUrl('assets/data/ymp_iak_area_buffered_with_avg.json');
-				this.heatMapStore.setCenter([24.96, 60.207559]);
-				this.heatMapStore.setZoom(12);
-				this.store.setActiveViewer('mediren');
-			    this.showControlPanel = false; // Hide the ControlPanel
-                this.viewer.dataSources.removeAll(); // Remove Cesium data sources
-                this.viewer.destroy(); // Destroy the Cesium Viewer
-                this.viewer = null; // Set the viewer reference to null
-				
-			}
-
 		},
 
 		async activateHeatBlockEvent() {
