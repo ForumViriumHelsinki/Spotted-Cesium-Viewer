@@ -16,12 +16,14 @@
 
     <!-- Plotly Chart -->
     <div id="plotly-chart-container">
-<NDVIHeatChart 
-  :xData="scatterX" 
-  :yData="scatterY" 
-  :colors="scatterColors"  
-  @highlightFeature="highlightFeatureOnMap" 
-/>    
+<NDVIHeatChart
+  ref="ndviHeatChartRef"
+  :xData="scatterX"
+  :yData="scatterY"
+  :colors="scatterColors"
+  :highlightedIndex="highlightedIndex"
+  @highlightFeature="highlightFeatureOnMap"
+/>
     </div>
 
     <!-- OpenLayers Map -->
@@ -97,6 +99,10 @@ const facilities = [
   { text: 'Daycares', value: 'assets/data/c_kayttark_231_buffered_with_avg.json' },
 ];
 const selectedFacility = ref(facilities[0].value);
+const ndviHeatChartRef = ref(null); // Ref to the NDVIHeatChart component
+const highlightedIndex = ref(null); // Ref to store the highlighted index
+const previousHighlightedColor = ref(null); // Keep track of the previous color
+const previousHighlightedIndex = ref(null); // Ref to store the highlighted index
 
 const store = useHeatMapStore(); // Pinia store for managing heatmap data
 
@@ -173,6 +179,48 @@ const initializeMap = () => {
   // Add event listeners for hover effect
   map.on('pointermove', showTooltip);
   map.on('pointerout', hideTooltip);
+
+  // Add event listener for map clicks
+  map.on('click', handleMapClick);
+};
+
+const handleMapClick = (event) => {
+  const features = map.getFeaturesAtPixel(event.pixel);
+  let newColors = [...scatterColors.value]; // Declare newColors here
+
+  if (features.length > 0) {
+    const clickedFeature = features[0];
+    const featureIndex = clickedFeature.get('featureIndex');
+
+    console.log("previousHighlightedIndex.value", previousHighlightedIndex.value);
+
+    // Restore previous color (if any)
+    if (highlightedIndex.value !== null) { // Check if there was a previous highlight
+      newColors[highlightedIndex.value] = previousHighlightedColor.value;
+    }
+
+    // Highlight the current point and store its original color and index
+    if (highlightedIndex.value !== null) { // Check if there was a previous highlight
+      previousHighlightedColor.value = scatterColors.value[featureIndex];
+      previousHighlightedIndex.value = highlightedIndex.value;
+    } else {
+      previousHighlightedColor.value = scatterColors.value[featureIndex];
+    }
+    newColors[featureIndex] = 'blue';
+
+    scatterColors.value = newColors;
+    highlightedIndex.value = featureIndex;
+
+  } else {
+    // Reset all highlights
+    if (highlightedIndex.value !== null) { // Check if there was a previous highlight
+      newColors[highlightedIndex.value] = previousHighlightedColor.value;
+    }
+    highlightedIndex.value = null;
+    previousHighlightedColor.value = null;
+    previousHighlightedIndex.value = null;
+    scatterColors.value = newColors;
+  }
 };
 
 const showTooltip = (event) => {
@@ -228,7 +276,11 @@ const loadGeoJsonLayer = () => {
   if (!geoJsonData) return;
 
   const vectorSource = new VectorSource({
-    features: new GeoJSON().readFeatures(geoJsonData, { featureProjection: 'EPSG:3857' }),
+    features: new GeoJSON().readFeatures(geoJsonData, { featureProjection: 'EPSG:3857' })
+    .map((feature, index) => {
+      feature.set('featureIndex', index); // Store the original index
+      return feature;
+    }),
   });
 
   vectorLayer = new VectorLayer({
@@ -282,6 +334,8 @@ const updatePlotlyData = () => {
   const heatExposureData = [];
   const ndviData = [];
   const colors = []; // Create a local colors array
+
+  highlightedIndex.value = null;
 
   store.heatMapData.features.forEach(feature => {
     const ndviValue = feature['properties'][`ndvi_${dates[selectedDate.value]}-06`];

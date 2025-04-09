@@ -5,11 +5,15 @@
 <script setup>
 import { ref, onMounted, watch, nextTick, defineEmits } from 'vue';
 
-// Props: xData (NDVI), yData (Heat Exposure)
+// Props: xData, yData, colors, highlightedIndex
 const props = defineProps({
   xData: Array,
   yData: Array,
-  colors: Array  // <-- Add this prop
+  colors: Array,
+  highlightedIndex: {  // New prop for highlighted index
+    type: Number,
+    default: null  // Default to null (no highlight)
+  }
 });
 
 // Emit event when a point is clicked
@@ -27,42 +31,42 @@ const renderChart = () => {
     mode: 'markers',
     type: 'scatter',
     marker: {
-      size: 8,
-      color: props.colors, // <-- Use colors prop
+      size: props.xData.map((_, index) => index === props.highlightedIndex ? 12 : 8),
+      color: props.colors,
       colorscale: 'Viridis',
       showscale: false
     }
   };
 
-const layout = {
-  title: {
-    text: 'NDVI vs Heat Exposure',
-    font: { size: 18 }, // Increase font size for better visibility
-    x: 0.5, // Center the title
-    xanchor: 'center'
-  },
-  xaxis: {
-    title: { text: 'Normalized Difference Vegetation Index', font: { size: 14 } },
-    automargin: true // Ensures labels don't get cut off
-  },
-  yaxis: {
-    title: { text: 'Heat Exposure Index', font: { size: 14 } },
-    automargin: true
-  },
-  height: 450, // Ensures space for labels
-  margin: { t: 60, b: 50, l: 80, r: 10 } // Adjust margins to prevent text cutoff
-};
+  const layout = {
+    title: {
+      text: 'NDVI vs Heat Exposure',
+      font: { size: 18 },
+      x: 0.5,
+      xanchor: 'center'
+    },
+    xaxis: {
+      title: { text: 'Normalized Difference Vegetation Index', font: { size: 14 } },
+      automargin: true
+    },
+    yaxis: {
+      title: { text: 'Heat Exposure Index', font: { size: 14 } },
+      automargin: true
+    },
+    height: 450,
+    margin: { t: 60, b: 50, l: 80, r: 10 }
+  };
 
   Plotly.newPlot(plotlyChart.value, [trace], layout).then((chart) => {
     chart.on('plotly_click', (data) => {
-      const pointIndex = data.points[0].pointIndex; // Get index of clicked point
-      emit('highlightFeature', pointIndex); // Emit event to parent component
+      const pointIndex = data.points[0].pointIndex;
+      emit('highlightFeature', pointIndex);
     });
   });
 };
 
 // Re-render chart when data changes
-watch([() => props.xData, () => props.yData, () => props.colors], async () => {
+watch([() => props.xData, () => props.yData, () => props.colors, () => props.highlightedIndex], async () => {
   await nextTick();
   renderChart();
 }, { deep: true });

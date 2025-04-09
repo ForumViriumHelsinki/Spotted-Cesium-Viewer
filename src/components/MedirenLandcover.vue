@@ -3,13 +3,15 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, nextTick, defineProps } from 'vue';
+import { ref, onMounted, watch, nextTick, defineProps, defineEmits } from 'vue'; // Import defineEmits
 
 // Props: landcoverData (geojson data), selectedYear
 const props = defineProps({
-  landcoverData: Array, // Geojson landcover data
-  selectedYear: String  // Year of interest, e.g., "2024"
+  landcoverData: Array,
+  selectedYear: String
 });
+
+const emit = defineEmits(['zoomToAddress']); // Define the custom event
 
 const landcoverChart = ref(null);
 
@@ -48,16 +50,17 @@ const getLandcoverPercentages = () => {
     });
   });
 
+  // Sort the percentages array by the 'trees' property in ascending order
+  percentages.sort( ( a, b ) => a.trees - b.trees );
+
   return percentages;
 };
 
-// Function to render Plotly chart
 const renderChart = () => {
   if (props.landcoverData.length < 1 || !props.landcoverData.length || !props.selectedYear) return;
 
   const data = getLandcoverPercentages();
 
-  // Prepare the data for the reversed bar chart
   const trace = {
     type: 'bar',
     orientation: 'h',
@@ -65,15 +68,17 @@ const renderChart = () => {
     y: [],
     width: 0.5,
     marker: {
-        color: [],
+      color: [],
     },
+    text: [], // Add text for the address
+    hoverinfo: 'none' // Remove hover info
   };
 
-  // Prepare the chart data based on calculated percentages
   data.forEach(item => {
-    trace.x.push(item.trees, item.vegetation, item.water, item.other); // X-axis: percentage values
-    trace.y.push(item.address, item.address, item.address, item.address); // Y-axis: the same address (one per category)
-    trace.marker.color.push('#2ca02c', '#90EE90', '#1f77b4', '#808080'); // Colors: Trees, Vegetation, Water, Other
+    trace.x.push(item.trees, item.vegetation, item.water, item.other);
+    trace.y.push(item.address, item.address, item.address, item.address);
+    trace.marker.color.push('#2ca02c', '#90EE90', '#1f77b4', '#808080');
+    trace.text.push(item.address, item.address, item.address, item.address); // Add the address
   });
 
   const layout = {
@@ -83,38 +88,47 @@ const renderChart = () => {
     },
     xaxis: {
       title: 'Percentage (%)',
-      range: [0, 100], // Full range from 0% to 100%
+      range: [0, 100],
     },
-  yaxis: {
-    title: {
-      text: 'Address',
-      font: { size: 10 }, // Smaller font for y-axis title
+    yaxis: {
+      title: {
+        text: 'Address',
+        font: { size: 10 },
+      },
+      automargin: true,
+      tickfont: { size: 8 },
     },
-    automargin: true,
-    tickfont: { size: 8 }, // Smaller font for y-axis labels
-  },
-    height: 720, // Adjust for space
+    height: 720,
     margin: { t: 50, b: 50, l: 100, r: 25 },
-  bargap: 0,  // Reduce gap between bars
-  bargroupgap: 0, // Reduce gap between grouped bars
-  barmode: 'group', // 'group' (default), 'stack', or 'overlay'
+    bargap: 0,
+    bargroupgap: 0,
+    barmode: 'group',
+    clickmode: 'event', // Enable click events
   };
 
-  Plotly.newPlot(landcoverChart.value, [trace], layout);
+  Plotly.newPlot(landcoverChart.value, [trace], layout).then((chart) => {
+    chart.on('plotly_click', (data) => {
+      if (data.points && data.points.length > 0) {
+        const clickedAddress = data.points[0].data.text[data.points[0].pointNumber];
+        emit('zoomToAddress', clickedAddress); // Emit the custom event
+      }
+    });
+  });
 };
 
-// Re-render chart when data changes
 watch([() => props.landcoverData, () => props.selectedYear], async () => {
   await nextTick();
   props.landcoverData.length > 1 && props.selectedYear && renderChart();
 }, { deep: true });
 
-// Render chart on mount
 onMounted(() => {
   renderChart();
 });
 </script>
 
 <style scoped>
-
+.landcover-chart {
+  width: 100%;
+  height: 100%;
+}
 </style>
