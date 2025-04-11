@@ -59,8 +59,8 @@ const renderChart = () => {
 
   Plotly.newPlot(plotlyChart.value, [trace], layout).then((chart) => {
     chart.on('plotly_click', (data) => {
-      const pointIndex = data.points[0].pointIndex;
-      emit('highlightFeature', pointIndex);
+      const clickedXValue = data.points[0].x; // Get the x value
+      emit('highlightFeature', clickedXValue);
     });
   });
 };

@@ -120,28 +120,43 @@ const reset = () => {
 
 let previousFeature = null; // Store previously clicked feature
 
-const highlightFeatureOnMap = (featureIndex) => {
+const highlightFeatureOnMap = (ndviValue) => {
   if (!vectorLayer) return;
-  
-  const features = vectorLayer.getSource().getFeatures();
-  const feature = features[featureIndex];
 
-  if (feature) {
-    // Reset previous feature's style (restore original color)
+  const features = vectorLayer.getSource().getFeatures();
+
+  let targetFeature = null;
+  let targetFeatureIndex = -1;
+
+  for (let i = 0; i < features.length; i++) {
+    const feature = features[i];
+    const properties = feature.getProperties();
+    const ndviKey = `ndvi_${dates[selectedDate.value]}-06`; // Construct the NDVI key
+    const featureNdvi = properties[ndviKey];
+
+    if (Math.abs(featureNdvi - ndviValue) < 0.000001) { // Tolerance comparison
+      targetFeature = feature;
+      targetFeatureIndex = i;
+      break; // Exit the loop once a match is found
+    }
+  }
+
+  if (targetFeature) {
+    // Reset previous feature's style
     if (previousFeature) {
-      previousFeature.setStyle(null); // Resets to layer default
+      previousFeature.setStyle(null);
     }
 
     // Apply new highlight style
-    feature.setStyle(new Style({
-      fill: new Fill({ color: 'rgba(255, 255, 255, 0.0)' }), // Transparent white
+    targetFeature.setStyle(new Style({
+      fill: new Fill({ color: 'rgba(255, 255, 255, 0.0)' }),
       stroke: new Stroke({ color: 'white', width: 3 })
     }));
 
-    previousFeature = feature; // Store this as the new highlighted feature
+    previousFeature = targetFeature;
 
     // Adjust zoom
-    const extent = feature.getGeometry().getExtent();
+    const extent = targetFeature.getGeometry().getExtent();
     const view = map.getView();
     const buffer = 0.001;
     const bufferedExtent = [
@@ -149,9 +164,10 @@ const highlightFeatureOnMap = (featureIndex) => {
       extent[2] + buffer, extent[3] + buffer
     ];
     view.fit(bufferedExtent, { duration: 1000, maxZoom: 15 });
+  } else {
+    console.warn("No matching feature found for NDVI value:", ndviValue);
   }
 };
-
 
 const initializeMap = () => {
   map = new Map({
@@ -191,8 +207,6 @@ const handleMapClick = (event) => {
   if (features.length > 0) {
     const clickedFeature = features[0];
     const featureIndex = clickedFeature.get('featureIndex');
-
-    console.log("previousHighlightedIndex.value", previousHighlightedIndex.value);
 
     // Restore previous color (if any)
     if (highlightedIndex.value !== null) { // Check if there was a previous highlight
