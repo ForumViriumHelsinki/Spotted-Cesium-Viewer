@@ -22,13 +22,13 @@ export default class Ndvi {
 
 		switch ( lastLevel ) {
 		case 'MajorDistricts':
-			return 'https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=' + date +  '&suurpiiri=' + this.store.majorDistrict;
+			return 'https://pygeoapi.dataportal.fi/collections/ndvi_timeseries/items?f=json&limit=100000&date=' + date +  '&suurpiiri=' + this.store.majorDistrict;
 		case 'Districts':
-			return 'https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=' + date +  '&peruspiiri=' + this.store.districtsVisited[ this.store.districtsVisited.length - 1 ] +  '&suurpiiri=' + this.store.majorDistrict;
+			return 'https://pygeoapi.dataportal.fi/collections/ndvi_timeseries/items?f=json&limit=100000&date=' + date +  '&peruspiiri=' + this.store.districtsVisited[ this.store.districtsVisited.length - 1 ] +  '&suurpiiri=' + this.store.majorDistrict;
 		case 'SubDistricts':
-			return 'https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=' + date +  '&osaalue=' + this.store.districtsVisited[ this.store.districtsVisited.length - 1 ]  +  '&peruspiiri=' + this.store.district +  '&suurpiiri=' + this.store.majorDistrict;
+			return 'https://pygeoapi.dataportal.fi/collections/ndvi_timeseries/items?f=json&limit=100000&date=' + date +  '&osaalue=' + this.store.districtsVisited[ this.store.districtsVisited.length - 1 ]  +  '&peruspiiri=' + this.store.district +  '&suurpiiri=' + this.store.majorDistrict;
 		default:
-			return 'https://geo.fvh.fi/spotted/collections/ndvi_timeseries/items?f=json&limit=100000&date=' + date +  '&suurpiiri=' + this.store.majorDistrict;
+			return 'https://pygeoapi.dataportal.fi/collections/ndvi_timeseries/items?f=json&limit=100000&date=' + date +  '&suurpiiri=' + this.store.majorDistrict;
 		}
 	}
 

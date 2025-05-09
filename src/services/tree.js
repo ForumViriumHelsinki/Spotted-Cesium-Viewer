@@ -65,11 +65,8 @@ export default class Tree {
  */
 	async loadTrees( majordistrict, lower, upper ) {
 
-		//"https://geo.fvh.fi/spotted/collections/tree/items?f=json&limit=32000&filter=area_m2%20BETWEEN%20" + lower + "%20AND%20"+ upper;
-		//"https://geo.fvh.fi/spotted/collections/tree/items?f=json&limit=32000&tunnus=" + majordistrict + "&size=" + size;
-
 		// Construct the API endpoint URL
-		let url = 'https://geo.fvh.fi/spotted/collections/tree/items?f=json&limit=32000&tunnus=' + majordistrict + '&filter=area_m2%20BETWEEN%20' + lower + '%20AND%20'+ upper;
+		let url = 'https://pygeoapi.dataportal.fi/collections/tree_spotted/items?f=json&limit=32000&tunnus=' + majordistrict + '&filter=area_m2%20BETWEEN%20' + lower + '%20AND%20'+ upper;
 
 		try {
 
