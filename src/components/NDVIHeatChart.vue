@@ -1,29 +1,60 @@
 <template>
-  <div ref="plotlyChart" class="plotly-chart"></div>
+  <v-card>
+    <v-card-title class="d-flex align-center">
+      NDVI vs Heat Exposure
+      <v-spacer></v-spacer>
+      <v-btn
+        icon
+        variant="text"
+        size="small"
+        @click="toggleMinimize"
+      >
+        <v-icon>{{ isMinimized ? 'mdi-chevron-down' : 'mdi-chevron-up' }}</v-icon>
+      </v-btn>
+    </v-card-title>
+
+    <v-card-text
+      v-show="!isMinimized"
+      class="chart-container"
+    >
+      <div ref="plotlyChart" class="plotly-chart"></div>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script setup>
 import { ref, onMounted, watch, nextTick, defineEmits } from 'vue';
 
-// Props: xData, yData, colors, highlightedIndex
 const props = defineProps({
   xData: Array,
   yData: Array,
   colors: Array,
-  highlightedIndex: {  // New prop for highlighted index
+  highlightedIndex: {
     type: Number,
-    default: null  // Default to null (no highlight)
+    default: null
   }
 });
 
-// Emit event when a point is clicked
 const emit = defineEmits(['highlightFeature']);
-
 const plotlyChart = ref(null);
 
-// Function to render Plotly chart
+const isMinimized = ref(false);
+
+const toggleMinimize = async () => {
+  isMinimized.value = !isMinimized.value;
+
+  // If we are EXPANDING the chart...
+  if (!isMinimized.value) {
+    await nextTick(); // ...wait for the container to become visible...
+    // ...and tell Plotly to resize to fit the container.
+    if (plotlyChart.value) {
+      Plotly.Plots.resize(plotlyChart.value);
+    }
+  }
+};
+
 const renderChart = () => {
-  if (!plotlyChart.value || !props.xData.length || !props.yData.length) return;
+  if (isMinimized.value || !plotlyChart.value || !props.xData.length || !props.yData.length) return;
 
   const trace = {
     x: props.xData,
@@ -39,12 +70,8 @@ const renderChart = () => {
   };
 
   const layout = {
-    title: {
-      text: 'NDVI vs Heat Exposure',
-      font: { size: 18 },
-      x: 0.5,
-      xanchor: 'center'
-    },
+
+    autosize: true,
     xaxis: {
       title: { text: 'Normalized Difference Vegetation Index', font: { size: 14 } },
       automargin: true
@@ -53,31 +80,34 @@ const renderChart = () => {
       title: { text: 'Heat Exposure Index', font: { size: 14 } },
       automargin: true
     },
-    height: 450,
-    margin: { t: 60, b: 50, l: 80, r: 10 }
+    
+    margin: { t: 20, b: 50, l: 80, r: 10 } // Adjusted top margin after removing title
   };
 
   Plotly.newPlot(plotlyChart.value, [trace], layout).then((chart) => {
     chart.on('plotly_click', (data) => {
-      const clickedXValue = data.points[0].x; // Get the x value
+      const clickedXValue = data.points[0].x;
       emit('highlightFeature', clickedXValue);
     });
   });
 };
 
-// Re-render chart when data changes
 watch([() => props.xData, () => props.yData, () => props.colors, () => props.highlightedIndex], async () => {
   await nextTick();
   renderChart();
 }, { deep: true });
 
-// Render chart on mount
 onMounted(() => {
   renderChart();
 });
 </script>
 
 <style scoped>
+.chart-container {
+  height: 400px; /* Or whatever height you prefer */
+  padding: 16px;
+}
+
 .plotly-chart {
   width: 100%;
   height: 100%;

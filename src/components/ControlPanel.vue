@@ -8,7 +8,7 @@
     </button>
     <input type="file" id="fileUpload" accept=".json,.geojson" style="display: none;" @change="handleFileUpload">
       <p class="uiReturnButton" id="returnButton" onClick="prevLevel()" style="color: black;">Previous district</p>
-      <v-btn icon size="small" @click="reset">
+      <v-btn icon size="small" @click="reset" class="reset-button">
         <v-icon>mdi-restart</v-icon>
       </v-btn>
 	</div>
@@ -1222,5 +1222,8 @@ const hideAllPlotsAndSliders = ( ) => {
   width: 240px !important;   /* Smaller height */
 }
 
+.reset-button {
+    margin-right: 60px; /* Adjust this value to move it more or less */
+}
 
 </style>
