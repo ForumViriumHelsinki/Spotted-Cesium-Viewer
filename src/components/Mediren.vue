@@ -545,10 +545,15 @@ onMounted(() => {
   position: fixed;
   top: 10px;
   right: 10px;
-  height: 720px;
+  
+  height: auto; /* from: height: 720px; */
+  
   width: 420px;
   z-index: 10;
-  	border: 1px solid black;
-	box-shadow: 3px 5px 5px black;  
+  border: 1px solid black;
+  box-shadow: 3px 5px 5px black;
+  
+  background-color: white; 
 }
+
 </style>
