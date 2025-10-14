@@ -113,6 +113,12 @@ const scatterY = ref([]); // Heat Exposure values for Plotly
 
 const landcoverData = ref({});
 
+const previousYearIndex = computed(() => {
+  if (selectedDate.value === 2) return 1; // 2024 -> 2022
+  if (selectedDate.value === 1) return 0; // 2022 -> 2020
+  return null;
+});
+
 // Reset function for the button
 const reset = () => {
   location.reload();
@@ -238,9 +244,8 @@ const handleMapClick = (event) => {
 };
 
 const showTooltip = (event) => {
-  const tooltip = document.getElementById('map-tooltip'); // Move inside function
+  const tooltip = document.getElementById('map-tooltip');
   if (!tooltip || !vectorLayer) return;
-
 
   const features = map.getFeaturesAtPixel(event.pixel);
   if (features.length > 0) {
@@ -248,23 +253,51 @@ const showTooltip = (event) => {
     const properties = feature.getProperties();
     const streetName = properties['katunimi_suomi'] || 'Unknown';
     const addressNum = properties['osoitenumero'] || 'N/A';
-    const trees = ( ( properties[ `tree10_m2_${ dates[ selectedDate.value ] }`] + properties[ `tree15_m2_${ dates[ selectedDate.value ] }` ]
-                  + properties[ `tree20_m2_${ dates[ selectedDate.value ] }` ] + properties[ `tree2_m2_${ dates[ selectedDate.value ] }` ] 
-                  ) / properties[ 'area_m2' ] );
+    const area_m2 = properties['area_m2'];
+
+    // --- Current Year Calculations ---
+    const currentYearStr = dates[selectedDate.value];
+    const trees_m2 = (properties[`tree10_m2_${currentYearStr}`] || 0) + (properties[`tree15_m2_${currentYearStr}`] || 0) + (properties[`tree20_m2_${currentYearStr}`] || 0) + (properties[`tree2_m2_${currentYearStr}`] || 0);
+    const water_m2 = (properties[`water_m2_${currentYearStr}`] || 0) + (properties[`sea_m2_${currentYearStr}`] || 0);
+    const vegetation_m2 = (properties[`vegetation_m2_${currentYearStr}`] || 0) + (properties[`field_m2_${currentYearStr}`] || 0);
+    const ndviValue = (properties[`ndvi_${currentYearStr}-06`] || 0).toFixed(2);
+    const heatExposureValue = (properties[`heatexposure_${currentYearStr}-06`] || 0).toFixed(2);
     
-    const water = ( ( properties[ `water_m2_${ dates[ selectedDate.value ] }`] + properties[ `sea_m2_${ dates[ selectedDate.value ] }` ] ) / properties[ 'area_m2' ] );
-    const vegetation = ( ( properties[ `vegetation_m2_${ dates[ selectedDate.value ] }`] + properties[ `field_m2_${ dates[ selectedDate.value ] }` ] ) / properties[ 'area_m2' ] );
+    let tooltipHTML = `<strong>${streetName}</strong> ${addressNum}<br> 
+                       <strong>NDVI:</strong> ${ndviValue}<br>
+                       <strong>Heat Exposure:</strong> ${heatExposureValue}<br>
+                       <strong>Trees:</strong> ${(trees_m2 / area_m2 * 100).toFixed(1)} %<br>
+                       <strong>Water:</strong> ${(water_m2 / area_m2 * 100).toFixed(1)} %<br>
+                       <strong>Vegetation:</strong> ${(vegetation_m2 / area_m2 * 100).toFixed(1)} %`;
 
-    // Retrieve NDVI and Heat Exposure values based on selected date
-    const ndviValue = properties[`ndvi_${dates[selectedDate.value]}-06`].toFixed( 2 ) || 'N/A';
-    const heatExposureValue = properties[`heatexposure_${dates[selectedDate.value]}-06`].toFixed( 2 ) || 'N/A';
+    // --- NEW: Previous Year Comparison Logic ---
+    if (previousYearIndex.value !== null) {
+      const previousYearStr = dates[previousYearIndex.value];
+      const prev_trees_m2 = (properties[`tree10_m2_${previousYearStr}`] || 0) + (properties[`tree15_m2_${previousYearStr}`] || 0) + (properties[`tree20_m2_${previousYearStr}`] || 0) + (properties[`tree2_m2_${previousYearStr}`] || 0);
+      const prev_water_m2 = (properties[`water_m2_${previousYearStr}`] || 0) + (properties[`sea_m2_${previousYearStr}`] || 0);
+      const prev_vegetation_m2 = (properties[`vegetation_m2_${previousYearStr}`] || 0) + (properties[`field_m2_${previousYearStr}`] || 0);
+      
+      const treeChange = (trees_m2 / area_m2 * 100) - (prev_trees_m2 / area_m2 * 100);
+      const waterChange = (water_m2 / area_m2 * 100) - (prev_water_m2 / area_m2 * 100);
+      const vegChange = (vegetation_m2 / area_m2 * 100) - (prev_vegetation_m2 / area_m2 * 100);
 
-    tooltip.innerHTML = `<strong>${streetName}</strong> ${addressNum}<br> 
-                         <strong>NDVI:</strong> ${ndviValue}<br>
-                         <strong>Heat Exposure:</strong> ${heatExposureValue}<br>
-                         <strong>Trees:</strong> ${( trees * 100 ).toFixed( 2 )} %<br>
-                         <strong>Water:</strong> ${( water * 100 ).toFixed( 2 )} %<br>
-                         <strong>Vegetation:</strong> ${( vegetation  * 100 ).toFixed( 2 )} %<br>`;
+      // Helper to format the change string with color
+      const formatChange = (change) => {
+        if (Math.abs(change) < 0.01) return '';
+        const color = change > 0 ? 'lightgreen' : 'salmon';
+        const sign = change > 0 ? '+' : '';
+        return ` <span style="color:${color};">(${sign}${change.toFixed(1)} pp)</span>`;
+      };
+
+      tooltipHTML = `<strong>${streetName}</strong> ${addressNum}<br> 
+                     <strong>NDVI:</strong> ${ndviValue}<br>
+                     <strong>Heat Exposure:</strong> ${heatExposureValue}<br>
+                     <strong>Trees:</strong> ${(trees_m2 / area_m2 * 100).toFixed(1)} %${formatChange(treeChange)}<br>
+                     <strong>Water:</strong> ${(water_m2 / area_m2 * 100).toFixed(1)} %${formatChange(waterChange)}<br>
+                     <strong>Vegetation:</strong> ${(vegetation_m2 / area_m2 * 100).toFixed(1)} %${formatChange(vegChange)}`;
+    }
+
+    tooltip.innerHTML = tooltipHTML;
     tooltip.style.display = 'block';
     tooltip.style.left = event.pixel[0] + 80 + 'px';
     tooltip.style.top = event.pixel[1] + 'px';
