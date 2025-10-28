@@ -66,7 +66,7 @@ export default class Tree {
 	async loadTrees( majordistrict, lower, upper ) {
 
 		// Construct the API endpoint URL
-		let url = 'https://pygeoapi.dataportal.fi/collections/tree_spotted/items?f=json&limit=32000&tunnus=' + majordistrict + '&filter=area_m2%20BETWEEN%20' + lower + '%20AND%20'+ upper;
+		let url = 'https://geo.fvh.fi/spotted/collections/tree_spotted/items?f=json&limit=32000&tunnus=' + majordistrict + '&filter=area_m2%20BETWEEN%20' + lower + '%20AND%20'+ upper;
 
 		try {
 
