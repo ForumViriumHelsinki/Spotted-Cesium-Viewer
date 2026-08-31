@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/ForumViriumHelsinki/Spotted-Cesium-Viewer/compare/spotted-cesium-viewer-v0.3.0...spotted-cesium-viewer-v0.4.0) (2026-08-31)
+
+
+### Features
+
+* **ci:** adopt reusable auto-fix, review, and conventional commits workflows ([#29](https://github.com/ForumViriumHelsinki/Spotted-Cesium-Viewer/issues/29)) ([eaf4286](https://github.com/ForumViriumHelsinki/Spotted-Cesium-Viewer/commit/eaf42867761feb2654ccc3f5b37aceb4d45f3b63))
+
 ## [0.3.0](https://github.com/ForumViriumHelsinki/Spotted-Cesium-Viewer/compare/spotted-cesium-viewer-v0.2.0...spotted-cesium-viewer-v0.3.0) (2026-02-19)
 
 
